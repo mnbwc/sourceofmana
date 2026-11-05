@@ -75,6 +75,20 @@
 - **T14 旧仓归档**：Kaetram 仓打 tag `archive/agent-arena-frozen-20261106`（OPL 污染隔离，轨迹冻结）
 - **开工包 v1.0 技术线（T1-T14 / M0-M5）全部收口**。待所有者事项不变（M0 签署、对外评审）；下一步=AgentRuntime harness 向 SoM 平移设计
 
+## tick9（2026-11-06，本节）：harness 平移开工 —— G1/G2 桥增量 + sombase 适配层 + RuleBot 冒烟全链路 kill
+- **桥增量（AgentBridge.gd，不碰 Network.gd 协议）**：
+  - G1 `op=close_session`：走 `Server.FullyDisconnect`（与人掉线同源，含 DisconnectAccount+RemovePeer）并清理桥侧 events/pending/hooked/verdicts；实测 close 后 list_players 中 peer 消失 ✅
+  - G2 score：enemy_killed→kills+1、agent_killed→deaths+1，snapshot 顶层带 `score` 字段；实测打死后 score {"kills":0→1} ✅
+- **Python 适配层 tests/harness/sombase.py**：SoMClient（TCP NDJSON，单连接多 peerID，act() 内部轮询 latest_verdict 封装同步语义 0.3s×6s 上限）+ RandomRuleBot（挑最弱怪/贴近/低血撤离）+ persp() 伪等距距离（PerspectiveIncrease=(1,1.42)，与服务器射程判定同式）。**冒烟脚本 tests/harness/smoke_rulebot.py**：navigate→attack 全 APPLIED，close_session→PEER-GONE=True，全链路 hunt-kill 实测确认 ✅
+- **tick7 坑真正根因修复（LauncherCommons.ParsePortOverrides）**：`--port N` 写在 `--` 之后属 user args，而 ParsePortOverrides 只读 `get_cmdline_args()`（Godot 参数区）→ 客户端端口覆盖**静默失效**，连到 6119 旧实例。修复=同时读 `get_cmdline_user_args()`。服务端生效是因 server 命令把 `--port` 放在 `--` 之前。此前探针必须「端口与 server 一致」的经验实为该 bug 的绕行。
+- **新坑记录**：
+  ① 服务器技能射程判定用**伪等距距离**（y×1.42），平面欧氏距离 40+ 仍可能 out-of-range → attack 静默 no_target_change；bot 贴近判据必须用同式 persp。
+  ② 1 级新号打不过 Scorpion（208hp 反伤致死，tick2 已知，本轮再实锤）：RuleBot 目标选择必须挑 hp.max≤60 弱怪（Maggot），必要时先 navigate 到 Maggot 刷新区（2228,1350）。
+  ③ 被怪围殴/追击时 navigate 会持续 APPLIED 但打不到怪——bot 逻辑下一 tick 优化（脱战重选目标）。
+- **冒烟判据达成**：verdict 终局回执（target_health_decreased×N → target_died）、kill→score.kills 递增、close_session→peer gone、0 SCRIPT ERROR。
+- 本 tick 改动文件：sources/network/AgentBridge.gd（+close_session/score）、sources/launcher/LauncherCommons.gd（端口覆盖修复）、tests/harness/{sombase.py,smoke_rulebot.py}（新增）。
+- 下 tick（tick10）：预算闸门/事件唤醒/三件套落盘全量验收（判据 1-5）+ bot 脱战优化。
+
 ## 待办（按开工包顺序）
 
 - ~~T5…T12、T13 汇总、T14 旧仓归档~~ 全部完成（tick5）

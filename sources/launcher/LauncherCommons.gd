@@ -27,7 +27,12 @@ static var IsTesting : bool				= not OS.has_feature("production")
 static var PortOverrideENet : int = -1
 static var PortOverrideWS : int = -1
 static func ParsePortOverrides() -> void:
+	# 兼容两种传参位置：--port 在 Godot 参数区（get_cmdline_args）或在 -- 后用户区
+	# （get_cmdline_user_args，探针 `-- --agent-client X --port N` 场景——此前只读前者，
+	# 客户端静默连 6119 旧实例，tick7 坑的真正根因）
 	var cargs : PackedStringArray = OS.get_cmdline_args()
+	for ua in OS.get_cmdline_user_args():
+		cargs.append(ua)
 	var i : int = cargs.find("--port")
 	if i != -1 and i + 1 < cargs.size():
 		PortOverrideENet = int(cargs[i + 1])

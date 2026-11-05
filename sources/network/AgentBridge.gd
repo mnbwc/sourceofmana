@@ -18,6 +18,7 @@ var _pending : Dictionary = {}     # peerID -> {action, basedOnFrame, targetRID,
 var _eventSeq : int = 0
 var _hooked : Dictionary = {}      # peerID -> true（信号钩子防重复）
 var _pendingVerdicts : Array = []  # 每帧裁决结果（snapshot/drain_events 带回最近一条）
+var _score : Dictionary = {}       # peerID -> {kills, deaths}（G2 v0.1：按 peerID 累计）
 
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_args():
@@ -121,6 +122,8 @@ func _handle(line : String) -> String:
 			return _latest_verdict(req)
 		"apply_action":
 			return _apply_action(req)
+		"close_session":
+			return _close_session(req)
 		_:
 			return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "unknown op %s" % op})
 
@@ -161,6 +164,8 @@ func _snapshot(peerID : int) -> Dictionary:
 		},
 		"nearby": _nearby(agent),
 	}
+	if not snap.has("error"):
+		snap["score"] = _score.get(peerID, {"kills": 0, "deaths": 0})
 	return snap
 
 # 同地图 ±radius 范围实体（observe 范围），供 attack 选择目标
@@ -311,17 +316,44 @@ func _on_agent_damaged(target, value : int, peerID : int) -> void:
 
 func _on_agent_killed(killed, peerID : int) -> void:
 	# BaseAgent.gd: agent_killed.emit(self)
+	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0})
+	sc["deaths"] = int(sc.get("deaths", 0)) + 1
+	_score[peerID] = sc
 	_push_event(peerID, {"kind": "died", "nick": killed.nick if killed else ""})
 
 func _on_enemy_killed(attacker, monsterID : int, peerID : int) -> void:
 	# 信号声明 1 参但 Formula.gd 实发 3 参（attacker, monsterID, bind的peerID）
 	# → 第 1 位=attacker，第 2 位=怪物 data._id（DB hash）
+	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0})
+	sc["kills"] = int(sc.get("kills", 0)) + 1
+	_score[peerID] = sc
 	var monsterNick : String = ""
 	var cell = DB.EntitiesDB.get(monsterID, null)
 	if cell:
 		monsterNick = cell._name
 	_push_event(peerID, {"kind": "kill", "monsterID": monsterID, "monsterNick": monsterNick,
 		"attackerNick": attacker.nick if attacker else ""})
+
+# ---- G1 session 管理：close_session 断开游戏 peer 并清理桥侧状态 ----
+func _close_session(req : Dictionary) -> String:
+	var peerID : int = int(req.get("peerID", -1))
+	if peerID < 0:
+		return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
+	var agent = Peers.GetAgent(peerID)
+	if agent == null:
+		return _json({"ok": false, "code": "SESSION_CONFLICT", "detail": "peer not found"})
+	# 与人类掉线同源：走 Server.FullyDisconnect（含 DisconnectAccount + RemovePeer）
+	_server_peer_for(peerID).FullyDisconnect.call_deferred(peerID)
+	_events.erase(peerID)
+	_pending.erase(peerID)
+	_hooked.erase(peerID)
+	_pendingVerdicts = _pendingVerdicts.filter(func(v): return int(v.get("peerID", -1)) != peerID)
+	return _json({"ok": true, "closed": peerID})
+
+# 指定 peer 的所属 NetServer（dispatch 用，避免依赖 _dispatchPeerID 全局）
+func _server_peer_for(peerID : int) -> NetServer:
+	var server : NetServer = Peers.GetAssociatedNetServer(peerID)
+	return server if server else Network.ENetServer
 
 func _drain_events(req : Dictionary) -> String:
 	var peerID : int = int(req.get("peerID", -1))
