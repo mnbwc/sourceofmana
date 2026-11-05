@@ -124,7 +124,11 @@ func SetData():
 	for skillCell : SkillCell in data._skills:
 		AddSkill(skillCell, data._skills[skillCell])
 	for dropCell : ItemCell in data._drops:
-		AddItem(dropCell, data._drops[dropCell])
+		# 上游缺陷修复：_drops 值是掉率(float 0-1)，AddItem 的 count 是 int——
+		# AddItem(dropCell, 0.6) 把 0.6 截断成 0 → PushItem(count<=0) 恒 false → 怪物永不掉落。
+		# 语义：spawn 时按掉率预决定是否携带该掉落物（死亡时 IsDropCell 校验后落地）。
+		if randf() < data._drops[dropCell]:
+			AddItem(dropCell, 1)
 	minWanderingSpeed = int(stat.current.walkSpeed / 4)
 	maxWanderingSpeed = int(stat.current.walkSpeed / 2)
 	super.SetData()

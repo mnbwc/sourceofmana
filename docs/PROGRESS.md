@@ -107,6 +107,13 @@
 - 运维：/tmp/som_t10_run.sh（隔离三元组 7181/7182/9181 全流程一键：起服→探针→验收→采 RSS→清理）。
 - 下一步（tick11）：唤醒率口径复核（多 run 统计）+ loot 掉落实测（多杀几只等 0.6 掉率）+ soak（长 run + 多 agent 并发）→ 之后 SoM M2 Arena Controller。
 
+## tick11b（2026-11-06 本会话）：soak + loot 闭环 + 上游掉落缺陷修复
+- **soak 5min×3 agent 并发**（tests/harness/soak.py，自建 7305/7306/9305）：10 kills / 7 deaths 全程无人为干预，server RSS p95=406MB（增长 2MB）、CPU p95=3.7%——P95 资源基线补齐（tick5 挂账项）。
+- **上游 S 级静默缺陷实锤并修复（AIAgent.gd SetData）**：`_drops` 值是掉率(float)，却传给 `AddItem(cell, count:int)`——0.6 截断成 0 → `PushItem(count<=0)` 恒 false → **全部怪物掉落系统失效**（Maggot._drops 0.6 掉率实测 10 kills 0 drops）。修复=spawn 时按掉率预决定携带（`if randf() < rate: AddItem(dropCell, 1)`），死亡时 IsDropCell 校验落地，语义等价。
+- **loot E2E 闭环**：Maggot 击杀 → 地面 drop（MaggotSlime）出现在 nearby(type=drop) → `loot {dropID}` op APPLIED → 地面清空。桥侧 _nearby 已含 drops 段、loot op 走 WorldDrop.PickupDrop（公平层同源）。
+- commit：上游缺陷修复 AIAgent.gd + tests/harness/soak.py（新增）。
+- 剩 tick11 待办：唤醒率口径复核（多 run 统计）。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
