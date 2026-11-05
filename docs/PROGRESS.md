@@ -15,6 +15,11 @@
 - 已知行为注记：Maggot 会反击（damaged 6/次反伤）；e2e 攻击轮次内 mob 反复走位导致部分轮 NO_EFFECT(no_target_change)，属正常追击节奏非缺陷。
 - commit: f6d36d6（M5 收口：四元组 observe/act/verdict/events 全链路含 kill 事件字段无缺口）
 
+## M5 残项收口：respawn verdict 闭环（2026-11-06 本 tick）
+- **respawn 无裁决之谜**：桥 verdict 轮询过滤 `["navigate","attack"]` 漏 respawn → PENDING 永不终局（acceptance 死后 9 轮 hp:0 死循环的主因之一）。补 "respawn" 进过滤；match 分支（revived/alive 判断）tick11 已写。
+- **E2E 实测**：agent attack Scorpion 反击致死（102→10→0）→ apply_action respawn → latest_verdict 返回 `APPLIED(reason:revived, after:出生点)`，hp 102→53（半血），位置回 spawn。全链路 0 SCRIPT ERROR。
+- 验收口径：run-1793920153 有 3 项 FAIL（C1 budget_exhausted / C3 event_wakeup / C4 kill_score）——RuleBot 战术与 budget 参数问题，非桥缺陷；C2/C5 PASS。kill 链路本 tick 再次实证（Maggot 52→0）。
+
 ## 已完成
 
 - 2026-11-06 T2：切 feat/agent-arena 分支；godot471 4.7.1 实机验证（--headless --import + --server 起服、ENet 6119 监听、pyenet CONNECT ✅，见会话记录）
