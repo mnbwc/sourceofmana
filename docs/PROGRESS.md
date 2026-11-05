@@ -103,3 +103,9 @@
 - 新坑：客户端 `--port N` 覆盖 ENet 端口；不带参数时客户端连 6119——同机多 server 时探针可能连到别的实例（本次 t7disc "成功"实为连到 6119 旧实例，教训：探针起服端口必须与 --port 一致）。
 - diag 插桩（Client.gd/Peers.gd/Server.gd printerr）为并发会话所有，未随本 commit 提交。
 - 遗留：DISCONNECTED 路径窗口极窄（ENTERED_GAME 即退出），如需真测需临时去掉 quit(0)。
+
+## tick7 续（本会话，commit 511a41a）：--agent-keep 在线模式 + E2E 全绿
+- AgentClientProbe 新增 `--agent-keep`：ENTERED_GAME 后不退出、保持在线，供 bridge_e2e.py 使用（此前 e2e 必须赶在探针退出前抓 list_players，时序脆弱）。
+- Client.gd CharacterError 加探针诊断转发（无 GUI 时错误此前被静默吞掉）+ 连接目标日志（connecting host:port）。
+- E2E 回归（自建 7133/7134/bridge 9131，`BRIDGE_PORT=9131`）：新账号全流程 ENTERED_GAME（~7s）→ bridge_e2e.py 全绿（hunt→attack 链 APPLIED×4 → target_died → kill 事件 3264333316 送达 → CLOSE-E2E-DONE，agent 存活）。
+- 运维注意：探针 `--port/--ws-port` 要与 server 一致，否则会连到 6118/6119 的**其他实例**（本 tick 一度误连 6118 旧 server，靠 connecting 日志实锤）。
