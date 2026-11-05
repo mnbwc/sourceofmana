@@ -53,6 +53,14 @@
 - 注意：本 tick 实测中 server 出现过一次崩溃（大量 probe churn 后 ENet host 创建失败/进程退出），重启后正常；下 tick 排查稳定性
 - commit: c34048f
 
+## M5 状态：kill 事件闭环 ✅（2026-11-06 tick2，commit 2b9f75f）
+- **kill 事件闭环达成**：E2E 实测 hunt→approach→attack 链打死 Maggot，`kill` 事件进入 drain_events（带 seq）。上一 tick 的「事件缺口」实为测试侧问题：附近只有 Scorpion（208hp，反伤致死 agent），AgentClientProbe 默认连固定 6118 端口，换弱怪 Maggot（50hp，Tulimshar 2228,1259 刷新区）后合法闭环，无 isAgent 短路
+- **多实例端口隔离（新能力）**：`--port N`（ENet）/`--ws-port N`（WebSocket）→ LauncherCommons.ResolvePort；AgentBridge 支持 `--bridge-port N`。同机多会话互不干扰（本 tick 因端口冲突被迫实现）
+- AgentClientProbe：兼容 testing.db 角色复用（Create 失败也走 ConnectCharacter）；客户端偶发 CHAR_SCREEN 卡住（待查，bash 层重试可绕）
+- bridge_e2e.py：完整 hunt-and-kill 回归探针（弱怪选择、verdict 终态等待修复、空响应重试）
+- 遗留：kill 事件 monsterID 字段在 JSON 里显示为 None（事件本身送达；下 tick 查 _on_enemy_killed 参数序）；server 崩溃稳定性排查仍在挂账
+- commit: 2b9f75f
+
 ## 待办（按开工包顺序）
 
 - T5 资源基线、T7-T9 M3 阀门、T10 契约冻结、T11 M4 锁步、T12 M5 四元组闭环、T13 汇总、T14 旧仓 tag 归档
