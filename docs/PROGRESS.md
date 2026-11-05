@@ -16,9 +16,11 @@
 
 ## 进行中
 
-- T7/T8（M3）：AgentBridge.gd autoload 探针 → 四元组阀门
+- T8 续（M3 四元组阀门）：Bridge 探针已通（ping/players/snapshot/错误码 ✅，commit db4e4a9）；下一步=真实客户端/无头客户端登录拿 peerID → navigate 动作 → 状态增量裁决回执（替换 PENDING_PROBE）→ events 订阅 → 1 天内闭环判定
 
 ## M1 状态：✅ 完成（T3 导出成功 + T4 隔离八项过 + T5 基线 225MB）
+## M2 状态：✅ 完成（缺口表 v0.1，S21 解答：导航数据在 presets/maps/navigations）
+## M3 状态：🟡 通道 1 已定案并落地 AgentBridge（独立 autoload 不影响 ProtocolVersion 实测确认：bridge 起、协议版本不变、WS 客户端兼容路径未动）
 
 ## 待办（按开工包顺序）
 
