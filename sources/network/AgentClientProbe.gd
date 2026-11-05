@@ -97,7 +97,11 @@ func _tick() -> void:
 				stage = "done"
 		"done":
 			set_process(false)
-			get_tree().quit(0)
+			# --agent-keep: 保持在线供 bridge E2E 使用；默认行为=退出
+			if OS.get_cmdline_user_args().find("--agent-keep") >= 0:
+				Util.PrintLog("AgentClient", "keeping alive for bridge E2E")
+			else:
+				get_tree().quit(0)
 
 func _my_peer_id() -> int:
 	return multiplayer.get_unique_id()

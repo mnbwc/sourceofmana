@@ -368,6 +368,9 @@ func AuthTokenResult(accountName : String, token : String, _peerID : int):
 		Launcher.GUI.loginPanel.SaveToken(accountName, token)
 
 func CharacterError(err : NetworkCommons.AuthError, _peerID : int):
+	# 诊断转发：无 GUI 时错误此前被静默吞掉（探针只见 CHAR_SCREEN 卡死）
+	if Engine.has_singleton("AgentClientProbe") or get_node_or_null("/root/AgentClientProbe"):
+		get_node("/root/AgentClientProbe").OnCharacterError(err)
 	if Launcher.GUI:
 		Launcher.GUI.characterPanel.FillWarningLabel(err)
 
@@ -508,6 +511,8 @@ func _enter_tree():
 
 	var serverAddress : String = NetworkCommons.LocalServerAddress if isLocal else NetworkCommons.ServerAddress
 	var serverPort : int = LauncherCommons.ResolvePort(useWebSocket)
+	if OS.get_cmdline_user_args().find("--agent-client") >= 0:
+		Util.PrintLog("AgentClient", "connecting %s:%d ws=%s" % [serverAddress, serverPort, useWebSocket])
 	if LauncherCommons.IsTesting:
 		serverAddress = NetworkCommons.LocalServerAddress if isLocal else NetworkCommons.ServerAddressTesting
 

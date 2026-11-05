@@ -39,7 +39,10 @@ class Peer:
 	func SetAccount(data : AccountData):
 		if data and data.accountID != NetworkCommons.PeerUnknownID:
 			var lastPeerID = Peers.accounts.get(data.accountID, NetworkCommons.PeerUnknownID)
-			if lastPeerID != NetworkCommons.PeerUnknownID and Peers.GetAccount(lastPeerID) != NetworkCommons.PeerUnknownID:
+			# 同一 peer 重复登录（探针先 CreateAccount 后 Login）跳过自踢：
+			# 踢的是旧连接；lastPeerID==自身时经 Network.DisconnectAccount（RPC 客户端路径）会 deferred
+			# 把本 peer 账号清空，导致后续 CreateCharacter 收到 ERR_NO_ACCOUNT_ID（tick6 定案）
+			if lastPeerID != NetworkCommons.PeerUnknownID and lastPeerID != peerID and Peers.GetAccount(lastPeerID) != NetworkCommons.PeerUnknownID:
 				Network.DisconnectAccount(lastPeerID)
 				if data.accountID == lastPeerID:
 					Network.AuthError(NetworkCommons.AuthError.ERR_DUPLICATE_CONNECTION, lastPeerID)
