@@ -30,6 +30,7 @@ buses/default_bus_layout="res://presets/audio/default_bus_layout.tres"
 
 Launcher="*res://sources/launcher/Launcher.gd"
 Network="*res://sources/network/Network.gd"
+AgentBridge="*res://sources/network/AgentBridge.gd"
 FSM="*res://sources/launcher/FSM.gd"
 
 [debug]
