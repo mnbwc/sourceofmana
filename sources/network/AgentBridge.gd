@@ -314,8 +314,14 @@ func _on_agent_killed(killed, peerID : int) -> void:
 	_push_event(peerID, {"kind": "died", "nick": killed.nick if killed else ""})
 
 func _on_enemy_killed(attacker, monsterID : int, peerID : int) -> void:
-	# Formula.gd: enemy_killed.emit(entry.attacker, agent.data._id)（实发 2 参）
-	_push_event(peerID, {"kind": "kill", "monsterID": monsterID, "attackerNick": attacker.nick if attacker else ""})
+	# 信号声明 1 参但 Formula.gd 实发 3 参（attacker, monsterID, bind的peerID）
+	# → 第 1 位=attacker，第 2 位=怪物 data._id（DB hash）
+	var monsterNick : String = ""
+	var cell = DB.EntitiesDB.get(monsterID, null)
+	if cell:
+		monsterNick = cell._name
+	_push_event(peerID, {"kind": "kill", "monsterID": monsterID, "monsterNick": monsterNick,
+		"attackerNick": attacker.nick if attacker else ""})
 
 func _drain_events(req : Dictionary) -> String:
 	var peerID : int = int(req.get("peerID", -1))
