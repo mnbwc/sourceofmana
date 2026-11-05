@@ -45,6 +45,14 @@
 - 探针脚本 tests/bridge_probe.py（ping/players/snapshot/navigate+verdict/attack+verdict/events 全绿）
 - 待 M5：kill 事件实测（需打死一只怪）、明确被拒回执场景、资源基线 P95
 
+## M5 状态：进行中（2026-11-06 tick：kill 实测 + 2 个 bridge bug 修复）
+- **修复 bug①（verdict beforeHealth）**：_verdict_req 原记 agent.stat.health（攻击者自己），attack 裁决恒误报 target_health_decreased；改为按 rid 取目标血
+- **修复 bug②（skillID=0 静默无效）**：TriggerSkill 要求 DB.SkillsDB 的 hash 键，原传 0 → 全部静默 no-op（这是「攻击不掉血」的根因）；attack 默认 skill=Melee（DB.GetCellHash），未知技能显式 INVALID_PARAMS
+- 实测（godot471 headless server + agent-client probe1）：navigate APPLIED；attack 链 100→31→0（累计 112 伤害）；打死 Elanore 后 attack-on-dead → verdict target_died APPLIED(1ms)；超时 1.2s → NO_EFFECT
+- **遗留：kill 事件未进 drain_events**（hp 到 0 但 enemy_killed 信号没到 bridge；Formula.gd:168 只在有 damageTable 条目的 attacker 上 emit——下 tick 查 emit 条件）
+- 注意：本 tick 实测中 server 出现过一次崩溃（大量 probe churn 后 ENet host 创建失败/进程退出），重启后正常；下 tick 排查稳定性
+- commit: c34048f
+
 ## 待办（按开工包顺序）
 
 - T5 资源基线、T7-T9 M3 阀门、T10 契约冻结、T11 M4 锁步、T12 M5 四元组闭环、T13 汇总、T14 旧仓 tag 归档
