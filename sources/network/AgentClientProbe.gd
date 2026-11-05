@@ -44,6 +44,7 @@ func _tick() -> void:
 			Util.PrintLog("AgentClient", "Login -> %s" % ok)
 			stage = "create_char"
 		"create_char":
+			# 角色/账号已存在（testing.db 复用）时 Create 静默失败——发送后无论结果都尝试连接
 			if true:
 				# traits 结构按 GUI Traits.GetValues() 同源：hairstyle/haircolor/race/skintone/gender
 				var hairstyles : PackedInt64Array = DB.HairstylesDB.keys()

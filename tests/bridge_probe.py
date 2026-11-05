@@ -30,7 +30,7 @@ final=None
 for i in range(15):
     time.sleep(0.3)
     v=req(s,{"op":"latest_verdict","peerID":pid})
-    if v["verdict"] and not v.get("provisional",False):
+    if v["verdict"] and v["verdict"].get("verdict") in ("APPLIED","REJECTED","NO_EFFECT","UNVERIFIABLE"):
         final=v; break
     final=v
 print("navigate verdict:", final)
@@ -53,7 +53,7 @@ if mon:
     for i in range(20):
         time.sleep(0.3)
         v=req(s,{"op":"latest_verdict","peerID":pid})
-        if v["verdict"] and not v.get("provisional",False):
+        if v["verdict"] and v["verdict"].get("verdict") in ("APPLIED","REJECTED","NO_EFFECT","UNVERIFIABLE"):
             final=v; break
         final=v
     print("attack verdict:", final)

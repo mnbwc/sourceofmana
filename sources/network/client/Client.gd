@@ -507,10 +507,9 @@ func _enter_tree():
 	multiplayerAPI.auth_callback = _ValidateServerAuth
 
 	var serverAddress : String = NetworkCommons.LocalServerAddress if isLocal else NetworkCommons.ServerAddress
-	var serverPort : int = NetworkCommons.WebSocketPort if useWebSocket else NetworkCommons.ENetPort
+	var serverPort : int = LauncherCommons.ResolvePort(useWebSocket)
 	if LauncherCommons.IsTesting:
 		serverAddress = NetworkCommons.LocalServerAddress if isLocal else NetworkCommons.ServerAddressTesting
-		serverPort = NetworkCommons.WebSocketPortTesting if useWebSocket else NetworkCommons.ENetPortTesting
 
 	var ret : Error = FAILED
 	var tlsOptions : TLSOptions = TLSOptions.client_unsafe()

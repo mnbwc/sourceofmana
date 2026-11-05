@@ -5,7 +5,8 @@ extends Node
 ## 独立 autoload 的节点不在其中，本文件即使加 @rpc 也不影响版本）。
 ## 端口 9101（避开游戏 6108/6118），协议=每行一个 JSON（NDJSON）。
 
-const BRIDGE_PORT : int = 9101
+const BRIDGE_PORT : int = 9101  # 可被 cmdline --bridge-port 覆盖（同机多实例隔离）
+var bridgePort : int = BRIDGE_PORT
 const MAX_CLIENTS : int = 16
 
 var tcp : TCPServer = TCPServer.new()
@@ -23,12 +24,16 @@ func _ready() -> void:
 		set_process(false)
 		return
 	# Launcher.Scene 是 call_deferred 挂载的，autoload _ready 时还没就绪——只判命令行即可
-	var err : Error = tcp.listen(BRIDGE_PORT, "*")
+	var cargs : PackedStringArray = OS.get_cmdline_args()
+	var bpIdx : int = cargs.find("--bridge-port")
+	if bpIdx != -1 and bpIdx + 1 < cargs.size():
+		bridgePort = int(cargs[bpIdx + 1])
+	var err : Error = tcp.listen(bridgePort, "*")
 	if err != OK:
 		printerr("[AgentBridge] listen %d failed: %d" % [BRIDGE_PORT, err])
 		set_process(false)
 		return
-	Util.PrintInfo("AgentBridge", "listening on %d" % BRIDGE_PORT)
+	Util.PrintInfo("AgentBridge", "listening on %d" % bridgePort)
 
 func _process(_delta : float) -> void:
 	# 接受新连接
@@ -90,6 +95,28 @@ func _handle(line : String) -> String:
 			return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
 		"drain_events":
 			return _drain_events(req)
+		"debug_hooks":
+			var dp : int = int(req.get("peerID", -1))
+			var dagent = Peers.GetAgent(dp)
+			var attackerList : Array = []
+			var skillKeys : Array = []
+			var coolingList : Array = []
+			if dagent and dagent.progress:
+				for k in dagent.progress.skills.keys():
+					skillKeys.append(k)
+			if dagent and "cooldownTimers" in dagent:
+				for k in dagent.cooldownTimers:
+					if dagent.cooldownTimers[k]:
+						coolingList.append(k)
+			if dagent and "attackers" in dagent:
+				for e in dagent.attackers:
+					attackerList.append(str(e.get("attacker").nick) + ":" + str(e.get("damage")))
+			return _json({"ok": true, "hooked": _hooked.has(dp), "eventsBuf": (_events.get(dp, []).size()),
+				"hasDamagedConn": dagent.agent_damaged.is_connected(_on_agent_damaged.bind(dp)) if dagent else null,
+				"attackers": attackerList,
+				"skills": skillKeys,
+				"mana": ({"current": dagent.stat.mana, "max": dagent.stat.current.maxMana} if dagent and dagent.stat else {}),
+				"cooling": coolingList})
 		"latest_verdict":
 			return _latest_verdict(req)
 		"apply_action":
@@ -126,6 +153,11 @@ func _snapshot(peerID : int) -> Dictionary:
 			"level": agent.stat.level if agent.stat else 0,
 			"health": {"current": agent.stat.health, "max": agent.stat.current.maxHealth} if agent.stat and "current" in agent.stat else {"current": agent.stat.health, "max": 0} if agent.stat else {},
 			"actionInProgress": SkillCommons.HasAnyActionInProgress(agent),
+			"nav": {"hasAgent": agent.agent != null, "finished": (agent.agent.is_navigation_finished() if agent.agent else null),
+				"target": ({"x": agent.agent.target_position.x, "y": agent.agent.target_position.y} if agent.agent else null),
+				"next": ({"x": agent.agent.get_next_path_position().x, "y": agent.agent.get_next_path_position().y} if agent.agent else null),
+				"physicsOn": agent.is_physics_processing() if agent is Node else null,
+				"goal": agent.hasCurrentGoal, "input": ({"x": agent.currentInput.x, "y": agent.currentInput.y} if "currentInput" in agent else null)},
 		},
 		"nearby": _nearby(agent),
 	}
@@ -145,11 +177,12 @@ func _nearby(agent, radius : float = 480.0) -> Array:
 		var dist : float = agent.position.distance_to(other.position)
 		if dist > radius:
 			continue
-		var isMonster : bool = other is AIAgent and not (other is PlayerAgent)
+		var isPlayer : bool = other is PlayerAgent
+		var isMonster : bool = other is AIAgent and not isPlayer and not (other is NpcAgent)
 		out.append({
 			"rid": rid,
 			"nick": other.nick,
-			"type": "monster" if isMonster else ("player" if other is PlayerAgent else "npc"),
+			"type": "player" if isPlayer else ("monster" if isMonster else "npc"),
 			"position": {"x": other.position.x, "y": other.position.y},
 			"distance": dist,
 			"alive": ActorCommons.IsAlive(other),
@@ -181,7 +214,11 @@ func _apply_action(req : Dictionary) -> String:
 			# 同源：人类客户端点击 → SetClickPos
 			var pos : Vector2 = Vector2(float(args.get("x", 0)), float(args.get("y", 0)))
 			var before : Vector2 = agent.position
-			_server_peer().SetClickPos(pos, peerID)
+			var speer : NetServer = _server_peer()
+			# ownScript 挂起时 SetClickPos 静默 return（S16）——桥派发前解除（与人点地走同效）
+			if agent.ownScript:
+				agent.ClearScript()
+			speer.SetClickPos(pos, peerID)
 			_pending[peerID] = _verdict_req(agent, req)
 			_pending[peerID]["peerID"] = peerID
 			_pending[peerID]["basedOnFrame"] = frame

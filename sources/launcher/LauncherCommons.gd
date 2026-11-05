@@ -22,5 +22,21 @@ const ServerMaxFPS : int				= 30
 
 # Common accessors
 static var IsTesting : bool				= not OS.has_feature("production")
+
+# 端口覆盖：--port N（ENet）/ --ws-port N（WebSocket），供同机多实例隔离（AgentBridge --bridge-port 同理）
+static var PortOverrideENet : int = -1
+static var PortOverrideWS : int = -1
+static func ParsePortOverrides() -> void:
+	var cargs : PackedStringArray = OS.get_cmdline_args()
+	var i : int = cargs.find("--port")
+	if i != -1 and i + 1 < cargs.size():
+		PortOverrideENet = int(cargs[i + 1])
+	i = cargs.find("--ws-port")
+	if i != -1 and i + 1 < cargs.size():
+		PortOverrideWS = int(cargs[i + 1])
+static func ResolvePort(useWebSocket : bool) -> int:
+	if useWebSocket:
+		return PortOverrideWS if PortOverrideWS > 0 else NetworkCommons.WebSocketPortTesting
+	return PortOverrideENet if PortOverrideENet > 0 else NetworkCommons.ENetPortTesting
 static var isMobile : bool				= OS.has_feature("android") or OS.has_feature("ios") or Util.IsMobile()
 static var isWeb : bool					= OS.has_feature("web")

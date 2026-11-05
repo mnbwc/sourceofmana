@@ -140,6 +140,7 @@ func _ready():
 
 	Root = get_tree().get_root()
 
+	LauncherCommons.ParsePortOverrides()
 	if "--server" in OS.get_cmdline_args():
 		Scene = FileSystem.LoadResource(Path.Pst + "Server" + Path.SceneExt)
 		Root.add_child.call_deferred(Scene)

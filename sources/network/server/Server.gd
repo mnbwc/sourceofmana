@@ -543,9 +543,7 @@ func _enter_tree():
 	if not multiplayerAPI.peer_disconnected.is_connected(DisconnectPeer):
 		multiplayerAPI.peer_disconnected.connect(DisconnectPeer)
 
-	var serverPort : int = NetworkCommons.WebSocketPort if useWebSocket else NetworkCommons.ENetPort
-	if LauncherCommons.IsTesting:
-		serverPort = NetworkCommons.WebSocketPortTesting if useWebSocket else NetworkCommons.ENetPortTesting
+	var serverPort : int = LauncherCommons.ResolvePort(useWebSocket)
 
 	var tlsOptions : TLSOptions = null
 	if ResourceLoader.exists(NetworkCommons.ServerCertPath) and ResourceLoader.exists(NetworkCommons.ServerKeyPath):
