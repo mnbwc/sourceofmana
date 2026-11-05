@@ -100,9 +100,8 @@ func _snapshot(peerID : int) -> Dictionary:
 			"mapID": agent.mapID if "mapID" in agent else -1,
 			"alive": ActorCommons.IsAlive(agent),
 			"level": agent.stat.level if agent.stat else 0,
-			"health": {"current": agent.stat.current.health, "max": agent.stat.max.health} if agent.stat else {},
+			"health": {"current": agent.stat.health, "max": agent.stat.current.maxHealth} if agent.stat and "current" in agent.stat else {"current": agent.stat.health, "max": 0} if agent.stat else {},
 			"actionInProgress": agent.IsActionInProgress() if agent.has_method("IsActionInProgress") else null,
-			"aiState": agent.agent.aiState if "agent" in agent and agent.agent else null,
 		},
 	}
 	return snap
