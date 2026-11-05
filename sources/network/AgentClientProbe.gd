@@ -6,6 +6,11 @@ extends Node
 var accountName : String = ""
 var stage : String = "init"
 var results : Array = []
+var _elapsed : float = 0.0
+var _lastFsm : int = -1
+const STAGE_TIMEOUT_SEC : float = 120.0
+## 掉线检测：IN_GAME 之后回到 LOGIN_SCREEN（DisconnectServer 路径）视为 server 掉线，记 DISCONNECTED 退出，
+## 消除「server 死亡后探针卡在 CHAR_SCREEN 挂死」的问题（tick5 定案）。
 
 func _enter_tree() -> void:
 	# _init/_enter_tree 早于 Launcher._ready：在自起 Server 判定前改写全局
@@ -30,6 +35,20 @@ func _ready() -> void:
 	timer.start()
 
 func _tick() -> void:
+	_elapsed += 1.0
+	# --- 掉线检测：进过 IN_GAME 后 FSM 回 LOGIN_SCREEN = server 掉线（DisconnectServer）---
+	if _lastFsm == FSM.States.IN_GAME and FSM.currentState == FSM.States.LOGIN_SCREEN:
+		results.append({"event": "DISCONNECTED", "frame": NetworkCommons.FrameID()})
+		_print_results()
+		get_tree().quit(3)
+		return
+	_lastFsm = FSM.currentState
+	# --- 各阶段超时保护：任何阶段卡死 120s 强制退出（防 CHAR_SCREEN 挂死）---
+	if stage != "done" and _elapsed > STAGE_TIMEOUT_SEC:
+		results.append({"event": "TIMEOUT", "stage": stage, "fsm": FSM.currentState})
+		_print_results()
+		get_tree().quit(4)
+		return
 	match stage:
 		"init":
 			if Network.clientConnected:
@@ -78,9 +97,15 @@ func _tick() -> void:
 				stage = "done"
 		"done":
 			set_process(false)
+			get_tree().quit(0)
 
 func _my_peer_id() -> int:
 	return multiplayer.get_unique_id()
+
+func OnCharacterError(err : int) -> void:
+	if stage != "done":
+		results.append({"event": "CHARACTER_ERROR", "err": err, "fsm": FSM.currentState})
+		Util.PrintLog("AgentClient", "CharacterError -> %d" % err)
 
 func _print_results() -> void:
 	for r in results:
