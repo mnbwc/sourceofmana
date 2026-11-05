@@ -58,7 +58,11 @@ func _tick() -> void:
 					"skintone": skinKeys[0].hash() if skinKeys.size() > 0 else 0,
 					"gender": 0,
 				}
-				var attrs : Dictionary = ActorCommons.DefaultAttributes.duplicate()
+				# 属性：全默认 0 也合法（CheckAttributes 只查总和上限）
+				var attrs : Dictionary = {
+					"strength": 0, "vitality": 0, "agility": 0,
+					"endurance": 0, "concentration": 0,
+				}
 				Network.CreateCharacter(accountName, traits, attrs)
 				Util.PrintLog("AgentClient", "CreateCharacter sent")
 				stage = "connect_char"
