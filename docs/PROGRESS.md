@@ -69,6 +69,12 @@
 - 本会话补充实锤（同日 tick3）：① ownScript 挂起时 SetClickPos 静默 return（S16 第三例）——桥派发前 ClearScript 解除；② nearby 分类 bug：Elanore/Ekinu 是 NpcAgent（StaticNPC 父级）非 MonsterAgent，误标 monster——加 `not (other is NpcAgent)` 修正（真怪=Scorpion 208hp 带 baseExp；NPC 无 ApplyXp 路径，杀 NPC 永无 kill 事件是预期行为）；③ kill 事件含 attackerNick 实测确认（damaged×6 → kill seq 递增）；④ GDScript 无列表推导式（`[f(x) for x in arr]` 语法 Parse Error，用显式循环）
 - commit: 2b9f75f
 
+## T13/T14：✅ 完成（2026-11-06 tick5，commit 4c46366）
+- **T13 自审报告**：docs/T13-SELF-REVIEW-M0-M5.md —— 本 tick 干净起服重跑 bridge_probe + bridge_e2e 回归全绿（kill 事件 monsterID 3264333316 送达、0 SCRIPT ERROR），M0-M5 对照判据全部 ✅
+- 实测坑：起服前 6118 被占 → Server._enter_tree 断言失败（ENet 监听是 UDP，ss -lun 才看得到）；client 偶发 CHAR_SCREEN 重跑即过
+- **T14 旧仓归档**：Kaetram 仓打 tag `archive/agent-arena-frozen-20261106`（OPL 污染隔离，轨迹冻结）
+- **开工包 v1.0 技术线（T1-T14 / M0-M5）全部收口**。待所有者事项不变（M0 签署、对外评审）；下一步=AgentRuntime harness 向 SoM 平移设计
+
 ## 待办（按开工包顺序）
 
 - T5 资源基线、T7-T9 M3 阀门、T10 契约冻结、T11 M4 锁步、T12 M5 四元组闭环、T13 汇总、T14 旧仓 tag 归档
