@@ -6,7 +6,14 @@
 
 ## 当前阶段
 
-**P0-Mana spike**（M0 许可结论书 → M1 起服 → M2 缺口表 → M3 四元组阀门 → M4 锁步 → M5 闭环）
+**P0-Mana spike**（M0 许可结论书 → M1 起服 → M2 缺口表 → M3 四元组阀门 → M4 锁步 → M5 闭环）→ **M5 事件字段全闭环已达成（2026-11-06 tick4）**
+
+## M5 状态：✅ kill 事件字段修复（2026-11-06 tick4，commit f6d36d6）
+- **根因定案（monsterID=None 之谜）**：BaseAgent.gd 声明 `signal enemy_killed(monsterID)` 1 参，但 Formula.gd:168 实发 3 参 `emit(entry.attacker, agent.data._id)` + bind 的 peerID —— 旧 handler `(attacker, monsterID, peerID)` 里 attacker/monsterID 错位对齐，server 日志实测 "Method expected 2 argument(s), but called with 3"（tick4 中间态）。
+- **修复**：handler 签名 `(attacker, monsterID, peerID)` 正确对齐 3 参；kill 事件补 `monsterNick`（DB.EntitiesDB 反查 data._id → _name）。
+- **E2E 实测全绿**（srv_v9 + probe3）：navigate→approach→attack 链打死 Maggot，drain_events 送达完整事件 `{kind:kill, monsterID:3264333316, monsterNick:"Maggot", attackerNick:"ai_probe3", seq:4, frame:1623}`，server 0 SCRIPT ERROR。
+- 已知行为注记：Maggot 会反击（damaged 6/次反伤）；e2e 攻击轮次内 mob 反复走位导致部分轮 NO_EFFECT(no_target_change)，属正常追击节奏非缺陷。
+- commit: f6d36d6（M5 收口：四元组 observe/act/verdict/events 全链路含 kill 事件字段无缺口）
 
 ## 已完成
 
