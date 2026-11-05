@@ -27,7 +27,9 @@ def wait_verdict(s, pid, tries=20):
 def persp(a, b):
     return math.hypot(a["x"]-b["x"], (a["y"]-b["y"])*1.42)
 
-s=socket.create_connection(("127.0.0.1",9101))
+import os as _os
+BRIDGE_PORT=int(_os.environ.get("BRIDGE_PORT","9101"))
+s=socket.create_connection(("127.0.0.1",BRIDGE_PORT))
 pid=req(s,{"op":"list_players"})["players"][0]["peerID"]
 snap=req(s,{"op":"snapshot","peerID":pid})["snapshot"]
 # 先走到 Maggot 刷新区（2228,1259 附近），否则附近只有 Scorpion

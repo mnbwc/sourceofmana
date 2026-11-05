@@ -77,3 +77,13 @@
 ## 跳过/挂账
 
 - tsc 全文（policies.themanaworld.org/tsc）网络未取到 — 开放风险，不阻塞
+
+## T5 资源基线（2026-11-06 tick5，部分完成）
+- 空载基线（headless server，4 实例共存时）：server RSS≈403MB、CPU≈1.3-1.8%；agent-client RSS≈403-507MB、CPU≈1.3%。60s 采样无内存增长。
+- 负载期（hunt-and-kill）P95 未完成：本轮 server 中途静默死亡，负载采样中断（见下）。
+- tests/bridge_e2e.py、bridge_probe.py：bridge 端口参数化（环境变量 BRIDGE_PORT，默认 9101），多实例隔离下可测自建实例。
+
+## server 静默死亡再现 + CHAR_SCREEN 卡住根因线索（tick5 观察，未定案）
+- 时间线：自建 server（7123/7124/bridge 9121）04:12 起，b1 客户端重试后正常 IN_GAME（server 存活）；04:22-04:31 期间 server 无任何 crash 日志地消失（log 仅 20 行正常启动输出；godot user://logs 早期日志已被轮转清掉，无死亡痕迹）。
+- client 侧表现即已知遗留 bug：server 掉线后 AgentClientProbe 卡在 CHAR_SCREEN 不退出（_tick 无掉线分支）；b4 实测 37s 后掉线回 LOGIN_SCREEN，随后 Launcher 自起内置 server（"Opened database…Peer connected Offline" 出现在 client log 末尾即此机制）。
+- 待办：① server 死因归因（疑另一会话 pkill 清场，需排除）；② AgentClientProbe 加掉线检测（SM.previous==IN_GAME && current==LOGIN_SCREEN → 记 DISCONNECTED 并退出）。

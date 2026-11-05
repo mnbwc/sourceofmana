@@ -10,7 +10,9 @@ def req(s, obj, timeout=10):
         buf+=d
     return json.loads(buf.split(b"\n")[0].decode())
 
-s=socket.create_connection(("127.0.0.1",9101))
+import os as _os
+BRIDGE_PORT=int(_os.environ.get("BRIDGE_PORT","9101"))
+s=socket.create_connection(("127.0.0.1",BRIDGE_PORT))
 print("ping:", req(s,{"op":"ping"}))
 pl=req(s,{"op":"list_players"})
 print("players:", pl)
