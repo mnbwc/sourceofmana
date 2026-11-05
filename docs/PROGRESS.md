@@ -36,7 +36,14 @@
 
 ## M1 状态：✅ 完成（T3 导出成功 + T4 隔离八项过 + T5 基线 225MB）
 ## M2 状态：✅ 完成（缺口表 v0.1，S21 解答：导航数据在 presets/maps/navigations）
-## M3 状态：🟡 通道 1 已定案并落地 AgentBridge（独立 autoload 不影响 ProtocolVersion 实测确认：bridge 起、协议版本不变、WS 客户端兼容路径未动）
+## M3 状态：✅ 通道 1 已定案并落地 AgentBridge（独立 autoload 不影响 ProtocolVersion 实测确认：bridge 起、协议版本不变、WS 客户端兼容路径未动）
+## M4 状态：✅ 裁决回执 + events 闭环（2026-11-06 自审实机验证）
+- verdict：navigate=position_changed APPLIED（33ms）；attack=target_health_decreased APPLIED（delta=12，打 Elanore 实测）；超时 1.2s → NO_EFFECT/REJECTED
+- events：agent_damaged/agent_killed/enemy_killed 信号钩子 + drain_events（seq cursor，512 上限）
+- nearby：±480 实体扫描（monster/player/npc，距离排序）→ attack 目标选择闭环
+- say 动作只走 LOCAL 频道（Discord 红线）
+- 探针脚本 tests/bridge_probe.py（ping/players/snapshot/navigate+verdict/attack+verdict/events 全绿）
+- 待 M5：kill 事件实测（需打死一只怪）、明确被拒回执场景、资源基线 P95
 
 ## 待办（按开工包顺序）
 
