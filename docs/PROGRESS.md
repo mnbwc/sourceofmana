@@ -94,3 +94,12 @@
 - 时间线：自建 server（7123/7124/bridge 9121）04:12 起，b1 客户端重试后正常 IN_GAME（server 存活）；04:22-04:31 期间 server 无任何 crash 日志地消失（log 仅 20 行正常启动输出；godot user://logs 早期日志已被轮转清掉，无死亡痕迹）。
 - client 侧表现即已知遗留 bug：server 掉线后 AgentClientProbe 卡在 CHAR_SCREEN 不退出（_tick 无掉线分支）；b4 实测 37s 后掉线回 LOGIN_SCREEN，随后 Launcher 自起内置 server（"Opened database…Peer connected Offline" 出现在 client log 末尾即此机制）。
 - 待办：① server 死因归因（疑另一会话 pkill 清场，需排除）；② AgentClientProbe 加掉线检测（SM.previous==IN_GAME && current==LOGIN_SCREEN → 记 DISCONNECTED 并退出）。
+
+## T7 探针健壮性 + tick6 自踢竞态定案（2026-11-06 tick7，commit 7c4c5ad）
+- **tick5 遗留「CHAR_SCREEN 卡死」根因双杀**：
+  ① **tick6 定案**：探针先 CreateAccount 后 Login 同一 peer → Peers.SetAccount 自踢分支 Network.DisconnectAccount(RPC 客户端路径) deferred 清空本 peer 账号 → 后续 CreateCharacter 恒 ERR_NO_ACCOUNT_ID（err=4）。修复=SetAccount 跳过 lastPeerID==peerID 的自踢（Peers.gd，同会话并发完成）。
+  ② **tick7 修复**：AgentClientProbe 加掉线检测（IN_GAME→LOGIN_SCREEN ⇒ DISCONNECTED quit(3)）+ 120s 阶段超时（TIMEOUT quit(4)）+ ENTERED_GAME 后 quit(0) 干净退出（此前 ENTERED_GAME 后常驻不退）。
+- 实测回归：同 server 连续 3 个新账号 t7a1/a2/a3 全流程 ENTERED_GAME+AGENT-DONE 干净退出；CharacterError 回执可见（首条 err=11=EMPTY_ACCOUNT 来自 CharacterListing 空账号，良性）。
+- 新坑：客户端 `--port N` 覆盖 ENet 端口；不带参数时客户端连 6119——同机多 server 时探针可能连到别的实例（本次 t7disc "成功"实为连到 6119 旧实例，教训：探针起服端口必须与 --port 一致）。
+- diag 插桩（Client.gd/Peers.gd/Server.gd printerr）为并发会话所有，未随本 commit 提交。
+- 遗留：DISCONNECTED 路径窗口极窄（ENTERED_GAME 即退出），如需真测需临时去掉 quit(0)。
