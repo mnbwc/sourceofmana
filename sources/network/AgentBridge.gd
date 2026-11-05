@@ -195,7 +195,13 @@ func _apply_action(req : Dictionary) -> String:
 				"reason": "select_stats_requested", "basedOnFrame": frame})
 		"attack":
 			var rid : int = int(args.get("rid", 0))
+			var skillName : String = str(args.get("skill", "Melee"))
 			var skillID : int = int(args.get("skillID", 0))
+			if skillID == 0:
+				skillID = DB.GetCellHash(skillName)
+			var skill : SkillCell = DB.SkillsDB.get(skillID) if DB.SkillsDB.has(skillID) else null
+			if skill == null:
+				return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "unknown skill %s" % skillName, "basedOnFrame": frame})
 			var target : BaseAgent = WorldAgent.GetAgent(rid)
 			if target == null:
 				return _json({"ok": false, "code": "TARGET_NOT_FOUND", "detail": "no agent for rid %d" % rid, "basedOnFrame": frame})
@@ -261,13 +267,17 @@ func _push_event(peerID : int, event : Dictionary) -> void:
 	while buf.size() > 512:
 		buf.pop_front()
 
-func _on_agent_damaged(value : int, peerID : int) -> void:
-	_push_event(peerID, {"kind": "damaged", "value": value})
+func _on_agent_damaged(target, value : int, peerID : int) -> void:
+	# Skill.gd: agent_damaged.emit(target, info.value)（信号声明 1 参但实发 2 参）
+	_push_event(peerID, {"kind": "damaged", "value": value,
+		"health": target.stat.health if target and target.stat else 0})
 
-func _on_agent_killed(agent : BaseAgent, peerID : int) -> void:
-	_push_event(peerID, {"kind": "died"})
+func _on_agent_killed(killed, peerID : int) -> void:
+	# BaseAgent.gd: agent_killed.emit(self)
+	_push_event(peerID, {"kind": "died", "nick": killed.nick if killed else ""})
 
-func _on_enemy_killed(attacker : BaseAgent, monsterID : int, peerID : int) -> void:
+func _on_enemy_killed(attacker, monsterID : int, peerID : int) -> void:
+	# Formula.gd: enemy_killed.emit(entry.attacker, agent.data._id)（实发 2 参）
 	_push_event(peerID, {"kind": "kill", "monsterID": monsterID, "attackerNick": attacker.nick if attacker else ""})
 
 func _drain_events(req : Dictionary) -> String:
@@ -285,11 +295,17 @@ func _drain_events(req : Dictionary) -> String:
 
 # ---- M3 四元组阀门：裁决回执（替换 PENDING_PROBE）----
 func _verdict_req(agent, req : Dictionary) -> Dictionary:
+	# beforeHealth 必须取目标（attack 裁决对象）的血，agent.stat.health 是攻击者自己的
+	var targetRID : int = int(req.get("args", {}).get("rid", 0))
+	var targetHealth : int = 0
+	var target : BaseAgent = WorldAgent.GetAgent(targetRID)
+	if target and target.stat:
+		targetHealth = target.stat.health
 	return {
 		"action": str(req.get("name", "")),
 		"basedOnFrame": NetworkCommons.FrameID(),
 		"beforePos": {"x": agent.position.x, "y": agent.position.y},
-		"beforeHealth": agent.stat.health if agent.stat else 0,
+		"beforeHealth": targetHealth,
 		"targetRID": int(req.get("args", {}).get("rid", 0)),
 		"startedAtMsec": Time.get_ticks_msec(),
 	}
