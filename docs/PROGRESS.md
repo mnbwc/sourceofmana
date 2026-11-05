@@ -107,6 +107,15 @@
 - 运维：/tmp/som_t10_run.sh（隔离三元组 7181/7182/9181 全流程一键：起服→探针→验收→采 RSS→清理）。
 - 下一步（tick11）：唤醒率口径复核（多 run 统计）+ loot 掉落实测（多杀几只等 0.6 掉率）+ soak（长 run + 多 agent 并发）→ 之后 SoM M2 Arena Controller。
 
+## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
+- **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
+- **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
+- **验收结果（run-1793921024，隔离三元组 7181/7182/9181）**：C1 exhausted(max_actions=25)✅ C2 三件套齐+protocolVersion=217363688✅ C3 wakeup_reduction=0.5217>0.5✅ C4 kills 0→1（deaths 0）✅ C5 rollouts 44≥decide_calls 44✅；server log 0 SCRIPT ERROR。
+- **过程坑（bot 调优）**：出生点 2143,2587 附近常只有 Scorpion（208hp），「挑附近最弱怪」策略被围殴反杀（前 6 个 run 全 0 kill、最多 deaths=10）；改为「只打 hp.max≤60 弱怪，否则先 navigate 去弱怪区/脱战 wait 回血」后连续 2 run 达成 kill（run-…0838 与 …1024，后者 0 死）。flee 撤离阈值 0.5（0.3 太晚）。
+- **改动文件**：sources/network/AgentBridge.gd（respawn op）、tests/harness/{somruntime.py, acceptance_som.py, sombase.py}（新增/扩展）、tests/harness/runs/（验收留档）。
+- 下 tick（tick11）：soak 稳定性（多 run 连续 0 SCRIPT ERROR + RSS 曲线，7305 实例上另一会话已在采）+ 接入 LLM policy 位（decision_source 区分 rulebot/llm）。
+- commit: 本节
+
 ## 待办（按开工包顺序）
 
 - ~~T5…T12、T13 汇总、T14 旧仓归档~~ 全部完成（tick5）
