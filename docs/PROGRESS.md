@@ -109,3 +109,10 @@
 - Client.gd CharacterError 加探针诊断转发（无 GUI 时错误此前被静默吞掉）+ 连接目标日志（connecting host:port）。
 - E2E 回归（自建 7133/7134/bridge 9131，`BRIDGE_PORT=9131`）：新账号全流程 ENTERED_GAME（~7s）→ bridge_e2e.py 全绿（hunt→attack 链 APPLIED×4 → target_died → kill 事件 3264333316 送达 → CLOSE-E2E-DONE，agent 存活）。
 - 运维注意：探针 `--port/--ws-port` 要与 server 一致，否则会连到 6118/6119 的**其他实例**（本 tick 一度误连 6118 旧 server，靠 connecting 日志实锤）。
+
+## tick8：harness 平移设计 v0.1 + 回归全绿（commit 本 tick）
+- **新文档 docs/HARNESS-PORT-DESIGN-v0.1.md**：AgentRuntime（Kaetram）→ SoM 平移设计——三层架构（policies/events/runtime/三件套原样平移；client.py 适配层重写为 TCP JSON + verdict 轮询封装；AgentBridge.gd 小增量）。识别 3 个 gap：G1 无 close_session/TTL（防 ghost）、G2 无 score 聚合（v0.1 桥侧累计 kills/deaths 即可）、G3 无背包快照（挂账）。验收判据 5 条（预算闸门/三件套/事件唤醒<35%/kill→score E2E/0 SCRIPT ERROR）。
+- **新坑①：server 还有第三个端口**——ENet(6119)/WebSocket(6118) 双 transport 都会起，`--port` 只覆盖 ENet；WS 缺省 6118 被占 → NetServer._enter_tree 断言失败（0 SCRIPT ERROR 之外的静默性失败）。多实例隔离必须三元组 `--port N --ws-port M --bridge-port K`。且 ParsePortOverrides 读的是 `--` **之前**的引擎参数。
+- **新坑②：探针 `--port` 也必须放 `--` 之前**——放在 user_args 里不生效，仍连 6119（log `connecting 127.0.0.1:6119` 实锤）；正确：`godot471 --headless --path . --port 7161 -- --agent-client X --agent-keep`。
+- **回归实测（7161/7162/9161 隔离三元组）**：干净起服 0 SCRIPT ERROR；探针 ~7s ENTERED_GAME；bridge_e2e 全绿（navigate 到 Maggot 区 → attack APPLIED×3 → target_died → kill 事件 → CLOSE-E2E-DONE，探针存活受控退出）；bridge ping protocolVersion 217363688。
+- 下一步：按设计 tick9 = client.py 适配层 + G1 close_session + RuleBot 冒烟。
