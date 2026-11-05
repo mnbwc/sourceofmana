@@ -78,9 +78,10 @@ func _tick() -> void:
 					"skintone": skinKeys[0].hash() if skinKeys.size() > 0 else 0,
 					"gender": 0,
 				}
-				# 属性：全默认 0 也合法（CheckAttributes 只查总和上限）
+				# 属性：力量拉满（上限 1级=4+1=5 点：攻 10+5*3=25 vs Maggot def1 → 单发 ~24，
+				# 50hp 三发内；总和 ≤ GetMaxAttributePoints(1)）
 				var attrs : Dictionary = {
-					"strength": 0, "vitality": 0, "agility": 0,
+					"strength": 5, "vitality": 0, "agility": 0,
 					"endurance": 0, "concentration": 0,
 				}
 				Network.CreateCharacter(accountName, traits, attrs)

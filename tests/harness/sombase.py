@@ -180,11 +180,38 @@ class RandomRuleBot:
         me = state.get("player", {})
         hp_cur = (me.get("health") or {}).get("current", 1)
         hp_max = (me.get("health") or {}).get("max", 1) or 1
-        if hp_max and hp_cur / hp_max < 0.3:
-            return "flee", {}
-        # 最近的可打怪
+        ratio = hp_cur / hp_max if hp_max else 1.0
         monsters = [n for n in state.get("nearby", [])
                     if n.get("type") == "monster" and n.get("alive")]
+        # 施法/动作进行中：navigate 会被拒（NO_EFFECT），先等
+        if me.get("actionInProgress"):
+            return "wait", {}
+        near = [m for m in monsters if persp(me.get("position", {}), m["position"]) < 150]
+        # tick10 教训：Maggot 群殴（3+只×10atk）102hp 撑不过 3 回合——
+        # 单挑策略：≥2 贴脸必撤，只打落单的
+        if len(near) >= 2 and ratio < 0.99:
+            return "flee", {}
+        if len(near) == 1:
+            if ratio < 0.5:
+                return "flee", {}
+            self.target_rid = int(near[0]["rid"])
+            if persp(me.get("position", {}), near[0]["position"]) >= 40:
+                return "navigate", {"x": near[0]["position"]["x"],
+                                    "y": near[0]["position"]["y"], "_approach": self.target_rid}
+            return "attack", {"rid": self.target_rid}
+        if len(near) == 0:
+            self.target_rid = None
+            # kill 后捡掉落：附近有 drop 优先（PickupDrop 距离判定是平面欧氏）
+            drops = [n for n in state.get("nearby", []) if n.get("type") == "drop"]
+            if drops:
+                d = min(drops, key=lambda n: n["distance"])
+                if d["distance"] < 24:
+                    return "loot", {"dropID": d["rid"]}
+                return "navigate", {"x": d["position"]["x"], "y": d["position"]["y"],
+                                    "_approach": -d["rid"]}
+            if ratio < 0.98:
+                return "wait", {}
+        # 最近的可打怪（远距离视野内的，走向它）
         if self.target_rid:
             tgt = next((m for m in monsters if m["rid"] == self.target_rid), None)
             if tgt is None:

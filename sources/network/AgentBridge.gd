@@ -49,7 +49,7 @@ func _process(_delta : float) -> void:
 	if not _pending.is_empty():
 		for pid in _pending.keys():
 			var pending : Dictionary = _pending[pid]
-			if pending.get("action", "") in ["navigate", "attack"]:
+			if pending.get("action", "") in ["navigate", "attack", "respawn"]:
 				var v : Dictionary = _apply_verdict(pending.get("action", ""), pending)
 				if v.get("verdict", "") != "PENDING":
 					v["basedOnFrame"] = pending.get("basedOnFrame", NetworkCommons.FrameID())
@@ -168,7 +168,7 @@ func _snapshot(peerID : int) -> Dictionary:
 		snap["score"] = _score.get(peerID, {"kills": 0, "deaths": 0})
 	return snap
 
-# 同地图 ±radius 范围实体（observe 范围），供 attack 选择目标
+# 同地图 ±radius 范围实体 + 地面掉落物（loot 目标来源）
 func _nearby(agent, radius : float = 480.0) -> Array:
 	var out : Array = []
 	for rid in WorldAgent.agents.keys():
@@ -194,6 +194,20 @@ func _nearby(agent, radius : float = 480.0) -> Array:
 			"health": {"current": other.stat.health, "max": other.stat.current.maxHealth} if other.stat and "current" in other.stat else {},
 		})
 	out.sort_custom(func(a, b): return a["distance"] < b["distance"])
+	# 地面掉落（DropAdded 通知里的 dropID；PickupDrop 按 inst.drops 校验）
+	var inst : WorldInstance = WorldAgent.GetInstanceFromAgent(agent)
+	if inst:
+		for dropID in inst.drops.keys():
+			var drop = inst.drops[dropID]
+			if drop and drop.position.distance_to(agent.position) <= radius:
+				var itemName : String = ""
+				if drop.item:
+					var cell : ItemCell = DB.GetItem(drop.item.cellID, drop.item.cellCustomfield)
+					itemName = cell._name if cell and "_name" in cell else str(drop.item.cellID)
+				out.append({"rid": dropID, "type": "drop", "nick": itemName,
+					"position": {"x": drop.position.x, "y": drop.position.y},
+					"distance": drop.position.distance_to(agent.position),
+					"alive": true, "health": {}})
 	return out
 
 # 同源派发：与 Network.CallServer 一样走 callv.call_deferred（进程内不绕过 Footprint/FairUse 节流）
@@ -267,6 +281,19 @@ func _apply_action(req : Dictionary) -> String:
 			_server_peer().TriggerChat(str(GUICommons.ChatChannel.LOCAL), text, peerID)
 			return _json({"ok": true, "code": "ACTION_OK", "verdict": "APPLIED",
 				"reason": "chat_sent_local", "basedOnFrame": frame})
+		"respawn":
+			# 死后复活：Revive 半血 + 回默认出生点（respawnDestination 依赖存档，
+			# 新账号可能为 UnknownHash → Warp null map 静默失败，故桥侧用 defaultSpawnLocation）
+			_server_peer().TriggerRespawn(peerID)
+			var destMap : WorldMap = Launcher.World.GetMap(LauncherCommons.DefaultStartMapID)
+			if destMap and destMap.instances.size() > 0:
+				# 桥侧固定 respawn 点：Maggot 纯净区（world spawn 区域 id17
+				# x2050-2406,y1024-1495 与其他 spawn 无重叠，避开 Scorpion 带与出生点怪群）
+				agent.respawnDestination = Destination.new(destMap.id, Vector2(2230, 1250))
+			_pending[peerID] = _verdict_req(agent, req)
+			_pending[peerID]["peerID"] = peerID
+			_pending[peerID]["basedOnFrame"] = frame
+			return _json({"ok": true, "code": "ACTION_OK", "verdict": "PENDING", "basedOnFrame": frame})
 		_:
 			return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "unknown action %s" % action})
 
@@ -425,6 +452,10 @@ func _apply_verdict(kind : String, pending : Dictionary) -> Dictionary:
 				var cast : bool = SkillCommons.HasAnyActionInProgress(agent)
 				return {"verdict": "APPLIED" if cast else "NO_EFFECT", "reason": "casting_in_progress" if cast else "no_target_change", "elapsedMs": elapsed}
 			return {"verdict": "PENDING"}
+		"respawn":
+			_pending.erase(peerID)
+			return {"verdict": "APPLIED" if ActorCommons.IsAlive(agent) else "PENDING",
+				"reason": "revived", "after": pos} if ActorCommons.IsAlive(agent) else {"verdict": "PENDING"}
 		"inspect", "say", "loot":
 			_pending.erase(peerID)
 			return {"verdict": "APPLIED", "reason": "fire_and_forget", "after": pos}

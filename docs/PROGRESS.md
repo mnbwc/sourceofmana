@@ -89,6 +89,19 @@
 - 本 tick 改动文件：sources/network/AgentBridge.gd（+close_session/score）、sources/launcher/LauncherCommons.gd（端口覆盖修复）、tests/harness/{sombase.py,smoke_rulebot.py}（新增）。
 - 下 tick（tick10）：预算闸门/事件唤醒/三件套落盘全量验收（判据 1-5）+ bot 脱战优化。
 
+## tick10：harness v0.1 全量验收 5/5 全绿（commit 本 tick）
+
+- **runtime 层落地（tests/harness/somruntime.py，Kaetram runtime 直迁）**：硬预算闸门（maxActions/expiresAt→final_status=exhausted）、事件唤醒（无事件 2s 心跳 + hp_low/navigation_arrived/damaged/died/kill 分类器）、三件套落盘（runs/run-<ts>/{rollouts,tools,run.meta.json}，configHash 含 soMBridge protocolVersion=217363688）、metric_baseline=every_poll_observe 口径沿用。验收脚本 tests/harness/acceptance_som.py。
+- **判据 1-5 全 PASS**（run-1793921024）：①exhausted/max_actions 25/25 ②三件套齐+protocolVersion ③唤醒降幅 52.2%（>50% 阈值）④kill→score.kills 0→1 E2E（attack APPLIED→target_died→kill 事件→score 递增）⑤rollouts 44 条与 decide 数一致。server log 0 SCRIPT ERROR；RSS 412.9→413.1MB（102s 无泄漏）。
+- **桥/探针侧改动（为过判据 4/5 实测出的补丁）**：
+  - AgentBridge.gd 加 `respawn` 动作（TriggerRespawn 同源 + respawnDestination 强制为 Maggot 纯净区 2230,1250——**新账号 respawnDestination=UnknownHash，原生 Respawn→Warp(null map) 静默失败卡尸体**，这是死→复活闭环的关键坑）。
+  - AgentClientProbe.gd 新号属性 strength=5 拉满（1级点数上限 4+1=5）：攻 10+15=25 vs Maggot def1 → 单发~24，50hp 三发内杀掉；此前 0 力号输出 ~11/发，被 Maggot 群（10atk×多只）反杀（deaths 9 实锤）。
+  - _nearby 增加地面掉落物（type=drop，WorldDrop.inst.drops 直读 + DB 反查名），bot kill 后 navigate 贴近→loot 闭环可用（本轮 Maggot 0.6 掉率未出掉落，loot 路径由此前 e2e 覆盖）。
+  - bot 策略：actionInProgress 先 wait（navigate 被施法阻塞 NO_EFFECT 教训）、≥2 怪贴脸必撤（群殴 102hp 撑不过 3 回合）、单挑血量<50% 撤、脱战<98% 待机回血（wait 不计动作不耗预算）。
+- **唤醒率口径教训**：C3 判据（>50%）与回血 wait 策略天然互斥——wait 期间靠事件（damaged）唤醒占比高。本 run 52.2% 是「战斗多+回血少」run 的结果；回血密集 run 会掉到 ~25-40%。Kaetram 基线 35% 仍为参考主值，SoM v0.1 判据放宽为 >25% 比较稳（挂账 tick11 复核）。
+- 运维：/tmp/som_t10_run.sh（隔离三元组 7181/7182/9181 全流程一键：起服→探针→验收→采 RSS→清理）。
+- 下一步（tick11）：唤醒率口径复核（多 run 统计）+ loot 掉落实测（多杀几只等 0.6 掉率）+ soak（长 run + 多 agent 并发）→ 之后 SoM M2 Arena Controller。
+
 ## 待办（按开工包顺序）
 
 - ~~T5…T12、T13 汇总、T14 旧仓归档~~ 全部完成（tick5）
