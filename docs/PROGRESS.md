@@ -16,8 +16,9 @@
 
 ## 进行中
 
-- T3/T4（M1）：release 导出 Headless Server + §5 八项隔离检查
-- T6（M2）：系统缺口表
+- T7/T8（M3）：AgentBridge.gd autoload 探针 → 四元组阀门
+
+## M1 状态：✅ 完成（T3 导出成功 + T4 隔离八项过 + T5 基线 225MB）
 
 ## 待办（按开工包顺序）
 

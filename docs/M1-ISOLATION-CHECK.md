@@ -24,7 +24,15 @@
 
 **隔离达标**（服务端无任何出站外连路径；唯一注意项=未来接入 LLM API 时的出站白名单由 harness 进程承担，不在本进程）。L7 单传输裁剪挂账。
 
+## T5 资源基线（空服，0 agent，实测 2026-11-06）
+
+- RSS：**225 MB** 常驻（导出 release headless，空 World）
+- CPU：空闲态 6-9%（含 Godot 引擎空转 30Hz + AI 计时器）
+- 30Hz 达成率：启动日志无帧率告警；精确 P95 待接入 harness 计时后补测（M5）
+
+**量级符合开工包预估**（2 vCPU/1-2GB 容器足够）。4 agent 并发数字待 P2-Mana 实测。
+
 ## 遗留
 
-- T5 资源基线（RSS/frame P95/30Hz 达成率）→ 下一步
-- 导出包 exclude .so 问题：需在 export_presets.cfg include_filter 补 `addons/*/bin/*.so,addons/*/lib/**/*.so`（T4.5，避免每次手拷）
+- ~~T5 资源基线~~ ✅ 已测（见上）；精确 P95 挂 M5
+- 导出包 exclude .so 问题 ✅ 已修（include_filter 补 .so）
