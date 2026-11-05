@@ -16,7 +16,15 @@
 
 ## 进行中
 
-- T8 续（M3 四元组阀门）：Bridge 探针已通（ping/players/snapshot/错误码 ✅，commit db4e4a9）；下一步=真实客户端/无头客户端登录拿 peerID → navigate 动作 → 状态增量裁决回执（替换 PENDING_PROBE）→ events 订阅 → 1 天内闭环判定
+- T8 续（M3 四元组阀门）：Bridge 探针已通（ping/players/snapshot/错误码 ✅）；并行有未跟踪草稿 sources/network/AgentClientProbe.gd（无头最小客户端思路，未实机验证）。下一步=无头客户端登录拿 peerID → apply_action 实测 navigate → 状态增量裁决回执（替换 PENDING_PROBE）→ events 订阅 → 闭环判定
+
+## 环境事实（复用）
+
+- 导出模板已装 ~/.local/share/godot/export_templates/4.7.1.stable/（linux_* 8 个）；导出命令：`godot471 --headless --path . --export-release "Linux/X11 Headless Server" ~/binary/Server/SourceOfMana.x86_64`（154MB embed pck）
+- 导出目录须手工补 GDExtension 库：mkdir -p addons/{godot-sqlite/bin,sentry/bin/linux/x86_64} 并 cp libgdsqlite…so / libsentry…so（pck 里的 .gdextension 找 bin/*.so 相对路径）
+- 导出包验证过的启动：`./SourceOfMana.x86_64 --headless --server --port 6119`（SQLite 建库+ENet/WebSocket/WebRTC init）
+- GDScript 坑：`\x00` 转义非法（用 "\0"）；StreamPeerTCP 无 STATUS_DISCONNECTED（判非 CONNECTED/CONNECTING）；put_utf8_string 带 32 位长度前缀（NDJSON 用 put_data(to_utf8_buffer())）；Util 只有 PrintLog/PrintInfo 无 PrintErr（用 printerr）；server 类 class_name=NetServer（非 Server）
+- 同机并发注意：另一个会话曾占用 9101（godot471 --server 探针进程），起服前先 `ss -ltn | grep 9101`
 
 ## M1 状态：✅ 完成（T3 导出成功 + T4 隔离八项过 + T5 基线 225MB）
 ## M2 状态：✅ 完成（缺口表 v0.1，S21 解答：导航数据在 presets/maps/navigations）
