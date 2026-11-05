@@ -16,7 +16,15 @@
 
 ## 进行中
 
-- T8 续（M3 四元组阀门）：Bridge 探针已通（ping/players/snapshot/错误码 ✅）；并行有未跟踪草稿 sources/network/AgentClientProbe.gd（无头最小客户端思路，未实机验证）。下一步=无头客户端登录拿 peerID → apply_action 实测 navigate → 状态增量裁决回执（替换 PENDING_PROBE）→ events 订阅 → 闭环判定
+- （M3 收口中）四元组实测闭环已达成，待 M4
+
+## M3 里程碑：✅ 核心闭环达成（2026-11-06）
+
+- **无头 agent 客户端**：AgentClientProbe.gd autoload，`godot471 --headless --path . -- --agent-client <name>` 全自动 连接→注册→登录→建角色→ENTERED_GAME（约 7s）
+- **Launcher.gd 上游改动 1 行**：--agent-client 时跳过自起 server（已记清单）
+- **四元组实测**：observe(list_players+snapshot: pos/health 112/112/level/alive) → apply_action(navigate, ACTION_OK) → **位置真实移动 dx=33.4 dy=16.6**，服务器 0 脚本错误
+- **verdict 仍 PENDING_PROBE**：下一阶段（M4 锁步）做状态增量裁决回执 + events 订阅
+- commit: "feat(m3): headless agent client probe + bridge snapshot/navigate E2E verified"
 
 ## 环境事实（复用）
 
