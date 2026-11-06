@@ -277,6 +277,16 @@
 - **本 tick 复跑**：llm_arena_e2e.py（隔离三元组 7341/7342/9341）— ARENA_START ok → warp (2230,1250) → 24 决策全 llm（杀 3 Maggot+loot 1）→ episode_start/episode_end 事件齐 → `E2E PASS`，0 SCRIPT ERROR。
 - commit: 本节。下一步（tick23）：M3 前置——排行榜聚合/榜单 API 设计，或按开工包推进多模板批测。
 
+## tick25（2026-11-06 本 tick）：LLM 策略位 × grind_maggot 对比基线（首次定量）——LLM 明显落后，瓶颈定位
+- **对照 run**（隔离 7301/7302/9301，同模板 grind_maggot）：RuleBot（tick24）10 kills / 343s / 150 动作预算内 completed；LLM（手动驱动 loop，等价 arena_start→decide→act，env 同 Kaetram .env）560s 内仅 **2-3 kills**（38 turn 预算内 kills=2，ep-3 结算 kills=1 的为被 explicit_stop 截断的前段；0 deaths）。
+- **瓶颈定位（rollouts + decision reasoning 全留档）**：
+  1. **LLM 单次决策延迟 5-30s**（provider 偶发 429 限流触发 2 次降级 rulebot；延迟本身即主瓶颈——38 turn 已耗 560s vs RuleBot 同动作量 ~40s）；
+  2. **navigate 过冲循环**：agent 位置在射程边缘震荡，LLM 反复「距离 18>15 先走过去」→ 走过又远离，一怪磨数分钟；RuleBot 有 `_approach` 目标点直插无此问题；
+  3. **loot REJECTED**（未走到 drop 附近就 loot）且 loot 延迟 112s（429 重试）；attack 射程内时 verdict 正常 APPLIED。
+- **结论**：LLM 位链路本身健康（29/31 决策 llm、reasoning 质量合理、0 server SCRIPT ERROR——唯一 1 条 ERROR 是本 tick 外部裸 socket 探测漏传 peerID 所致，非引擎问题），落后是**策略层/延迟层**问题，非桥/引擎 bug。改进方向（下 tick 备选）：① 事件驱动 + 决策去抖（同怪同态不重复问 LLM）；② prompt 注入「navigate 目标=目标坐标±5」与 loot 前置距离校验；③ provider 429 退避。
+- 运行留档：/tmp/t25_llmrun.{log,out}（本 tick 会话内，未入 repo）；7301 探针/服务已清理。
+- commit: 本节。下一步（tick26）：按上面 ①②③ 之一给 somllm.py 做改进并复测，或转 M3 榜单聚合。
+
 ## tick24（2026-11-06 本 tick）：多模板批测 harness — grind_maggot(×10) 首次 completed ✅
 - **tests/harness/batch_template.py**：TEMPLATE/SEED/MAX_ACTIONS/DURATION env 化批测入口（arena_start→AgentRuntime rulebot→排行榜回查）；判据踩坑修正——episode completed 后 arena_status 即无 active（final_score=null、harness 侧 session_lost/PEER_NOT_FOUND），终局权威读法=排行榜（tick22 定案复用）。
 - **grind_maggot 首次打满**（三元组 7381/7382/9381，SEED=42, 150 动作/560s）：排行榜 `completed / kills_required_met / kills=10 / xp=10 / loot=3 / deaths=1`（lineNo=5 保序，tick23 截断修复回归确认）。Bot 在 kills_required_met 后未退出继续打怪（server 侧已 correct 终局），删 session 后 harness 报 PEER_NOT_FOUND 属设计行为。
