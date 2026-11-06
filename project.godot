@@ -529,6 +529,10 @@ environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 2d/snap/snap_2d_transforms_to_pixel=true
 environment/default_environment="res://default_env.tres"
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://data/db/zh/UI.en.translation", "res://data/db/zh/UI.zh.translation")
+
 [sentry]
 
 schema_version=4

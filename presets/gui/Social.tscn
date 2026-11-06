@@ -74,7 +74,7 @@ size_flags_horizontal = 3
 [node name="PartyPlaceholder" type="Label" parent="Layout/Margin/TabBar/Party/PartyList" unique_id=720451008]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "No party joined"
+text = "UI_NO_PARTY"
 horizontal_alignment = 1
 
 [node name="Guild" type="ScrollContainer" parent="Layout/Margin/TabBar" unique_id=720451009]

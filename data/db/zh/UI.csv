@@ -1,0 +1,21 @@
+keys,en,zh
+UI_BESTIARY,Bestiary,图鉴
+UI_REFRESH,Refresh,刷新
+UI_CANCEL,Cancel,取消
+UI_LOADING,Loading...,加载中...
+UI_NO_PARTY,No party joined,未加入队伍
+UI_PRIMARY,Primary,主要
+UI_SECONDARY,Secondary,次要
+UI_TERTIARY,Tertiary,备用
+UI_CHARACTER,Character,角色
+UI_INVENTORY,Inventory,背包
+UI_SKILLS,Skills,技能
+UI_QUESTS,Quests,任务
+UI_SETTINGS,Settings,设置
+UI_CHAT,Chat,聊天
+UI_MAP,Map,地图
+UI_OK,OK,确定
+UI_YES,Yes,是
+UI_NO,No,否
+UI_CLOSE,Close,关闭
+UI_SAVE,Save,保存

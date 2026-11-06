@@ -1,0 +1,10 @@
+NotoSansCJK-Regular.ttc
+Source: https://github.com/notofonts/noto-cjk (Sans CJK SC subset of the system fonts-noto-cjk package, version as shipped in Debian)
+License: SIL Open Font License 1.1 (OFL.txt at https://github.com/notofonts/noto-cjk/blob/main/Sans/OFL.txt)
+Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name "Noto".
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+The font is bundled for Chinese (CJK) text rendering in the localized build.
+It is registered as a fallback font (FontVariation "FontVariation_zh") in
+data/themes/DefaultTheme.tres — the original pixel fonts (alagard/romulus,
+licensed separately by the upstream project) remain the primary fonts.
