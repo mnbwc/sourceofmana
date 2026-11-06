@@ -136,6 +136,14 @@
 - **E2E：acceptance 5/5 ALL-PASS**——wakeup_reduction 70.8%（C3 判据 >50% 通过，此前口径疑虑解除）、kills=1→xp→score、C1 budget 正常耗尽、C2 三件套、C5 非空。server 0 SCRIPT ERROR。
 - commit：rulebot+probe 修复。
 
+## tick14（2026-11-06 本会话）：SoM M2 Arena Controller 落地 E2E 全绿
+- **设计文档**：docs/ARENA-CONTROLLER-DESIGN-v0.1.md —— Kaetram arena.ts 五要素平移判定表：桥已有 kill/death/loot/xp 全部计分钩子（M5+G2v0.2），SoM 版只做「episode 生命周期 + 判定 + 模板」，零上游改动。
+- **实现**：sources/network/ArenaController.gd（新 autoload，~170 行）——TEMPLATES 模板字典（tutorial_maggot×3/grind_maggot×10，spawn=Maggot 纯净区）、Start（respawnDestination warp 到 spawn+xp/baseline 快照）、每帧巡检（kills_required_met/max_deaths/expired）、Stop（explicit_stop）、计分=桥 _score baseline 差值镜像（episode 独立计分不继承历史）、close_session 防泄漏 Teardown。桥加 3 op：arena_start/arena_status/arena_stop。事件经 _push_event（kind=arena, arenaKind=episode_start/episode_end）走 drain_events 流。
+- **坑两枚**：①ArenaController 不能直接调 _server_peer()（那是桥内部）——经 bridge._server_peer() 代理；②首版镜像全量复制桥 score → 第二个 episode 继承历史 kills=8，改 baseline 差值。
+- **E2E 实测**（7317/7318/9317，0 SCRIPT ERROR）：UNKNOWN_TEMPLATE/EPISODE_ACTIVE/NO_ACTIVE_EPISODE 三拒绝回执明确（S16 纪律）；tutorial_maggot start → 杀 Maggot×3 → `episode_end {status:completed, endReason:kills_required_met, score:{kills:3, xpGained:3}}` 送达；arena_stop 显式终局 + 二次 stop 拒绝。
+- **挂账**：alive 时 TriggerRespawn warp 未到位（pos 不变，respawn 机制对活体无效）——episode 依赖 agent 自己走位到 spawn 区，v0.2 换 WarpPlayer 通路；max_deaths/expired 路径代码已实现未实测（逻辑同 kills_required_met 分支）。
+- commit：27ce3f1。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
