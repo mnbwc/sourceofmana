@@ -259,3 +259,9 @@
 - commit: 88014ad（本节，仅 tmx 一行）。
 - 下 tick（tick22）：episode_final null 复核；或 leaderboard/LLM run 口径一致性抽查。
 
+
+## tick22（2026-11-06 本 tick）：episode_final null 复核定案 + LLM×arena 口径一致性抽查 ✅
+- **episode_final null 定案（tick21 遗留销项）**：非 bug——`AgentRuntime.run()` finally 走 `arena_status`，而 `ArenaController.Status` 只回 active episode；completed/expired 后必然 null。终局权威读法=「rollouts 里 arena:episode_end 的 payload」或「排行榜 JSONL 按 episodeId 回查」。已在 llm_arena_e2e.py 文档头注明，不改代码（避免为查一个字段多一次 GetResult 语义分叉）。
+- **口径一致性抽查**：本次 LLM run（run-llm-arena-1793938394 附近，24/24 llm 决策 0 降级）三处读数一致：meta.final_score.kills=3 = episode_end payload.kills=3 = 排行榜行 kills:3；xp/loot 同。服务端权威计分红线保持。
+- **本 tick 复跑**：llm_arena_e2e.py（隔离三元组 7341/7342/9341）— ARENA_START ok → warp (2230,1250) → 24 决策全 llm（杀 3 Maggot+loot 1）→ episode_start/episode_end 事件齐 → `E2E PASS`，0 SCRIPT ERROR。
+- commit: 本节。下一步（tick23）：M3 前置——排行榜聚合/榜单 API 设计，或按开工包推进多模板批测。
