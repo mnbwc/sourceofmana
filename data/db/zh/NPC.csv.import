@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dn7jlvbl17r6"
+
+[deps]
+
+files=["res://data/db/zh/NPC.en.translation", "res://data/db/zh/NPC.zh.translation"]
+
+source_file="res://data/db/zh/NPC.csv"
+dest_files=["res://data/db/zh/NPC.en.translation", "res://data/db/zh/NPC.zh.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
