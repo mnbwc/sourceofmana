@@ -151,6 +151,11 @@
 - **坑**：SoMClient.wait_ready 不返回 peerID（只做认领），用 `c.peer_id` 取；bot attack 回执 "target_died" 字样在 verdict 里，简单计数会偏大（KILLS_OBSERVED 27 vs 真实 3），权威口径以 episode_end score 为准——符合「服务端钩子计分、客户端不自报」红线。
 - 下一步（tick16）：多 agent 并发 episode 隔离实测（grind 模板 + 2 agent 同时 start/stop）；或 LLM policy 位接入。
 
+## tick16（2026-11-06 本会话）：并发 episode 隔离 E2E — ISOLATION PASS
+- **tests/harness/arena_isolation.py**（新增）：2 agent 同时 arena_start(tutorial_maggot) → 各自独立 bot 打怪 → 断言各自 episode_end kills=3（非 6/叠加）。
+- **实测**（7321/7322/9321）：双 agent warp 均精确落 spawn(2230,1250)、双 episode 并发 active → 双双 `completed(kills_required_met, kills=3)`，事件流按 episodeId 各自归属，**零计分串扰**。0 SCRIPT ERROR。
+- commit：arena_isolation.py。M2 Arena Controller 四项 E2E（warp/单 agent 完成/显式 stop/并发隔离）全部 PASS。下一步：LLM policy 位接入（decision_source 区分 rulebot/llm）或排行榜落盘。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
