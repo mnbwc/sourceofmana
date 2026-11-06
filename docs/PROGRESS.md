@@ -365,3 +365,11 @@
 - 刻意决策：AI snapshot 的物品名保持原文（LLM/RuleBot 按 nick/dropID 匹配，物品名仅信息性，中文会破坏轨迹解析稳定性）。
 - 实测：显示"蛆虫黏液" + hash 稳定。0 SCRIPT ERROR。
 - **MVP-4 汉化核心路径完成**：UI 132 键 + NPC 961 + 任务 71 + 物品 97 ≈ 1260 条。剩 IME/字体像素回归（MVP-5）与全路径 AC-1 验收（MVP-11）。
+
+## MVP-7 AI 友好最小增量 ✅（A1 部分；A2 随 MVP-8）
+- isAgent 展示标记：agent-client 创角昵称 "[AI] " 前缀——头顶/在线列表/聊天 callerName/未来队伍面板同源自然可辨识（服务端广播零改动）。
+- traits.ai=true 落库（服务端权威数据，仅展示用途）；静态断言零业务短路（AC-2 通过）。
+- 桥 isAgent 审计字段对齐 [AI] 前缀 + ai_ 老账号向后兼容。
+- E2E：新账号 [AI] ai_m7t 入库、list_players isAgent=true、0 SCRIPT ERROR。
+- A2（人类侧开关）依赖 Party/交易 UI，随 MVP-8 统一实现。
+- commit：见 git log（feat(mvp7)）。
