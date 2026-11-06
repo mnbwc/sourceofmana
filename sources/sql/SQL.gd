@@ -239,6 +239,9 @@ func UpdateTrait(charID : int, stats : ActorStats) -> bool:
 		"shape" = stats.shape,
 		"spirit" = stats.spirit
 	}
+	# MVP-7: ai 展示标记——落库一次后不得被登出回写清零（ActorStats 无该字段）
+	if "ai" in stats.traitExtras:
+		data["ai"] = stats.traitExtras["ai"]
 	return UpdateRow("trait", "char_id = ?", [charID], data)
 
 func GetStat(charID : int) -> Dictionary:

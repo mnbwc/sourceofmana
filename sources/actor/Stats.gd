@@ -37,6 +37,9 @@ var current : BaseStats					= BaseStats.new()
 var actor : Actor						= null
 var modifiers : CellModifier			= CellModifier.new()
 var buffs : BuffModifier				= BuffModifier.new()
+# MVP-7: 非数值 trait 附加字段（ai 展示标记等）——SetStats 从 charInfo 导入，
+# UpdateTrait 回写；ActorStats 本身无对应属性，避免被RefreshAttributes 当数值消费
+var traitExtras : Dictionary			= {}
 
 # Regen deltas
 var deltaHealth : float					= 0.0
@@ -93,6 +96,9 @@ func SetStats(stats : Dictionary):
 	for statName in stats:
 		if stats[statName] != null and statName in self:
 			self[statName] = stats[statName]
+	# 非数值 trait 附加字段（ai 等）单独导入——"ai" in self 会误判内置属性名
+	if "ai" in stats:
+		traitExtras["ai"] = stats["ai"]
 
 	RefreshAttributes()
 
