@@ -152,7 +152,7 @@ func _collect_players() -> Array:
 	for peerID in Peers.peers.keys():
 		var agent = Peers.GetAgent(peerID)
 		if agent:
-			out.append({"peerID": peerID, "nick": agent.nick, "isAgent": agent.nick.begins_with("ai_")})
+			out.append({"peerID": peerID, "nick": agent.nick, "isAgent": agent.nick.begins_with("[AI] ") or agent.nick.begins_with("ai_")})
 	return out
 
 func _snapshot(peerID : int) -> Dictionary:

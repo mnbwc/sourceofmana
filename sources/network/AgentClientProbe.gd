@@ -84,11 +84,16 @@ func _tick() -> void:
 					"strength": 5, "vitality": 0, "agility": 0,
 					"endurance": 0, "concentration": 0,
 				}
-				Network.CreateCharacter(accountName, traits, attrs)
-				Util.PrintLog("AgentClient", "CreateCharacter sent")
+				var nick : String = "[AI] " + accountName
+				Network.CreateCharacter(nick, traits, attrs)
+				# MVP-7 A1: isAgent 展示标记 = 昵称 [AI] 前缀（服务端广播自然携带：
+				# 头顶/在线列表/聊天 callerName/未来队伍面板同源可辨识）；
+				# traits.ai 落库供未来服务端权威逻辑，仅展示用途，绝不进业务判定
+				traits["ai"] = true
+				Util.PrintLog("AgentClient", "CreateCharacter sent (%s)" % nick)
 				stage = "connect_char"
 		"connect_char":
-			Network.ConnectCharacter(accountName)
+			Network.ConnectCharacter("[AI] " + accountName)
 			Util.PrintLog("AgentClient", "ConnectCharacter sent")
 			stage = "in_game_wait"
 		"in_game_wait":
