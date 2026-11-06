@@ -331,3 +331,10 @@
 - **结论**：三改进方向有效但仍不达标（RuleBot 同模板 ~100s 打满 3 kills）。剩余瓶颈=单次决策延迟 ~13s（26 决策/564s），已在 300s 窗口内挤出 ~26 轮——LLM 位在快节奏 episode 上必须降延迟（本地推理/更小模型）或事件驱动减决策数。
 - **坑（新）**：探针 --agent-keep 不会在 close_session 后重连——harness 每次 run 后必须重启探针，否则下一 run wait_ready 报 no agent peer found（本 tick 实锤：keepalive 日志正常但 Peers.peers 已空）。
 - commit: 本节 + somllm.py。下一步（tick27）：① 决策去抖/事件驱动（同怪同态不重问 LLM）；或 ② M3 榜单聚合自动化（N seed→Markdown 一键产出）。
+
+## MVP-3 汉化底座 ✅（2026-11-06）
+- CJK 字体：NotoSansCJK-Regular.ttc（OFL，19.5MB）入库 + LICENSE-NotoSansCJK.txt；DefaultTheme.tres default_font 改 FontVariation(alagard base + NotoCJK fallback)——像素风保留、中文走 fallback；has_char(中/文)=true 实测。
+- CSV translation：data/db/zh/UI.csv（首期 20 key）→ OptimizedTranslation en/zh 生成；project.godot [internationalization] locale/translations 注册；真实 client 进程 tr("UI_NO_PARTY")="未加入队伍" 实测通过（注意设置键名是 locale/translations 不是 translation/translations）。
+- tscn 键名试点：Social "No party joined"→UI_NO_PARTY、Progress "Bestiary"→UI_BESTIARY；auto_translate can_translate=true、atr() 输出中文验证。
+- 0 SCRIPT ERROR。commit 见 git log。
+- 下一步：MVP-4 核心路径全量文本（UI 139 + NPC 678 分批 + quest 109 + name ~180）；MVP-6 显示名匹配回归（AI snapshot 按 name 匹配）。
