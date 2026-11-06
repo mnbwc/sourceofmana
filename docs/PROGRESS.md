@@ -358,3 +358,10 @@
 - giver 字段（NPC 人名）不译=fallback 原文，与实体名策略一致。
 - 实测 tr 命中：妮娜的点心 / 已完成 / 仙人掌药水 ×10。0 SCRIPT ERROR。
 - 剩余：物品显示名分离层（MVP-6 红线项）。
+
+## MVP-4 批5：物品显示名分离层 ✅（MVP-6 红线落地）
+- ITEMS.csv 97 键（物品/技能/表情名）全译；presets .tres 的 name= 字段一个未动（内部 hash 键完好，实测 GetCellHash("Maggot Slime")=0 有效）。
+- 显示点 tr(cell.name)：CellTile tooltip、ItemPickerLine、Client 拾取反馈。
+- 刻意决策：AI snapshot 的物品名保持原文（LLM/RuleBot 按 nick/dropID 匹配，物品名仅信息性，中文会破坏轨迹解析稳定性）。
+- 实测：显示"蛆虫黏液" + hash 稳定。0 SCRIPT ERROR。
+- **MVP-4 汉化核心路径完成**：UI 132 键 + NPC 961 + 任务 71 + 物品 97 ≈ 1260 条。剩 IME/字体像素回归（MVP-5）与全路径 AC-1 验收（MVP-11）。
