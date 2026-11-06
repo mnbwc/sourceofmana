@@ -404,3 +404,11 @@
 - 观战目标受伤/死亡事件已验证（spec_u 打怪 damaged×5 + 被 Maggot 反杀 died + deaths=1 计分同步）。
 - 坑记录：①探针 `--port` 必须放 `--` 之前且等于服务器 **ENet** 端口（--port 7801 非 ws 7802）；②MVP-7 的 trait.ai 列无 SQL 迁移文件——旧 testing.db 手工 `ALTER TABLE trait ADD COLUMN ai INTEGER DEFAULT 0` 后新角色正常（建在旧 schema 上的角色 skill 行缺失、攻击 NO_EFFECT，需重建角色）；③`godot471 --headless --path . -- --server` 的 `--` 会把 --server 送进 user_args，AgentBridge._ready 判 get_cmdline_args 落空不起桥——server 必须不加 `--` 分隔。
 - 挂账：trait.ai 列迁移补 SQL migration 文件（建议下 tick 或主会话补 010 号迁移）。
+
+## trait.ai 持久化补全 ✅（2026-11-06 本 cron tick30，commit 58136de）
+- **010_add_trait_ai.sql**：`ALTER TABLE trait ADD COLUMN ai INTEGER DEFAULT 0`——迁移链 001→010 全量回放验证通过，服务器启动自动 9→10。
+- **顺手修出真 bug：ai 此前从未真正落库**（两处）：
+  1. 探针 `traits["ai"]=true` 写在 `CreateCharacter` 发送**之后**——服务端按收到的 traits 写库，事后改本地字典无效；已移到发送前。
+  2. 服务端登出 `RefreshCharacter→UpdateTrait` 回写不含 ai 键（ActorStats 无该字段）——虽不会清零，但也没有导入路径；新增 `Stats.traitExtras` 字典承载非数值 trait（`SetStats` 从 charInfo 导入 ai，`UpdateTrait` 回写时带上）。
+- E2E：探针新角色 `[AI] ai_m10probe` 创角→进游戏→**testing.db 实测 `nickname='[AI] ai_m10probe', ai=1`**；登出回写后仍为 1；服务器 0 SCRIPT ERROR。
+- 迁移链坑确认：`SQL.ApplyMigrations` 按 ParseSQL 文件序（字母序=版本序）逐个执行并 `SetVersion`，010 命名合规。
