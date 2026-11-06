@@ -18,7 +18,7 @@ var _pending : Dictionary = {}     # peerID -> {action, basedOnFrame, targetRID,
 var _eventSeq : int = 0
 var _hooked : Dictionary = {}      # peerID -> true（信号钩子防重复）
 var _pendingVerdicts : Array = []  # 每帧裁决结果（snapshot/drain_events 带回最近一条）
-var _score : Dictionary = {}       # peerID -> {kills, deaths}（G2 v0.1：按 peerID 累计）
+var _score : Dictionary = {}       # peerID -> {kills, deaths, xpGained, itemsLooted}（G2 v0.2）
 
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_args():
@@ -161,12 +161,26 @@ func _snapshot(peerID : int) -> Dictionary:
 				"next": ({"x": agent.agent.get_next_path_position().x, "y": agent.agent.get_next_path_position().y} if agent.agent else null),
 				"physicsOn": agent.is_physics_processing() if agent is Node else null,
 				"goal": agent.hasCurrentGoal, "input": ({"x": agent.currentInput.x, "y": agent.currentInput.y} if "currentInput" in agent else null)},
+			"xp": ({"current": agent.stat.experience, "level": agent.stat.level} if agent.stat else {}),
+			"inventory": _inventory_export(agent),
 		},
 		"nearby": _nearby(agent),
 	}
 	if not snap.has("error"):
-		snap["score"] = _score.get(peerID, {"kills": 0, "deaths": 0})
+		snap["score"] = _score.get(peerID, {"kills": 0, "deaths": 0, "xpGained": 0, "itemsLooted": 0})
 	return snap
+
+# G3：背包快照（Kaetram serialize().slots 同语义——items 数组 + 汇总）
+func _inventory_export(agent) -> Dictionary:
+	if agent == null or agent.inventory == null:
+		return {"slots": [], "count": 0}
+	var out : Array = []
+	for item in agent.inventory.items:
+		if item:
+			var cell : ItemCell = DB.GetItem(item.cellID, item.cellCustomfield)
+			out.append({"item": cell.name if cell else str(item.cellID),
+				"count": item.count})
+	return {"slots": out, "count": agent.inventory.itemCount}
 
 # 同地图 ±radius 范围实体 + 地面掉落物（loot 目标来源）
 func _nearby(agent, radius : float = 480.0) -> Array:
@@ -203,7 +217,7 @@ func _nearby(agent, radius : float = 480.0) -> Array:
 				var itemName : String = ""
 				if drop.item:
 					var cell : ItemCell = DB.GetItem(drop.item.cellID, drop.item.cellCustomfield)
-					itemName = cell._name if cell and "_name" in cell else str(drop.item.cellID)
+					itemName = cell.name if cell else str(drop.item.cellID)
 				out.append({"rid": dropID, "type": "drop", "nick": itemName,
 					"position": {"x": drop.position.x, "y": drop.position.y},
 					"distance": drop.position.distance_to(agent.position),
@@ -318,6 +332,13 @@ func _hook_agent(peerID : int, agent : BaseAgent) -> void:
 		return
 	_hooked[peerID] = true
 	_events[peerID] = []
+	_score[peerID] = {"kills": 0, "deaths": 0, "xpGained": 0, "itemsLooted": 0,
+		"xpBaseline": agent.stat.experience, "levelBaseline": agent.stat.level}
+	# xp/loot 计分：vital_stats_updated（AddExperience/AddGP 后必发）+ items_changed（拾取 AddItem 后必发）
+	if not agent.stat.vital_stats_updated.is_connected(_on_agent_stats_updated.bind(peerID)):
+		agent.stat.vital_stats_updated.connect(_on_agent_stats_updated.bind(peerID))
+	if not agent.inventory.items_changed.is_connected(_on_agent_items_changed.bind(peerID)):
+		agent.inventory.items_changed.connect(_on_agent_items_changed.bind(peerID))
 	if not agent.agent_damaged.is_connected(_on_agent_damaged.bind(peerID)):
 		agent.agent_damaged.connect(_on_agent_damaged.bind(peerID))
 	if not agent.agent_killed.is_connected(_on_agent_killed.bind(peerID)):
@@ -343,15 +364,34 @@ func _on_agent_damaged(target, value : int, peerID : int) -> void:
 
 func _on_agent_killed(killed, peerID : int) -> void:
 	# BaseAgent.gd: agent_killed.emit(self)
-	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0})
+	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0, "xpGained": 0, "itemsLooted": 0})
 	sc["deaths"] = int(sc.get("deaths", 0)) + 1
 	_score[peerID] = sc
 	_push_event(peerID, {"kind": "died", "nick": killed.nick if killed else ""})
 
+func _on_agent_stats_updated(peerID : int) -> void:
+	# Stats.gd vital_stats_updated：AddExperience/AddGP/SetHealth 等后必发——xp 增量按基线累计
+	var agent = Peers.GetAgent(peerID)
+	if agent == null or not agent.stat:
+		return
+	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0, "xpGained": 0, "itemsLooted": 0})
+	var totalXp : int = int(agent.stat.experience) + max(0, int(agent.stat.level) - int(sc.get("levelBaseline", agent.stat.level))) * 1000
+	var gained : int = totalXp - int(sc.get("xpBaseline", totalXp))
+	if gained > 0:
+		sc["xpGained"] = gained
+	_score[peerID] = sc
+
+func _on_agent_items_changed(peerID : int) -> void:
+	# Inventory.gd items_changed：AddItem（含 loot 拾取）后必发
+	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0, "xpGained": 0, "itemsLooted": 0})
+	sc["itemsLooted"] = int(sc.get("itemsLooted", 0)) + 1
+	_score[peerID] = sc
+	_push_event(peerID, {"kind": "looted"})
+
 func _on_enemy_killed(attacker, monsterID : int, peerID : int) -> void:
 	# 信号声明 1 参但 Formula.gd 实发 3 参（attacker, monsterID, bind的peerID）
 	# → 第 1 位=attacker，第 2 位=怪物 data._id（DB hash）
-	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0})
+	var sc : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0, "xpGained": 0, "itemsLooted": 0})
 	sc["kills"] = int(sc.get("kills", 0)) + 1
 	_score[peerID] = sc
 	var monsterNick : String = ""

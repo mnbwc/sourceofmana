@@ -164,3 +164,12 @@
 - **新坑②：探针 `--port` 也必须放 `--` 之前**——放在 user_args 里不生效，仍连 6119（log `connecting 127.0.0.1:6119` 实锤）；正确：`godot471 --headless --path . --port 7161 -- --agent-client X --agent-keep`。
 - **回归实测（7161/7162/9161 隔离三元组）**：干净起服 0 SCRIPT ERROR；探针 ~7s ENTERED_GAME；bridge_e2e 全绿（navigate 到 Maggot 区 → attack APPLIED×3 → target_died → kill 事件 → CLOSE-E2E-DONE，探针存活受控退出）；bridge ping protocolVersion 217363688。
 - 下一步：按设计 tick9 = client.py 适配层 + G1 close_session + RuleBot 冒烟。
+
+## tick12（2026-11-06 本 tick）：G3 收口 + score v0.2（xp/loot 计分）实测定稿
+- **桥增量（AgentBridge.gd，上 tick 未提交遗留 + 本 tick 补验）**：
+  - `_snapshot.player` 新增 `xp`（{current, level}）与 `inventory`（G3 背包快照：slots[{item,count}] + 汇总 count，Kaetram serialize().slots 同语义）。
+  - score v0.2：{kills, deaths, xpGained, itemsLooted}——钩 `Stats.vital_stats_updated`（xp 增量按基线+升级补偿累计）与 `Inventory.items_changed`（loot 计数 + looted 事件）。
+- **本 tick 修复**：ItemCell 名称字段是 `name`（继承 BaseCell）不是 `_name`（那是 EntityData/FileData）——`_inventory_export` 与 drop 名导出原写 `cell._name` 会静默回退成 cellID 数字串，已改为 `cell.name`（EntitiesDB._name 那条本来就对，未动）。
+- **实测**：①全量验收重跑（run-1793923606，7181/7182/9181）：判据 1-5 仍全 PASS，kills=2 / xpGained=2 / deaths=0——xp 计分随 kill 实际生效；wakeup_reduction=0.5114；RSS 413.0→413.3MB；0 SCRIPT ERROR。②独立三元组（7191/7192/9191）live snapshot 直读：xp/inventory/score v0.2 四字段齐，0 SCRIPT ERROR。
+- **挂账**：itemsLooted 语义是「items_changed 次数」非「件数」（堆叠合并也算 1 次）——arena 计分够用，精确件数待 M2。loot 计分 E2E 待多杀复测。
+- 下一步（tick13）：SoM M2 Arena Controller 设计（多 agent 匹配/复位）或 LLM policy 位接入——按开工包顺序 M2 优先。
