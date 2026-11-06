@@ -48,9 +48,11 @@ print("META", json.dumps({k: meta[k] for k in
 lb = os.path.expanduser("~/.local/share/SourceOfMana/arena_leaderboard.jsonl")
 last = None
 if os.path.exists(lb):
+    # 坑（tick25）：排行榜 nick 可能带 ai_ 前缀（探针名经服务端改写），两种形态都试
+    cands = {state["player"].get("nick"), "ai_" + str(state["player"].get("nick"))}
     for l in open(lb):
         row = json.loads(l)
-        if row.get("template") == TEMPLATE and row.get("nick") == state["player"].get("nick"):
+        if row.get("template") == TEMPLATE and row.get("nick") in cands:
             last = row
 print("LEADERBOARD_LAST", json.dumps(last, ensure_ascii=False) if last else None)
 # 判据（tick24 定案）：episode completed 后 arena_status 即无 active（final_score=null、

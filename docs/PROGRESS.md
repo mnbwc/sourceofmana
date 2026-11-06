@@ -300,3 +300,9 @@
   - LLM（deepseek-v4-flash）：**expired kills=1 deaths=0**——600s 只够 ~30 轮 decide（10-15s/轮 API 延迟），决策质量正常（0 死、正确避开危险）但吞吐量被延迟限制
 - **结论**：竞技场区分度成立——同模板同判据下 RuleBot/LLM 产出可量化差距，后续模型升级/本地推理提速可在同口径下复测对比。
 - commit：本节。
+
+## tick25（2026-11-06 本 tick）：M3 多 seed 批测汇总 — deaths 判据实触发 + harness nick 匹配 bug 修复 ✅
+- **多 seed 批测**（三元组 7401/7402/9401）：grind_maggot SEED=42/7/123 → 三种结局齐全：s42 completed kills_required_met（kills=10，tick24 既有）；**s7 failed/max_deaths（kills=2, deaths=3）——deaths≤2 判据首次实际触发，终局判定链完整**；s123 expired（kills=2）。seed 敏感性确认，M3 报告须按 seed 呈现分布。
+- **harness 真 bug（tick25 定案）**：排行榜 nick 带 ai_ 前缀（探针名服务端改写，ai_batch_s123→ai_ai_batch_s123），batch_template.py 原精确匹配落空→误判 FAIL；已修为双形态匹配（复用 s123 排行榜行复核，非重跑）。leaderboard.py 作为聚合查询入口。
+- 汇总报告：docs/M3-BATCH-REPORT-tick25.md（grind/tutorial 双表 + 口径 + 下一步）。server 全程 0 SCRIPT ERROR；排行榜 13 行 lineNo 保序（tick23 修复持续回归）。
+- 下一步（tick26）：LLM 短模板（5 kills）跑 LLM vs RuleBot 同 seed 对比；或批测汇总脚本自动化（N seed→Markdown 表）。
