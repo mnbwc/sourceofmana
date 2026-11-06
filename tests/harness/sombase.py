@@ -209,15 +209,20 @@ class RandomRuleBot:
                     return "loot", {"dropID": d["rid"]}
                 return "navigate", {"x": d["position"]["x"], "y": d["position"]["y"],
                                     "_approach": -d["rid"]}
-            if ratio < 0.98:
+            # 回血待机（wait 不计动作不耗预算）：只回血到 0.98；
+            # tick11 教训：视野内有怪（near 空=不在 persp150 内）时不能无限 wait——
+            # 回满血就继续漫游去打，否则 hp 在 0.98 附近反复触发 wait 死锁
+            if ratio < 0.98 and len(monsters) > 0 and ratio < 0.9:
                 return "wait", {}
-        # 最近的可打怪（远距离视野内的，走向它）
+            if ratio < 0.98 and len(monsters) == 0:
+                return "wait", {}
+        # 最近的可打怪（视野内的，走向它）——否则漫游
         if self.target_rid:
             tgt = next((m for m in monsters if m["rid"] == self.target_rid), None)
             if tgt is None:
                 self.target_rid = None  # 目标没了（可能已死，等 kill 事件确认）
         if self.target_rid is None and monsters:
-            # 挑血量上限最弱的怪（Maggot 50hp），否则 Scorpion 208hp 反伤致死新手
+            # 挑血量上限最弱的怪（Maggot 50hp），否则 Scorpion 200hp 反伤致死新手
             self.target_rid = int(min(monsters, key=lambda m: (m.get("health") or {}).get("max", 9999))["rid"])
         if self.target_rid is not None:
             tgt = next((m for m in monsters if m["rid"] == self.target_rid), None)
@@ -225,7 +230,11 @@ class RandomRuleBot:
                 return "navigate", {"x": tgt["position"]["x"], "y": tgt["position"]["y"],
                                     "_approach": self.target_rid}
             return "attack", {"rid": self.target_rid}
-        # 漫游：附近随机点
+        # 漫游：优先朝最近的怪物走（视野 480 > persp 判定 150，无怪才随机）
+        if monsters:
+            m = min(monsters, key=lambda n: n.get("distance", 9999))
+            return "navigate", {"x": m["position"]["x"], "y": m["position"]["y"],
+                                "_approach": int(m["rid"])}
         x, y = me.get("position", {}).get("x", 0), me.get("position", {}).get("y", 0)
         return "navigate", {"x": x + self.rng.uniform(-200, 200),
                             "y": y + self.rng.uniform(-200, 200)}

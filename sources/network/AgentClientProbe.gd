@@ -93,6 +93,12 @@ func _tick() -> void:
 			stage = "in_game_wait"
 		"in_game_wait":
 			if FSM.currentState == FSM.States.IN_GAME:
+				# 复用账号兜底：旧号属性可能是 0 力（Create 静默失败时）——进入游戏后
+				# 走服务端 SetAttributes（只升不降，预算 ≤ GetMaxAttributePoints(level)）
+				var stat : ActorStats = Launcher.Player.stat if Launcher.Player else null
+				if stat and stat.strength < 5:
+					Network.SetAttributes(5, 0, 0, 0, 0)
+					Util.PrintLog("AgentClient", "SetAttributes strength=5 sent (was %d)" % stat.strength)
 				results.append({"event": "ENTERED_GAME", "frame": NetworkCommons.FrameID()})
 				_print_results()
 				stage = "done"
