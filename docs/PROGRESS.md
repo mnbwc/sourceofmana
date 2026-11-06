@@ -120,6 +120,13 @@
 - **E2E 实测**（7309/7310/9309）：navigate Maggot 纯净区 → kill×3 → loot APPLIED → `score={kills:3, xpGained:3, itemsLooted:1, deaths:0}`、inv slots=2（Water Bottle + Maggot Slime）、drain_events 见 `damaged…kill×3…looted`。0 SCRIPT ERROR。
 - commit：桥 G3 增量（snapshot inventory/xp/score + loot 计分）。
 
+## tick13（2026-11-06 本会话）：RuleBot wait 死锁修复 → acceptance 3 FAIL 转全绿
+- **C1/C3/C4 三 FAIL 根因**（run-1793920153）：RuleBot hp<0.98 就无限 wait——视野内有怪时回血到 0.98 附近反复触发 wait 死锁耗光 budget；无怪时也 wait 不漫游。
+- **修复（sombase.py RandomRuleBot）**：wait 仅当「视野内有怪且 hp<0.9」（脱战回血）；无怪时 wait 回血；漫游优先朝最近怪走（视野 480 > persp 150）。
+- **探针兜底（AgentClientProbe）**：复用旧账号 0 力属性时进游戏后发 `SetAttributes(5,...)`（服务端只升不降，预算受限）。
+- **E2E：acceptance 5/5 ALL-PASS**——wakeup_reduction 70.8%（C3 判据 >50% 通过，此前口径疑虑解除）、kills=1→xp→score、C1 budget 正常耗尽、C2 三件套、C5 非空。server 0 SCRIPT ERROR。
+- commit：rulebot+probe 修复。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
