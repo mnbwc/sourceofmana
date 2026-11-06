@@ -282,3 +282,11 @@
 - **grind_maggot 首次打满**（三元组 7381/7382/9381，SEED=42, 150 动作/560s）：排行榜 `completed / kills_required_met / kills=10 / xp=10 / loot=3 / deaths=1`（lineNo=5 保序，tick23 截断修复回归确认）。Bot 在 kills_required_met 后未退出继续打怪（server 侧已 correct 终局），删 session 后 harness 报 PEER_NOT_FOUND 属设计行为。
 - **tutorial_maggot 回归**（7391/7392/9391）：`TEMPLATE-BATCH PASS`——排行榜 completed kills=3（56s 达标），harness 继续跑到 60 动作 kills=8/final_score 齐全，0 SCRIPT ERROR。
 - commit: 24a9646。下一步（tick25）：M3——多 seed/多模板批测汇总报告，或 LLM 策略位跑 grind_maggot 对比 RuleBot。
+
+## tick25（2026-11-06 本会话）：LLM vs RuleBot grind_maggot 基线对比（首个跨策略排行榜读数）
+- **llm_arena_e2e.py**：TEMPLATE env 化（此前硬编码 tutorial_maggot）；leaderboard.py 修 float 格式化崩溃（score 值可能为 float）。
+- **对比读数**（排行榜权威口径，grind_maggot ×10/600s/deaths≤2）：
+  - RuleBot（SEED=42，tick24）：**completed kills=10 deaths=1 loot=3**
+  - LLM（deepseek-v4-flash）：**expired kills=1 deaths=0**——600s 只够 ~30 轮 decide（10-15s/轮 API 延迟），决策质量正常（0 死、正确避开危险）但吞吐量被延迟限制
+- **结论**：竞技场区分度成立——同模板同判据下 RuleBot/LLM 产出可量化差距，后续模型升级/本地推理提速可在同口径下复测对比。
+- commit：本节。
