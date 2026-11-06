@@ -1,6 +1,6 @@
-keys,en,zh
-UI_BESTIARY,UI_BESTIARY,
-UI_NO_PARTY,UI_NO_PARTY,
+"keys","en","zh"
+"UI_BESTIARY","UI_BESTIARY",""
+"UI_NO_PARTY","UI_NO_PARTY",""
 "Accuracy","Accuracy","命中"
 "Action Overlay","Action Overlay","操作浮层"
 "Adds an old television screen look.","Adds an old television screen look.","启用老式电视屏幕画面效果。"
@@ -119,3 +119,8 @@ UI_NO_PARTY,UI_NO_PARTY,
 "You","You","你"
 "Zooms the whole game view by one, two or three times.","Zooms the whole game view by one, two or three times.","将整个游戏视图放大一、二或三倍。"
 "★ Local Server","★ Local Server","★ 本地服务器"
+" Window Resolution"," Window Resolution"," 窗口分辨率"
+" Scaling"," Scaling"," 缩放"
+" Current Password"," Current Password"," 当前密码"
+" New Password"," New Password"," 新密码"
+" Confirm Password"," Confirm Password"," 确认密码"
