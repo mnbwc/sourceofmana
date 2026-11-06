@@ -19,6 +19,7 @@ var _eventSeq : int = 0
 var _hooked : Dictionary = {}      # peerID -> true（信号钩子防重复）
 var _pendingVerdicts : Array = []  # 每帧裁决结果（snapshot/drain_events 带回最近一条）
 var _score : Dictionary = {}       # peerID -> {kills, deaths, xpGained, itemsLooted}（G2 v0.2）
+var _spectators : Dictionary = {}  # MVP-9：targetPeerID -> 观战者数（ SpectatorFeed 只读入口）
 
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_args():
@@ -136,6 +137,13 @@ func _handle(line : String) -> String:
 				"cooling": coolingList})
 		"latest_verdict":
 			return _latest_verdict(req)
+		# ---- MVP-9 SpectatorFeed：统一只读观战入口（模块复用，不做两套）----
+		"spectate":
+			return _spectate(req)
+		"spectate_feed":
+			return _spectate_feed(req)
+		"spectate_stop":
+			return _spectate_stop(req)
 		"apply_action":
 			return _apply_action(req)
 		"close_session":
@@ -380,6 +388,73 @@ func _latest_verdict(req : Dictionary) -> String:
 	if not found.get("provisional", false):
 		_pendingVerdicts.remove_at(i)
 	return _json({"ok": true, "verdict": found.get("verdict", {}), "provisional": found.get("provisional", false)})
+
+# ---- MVP-9 SpectatorFeed：统一只读观战入口 ----
+# 设计要点：
+#  1) 观战者是桥外部连接（观察者进程/裁判/前端），不需要自己的游戏 peer，不做任何写操作。
+#  2) 观战目标 = 任意在场 peerID（AI 或人类），复用 _snapshot/_nearby/_drain_events 同源数据，
+#     与 agent 自采快照完全一致 —— 不做两套观战协议（规格 docs/MVP-EXECUTION.md 第 21 行）。
+#  3) 只读保证：spectate* 三个 op 绝不落到 _apply_action，无法产生任何游戏副作用。
+#  4) 进/出场事件由 _hook_agent 已有的 damaged/died/kill/looted 钩子产生，观战者按 since 游标拉取。
+func _spectate(req : Dictionary) -> String:
+	var target : int = int(req.get("peerID", -1))
+	if target < 0:
+		return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
+	var agent = Peers.GetAgent(target)
+	if agent == null:
+		return _json({"ok": false, "code": "SESSION_CONFLICT", "detail": "peer not found"})
+	_hook_agent(target, agent)
+	_spectators[target] = int(_spectators.get(target, 0)) + 1
+	var snap : Dictionary = _snapshot(target)
+	return _json({
+		"ok": true,
+		"code": "SPECTATE_JOINED",
+		"target": {"peerID": target, "nick": agent.nick,
+			"isAgent": agent.nick.begins_with("[AI] ") or agent.nick.begins_with("ai_")},
+		"spectators": _spectators[target],
+		"readOnly": true,
+		"snapshot": snap,
+		"cursor": _eventSeq,
+		"frame": NetworkCommons.FrameID(),
+	})
+
+func _spectate_feed(req : Dictionary) -> String:
+	var target : int = int(req.get("peerID", -1))
+	if target < 0:
+		return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
+	var agent = Peers.GetAgent(target)
+	if agent == null:
+		return _json({"ok": false, "code": "SESSION_CONFLICT", "detail": "peer not found"})
+	_hook_agent(target, agent)
+	var since : int = int(req.get("since", 0))
+	var out : Array = []
+	for e in _events.get(target, []):
+		if int(e.get("seq", 0)) > since:
+			out.append(e)
+	var payload : Dictionary = {
+		"ok": true,
+		"readOnly": true,
+		"target": {"peerID": target, "nick": agent.nick},
+		"events": out,
+		"cursor": _eventSeq,
+		"frame": NetworkCommons.FrameID(),
+	}
+	# 默认带快照（观战前端一帧即可渲染）；includeSnapshot=false 可只拉增量
+	if bool(req.get("includeSnapshot", true)):
+		payload["snapshot"] = _snapshot(target)
+	return _json(payload)
+
+func _spectate_stop(req : Dictionary) -> String:
+	var target : int = int(req.get("peerID", -1))
+	if target < 0:
+		return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
+	var n : int = int(_spectators.get(target, 0))
+	if n <= 1:
+		_spectators.erase(target)
+	else:
+		_spectators[target] = n - 1
+	return _json({"ok": true, "code": "SPECTATE_LEFT", "peerID": target,
+		"spectators": int(_spectators.get(target, 0)), "readOnly": true})
 
 # ---- M3 四元组阀门：事件订阅 ----
 func _hook_agent(peerID : int, agent : BaseAgent) -> void:

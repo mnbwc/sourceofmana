@@ -393,3 +393,14 @@
 - 客户端 Client.gd：PartyInvite/PartyUpdate 处理器（最小 UI=系统聊天提示；Social 面板完整后置）。
 - E2E（AI↔AI）：invite→accept→partyId=1 双成员→party chat→leave→单人；promote→leader 变更→kick→离队确认；bad op 拒绝；0 SCRIPT ERROR。
 - XP/掉落沿用原版单人规则（规格 PM-5，零分配逻辑）。
+## MVP-9 SpectatorFeed ✅（2026-11-06 本 cron tick29）
+- **统一只读观战入口（AgentBridge 三 op，模块复用不做两套）**：
+  - `spectate {peerID}`：加入观战 → SPECTATE_JOINED + 目标信息（nick/isAgent）+ 观战者计数 + 首帧快照 + 事件游标；
+  - `spectate_feed {peerID, since, includeSnapshot?}`：增量事件（damaged/died/kill/looted，复用 _hook_agent 信号钩子）+ 默认带快照（前端一帧可渲染）；
+  - `spectate_stop {peerID}`：退出，观战者计数递减。
+- **只读保证**：三 op 独立于 apply_action 派发路径，无法产生任何游戏副作用；观战者是桥外部连接，无需游戏 peer。
+- **数据同源**：快照/事件与 agent 自采完全一致（_snapshot/_nearby/_events 复用），观战 AI 对局与观战人类同一协议。
+- E2E 实测（隔离三元组 7801/7802/9801，双 probe）：JOIN→计数 1→2（二次加入）；feed 事件流 damaged×5/died/kill 全到达；stop 计数递减至 0；missing/unknown peerID 拒绝；玩家列表无副作用。~2 分钟 soak 0 SCRIPT ERROR。
+- 观战目标受伤/死亡事件已验证（spec_u 打怪 damaged×5 + 被 Maggot 反杀 died + deaths=1 计分同步）。
+- 坑记录：①探针 `--port` 必须放 `--` 之前且等于服务器 **ENet** 端口（--port 7801 非 ws 7802）；②MVP-7 的 trait.ai 列无 SQL 迁移文件——旧 testing.db 手工 `ALTER TABLE trait ADD COLUMN ai INTEGER DEFAULT 0` 后新角色正常（建在旧 schema 上的角色 skill 行缺失、攻击 NO_EFFECT，需重建角色）；③`godot471 --headless --path . -- --server` 的 `--` 会把 --server 送进 user_args，AgentBridge._ready 判 get_cmdline_args 落空不起桥——server 必须不加 `--` 分隔。
+- 挂账：trait.ai 列迁移补 SQL migration 文件（建议下 tick 或主会话补 010 号迁移）。
