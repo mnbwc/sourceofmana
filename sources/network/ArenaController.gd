@@ -143,6 +143,11 @@ func _finish(peerID : int, ep : Dictionary, reason : String) -> Dictionary:
 		"status": status, "endReason": reason,
 		"score": {"kills": ep["score"]["kills"], "deaths": ep["score"]["deaths"],
 			"itemsLooted": ep["score"]["itemsLooted"], "xpGained": ep["score"]["xpGained"]}})
+	# 排行榜落盘（tick18）：终局 episode 追加 JSONL
+	var lb = get_node_or_null("/root/ArenaLeaderboard")
+	if lb:
+		ep["nick"] = ep.get("nick", "")
+		lb.Record(ep)
 	return {"ok": true, "status": status, "endReason": reason, "score": ep["score"].duplicate()}
 
 func _push_arena_event(peerID : int, _ep : Dictionary, kind : String, payload : Dictionary) -> void:
