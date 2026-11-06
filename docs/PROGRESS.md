@@ -114,6 +114,12 @@
 - commit：上游缺陷修复 AIAgent.gd + tests/harness/soak.py（新增）。
 - 剩 tick11 待办：唤醒率口径复核（多 run 统计）。
 
+## tick12（2026-11-06 本会话）：G3 背包快照 + xp/loot 计分 E2E 全绿
+- **snapshot 增量**：`player.inventory`（slots+count，Kaetram serialize 同语义）+ `player.xp`（current/level）+ `score` 扩为 `{kills, deaths, xpGained, itemsLooted}`（G2 v0.2）。
+- **坑：`Inventory.AddItem` 不 emit `items_changed`**（仅 RemoveItem/EquipItem 发）——桥侧 loot op APPLIED 后直接计分+推 `looted` 事件，不依赖引擎信号。
+- **E2E 实测**（7309/7310/9309）：navigate Maggot 纯净区 → kill×3 → loot APPLIED → `score={kills:3, xpGained:3, itemsLooted:1, deaths:0}`、inv slots=2（Water Bottle + Maggot Slime）、drain_events 见 `damaged…kill×3…looted`。0 SCRIPT ERROR。
+- commit：桥 G3 增量（snapshot inventory/xp/score + loot 计分）。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
