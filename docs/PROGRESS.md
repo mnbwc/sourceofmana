@@ -412,3 +412,10 @@
   2. 服务端登出 `RefreshCharacter→UpdateTrait` 回写不含 ai 键（ActorStats 无该字段）——虽不会清零，但也没有导入路径；新增 `Stats.traitExtras` 字典承载非数值 trait（`SetStats` 从 charInfo 导入 ai，`UpdateTrait` 回写时带上）。
 - E2E：探针新角色 `[AI] ai_m10probe` 创角→进游戏→**testing.db 实测 `nickname='[AI] ai_m10probe', ai=1`**；登出回写后仍为 1；服务器 0 SCRIPT ERROR。
 - 迁移链坑确认：`SQL.ApplyMigrations` 按 ParseSQL 文件序（字母序=版本序）逐个执行并 `SetVersion`，010 命名合规。
+
+
+## MVP-9 观战 SSE 层 ✅（cron 已落桥层 spectate ops：e405b4c）
+- tests/harness/spectator_sse.py：桥→SSE HTTP 网关 + 单文件 HTML 观战页（顶部状态条：nick/HP/kills/位置/当前动作/verdict/观战数；事件时间线按 kind 着色，cap 200 条）。
+- 只读保证：spectate* op 独立派发路径，永不触 apply_action；复用 _hook_agent 同源数据（AI 与人类目标同一协议）。
+- 断线续传：桥 spectate_feed since=N 游标 + SSE id/Last-Event-ID；实测 join cursor=0→feed 增量→stop 计数递减。
+- E2E：SSE 流 state 事件（snapshot 全量）+ 页面 200；多观战者计数 1→3→2；0 SCRIPT ERROR。
