@@ -11,6 +11,8 @@ import hashlib
 import json
 import os
 import time
+import urllib.error
+import urllib.request
 
 from sombase import RandomRuleBot, persp
 
@@ -21,7 +23,9 @@ SYSTEM_PROMPT = """你是一个 Source of Mana MMO 里的 AI 玩家。可用动�
 或 {"reasoning": "...", "action": "say", "text": str}
 或 {"reasoning": "...", "action": "wait"}   （原地回血/等动作结束）
 或 {"reasoning": "...", "action": "respawn"} （死亡后复活）
-规则：attack 只能打射程内目标（persp<15，目标距离见 nearby.distance，太远先 navigate 走过去再打）；血量低于 50% 就 wait 回血；只打 Maggot 等弱怪，绝不打 Scorpion（200HP 会死）。只返回 JSON。"""
+规则：attack 只能打射程内目标（persp<15，目标距离见 nearby.distance，太远先 navigate 走过去再打）；血量低于 50% 就 wait 回血；只打 Maggot 等弱怪，绝不打 Scorpion（200HP 会死）。
+navigate 技巧：直接把 navigate 的 x/y 设成目标怪/掉落物的坐标（±5 以内即可），不要在射程边缘来回走（服务器会自动走到点）；接近后（distance<15）立即 attack，不要再 navigate。
+loot 技巧：掉落物 distance>40 时先 navigate 到它的坐标，<40 再 loot。只返回 JSON。"""
 
 
 def _fmt_nearby(state: dict, me: dict, cap: int = 30) -> list[dict]:
@@ -58,6 +62,10 @@ class SOMLLMPlanner:
         self.system_prompt_hash = hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:16]
 
     def decide(self, state: dict, events: list):
+        action, kwargs = self._decide(state, events)
+        return self._guard(state, action, kwargs)
+
+    def _decide(self, state: dict, events: list):
         if not self.configured:
             return self._fb(state, events, "NO_KEY")
         try:
@@ -65,6 +73,24 @@ class SOMLLMPlanner:
         except Exception as e:
             return self._fb(state, events, "PARSE" if "PARSE_FALLBACK" in str(e) else "NETWORK",
                             err=str(e))
+
+    def _guard(self, state: dict, action: str, kwargs: dict):
+        """tick26 前置距离守卫：射程外 attack / 拾取距离外 loot 客户端侧改写为
+        navigate 到目标坐标（服务器会走到点），省一次注定 REJECTED/no-op 的决策。"""
+        if action not in ("attack", "loot"):
+            return action, kwargs
+        rid = int(kwargs.get("rid", kwargs.get("dropID", 0)) or 0)
+        tgt = next((e for e in state.get("nearby", []) if int(e.get("rid", -1)) == rid), None)
+        if tgt is None:
+            return action, kwargs
+        dist = float(tgt.get("distance", 0) or 0)
+        limit = 15.0 if action == "attack" else 40.0  # attack 射程 / PickupSquaredDistance=48
+        pos = tgt.get("position") or {}
+        if dist >= limit and pos.get("x") is not None:
+            self._reasoning = "[guard] %s dist=%.1f>=%.0f → navigate 目标坐标" % (action, dist, limit)
+            return "navigate", {"x": int(pos["x"]), "y": int(pos["y"]),
+                                "_approach": rid if action == "attack" else -rid}
+        return action, kwargs
 
     def _fb(self, state, events, why: str, err: str = ""):
         a = self.fallback.decide(state, events)
@@ -99,7 +125,6 @@ class SOMLLMPlanner:
             "temperature": 0.2,
             **({"reasoning_effort": "none"} if os.environ.get("LLM_THINKING", "off") == "off" else {}),
         }).encode()
-        import urllib.request
         req = urllib.request.Request(
             self.base_url + "/chat/completions", data=body,
             headers={"Content-Type": "application/json",
@@ -107,13 +132,31 @@ class SOMLLMPlanner:
         last_err = None
         data = None
         t0 = time.time()
-        for _ in range(2):  # 供应商偶发 SSL/读超时，重试 1 次
+        # tick26：429/网络指数退避（2s→8s→32s），共 4 次尝试；上限 ~42s vs 此前立即降级
+        delays = [2, 8, 32]
+        for attempt in range(4):
             try:
                 with urllib.request.urlopen(req, timeout=120) as resp:
                     data = json.load(resp)
                 break
+            except urllib.error.HTTPError as e:
+                last_err = e
+                if e.code == 429 and attempt < 3:
+                    retry_after = e.headers.get("Retry-After") if e.headers else None
+                    wait_s = delays[attempt]
+                    if retry_after:
+                        try:
+                            wait_s = float(retry_after)
+                        except ValueError:
+                            pass
+                    time.sleep(wait_s)
+                    continue
+                break
             except Exception as e:
                 last_err = e
+                if attempt < 3:
+                    time.sleep(delays[attempt])
+                    continue
         if data is None:
             raise RuntimeError("NETWORK_FALLBACK: %s" % last_err)
         self.last_latency_ms = (time.time() - t0) * 1000

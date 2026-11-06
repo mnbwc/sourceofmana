@@ -306,3 +306,15 @@
 - **harness 真 bug（tick25 定案）**：排行榜 nick 带 ai_ 前缀（探针名服务端改写，ai_batch_s123→ai_ai_batch_s123），batch_template.py 原精确匹配落空→误判 FAIL；已修为双形态匹配（复用 s123 排行榜行复核，非重跑）。leaderboard.py 作为聚合查询入口。
 - 汇总报告：docs/M3-BATCH-REPORT-tick25.md（grind/tutorial 双表 + 口径 + 下一步）。server 全程 0 SCRIPT ERROR；排行榜 13 行 lineNo 保序（tick23 修复持续回归）。
 - 下一步（tick26）：LLM 短模板（5 kills）跑 LLM vs RuleBot 同 seed 对比；或批测汇总脚本自动化（N seed→Markdown 表）。
+
+## tick26（2026-11-06 本 tick）：somllm 三项瓶颈改进（tick25 ①②③ 全落地）+ 复测 — LLM 首次完成整局对比读数正常化 ✅
+- **改进（tests/harness/somllm.py，全部客户端侧、零上游改动）**：
+  - ② **前置距离守卫 `_guard`**：射程外 attack（≥15）→ 改写为 navigate 到目标怪坐标；拾取距离外 loot（≥40，PickupSquaredDistance=48²）→ navigate 到 drop 坐标。离线单测 5 例全过（射程内外 attack / 距离外 loot / 未知 rid 透传 / 非 attack/loot 透传）。本 tick 两轮 run 未实际触发（prompt 改进后 LLM 直接触发 navigate 路径），守卫作为兜底保留。
+  - ③ **429/网络指数退避**：2s→8s→32s 共 4 次尝试、尊重 Retry-After 头（此前 1 次重试即降级 rulebot）；本 tick 两轮 run **0 降级**（79/79 决策 src=llm）。
+  - ① **prompt 注入 navigate 直插规则**：「navigate x/y 直接设目标怪/掉落坐标±5，接近后立即 attack，不要在射程边缘来回走；loot 距离>40 先走过去」。
+- **复测读数（隔离 7501/7502/9501，排行榜权威口径）**：
+  - grind_maggot（600s 预算）：expired kills=3 / xp=3 / loot=2 / 0 deaths（40 turn 全 llm，p50 延迟 8.7s）——同模板 RuleBot=completed kills=10，差距仍大但主因收敛为**纯 API 吞吐延迟**（p50 8.7s×40 turn≈350s 光决策），过冲震荡轮次基本消失（对比 tick25 一怪磨数分钟）。
+  - tutorial_maggot（复跑）：**completed(kills_required_met) kills=3 / 0 deaths 落排行榜**（episode 结束后脚本继续跑到预算耗尽，FINAL 行 kills 读数从 arena_status 读 active 为 None，以排行榜行为准——tick21 已定案口径）。
+- **坑**：close_session 后桥上 peer 消失但探针进程还活着（list_players 空）→ 复用 run 前必须重启探针（新昵称）；kill 后 LLM 会「打尸体确认」（hp=0 attack → REJECTED），无实害但可作下轮 prompt 小改进。
+- server 全程 0 SCRIPT ERROR；测试实例已清理。
+- commit：本节。下一步（tick27）：LLM 延迟问题本地化（换低延迟模型/并发观测预取）再跑 grind 全量对比；或转 M3 榜单聚合自动化。
