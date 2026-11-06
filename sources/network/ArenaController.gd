@@ -31,6 +31,19 @@ var _counter : int = 0
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_args():
 		set_process(false)
+		return
+	# MVP-10 ARENA_MODE（玩法模块开关，默认 off）：off 时模块零感知——不处理 episode、
+	# 拒绝 arena_start（UNKNOWN_OP 语义由 op 分支的门控实现）
+	if not ArenaModeEnabled():
+		arenaEnabled = false
+		set_process(false)
+
+static func ArenaModeEnabled() -> bool:
+	if OS.get_environment("ARENA_MODE").to_lower() == "on":
+		return true
+	return "--arena-mode=on" in OS.get_cmdline_args()
+
+var arenaEnabled : bool = true
 
 func _process(_delta : float) -> void:
 	for peerID in _episodes.keys().duplicate():

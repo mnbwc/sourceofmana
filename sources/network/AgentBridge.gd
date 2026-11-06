@@ -98,6 +98,9 @@ func _handle(line : String) -> String:
 		"drain_events":
 			return _drain_events(req)
 		"arena_start":
+			# MVP-10：ARENA_MODE=off 时玩法模块不可启用（主世界零感知，AC-7 双向）
+			if not ArenaController.ArenaModeEnabled():
+				return _json({"ok": false, "code": "ARENA_MODE_OFF", "detail": "arena module is disabled (ARENA_MODE=off)"})
 			var ap : int = int(req.get("peerID", -1))
 			if ap < 0:
 				return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})

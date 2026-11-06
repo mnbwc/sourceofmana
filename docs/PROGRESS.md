@@ -419,3 +419,10 @@
 - 只读保证：spectate* op 独立派发路径，永不触 apply_action；复用 _hook_agent 同源数据（AI 与人类目标同一协议）。
 - 断线续传：桥 spectate_feed since=N 游标 + SSE id/Last-Event-ID；实测 join cursor=0→feed 增量→stop 计数递减。
 - E2E：SSE 流 state 事件（snapshot 全量）+ 页面 200；多观战者计数 1→3→2；0 SCRIPT ERROR。
+
+## MVP-10 玩法模块封装：ARENA_MODE 开关 ✅
+- ArenaController.ArenaModeEnabled()：env ARENA_MODE=on 或 cmdline --arena-mode=on，默认 off。
+- off 时：ArenaController 停止 episode 处理；桥 arena_start 返回 ARENA_MODE_OFF 拒绝——主世界零感知（AC-7 ①）。
+- on 时：完整 episode 生命周期照常（实测 ep-1-48032 → expired 落盘 lineNo=20，[AI] 前缀昵称）——模块按原规格工作、代码零删改（AC-8）。
+- 桥保留为共享基础设施（trace/verdict/观战随模块开关无关，规格 §6.2）。
+- 发现挂账：episode 终局判定与快照 score 的差值镜像在长 episode 下有计分不同步疑点（snapshot kills=2 vs episode 0）——挂账 MVP-11 前复查（可能为 cron 期间多 agent 残留 episode 干扰）。
