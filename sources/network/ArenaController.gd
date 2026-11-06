@@ -113,20 +113,23 @@ func GetResult(episodeId : String) -> Dictionary:
 # ---- 内部 ---------------------------------------------------------------
 
 func _mirror_score(peerID : int, ep : Dictionary) -> void:
-	# 计分镜像：以桥 _score 为权威源，episode 只读增量
-	var bridge = get_node_or_null("/root/AgentBridge")
-	if bridge == null:
-		return
-	var sc : Dictionary = bridge._score.get(peerID, {})
+	# 计分镜像：以桥 _score 为权威源，episode 用 baseline 差值（episode 独立计分，不继承历史）
+	var sc : Dictionary = bridge_score(peerID)
 	if sc.is_empty():
 		return
-	ep["score"]["kills"] = int(sc.get("kills", 0))
-	ep["score"]["deaths"] = int(sc.get("deaths", 0))
-	ep["score"]["itemsLooted"] = int(sc.get("itemsLooted", 0))
+	ep["score"]["kills"] = max(0, int(sc.get("kills", 0)) - int(ep["score"].get("killsBaseline", 0)))
+	ep["score"]["deaths"] = max(0, int(sc.get("deaths", 0)) - int(ep["score"].get("deathsBaseline", 0)))
+	ep["score"]["itemsLooted"] = max(0, int(sc.get("itemsLooted", 0)) - int(ep["score"].get("lootBaseline", 0)))
 	var agent = Peers.GetAgent(peerID)
 	if agent and agent.stat:
 		var totalXp : int = int(agent.stat.experience) + max(0, int(agent.stat.level) - int(ep["score"].get("levelBaseline", 1))) * 1000
 		ep["score"]["xpGained"] = max(0, totalXp - int(ep["score"].get("xpBaseline", totalXp)))
+
+func bridge_score(peerID : int) -> Dictionary:
+	var bridge = get_node_or_null("/root/AgentBridge")
+	if bridge == null:
+		return {}
+	return bridge._score.get(peerID, {})
 
 func _finish(peerID : int, ep : Dictionary, reason : String) -> Dictionary:
 	_mirror_score(peerID, ep)
