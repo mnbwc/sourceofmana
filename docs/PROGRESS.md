@@ -276,3 +276,9 @@
 - **口径一致性抽查**：本次 LLM run（run-llm-arena-1793938394 附近，24/24 llm 决策 0 降级）三处读数一致：meta.final_score.kills=3 = episode_end payload.kills=3 = 排行榜行 kills:3；xp/loot 同。服务端权威计分红线保持。
 - **本 tick 复跑**：llm_arena_e2e.py（隔离三元组 7341/7342/9341）— ARENA_START ok → warp (2230,1250) → 24 决策全 llm（杀 3 Maggot+loot 1）→ episode_start/episode_end 事件齐 → `E2E PASS`，0 SCRIPT ERROR。
 - commit: 本节。下一步（tick23）：M3 前置——排行榜聚合/榜单 API 设计，或按开工包推进多模板批测。
+
+## tick24（2026-11-06 本 tick）：多模板批测 harness — grind_maggot(×10) 首次 completed ✅
+- **tests/harness/batch_template.py**：TEMPLATE/SEED/MAX_ACTIONS/DURATION env 化批测入口（arena_start→AgentRuntime rulebot→排行榜回查）；判据踩坑修正——episode completed 后 arena_status 即无 active（final_score=null、harness 侧 session_lost/PEER_NOT_FOUND），终局权威读法=排行榜（tick22 定案复用）。
+- **grind_maggot 首次打满**（三元组 7381/7382/9381，SEED=42, 150 动作/560s）：排行榜 `completed / kills_required_met / kills=10 / xp=10 / loot=3 / deaths=1`（lineNo=5 保序，tick23 截断修复回归确认）。Bot 在 kills_required_met 后未退出继续打怪（server 侧已 correct 终局），删 session 后 harness 报 PEER_NOT_FOUND 属设计行为。
+- **tutorial_maggot 回归**（7391/7392/9391）：`TEMPLATE-BATCH PASS`——排行榜 completed kills=3（56s 达标），harness 继续跑到 60 动作 kills=8/final_score 齐全，0 SCRIPT ERROR。
+- commit: 24a9646。下一步（tick25）：M3——多 seed/多模板批测汇总报告，或 LLM 策略位跑 grind_maggot 对比 RuleBot。
