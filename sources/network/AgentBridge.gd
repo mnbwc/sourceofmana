@@ -287,6 +287,13 @@ func _apply_action(req : Dictionary) -> String:
 		"loot":
 			var dropID : int = int(args.get("dropID", 0))
 			var ok : bool = WorldDrop.PickupDrop(dropID, agent)
+			if ok:
+				# Inventory.AddItem 不 emit items_changed（仅 RemoveItem/EquipItem 发）——
+				# 桥侧直接计分并推事件
+				var sc2 : Dictionary = _score.get_or_add(peerID, {"kills": 0, "deaths": 0, "xpGained": 0, "itemsLooted": 0})
+				sc2["itemsLooted"] = int(sc2.get("itemsLooted", 0)) + 1
+				_score[peerID] = sc2
+				_push_event(peerID, {"kind": "looted"})
 			return _json({"ok": true, "code": "ACTION_OK" if ok else "REJECTED_RULE",
 				"verdict": "APPLIED" if ok else "REJECTED", "basedOnFrame": frame})
 		"say":
