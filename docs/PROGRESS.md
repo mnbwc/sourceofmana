@@ -193,6 +193,12 @@
 - 结论：LLM policy 位已在 arena 场景下具备完整"对局能力"（导航→索敌→攻击→拾取→完成目标），M2→M3 数据闭环成立。
 - **事件订阅修复（ArenaBridge）**：`arena_start` 先 `_hook_agent` 再建 episode——此前从未 snapshot/apply_action 过的新连接收不到 episode_start（_events 缓冲未建）。实测：全新连接 arena_start 后首次 drain_events 即含 `arena:episode_start`。
 
+## tick22（2026-11-06 本会话）：排行榜聚合查询 + LLM 批测口径定案
+- **tests/harness/leaderboard.py**：读 `~/.local/share/SourceOfMana/arena_leaderboard.jsonl` 聚合——top-N / `--template` / `--nick` 过滤，排序 kills↓ xp↓ deaths↑。实测输出 ai_llmf5 completed kills=3。
+- **run_llm_e2e.sh 修正**：统一走 `llm_arena_e2e.py`（含 arena_start），probe 每次唯一昵称（NICK env）防 EPISODE_ACTIVE 残留。
+- **LLM 批测容量口径**：LLM API 10-15s/轮（波动至 100s+），153s 只跑 7 轮 decide——**budget 按时间过期（expired）是设计行为**；功能面 7/7 全 LLM 决策+warp+动作下发全部正常。跑满 kills_required_met=3 需 `MAX_ACTIONS≈24 & DURATION≥420`（tick17/21 已多次验证可完成）。
+- **坑**：close_session 后 probe 不重连（AGENT-DONE 后 stage=done）——每 run 需重启 probe 或换新昵称。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
 - **验收结果（run-1793921024，隔离三元组 7181/7182/9181）**：C1 exhausted(max_actions=25)✅ C2 三件套齐+protocolVersion=217363688✅ C3 wakeup_reduction=0.5217>0.5✅ C4 kills 0→1（deaths 0）✅ C5 rollouts 44≥decide_calls 44✅；server log 0 SCRIPT ERROR。
