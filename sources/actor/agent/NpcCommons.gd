@@ -171,10 +171,10 @@ static func SetQuest(caller : BaseAgent, questID : int, state : int):
 			return
 
 		if caller.progress.GetQuest(questID) == ProgressCommons.UnknownProgress:
-			PushNotification(caller, "Quest Started: " + questData.name)
+			PushNotification(caller, TranslationServer.translate("Quest Started: ") + TranslationServer.translate(questData.name))
 		caller.progress.SetQuest(questID, state)
 		if state == ProgressCommons.CompletedProgress:
-			PushNotification(caller, "Quest Completed: " + questData.name)
+			PushNotification(caller, TranslationServer.translate("Quest Completed: ") + TranslationServer.translate(questData.name))
 
 static func AddBestiary(caller : BaseAgent, monsterID : int, count : int):
 	if caller is PlayerAgent and caller.progress:
