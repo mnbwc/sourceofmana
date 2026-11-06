@@ -373,3 +373,12 @@
 - E2E：新账号 [AI] ai_m7t 入库、list_players isAgent=true、0 SCRIPT ERROR。
 - A2（人类侧开关）依赖 Party/交易 UI，随 MVP-8 统一实现。
 - commit：见 git log（feat(mvp7)）。
+
+## MVP-5 IME/字体像素回归 ✅（2026-11-06 本 cron tick28）
+- **字体覆盖面审计（代码+场景全量 grep）**：DefaultTheme.tres default_font=FontVariation(alagard base + NotoSansCJK fallback) 已全局生效；tscn/gd 侧零 theme_override_fonts 覆盖（仅颜色/outline override，不涉及字体选择）。
+- **唯一硬编码字体例外**：SmallLabel variation 用 romulus-16.ttf——全仓唯一消费点是 ProgressBar.tscn 的 "0/0" 数字文本（纯 ASCII），无 CJK 风险，判定不改（改反而影响像素风数字）。
+- **SpeechBubble**（聊天/气泡=中文高频点）：RichTextLabel 走 DefaultTheme default_font（get_theme_font("normal_font") 即主题字体），fallback 覆盖中文，气泡宽度按 get_string_size 动态计算=自动适配 CJK 字宽，无需改动。
+- **IME**：登录/聊天 LineEdit 均走主题字体；Godot4 原生 IME 组字走 Viewport 事件，theme/default_font_subpixel_positioning=0 与 antialiasing=false 不影响组字（headless 无法实测输入法，登记为需桌面端人工复核项）。
+- **实机回归**：隔离三元组 7701/7702/9701 起服 + ~4 分钟 soak：0 SCRIPT ERROR / 0 ERROR；与并发会话 7397/9397 实例端口隔离无冲突。测试实例已清理。
+- 结论：MVP-5 判定通过（桌面端 IME 人工复核挂账）。MVP-4+5 汉化与字体线收口。
+- 并发协调：工作树存在主会话 MVP-8 进行中文件（GUICommons.gd/PartyService.gd 未提交），本 tick 仅提交 PROGRESS.md，未触碰。
