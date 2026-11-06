@@ -144,6 +144,13 @@
 - **挂账**：alive 时 TriggerRespawn warp 未到位（pos 不变，respawn 机制对活体无效）——episode 依赖 agent 自己走位到 spawn 区，v0.2 换 WarpPlayer 通路；max_deaths/expired 路径代码已实现未实测（逻辑同 kills_required_met 分支）。
 - commit：27ce3f1。
 
+## tick15（2026-11-06 本 tick）：arena spawn 传送闭环 + 完整 episode E2E 全绿（commit 5c5544c）
+- **tick14 挂账销项**：alive 时 TriggerRespawn 对活体确实是 no-op（respawn 机制只处理尸体）——ArenaController.Start 改走 `NpcCommons.Warp`（NPC 传送同源通路 → World.Warp → Spawn），respawnDestination 仍保留供死后 respawn 回 spawn 区。零上游改动不变。
+- **实测①（warp 直读）**：arena_start 后 snapshot 位置 (2192,2581) → **(2230,1250) 精确落在模板 spawn**，0 SCRIPT ERROR。
+- **实测②（完整 episode）**：新增 tests/harness/arena_e2e.py——arena_start(tutorial_maggot) → bot 杀 Maggot×3 → `episode_end {status:completed, endReason:kills_required_met, score:{kills:3, xpGained:3}}` 事件送达（seq 递增），全程 0 SCRIPT ERROR。
+- **坑**：SoMClient.wait_ready 不返回 peerID（只做认领），用 `c.peer_id` 取；bot attack 回执 "target_died" 字样在 verdict 里，简单计数会偏大（KILLS_OBSERVED 27 vs 真实 3），权威口径以 episode_end score 为准——符合「服务端钩子计分、客户端不自报」红线。
+- 下一步（tick16）：多 agent 并发 episode 隔离实测（grind 模板 + 2 agent 同时 start/stop）；或 LLM policy 位接入。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
