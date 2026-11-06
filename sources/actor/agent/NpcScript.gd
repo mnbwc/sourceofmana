@@ -228,17 +228,17 @@ func ResetCamera():
 func Mes(mes : String):
 	assert(IsPlayer(), "Mes() requires a player agent")
 	if not IsPlayer(): return
-	steps.append({"text": mes})
+	steps.append({"text": tr(mes)})
 
 func Think(mes : String):
 	assert(IsPlayer(), "Think() requires a player agent")
 	if not IsPlayer(): return
-	steps.append({"text": mes, "think": true})
+	steps.append({"text": tr(mes), "think": true})
 
 func Narrate(mes : String):
 	assert(IsPlayer(), "Narrate() requires a player agent")
 	if not IsPlayer(): return
-	steps.append({"text": mes, "think": true, "author": ""})
+	steps.append({"text": tr(mes), "think": true, "author": ""})
 
 func Choice(mes : String, callable : Callable = Callback.Empty):
 	assert(IsPlayer(), "Choice() requires a player agent")
