@@ -138,8 +138,16 @@ class AgentRuntime:
         finally:
             try:
                 self.final_score = self.client.state().get("score")
+                # tick19：episode 结果入 meta（arena_status → meta.episode）
+                ar = self.client.rpc("arena_status")
+                ep = ar.get("episode")
+                if ep is None:
+                    # 可能已终局（Status 只回 active）——无 id 可查时留 None
+                    self.episode_final = None
+                else:
+                    self.episode_final = ep
             except Exception:
-                pass
+                self.episode_final = None
             try:
                 r = self.client.close_session()
                 self._log_tool("close_session", r)
@@ -276,6 +284,7 @@ class AgentRuntime:
             "tokens_used": self.tokens_used,
             "kills": self.kills,
             "final_score": self.final_score,
+            "episode_final": getattr(self, "episode_final", None),
             "duration_s": round(time.time() - self.started_at, 2),
         }
         with open(self.meta_path, "w") as f:
