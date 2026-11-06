@@ -318,6 +318,38 @@ func _apply_action(req : Dictionary) -> String:
 			_server_peer().TriggerChat(str(GUICommons.ChatChannel.LOCAL), text, peerID)
 			return _json({"ok": true, "code": "ACTION_OK", "verdict": "APPLIED",
 				"reason": "chat_sent_local", "basedOnFrame": frame})
+		"party":
+			# MVP-8：组队与人类同入口（Server.Party* 方法族）。op=invite/accept/decline/leave/kick/promote/chat
+			var op : String = str(args.get("op", ""))
+			var target : String = str(args.get("target", ""))
+			match op:
+				"invite":
+					_server_peer().PartyInvite(target, peerID)
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "PENDING", "reason": "party_invite_sent", "basedOnFrame": frame})
+				"accept":
+					_server_peer().PartyAccept(peerID)
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "PENDING", "reason": "party_accept_sent", "basedOnFrame": frame})
+				"decline":
+					_server_peer().PartyDecline(peerID)
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "APPLIED", "reason": "party_declined", "basedOnFrame": frame})
+				"leave":
+					_server_peer().PartyLeave(peerID)
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "PENDING", "reason": "party_leave_sent", "basedOnFrame": frame})
+				"kick":
+					_server_peer().PartyKick(target, peerID)
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "PENDING", "reason": "party_kick_sent", "basedOnFrame": frame})
+				"promote":
+					_server_peer().PartyPromote(target, peerID)
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "PENDING", "reason": "party_promote_sent", "basedOnFrame": frame})
+				"chat":
+					_server_peer().TriggerChat(str(GUICommons.ChatChannel.PARTY), target, peerID)
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "APPLIED", "reason": "party_chat_sent", "basedOnFrame": frame})
+				"status":
+					var pid : int = Launcher.Party.GetPartyID(Peers.GetAgent(peerID).get_rid().get_id())
+					return _json({"ok": true, "code": "ACTION_OK", "verdict": "APPLIED", "reason": "party_status",
+						"partyId": pid, "members": Launcher.Party.GetMembers(pid), "leader": Launcher.Party.GetLeader(pid), "basedOnFrame": frame})
+				_:
+					return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "unknown party op: %s" % op})
 		"respawn":
 			# 死后复活：Revive 半血 + 回默认出生点（respawnDestination 依赖存档，
 			# 新账号可能为 UnknownHash → Warp null map 静默失败，故桥侧用 defaultSpawnLocation）

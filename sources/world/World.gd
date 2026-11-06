@@ -20,6 +20,16 @@ func GetGlobalPlayer(nickname : String) -> PlayerAgent:
 					return player
 	return null
 
+# MVP-8: 按 agentRID 查全局玩家（Party 成员定位用）
+func GetGlobalPlayerByRID(rid : int) -> PlayerAgent:
+	for areaIdx in areas:
+		var area = areas[areaIdx]
+		for inst in area.instances.values():
+			for player in inst.players:
+				if player.get_rid().get_id() == rid:
+					return player
+	return null
+
 func GetGlobalNpc(nickname : String) -> NpcAgent:
 	for areaIdx in areas:
 		var area = areas[areaIdx]

@@ -382,3 +382,14 @@
 - **实机回归**：隔离三元组 7701/7702/9701 起服 + ~4 分钟 soak：0 SCRIPT ERROR / 0 ERROR；与并发会话 7397/9397 实例端口隔离无冲突。测试实例已清理。
 - 结论：MVP-5 判定通过（桌面端 IME 人工复核挂账）。MVP-4+5 汉化与字体线收口。
 - 并发协调：工作树存在主会话 MVP-8 进行中文件（GUICommons.gd/PartyService.gd 未提交），本 tick 仅提交 PROGRESS.md，未触碰。
+
+## MVP-8 组队 ✅（核心闭环；人类 UI 面板后置）
+- PartyService.gd（新文件）：pid→{leader,members}+rid 反查+邀请表；CreateParty/Join/Leave/Kick/Promote/Disband；上限=MaxCharacterCount。
+- Server.gd Party* 方法族：Invite/Accept/Decline/Leave/Kick/Promote（昵称服务端解析 rid，人类 UI 与 AI 同一方法）。
+- Network.gd：TriggerParty* 6 条 + PartyInvite/PartyUpdate 下行 rpc（any_peer→server、authority→client， reliable ACTION 通道）。
+- ChatChannel 加 PARTY 档；TriggerChat PARTY 分支（仅队友广播，无队伍提示不串频道）。
+- World.GetGlobalPlayerByRID；Launcher.Party 服务挂载。
+- 桥 party op（规格 Tier-1 单条参数化）：invite/accept/decline/leave/kick/promote/chat/status（+INVALID_PARAMS 拒绝）。
+- 客户端 Client.gd：PartyInvite/PartyUpdate 处理器（最小 UI=系统聊天提示；Social 面板完整后置）。
+- E2E（AI↔AI）：invite→accept→partyId=1 双成员→party chat→leave→单人；promote→leader 变更→kick→离队确认；bad op 拒绝；0 SCRIPT ERROR。
+- XP/掉落沿用原版单人规则（规格 PM-5，零分配逻辑）。

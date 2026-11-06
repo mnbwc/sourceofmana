@@ -7,5 +7,6 @@ enum ChatChannel
 	UNKNOWN = -1,
 	LOCAL = 0,
 	GLOBAL,
+	PARTY,
 	DEFAULT_CHANNEL_COUNT,
 }

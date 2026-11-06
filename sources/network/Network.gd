@@ -242,6 +242,39 @@ func TriggerChat(channelName : String, text : String, peerID : int = NetworkComm
 func ChatQuery(channelName : String, peerID : int = NetworkCommons.PeerOfflineID):
 	CallClient("ChatQuery", [channelName], peerID)
 
+# ---- MVP-8 组队 ----
+@rpc("any_peer", "call_remote", "reliable", EChannel.ACTION)
+func TriggerPartyInvite(targetNick : String, peerID : int = NetworkCommons.PeerAuthorityID):
+	CallServer("PartyInvite", [targetNick], peerID)
+
+@rpc("any_peer", "call_remote", "reliable", EChannel.ACTION)
+func TriggerPartyAccept(peerID : int = NetworkCommons.PeerAuthorityID):
+	CallServer("PartyAccept", [], peerID)
+
+@rpc("any_peer", "call_remote", "reliable", EChannel.ACTION)
+func TriggerPartyDecline(peerID : int = NetworkCommons.PeerAuthorityID):
+	CallServer("PartyDecline", [], peerID)
+
+@rpc("any_peer", "call_remote", "reliable", EChannel.ACTION)
+func TriggerPartyLeave(peerID : int = NetworkCommons.PeerAuthorityID):
+	CallServer("PartyLeave", [], peerID)
+
+@rpc("any_peer", "call_remote", "reliable", EChannel.ACTION)
+func TriggerPartyKick(targetNick : String, peerID : int = NetworkCommons.PeerAuthorityID):
+	CallServer("PartyKick", [targetNick], peerID)
+
+@rpc("any_peer", "call_remote", "reliable", EChannel.ACTION)
+func TriggerPartyPromote(targetNick : String, peerID : int = NetworkCommons.PeerAuthorityID):
+	CallServer("PartyPromote", [targetNick], peerID)
+
+@rpc("authority", "call_remote", "reliable", EChannel.ACTION)
+func PartyInvite(inviterName : String, peerID : int = NetworkCommons.PeerOfflineID):
+	CallClient("PartyInvite", [inviterName], peerID)
+
+@rpc("authority", "call_remote", "reliable", EChannel.ACTION)
+func PartyUpdate(members : String, leaderRID : int, peerID : int = NetworkCommons.PeerOfflineID):
+	CallClient("PartyUpdate", [members, leaderRID], peerID)
+
 @rpc("authority", "call_remote", "reliable", EChannel.ACTION)
 func ChatPlayer(channelName : String, callerName : String, text : String, agentRID : int, peerID : int = NetworkCommons.PeerOfflineID):
 	CallClient("ChatPlayer", [channelName, callerName, text, agentRID], peerID)

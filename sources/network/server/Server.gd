@@ -289,6 +289,15 @@ func TriggerChat(channelName : String, text : String, peerID : int):
 		elif channelName == str(GUICommons.ChatChannel.GLOBAL):
 			Network.NotifyGlobal("ChatPlayer", [str(GUICommons.ChatChannel.GLOBAL), player.nick, text, player.get_rid().get_id()])
 			# D8: 自建私有实例禁用 GLOBAL 频道外发（原版转发 Discord，中文文本外发风险更大）
+		elif channelName == str(GUICommons.ChatChannel.PARTY):
+			var pid : int = Launcher.Party.GetPartyID(player.get_rid().get_id())
+			if pid == 0:
+				Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "You are not in a party", peerID)
+			else:
+				for rid in Launcher.Party.GetMembers(pid):
+					var m : PlayerAgent = Launcher.World.GetGlobalPlayerByRID(rid)
+					if m and m.peerID != peerID:
+						Network.ChatPlayer(str(GUICommons.ChatChannel.PARTY), player.nick, text, player.get_rid().get_id(), m.peerID)
 		else:
 			var target : PlayerAgent = Launcher.World.GetGlobalPlayer(channelName)
 			if not target:
@@ -297,8 +306,78 @@ func TriggerChat(channelName : String, text : String, peerID : int):
 				Network.ChatPlayer(player.nick, player.nick, text, player.get_rid().get_id(), target.peerID)
 				Network.ChatPlayer(target.nick, player.nick, text, player.get_rid().get_id(), player.peerID)
 		# D7: 人类客户端对非法频道也要收到粗粒度被拒提示，而非静默丢弃
-		if channelName != str(GUICommons.ChatChannel.LOCAL) and channelName != str(GUICommons.ChatChannel.GLOBAL) and not Launcher.World.GetGlobalPlayer(channelName):
+		if channelName != str(GUICommons.ChatChannel.LOCAL) and channelName != str(GUICommons.ChatChannel.GLOBAL) and channelName != str(GUICommons.ChatChannel.PARTY) and not Launcher.World.GetGlobalPlayer(channelName):
 			Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "Message could not be delivered (unknown channel or player offline)", peerID)
+
+# ---- MVP-8 组队（规格 §3.2：Party* 方法族；人类 UI 与 AI 同一方法；昵称服务端解析为 rid）----
+
+func PartyResolve(nickOrRID : String) -> PlayerAgent:
+	var target : PlayerAgent = Launcher.World.GetGlobalPlayer(nickOrRID)
+	return target
+
+func PartyNotifyMembers(pid : int, excludeRID : int = 0) -> void:
+	var members : Array = Launcher.Party.GetMembers(pid)
+	for rid in members:
+		if rid == excludeRID:
+			continue
+		var m : PlayerAgent = Launcher.World.GetGlobalPlayerByRID(rid)
+		if m:
+			Network.PartyUpdate(str(members), Launcher.Party.GetLeader(pid), m.peerID)
+
+func PartyInvite(targetNick : String, peerID : int):
+	var player : PlayerAgent = Peers.GetAgent(peerID)
+	if player is PlayerAgent:
+		var target : PlayerAgent = PartyResolve(targetNick)
+		if not target or target.peerID == peerID:
+			Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "Player '%s' is not online" % targetNick, peerID)
+			return
+		if not Launcher.Party.AddInvite(target.get_rid().get_id(), player.get_rid().get_id()):
+			Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "%s is already in a party" % target.nick, peerID)
+			return
+		Network.PartyInvite(str(player.nick), target.peerID)
+
+func PartyAccept(peerID : int):
+	var player : PlayerAgent = Peers.GetAgent(peerID)
+	if player is PlayerAgent:
+		var inviterRID : int = Launcher.Party.PopInvite(player.get_rid().get_id())
+		if inviterRID == 0:
+			return
+		var inviter : PlayerAgent = Launcher.World.GetGlobalPlayerByRID(inviterRID)
+		if not inviter:
+			return
+		var pid : int = Launcher.Party.GetPartyID(inviterRID)
+		if pid == 0:
+			pid = Launcher.Party.CreateParty(inviterRID)
+		if Launcher.Party.Join(pid, player.get_rid().get_id()):
+			PartyNotifyMembers(pid)
+
+func PartyDecline(peerID : int):
+	var player : PlayerAgent = Peers.GetAgent(peerID)
+	if player is PlayerAgent:
+		Launcher.Party.PopInvite(player.get_rid().get_id())
+
+func PartyLeave(peerID : int):
+	var player : PlayerAgent = Peers.GetAgent(peerID)
+	if player is PlayerAgent:
+		var pid : int = Launcher.Party.Leave(player.get_rid().get_id())
+		if pid != 0:
+			PartyNotifyMembers(pid)
+
+func PartyKick(targetNick : String, peerID : int):
+	var player : PlayerAgent = Peers.GetAgent(peerID)
+	if player is PlayerAgent:
+		var pid : int = Launcher.Party.GetPartyID(player.get_rid().get_id())
+		var target : PlayerAgent = PartyResolve(targetNick)
+		if pid != 0 and target and Launcher.Party.Kick(pid, player.get_rid().get_id(), target.get_rid().get_id()):
+			PartyNotifyMembers(pid)
+
+func PartyPromote(targetNick : String, peerID : int):
+	var player : PlayerAgent = Peers.GetAgent(peerID)
+	if player is PlayerAgent:
+		var pid : int = Launcher.Party.GetPartyID(player.get_rid().get_id())
+		var target : PlayerAgent = PartyResolve(targetNick)
+		if pid != 0 and target and Launcher.Party.Promote(pid, player.get_rid().get_id(), target.get_rid().get_id()):
+			PartyNotifyMembers(pid)
 
 func TriggerChoice(choiceID : int, peerID : int):
 	var player : PlayerAgent = Peers.GetAgent(peerID)

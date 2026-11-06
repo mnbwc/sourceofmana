@@ -17,6 +17,7 @@ var World : ServiceBase				= null
 var SQL : ServiceBase				= null
 var Discord : ServiceBase			= null
 var Email : EmailService			= null
+var Party : PartyService			= null
 
 # Accessors
 var Player : Entity					= null
@@ -60,11 +61,13 @@ func Server():
 	SQL				= SQLService.new()
 	Discord			= DiscordService.new()
 	Email			= EmailService.new()
+	Party			= PartyService.new()
 
 	add_child.call_deferred(World)
 	add_child.call_deferred(SQL)
 	add_child.call_deferred(Discord)
 	add_child.call_deferred(Email)
+	add_child.call_deferred(Party)
 
 func Reset(clientStarted : bool, serverStarted : bool):
 	if not clientStarted:

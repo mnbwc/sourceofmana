@@ -58,6 +58,27 @@ func ChatSystem(channelName : String, text : String, _peerID : int):
 	if Launcher.GUI:
 		Launcher.GUI.chatContainer.AddSystemChat(channelName, text)
 
+# ---- MVP-8 组队客户端侧 ----
+var pendingInviter : String = ""
+var partyMembers : Array = []
+var partyLeaderRID : int = 0
+
+func PartyInvite(inviterName : String, _peerID : int):
+	pendingInviter = inviterName
+	Util.PrintLog("Party", "invite from %s" % inviterName)
+	# MVP-8 最小 UI：系统聊天提示（完整 UI 面板后置）
+	if Launcher.GUI:
+		Launcher.GUI.chatContainer.AddSystemChat(str(GUICommons.ChatChannel.LOCAL), "%s invites you to a party (reply /party accept or /party decline)" % inviterName)
+
+func PartyUpdate(members : String, leaderRID : int, _peerID : int):
+	var parsed : Array = []
+	var raw : Variant = JSON.parse_string(members)
+	if raw is Array:
+		parsed = raw
+	partyMembers = parsed
+	partyLeaderRID = leaderRID
+	Util.PrintLog("Party", "members=%s leader=%d" % [str(members), leaderRID])
+
 func ToggleContext(enable : bool, _peerID : int):
 	if Launcher.Player:
 		Launcher.GUI.dialoguePanel.Toggle(enable)
