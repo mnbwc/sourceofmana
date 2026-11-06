@@ -100,6 +100,9 @@ func _handle(line : String) -> String:
 			var ap : int = int(req.get("peerID", -1))
 			if ap < 0:
 				return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
+			# tick17：先订阅事件（episode_start 推送需 _events 缓冲在位），
+			# 否则桥从未 state()/apply_action 过的 agent 拿不到 arena 事件流
+			_hook_agent(ap, Peers.GetAgent(ap))
 			var anick : String = str(req.get("nick", ""))
 			if anick == "":
 				var ag = Peers.GetAgent(ap)
