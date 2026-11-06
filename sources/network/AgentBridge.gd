@@ -354,6 +354,13 @@ func _apply_action(req : Dictionary) -> String:
 					return _json({"ok": true, "code": "ACTION_OK", "verdict": "PENDING", "reason": "party_promote_sent", "basedOnFrame": frame})
 				"chat":
 					_server_peer().TriggerChat(str(GUICommons.ChatChannel.PARTY), target, peerID)
+					# MVP-11 AC-3: PARTY 消息进双方桥事件流（聊天 rpc 不经桥缓冲，这里同源落账）
+					var sender = Peers.GetAgent(peerID)
+					var spid : int = Launcher.Party.GetPartyID(sender.get_rid().get_id())
+					for rid in Launcher.Party.GetMembers(spid):
+						var m = Launcher.World.GetGlobalPlayerByRID(rid)
+						if m:
+							_push_event(m.peerID, {"kind": "party_chat", "from": sender.nick, "detail": {"text": target}})
 					return _json({"ok": true, "code": "ACTION_OK", "verdict": "APPLIED", "reason": "party_chat_sent", "basedOnFrame": frame})
 				"status":
 					var pid : int = Launcher.Party.GetPartyID(Peers.GetAgent(peerID).get_rid().get_id())
