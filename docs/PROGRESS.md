@@ -156,12 +156,25 @@
 - **实测**（7321/7322/9321）：双 agent warp 均精确落 spawn(2230,1250)、双 episode 并发 active → 双双 `completed(kills_required_met, kills=3)`，事件流按 episodeId 各自归属，**零计分串扰**。0 SCRIPT ERROR。
 - commit：arena_isolation.py。M2 Arena Controller 四项 E2E（warp/单 agent 完成/显式 stop/并发隔离）全部 PASS。下一步：LLM policy 位接入（decision_source 区分 rulebot/llm）或排行榜落盘。
 
+## tick18（2026-11-06 本会话）：LLM arena episode 实跑 + 观测新鲜度修复
+- **接手 tick17 未提交工作区**（somllm.py/llm_arena_e2e.py/run_llm_e2e.sh + somruntime LLM 集成为上一会话遗留），本 tick 补上实跑闭环并修复一处真 bug。
+- **bug（陈旧观测）**：事件唤醒路径上 LLM 拿到的 state 是上一轮末快照（常是 navigate 进行中、附近为空）→ deepseek-v4 连续 16 轮全 navigate 乱走、0 kill。修复：LLM 分支决策前强制 `client.state()` 刷新（RuleBot 路径在循环末本就刷新，未动）；另加 navigate-while-actionInProgress 守卫（不耗预算，RuleBot 同语义）。
+- **修复后实跑**（隔离三元组 7341/7342/9341，run-…29408，MAX_ACTIONS=20/DURATION=420）：**18/18 轮 decision_source=llm（0 降级）**，actions navigate 15 + attack 3，首攻即 APPLIED(target_health_decreased delta=25)，**kills=1、xpGained=1、deaths=0**；reasoning 可读（"距离 121 超出射程 40 先走近"）。0 SCRIPT ERROR。
+- **坑**：①navigate verdict 在 ~30ms 即 APPLIED(position_changed)——verdict 是「动作受理」非「到达」，走位期间靠 navigation_arrived 事件唤醒续步；②llm_arena_e2e.py 对 monkey-patch SoMClient.state 注入 episode 上下文，在长 run 里依赖 arena_status 逐轮 RPC——已在 run 内验证工作正常；③杀怪后 Maggot 重生间隔较长，剩余 2 kills 未在本 run 内完成——模板再生参数调优挂账。
+- 红线复核：API key 仅环境变量；LLM 决策只经 apply_action 下发（与人类同路径）。
+- commit：本节。下一步：Maggot 重生/模板参数调优 → LLM run 跑满 kills_required_met=3；或排行榜落盘。
 ## tick17（2026-11-06 本会话）：LLM policy 位接入 E2E 达成
 - **tests/harness/somllm.py（SOMLLMPlanner）**：Kaetram LLMPlanner 平移——OpenAI 兼容 /chat/completions（模型 deepseek-v4-flash-0731，key 走环境变量绝不入库/对话）；观测裁剪 nearby cap30 按距离排序（F17/F30 教训）；episode 上下文注入 user_msg；解析/网络失败自动降级 RandomRuleBot 并打 `decision_source=rulebot_fallback:PARSE|NETWORK|NO_KEY` 标签。
 - **AgentRuntime 集成**：`RunConfig.policy=llm` 时切 LLM planner；rollouts 逐轮记录 decision_source + decisionSummary（reasoning）+ tokens。
 - **E2E 实测**（run_llm_e2e.sh，隔离三元组 7341/7342/9341，run-1793928205）：**17/18 轮真 LLM 决策**（1 次 NETWORK 降级），reasoning 合理（"距离 98 超出射程 40，先走过去再打"），arena episode 内 **kills=1 + itemsLooted=1**，0 SCRIPT ERROR。C3 唤醒率对 LLM 策略豁免（同步 decide 语义，polls≈decides 是设计而非缺陷），判据已修。
 - 红线复核：key 仅环境变量（kaetram .env source，未入对话/未入 git）；LLM 决策只通过 apply_action 下发，与人类同路径。
 - commit：c243d75。下一步：排行榜落盘（episode 结果持久化）+ LLM run 三件套口径复核。
+
+## tick18（2026-11-06 本会话）：Arena 排行榜落盘 E2E 闭环
+- **ArenaLeaderboard autoload**（新，零上游改动）：episode 终局（_finish 内）追加写 `user://arena_leaderboard.jsonl`（=~/.local/share/SourceOfMana/arena_leaderboard.jsonl），每行一个终局 episode（episodeId/nick/template/status/endReason/score/lineNo）。
+- **坑**：`FileAccess` 无 `get_line_count`（SCRIPT ERROR 静默在 printerr 前被 server log 捕获）——行数改 `Entries().size()` 读侧统计。
+- **E2E**：①tutorial_maggot 完整跑完 → 落盘 `completed(kills_required_met, kills=3)`；②grind_maggot start→arena_stop → 落盘 `completed(explicit_stop)`，lineNo 递增追加正确。0 SCRIPT ERROR。
+- commit：7096123。下一步：LLM run 批量复测（3 run 平均）+ episode 结果进 run.meta.json 口径对齐。
 
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
