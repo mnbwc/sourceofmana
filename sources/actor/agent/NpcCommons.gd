@@ -116,11 +116,11 @@ static func ToggleContext(pc : BaseAgent, enable : bool):
 		Network.ToggleContext(enable, pc.peerID)
 
 static func GetRandomGreeting(nick : String) -> String:
-	var greet : String = Greetings[randi() % Greetings.size()]
+	var greet : String = TranslationServer.translate(Greetings[randi() % Greetings.size()])
 	return greet if greet.find("%s") == -1 else greet % [nick]
 
 static func GetRandomFarewell(nick : String) -> String:
-	var farewell : String = Farewells[randi() % Farewells.size()]
+	var farewell : String = TranslationServer.translate(Farewells[randi() % Farewells.size()])
 	return farewell if farewell.find("%s") == -1 else farewell % [nick]
 
 # Context received from client

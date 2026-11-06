@@ -345,3 +345,9 @@
 - 关键发现：原文作 key 模式下 GDScript 侧零改动即可生效（tr fallback=原文），是最低 rebase 风险路径。
 - 待续：NPC 余 45 文件 ~649 条分批（cron）；任务文本 109 条（QuestData .tres 的 name/description 等字段为服务端数据结构，需评估走 tr 还是 zh 资源变体）；物品名 ~180 条（presets/cells name= 是 DB hash key，🔴 不可改——MVP-6 红线，需 key/display 分离方案）。
 - 🔴 待办（MVP-6 关联）：物品/实体 name= 字段被 DB.GetCellHash 用作查找键（AIAgent 索敌、掉落 roll 等全部按名匹配）——绝不能直接汉化，需实现「内部键不变 + 显示名 tr」分离层。
+
+## MVP-4 批3 NPC 全量 ✅（2026-11-06 本 cron tick）
+- NPC.csv 从 29 → **961 键**全量中文：Mes/Say/Narrate/Think 对话 688 条（4 并行子代理翻译，占位符 %d/%s 逐一校验零丢失）、Choice/Chat/Express 选项短语 227 条（含打招呼/告别 Greetings/Farewells 18 条模板）——tonori 全 46 文件所有对话文本 API 抽取 0 缺口。
+- NpcScript.gd 扩 tr() 至 Choice（选项文本）；Chat/Express；NpcCommons.GetRandomGreeting/Farewell 静态函数内改用 TranslationServer.translate（坑：static 函数不能调 tr()——Parse Error，须用 TranslationServer.translate）。
+- 隔离实机验证：7601/7602/9601 起服 0 SCRIPT ERROR；import 重生成 NPC.zh.translation（88KB）中文值二进制抽查命中。
+- commit：本节。剩余：任务文本 109 条 + 物品显示名分离层（MVP-6 红线，name= 是 DB hash key）。

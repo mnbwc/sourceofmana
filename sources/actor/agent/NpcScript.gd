@@ -250,7 +250,7 @@ func Choice(mes : String, callable : Callable = Callback.Empty):
 	if not dialogueStep.has("choices"):
 		dialogueStep["choices"] = []
 
-	dialogueStep["choices"].append({"text": mes, "action": callable})
+	dialogueStep["choices"].append({"text": tr(mes), "action": callable})
 
 func Action(callable : Callable):
 	assert(IsPlayer(), "Action() requires a player agent")
@@ -263,12 +263,12 @@ func Emote(emoteID : int):
 func Express(mes : String):
 	assert(IsPlayer(), "Express() requires a player agent")
 	if not IsPlayer(): return
-	NpcCommons.Express(npc, own, mes)
+	NpcCommons.Express(npc, own, tr(mes))
 
 func Chat(mes : String):
 	assert(IsPlayer(), "Chat() requires a player agent")
 	if not IsPlayer(): return
-	NpcCommons.Chat(npc, own, mes)
+	NpcCommons.Chat(npc, own, tr(mes))
 
 func Greeting():
 	assert(IsPlayer(), "Greeting() requires a player agent")
