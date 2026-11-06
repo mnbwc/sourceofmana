@@ -318,3 +318,9 @@
 - **坑**：close_session 后桥上 peer 消失但探针进程还活着（list_players 空）→ 复用 run 前必须重启探针（新昵称）；kill 后 LLM 会「打尸体确认」（hp=0 attack → REJECTED），无实害但可作下轮 prompt 小改进。
 - server 全程 0 SCRIPT ERROR；测试实例已清理。
 - commit：本节。下一步（tick27）：LLM 延迟问题本地化（换低延迟模型/并发观测预取）再跑 grind 全量对比；或转 M3 榜单聚合自动化。
+
+## MVP 阶段启动（2026-11-06）：规格 v1.0 附件裁定接收
+- 方向变更：五件事（debug 收尾/AI 友好/组队/观战/汉化）+ 竞技场封装为 ARENA_MODE 玩法模块（默认 off）。
+- MVP-1 ✅：docs/MVP-EXECUTION.md 登记落定（模块登记表/汉化工作量实测 ~1100 条/D1-D9 现状/附录 B 待证清账）。
+- MVP-2 部分收口 ✅（148fed6）：D4 DSN 清空+sentry.dat 删除；D8 GLOBAL→Discord 外发移除；D7 非法频道粗粒度被拒提示。D1/D2/D3/D5/D6 前已修。
+- commit：148fed6。
