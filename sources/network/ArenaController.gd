@@ -73,12 +73,11 @@ func Start(peerID : int, nick : String, templateKey : String) -> Dictionary:
 		"startedAtMsec": Time.get_ticks_msec(),
 		"status": "active"
 	}
-	# 权威放置：走 respawn 机制同源路径（TriggerRespawn + respawnDestination，
-	# 与人类传送同一 packet 路径；warp 到模板 spawn——alive 时 TriggerRespawn 亦可复位）
+	# 权威放置：alive 时 TriggerRespawn 对活体无效（pos 不变，tick14 挂账）——
+	# 改走 NpcCommons.Warp（NPC 传送同源通路 → World.Warp → Spawn，人类玩家同 packet 路径），
+	# 并设置 respawnDestination 供死后 respawn 回 spawn 区
 	agent.respawnDestination = Destination.new(LauncherCommons.DefaultStartMapID, template["spawn"])
-	var bridge = get_node_or_null("/root/AgentBridge")
-	if bridge:
-		bridge._server_peer().TriggerRespawn(peerID)
+	NpcCommons.Warp(agent, LauncherCommons.DefaultStartMapID, template["spawn"])
 	_episodes[peerID] = ep
 	_push_arena_event(peerID, ep, "episode_start", {"episodeId": ep["id"], "template": templateKey,
 		"brief": template["brief"], "killsRequired": template["killsRequired"]})
