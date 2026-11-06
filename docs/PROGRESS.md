@@ -186,8 +186,13 @@
 - **回归**（9335 三元组）：rulebot acceptance 5/5 ALL-PASS（kills=1/loot=1，wakeup 28.2%>25%），0 SCRIPT ERROR。
 - commit：本节。
 
+## tick21（2026-11-06 本会话）：LLM arena 批量复测 — LLM 完成整局入排行榜
+- **批测发现①**：run_llm_e2e.sh 走 acceptance_som.py（policy=llm）**没有 arena_start**——3 run 全 0 kill 是因为 LLM 出生在默认点附近（无怪可打）自由探索耗尽预算，不是 LLM 退化。arena 场景必须用 llm_arena_e2e.py。
+- **批测结果②**（llm_arena_e2e.py 连跑）：warp 到 spawn 正常 → **LLM 完成整局 tutorial_maggot**：kills=3 / loot=1 / 0 deaths → `episode_end completed(kills_required_met)` → 排行榜落盘 `ai_llmf3 … kills:3`。多 run 稳定复现。
+- **口径注记**：EPISODE_FINAL 常显示 null（episode 已终局，Status 只回 active）——终局权威结果以 ARENA_EVENTS 的 episode_end 与排行榜 JSONL 为准。
+- 结论：LLM policy 位已在 arena 场景下具备完整"对局能力"（导航→索敌→攻击→拾取→完成目标），M2→M3 数据闭环成立。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
-- **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
 - **验收结果（run-1793921024，隔离三元组 7181/7182/9181）**：C1 exhausted(max_actions=25)✅ C2 三件套齐+protocolVersion=217363688✅ C3 wakeup_reduction=0.5217>0.5✅ C4 kills 0→1（deaths 0）✅ C5 rollouts 44≥decide_calls 44✅；server log 0 SCRIPT ERROR。
 - **过程坑（bot 调优）**：出生点 2143,2587 附近常只有 Scorpion（208hp），「挑附近最弱怪」策略被围殴反杀（前 6 个 run 全 0 kill、最多 deaths=10）；改为「只打 hp.max≤60 弱怪，否则先 navigate 去弱怪区/脱战 wait 回血」后连续 2 run 达成 kill（run-…0838 与 …1024，后者 0 死）。flee 撤离阈值 0.5（0.3 太晚）。
