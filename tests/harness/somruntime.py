@@ -14,6 +14,7 @@ from dataclasses import asdict, dataclass, field
 from types import SimpleNamespace
 
 from sombase import SoMClient, RandomRuleBot, persp
+from somllm import SOMLLMPlanner
 
 HARNESS_VERSION = "0.1.0"
 API_VERSION = "sombase-v0.1"
@@ -34,7 +35,7 @@ class Budget:
 
 @dataclass
 class RunConfig:
-    policy: str = "random_rule_bot"
+    policy: str = "random_rule_bot"  # random_rule_bot | llm
     seed: int = 42
     maxActions: int = 30
     maxTokens: int = 50000
@@ -106,6 +107,12 @@ class AgentRuntime:
         self.exhaust_reason = ""
         self.episode_id = os.path.basename(run_dir.rstrip("/"))
         self.policy = RandomRuleBot(seed=config.seed)
+        # LLM policy 位（tick17）：policy=llm 时用 SOMLLMPlanner（失败自动降级）
+        self.llm = None
+        if config.policy == "llm":
+            self.llm = SOMLLMPlanner(fallback=self.policy)
+            if not self.llm.configured:
+                print("WARN: OPENAI_API_KEY missing, LLM planner will degrade")
         self.client = SoMClient(host=config.bridge_host, port=config.bridge_port)
         self.final_score: dict | None = None
         self.kills = 0
@@ -167,13 +174,33 @@ class AgentRuntime:
             self.turn += 1
             self.kills += sum(1 for e in events if e["type"] == "kill")
 
+            # tick17 fix: 决策前刷新快照——事件唤醒路径上 state 可能是上一轮末的
+            # （navigate 进行中/无怪），LLM 拿到的是陈旧观测。
+            if self.llm is not None:
+                try:
+                    fresh = self.client.state()
+                    if not fresh.get("error"):
+                        state = fresh
+                except Exception:
+                    pass
+
             obs_summary = self._summarize_obs(state)
-            decision = self.policy.decide(state, events)
-            action, kwargs = decision if isinstance(decision, tuple) else decision.actions[0]
+            decision_source = "rulebot"
+            if self.llm is not None:
+                action, kwargs = self.llm.decide(state, events)
+                decision_source = getattr(self.llm, "_source", "llm")
+                obs_summary["decisionSummary"] = getattr(self.llm, "_reasoning", "")
+                self.tokens_used = self.llm.last_usage
+            else:
+                decision = self.policy.decide(state, events)
+                action, kwargs = decision if isinstance(decision, tuple) else decision.actions[0]
             verdict = {"ok": False}
             if action == "wait":
                 # 脱战回血：不计动作不耗预算，短睡让 regen 走
                 time.sleep(3.0)
+            elif action == "navigate" and state["player"].get("actionInProgress"):
+                # 动作进行中 navigate 必被拒：不耗预算直接跳过（RuleBot 同守卫）
+                verdict = {"ok": True, "verdict": "SKIPPED", "reason": "action_in_progress"}
             elif not self._budget_exceeded():
                 if action == "flee":
                     # 反向撤 200（血量低）
@@ -193,7 +220,7 @@ class AgentRuntime:
                 "observation": obs_summary,
                 "events": [e["type"] for e in events],
                 "decision": {"action": action, "args": kwargs},
-                "decision_source": "rulebot",
+                "decision_source": decision_source,
                 "verdicts": [verdict],
                 "token_usage": self.tokens_used,
             })
@@ -229,8 +256,9 @@ class AgentRuntime:
             "harnessVersion": HARNESS_VERSION,
             "protocolVersion": self.config.protocol_version,
             "model_fingerprint": hashlib.sha256(
-                ("rulebot(seed=%d)" % self.config.seed).encode()).hexdigest()[:16],
-            "system_prompt_hash": None,
+                (("llm:" + (self.llm.model if self.llm else "")) if self.llm
+                 else "rulebot(seed=%d)" % self.config.seed).encode()).hexdigest()[:16],
+            "system_prompt_hash": (self.llm.system_prompt_hash if self.llm else None),
             "started_at": self.started_at,
             "budget": asdict(self.budget),
             "final_status": self.final_status,

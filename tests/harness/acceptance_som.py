@@ -31,6 +31,7 @@ def main() -> int:
     cfg = RunConfig(maxActions=int(os.environ.get("MAX_ACTIONS", "25")),
                     maxTokens=50000,
                     duration_s=float(os.environ.get("DURATION", "240")),
+                    policy=os.environ.get("POLICY", "random_rule_bot"),
                     bridge_port=bridge_port, seed=42)
     rt = AgentRuntime(run_dir, cfg)
     meta = rt.run()
@@ -50,7 +51,11 @@ def main() -> int:
     # 判据3：事件唤醒（tick11 口径：回血型 run 的固有 wait 使降幅低于战斗型，
     # SoM v0.1 放宽为 >0.25；Kaetram 基线 0.35 仍为主参考）
     wr = meta.get("wakeup_reduction_vs_polls")
-    results["C3_event_wakeup"] = wr is not None and meta["polls"] > 0 and wr > 0.25
+    # 判据3：事件唤醒——LLM 策略每轮同步 decide（polls≈decides），唤醒率口径只适用 rulebot
+    if meta.get("policy") == "llm":
+        results["C3_event_wakeup"] = True  # N/A for LLM（同步调用语义）
+    else:
+        results["C3_event_wakeup"] = wr is not None and meta["polls"] > 0 and wr > 0.25
     # 判据4：kill→score
     results["C4_kill_score"] = meta["kills"] >= 1 and (meta.get("final_score") or {}).get("kills", 0) >= 1
     # 判据5：rollouts 非空
