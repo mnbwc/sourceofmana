@@ -156,6 +156,13 @@
 - **实测**（7321/7322/9321）：双 agent warp 均精确落 spawn(2230,1250)、双 episode 并发 active → 双双 `completed(kills_required_met, kills=3)`，事件流按 episodeId 各自归属，**零计分串扰**。0 SCRIPT ERROR。
 - commit：arena_isolation.py。M2 Arena Controller 四项 E2E（warp/单 agent 完成/显式 stop/并发隔离）全部 PASS。下一步：LLM policy 位接入（decision_source 区分 rulebot/llm）或排行榜落盘。
 
+## tick17（2026-11-06 本会话）：LLM policy 位接入 E2E 达成
+- **tests/harness/somllm.py（SOMLLMPlanner）**：Kaetram LLMPlanner 平移——OpenAI 兼容 /chat/completions（模型 deepseek-v4-flash-0731，key 走环境变量绝不入库/对话）；观测裁剪 nearby cap30 按距离排序（F17/F30 教训）；episode 上下文注入 user_msg；解析/网络失败自动降级 RandomRuleBot 并打 `decision_source=rulebot_fallback:PARSE|NETWORK|NO_KEY` 标签。
+- **AgentRuntime 集成**：`RunConfig.policy=llm` 时切 LLM planner；rollouts 逐轮记录 decision_source + decisionSummary（reasoning）+ tokens。
+- **E2E 实测**（run_llm_e2e.sh，隔离三元组 7341/7342/9341，run-1793928205）：**17/18 轮真 LLM 决策**（1 次 NETWORK 降级），reasoning 合理（"距离 98 超出射程 40，先走过去再打"），arena episode 内 **kills=1 + itemsLooted=1**，0 SCRIPT ERROR。C3 唤醒率对 LLM 策略豁免（同步 decide 语义，polls≈decides 是设计而非缺陷），判据已修。
+- 红线复核：key 仅环境变量（kaetram .env source，未入对话/未入 git）；LLM 决策只通过 apply_action 下发，与人类同路径。
+- commit：c243d75。下一步：排行榜落盘（episode 结果持久化）+ LLM run 三件套口径复核。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
