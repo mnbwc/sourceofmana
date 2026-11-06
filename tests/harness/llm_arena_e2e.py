@@ -10,14 +10,15 @@ from sombase import SoMClient
 from somruntime import AgentRuntime, RunConfig
 
 BRIDGE = int(os.environ.get("BRIDGE", "9341"))
+TEMPLATE = os.environ.get("TEMPLATE", "tutorial_maggot")
 c = SoMClient(port=BRIDGE)
 state = c.wait_ready(timeout=40)
 assert not state.get("error"), state
 pid = c.peer_id
-r = c.rpc("arena_start", peerID=pid, template="tutorial_maggot")
+r = c.rpc("arena_start", peerID=pid, template=TEMPLATE)
 if not r.get("ok") and r.get("code") == "EPISODE_ACTIVE":
     c.rpc("arena_stop", peerID=pid)  # 上个 run 遗留 episode：显式收尾后重开
-    r = c.rpc("arena_start", peerID=pid, template="tutorial_maggot")
+    r = c.rpc("arena_start", peerID=pid, template=TEMPLATE)
 print("ARENA_START", json.dumps(r, ensure_ascii=False))
 assert r.get("ok"), r
 time.sleep(1.5)

@@ -39,8 +39,8 @@ def main():
     for i, r in enumerate(rows[:a.top], 1):
         s = r.get("score") or {}
         print(f"{i:3d}. {r.get('nick','?'):16s} {r.get('template','?'):18s} {r.get('status','?'):10s} "
-              f"kills={s.get('kills',0):3d} deaths={s.get('deaths',0):2d} xp={s.get('xpGained',0):5d} "
-              f"loot={s.get('itemsLooted',0):3d} ep={r.get('episodeId','?')}")
+              f"kills={int(s.get('kills',0)):3d} deaths={int(s.get('deaths',0)):2d} xp={int(s.get('xpGained',0)):5d} "
+              f"loot={int(s.get('itemsLooted',0)):3d} ep={r.get('episodeId','?')}")
     return 0
 
 if __name__ == "__main__":
