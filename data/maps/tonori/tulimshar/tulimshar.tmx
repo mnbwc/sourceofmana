@@ -826,6 +826,7 @@
   <object id="17" name="Maggot" type="Spawn" x="2050" y="1024" width="356" height="471">
    <properties>
     <property name="count" value="2"/>
+    <property name="respawn_delay" value="10"/>
     <property name="type" value="Monster"/>
    </properties>
   </object>
