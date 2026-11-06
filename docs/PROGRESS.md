@@ -250,3 +250,11 @@
 - **实测**：①全量验收重跑（run-1793923606，7181/7182/9181）：判据 1-5 仍全 PASS，kills=2 / xpGained=2 / deaths=0——xp 计分随 kill 实际生效；wakeup_reduction=0.5114；RSS 413.0→413.3MB；0 SCRIPT ERROR。②独立三元组（7191/7192/9191）live snapshot 直读：xp/inventory/score v0.2 四字段齐，0 SCRIPT ERROR。
 - **挂账**：itemsLooted 语义是「items_changed 次数」非「件数」（堆叠合并也算 1 次）——arena 计分够用，精确件数待 M2。loot 计分 E2E 待多杀复测。
 - 下一步（tick13）：SoM M2 Arena Controller 设计（多 agent 匹配/复位）或 LLM policy 位接入——按开工包顺序 M2 优先。
+
+## tick21（2026-11-06 本会话）：arena 出生区 respawn_delay 调优 → kills_required_met=3 首次达成
+- **根因链**：tick18 遗留「420s 只 kill 1」→ 定位 respawn 机制：世界怪死亡后 `WorldAgent.RemoveAgent` → `SelfDestructTimer(spawnInfo.respawn_delay)` 重建；delay 来自 TMX Spawn 对象属性（缺省 30s，tiled_map_reader.gd:640 支持 `respawn_delay` 自定义属性）。arena 纯净区 = tulimshar.tmx object id17（Maggot×2）→ 补 `<property name="respawn_delay" value="10"/>`（零代码改动，上游上游机制原样利用）。
+- **验收**（隔离三元组 7361/7362/9361）：① rulebot acceptance 5/5 ALL-PASS（kills=1，0 SCRIPT ERROR）；② rulebot 60-action run kills=3（session_lost 结尾为探针进程清理所致，非 server 错误）；③ **LLM run（run-llm-arena-1793933049）kills=3 / xpGained=3 / itemsLooted=3 / deaths=0，exhausted(max_actions) 正常收尾**——tutorial_maggot(×3) 模板首次打满。
+- 遗留：LLM run episode_final 为 null（episode 未 active 时 status 快照路径），与 tick19 episode_final 语义待复核。
+- commit: 88014ad（本节，仅 tmx 一行）。
+- 下 tick（tick22）：episode_final null 复核；或 leaderboard/LLM run 口径一致性抽查。
+
