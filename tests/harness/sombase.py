@@ -115,7 +115,7 @@ class SoMClient:
     # ---- convenience -----------------------------------------------------
     def approach(self, pos: dict, min_dist: float = 40.0, max_rounds: int = 10) -> bool:
         """逐步 navigate 贴近目标点，直到 persp<min_dist（技能射程内）。
-        e2e 教训：navigate 只到点，attack 需先进入射程（~40），否则静默 no_target_change。"""
+        e2e 教训：navigate 只到点，attack 需先进入射程（≈20，tick17 实测 12.5 过/20.45 拒），否则静默 no_target_change。"""
         me = self.state().get("player", {}).get("position", {})
         for _ in range(max_rounds):
             d = ((me.get("x", 0) - pos["x"]) ** 2 + (me.get("y", 0) - pos["y"]) ** 2) ** 0.5
@@ -195,7 +195,7 @@ class RandomRuleBot:
             if ratio < 0.5:
                 return "flee", {}
             self.target_rid = int(near[0]["rid"])
-            if persp(me.get("position", {}), near[0]["position"]) >= 40:
+            if persp(me.get("position", {}), near[0]["position"]) >= 15:
                 return "navigate", {"x": near[0]["position"]["x"],
                                     "y": near[0]["position"]["y"], "_approach": self.target_rid}
             return "attack", {"rid": self.target_rid}
@@ -226,7 +226,7 @@ class RandomRuleBot:
             self.target_rid = int(min(monsters, key=lambda m: (m.get("health") or {}).get("max", 9999))["rid"])
         if self.target_rid is not None:
             tgt = next((m for m in monsters if m["rid"] == self.target_rid), None)
-            if tgt and persp(me.get("position", {}), tgt["position"]) >= 40:
+            if tgt and persp(me.get("position", {}), tgt["position"]) >= 15:
                 return "navigate", {"x": tgt["position"]["x"], "y": tgt["position"]["y"],
                                     "_approach": self.target_rid}
             return "attack", {"rid": self.target_rid}

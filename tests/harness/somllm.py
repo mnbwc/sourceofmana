@@ -21,7 +21,7 @@ SYSTEM_PROMPT = """你是一个 Source of Mana MMO 里的 AI 玩家。可用动�
 或 {"reasoning": "...", "action": "say", "text": str}
 或 {"reasoning": "...", "action": "wait"}   （原地回血/等动作结束）
 或 {"reasoning": "...", "action": "respawn"} （死亡后复活）
-规则：attack 只能打射程内目标（persp<40，目标距离见 nearby.distance，太远先 navigate 走过去再打）；血量低于 50% 就 wait 回血；只打 Maggot 等弱怪，绝不打 Scorpion（200HP 会死）。只返回 JSON。"""
+规则：attack 只能打射程内目标（persp<15，目标距离见 nearby.distance，太远先 navigate 走过去再打）；血量低于 50% 就 wait 回血；只打 Maggot 等弱怪，绝不打 Scorpion（200HP 会死）。只返回 JSON。"""
 
 
 def _fmt_nearby(state: dict, me: dict, cap: int = 30) -> list[dict]:
