@@ -351,3 +351,10 @@
 - NpcScript.gd 扩 tr() 至 Choice（选项文本）；Chat/Express；NpcCommons.GetRandomGreeting/Farewell 静态函数内改用 TranslationServer.translate（坑：static 函数不能调 tr()——Parse Error，须用 TranslationServer.translate）。
 - 隔离实机验证：7601/7602/9601 起服 0 SCRIPT ERROR；import 重生成 NPC.zh.translation（88KB）中文值二进制抽查命中。
 - commit：本节。剩余：任务文本 109 条 + 物品显示名分离层（MVP-6 红线，name= 是 DB hash key）。
+
+## MVP-4 批4：任务文本 ✅（cb97f45）
+- QUEST.csv 71 键（任务名/描述/目标/奖励/地名）全译；原文作 key。
+- 消费点接线：Progress.gd 任务列表/详情面板 tr()；NpcCommons 任务通知用 TranslationServer.translate（static 函数里 tr() 不可用——Godot 语法事实）。
+- giver 字段（NPC 人名）不译=fallback 原文，与实体名策略一致。
+- 实测 tr 命中：妮娜的点心 / 已完成 / 仙人掌药水 ×10。0 SCRIPT ERROR。
+- 剩余：物品显示名分离层（MVP-6 红线项）。
