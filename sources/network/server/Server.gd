@@ -288,8 +288,7 @@ func TriggerChat(channelName : String, text : String, peerID : int):
 			Network.NotifyNeighbours(player, "ChatPlayer", [str(GUICommons.ChatChannel.LOCAL), player.nick, text, player.get_rid().get_id()])
 		elif channelName == str(GUICommons.ChatChannel.GLOBAL):
 			Network.NotifyGlobal("ChatPlayer", [str(GUICommons.ChatChannel.GLOBAL), player.nick, text, player.get_rid().get_id()])
-			if Launcher.Discord:
-				Launcher.Discord.SendToDiscord(player.nick, text)
+			# D8: 自建私有实例禁用 GLOBAL 频道外发（原版转发 Discord，中文文本外发风险更大）
 		else:
 			var target : PlayerAgent = Launcher.World.GetGlobalPlayer(channelName)
 			if not target:
@@ -297,6 +296,9 @@ func TriggerChat(channelName : String, text : String, peerID : int):
 			else:
 				Network.ChatPlayer(player.nick, player.nick, text, player.get_rid().get_id(), target.peerID)
 				Network.ChatPlayer(target.nick, player.nick, text, player.get_rid().get_id(), player.peerID)
+		# D7: 人类客户端对非法频道也要收到粗粒度被拒提示，而非静默丢弃
+		if channelName != str(GUICommons.ChatChannel.LOCAL) and channelName != str(GUICommons.ChatChannel.GLOBAL) and not Launcher.World.GetGlobalPlayer(channelName):
+			Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "Message could not be delivered (unknown channel or player offline)", peerID)
 
 func TriggerChoice(choiceID : int, peerID : int):
 	var player : PlayerAgent = Peers.GetAgent(peerID)
