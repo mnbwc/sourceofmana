@@ -199,6 +199,11 @@
 - **LLM 批测容量口径**：LLM API 10-15s/轮（波动至 100s+），153s 只跑 7 轮 decide——**budget 按时间过期（expired）是设计行为**；功能面 7/7 全 LLM 决策+warp+动作下发全部正常。跑满 kills_required_met=3 需 `MAX_ACTIONS≈24 & DURATION≥420`（tick17/21 已多次验证可完成）。
 - **坑**：close_session 后 probe 不重连（AGENT-DONE 后 stage=done）——每 run 需重启 probe 或换新昵称。
 
+## tick23（2026-11-06 本会话）：排行榜截断 bug 修复（S 级数据丢失）+ 回归
+- **ArenaLeaderboard Record**：`FileAccess.WRITE_READ` 打开即**截断**——此前每局落盘会把历史清掉只剩最后一行（第一局写入成功纯属首写无历史）。修复=读全部已有行→整体重写（旧行+新行）。
+- **回归实测**：既有 1 行历史 + 连续 2 局 stop → 文件 3 行、lineNo 1..3 保序、两局 endReason 均落盘。0 SCRIPT ERROR。
+- commit：本节。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
 - **验收结果（run-1793921024，隔离三元组 7181/7182/9181）**：C1 exhausted(max_actions=25)✅ C2 三件套齐+protocolVersion=217363688✅ C3 wakeup_reduction=0.5217>0.5✅ C4 kills 0→1（deaths 0）✅ C5 rollouts 44≥decide_calls 44✅；server log 0 SCRIPT ERROR。
