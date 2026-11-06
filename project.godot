@@ -31,6 +31,7 @@ buses/default_bus_layout="res://presets/audio/default_bus_layout.tres"
 Launcher="*res://sources/launcher/Launcher.gd"
 Network="*res://sources/network/Network.gd"
 AgentBridge="*res://sources/network/AgentBridge.gd"
+ArenaController="*res://sources/network/ArenaController.gd"
 AgentClientProbe="*res://sources/network/AgentClientProbe.gd"
 FSM="*res://sources/launcher/FSM.gd"
 

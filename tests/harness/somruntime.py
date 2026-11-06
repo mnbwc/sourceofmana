@@ -68,6 +68,8 @@ class EventClassifier:
                 out.append({"type": "died"})
             elif kind == "damaged":
                 out.append({"type": "damaged", "value": e.get("value", 0)})
+            elif kind == "looted":
+                out.append({"type": "looted"})
         player = state.get("player", {})
         hp = (player.get("health") or {})
         hp_cur, hp_max = hp.get("current", 1), hp.get("max", 1) or 1

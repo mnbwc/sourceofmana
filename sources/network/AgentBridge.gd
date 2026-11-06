@@ -96,6 +96,19 @@ func _handle(line : String) -> String:
 			return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
 		"drain_events":
 			return _drain_events(req)
+		"arena_start":
+			var ap : int = int(req.get("peerID", -1))
+			if ap < 0:
+				return _json({"ok": false, "code": "INVALID_PARAMS", "detail": "missing peerID"})
+			var anick : String = str(req.get("nick", ""))
+			if anick == "":
+				var ag = Peers.GetAgent(ap)
+				anick = ag.nick if ag else ""
+			return _json(ArenaController.Start(ap, anick, str(req.get("template", ""))))
+		"arena_status":
+			return _json(ArenaController.Status(int(req.get("peerID", -1))))
+		"arena_stop":
+			return _json(ArenaController.Stop(int(req.get("peerID", -1))))
 		"debug_hooks":
 			var dp : int = int(req.get("peerID", -1))
 			var dagent = Peers.GetAgent(dp)

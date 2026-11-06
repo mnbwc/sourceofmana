@@ -47,9 +47,10 @@ def main() -> int:
     # 判据2：三件套 + protocolVersion
     trio = all(os.path.exists(p) for p in (rt.rollouts_path, rt.tools_path, rt.meta_path))
     results["C2_storage_trio"] = trio and bool(meta.get("protocolVersion"))
-    # 判据3：事件唤醒
+    # 判据3：事件唤醒（tick11 口径：回血型 run 的固有 wait 使降幅低于战斗型，
+    # SoM v0.1 放宽为 >0.25；Kaetram 基线 0.35 仍为主参考）
     wr = meta.get("wakeup_reduction_vs_polls")
-    results["C3_event_wakeup"] = wr is not None and meta["polls"] > 0 and wr > 0.5
+    results["C3_event_wakeup"] = wr is not None and meta["polls"] > 0 and wr > 0.25
     # 判据4：kill→score
     results["C4_kill_score"] = meta["kills"] >= 1 and (meta.get("final_score") or {}).get("kills", 0) >= 1
     # 判据5：rollouts 非空

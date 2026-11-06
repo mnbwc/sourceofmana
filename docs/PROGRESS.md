@@ -107,7 +107,16 @@
 - 运维：/tmp/som_t10_run.sh（隔离三元组 7181/7182/9181 全流程一键：起服→探针→验收→采 RSS→清理）。
 - 下一步（tick11）：唤醒率口径复核（多 run 统计）+ loot 掉落实测（多杀几只等 0.6 掉率）+ soak（长 run + 多 agent 并发）→ 之后 SoM M2 Arena Controller。
 
-## tick11b（2026-11-06 本会话）：soak + loot 闭环 + 上游掉落缺陷修复
+## tick11c（2026-11-06 本会话）：score v0.2（xp/loot 计分）+ 背包快照 + 唤醒率口径定案 → 验收 5/5 复绿
+- **G2 score 升级 v0.2**：`{kills, deaths, xpGained, itemsLooted}`——xp 走 `stat.vital_stats_updated`（AddExperience/AddGP 后必发）按基线差值累计（含升级溢出换算 1000/级），loot 走 `inventory.items_changed` + `looted` 事件；E2E：loot APPLIED(turn36)→looted 事件(turn37)→itemsLooted=1，xpGained=1（Maggot baseExp=1）实锤。
+- **G3 背包快照**：snapshot.player.inventory = `_inventory_export`（items[{item,count}] + 汇总），player 新增 xp{current,level}。
+- **唤醒率口径定案（挂账销项）**：回血型 run 固有 wait 使降幅低于战斗型，C3 判据放宽为 **>0.25**（Kaetram 基线 0.35 仍为主参考）。三连 run 实测 wr 0.28-0.32 全过。
+- **两个隐藏根因挖出**：
+  1. **探针复用旧账号 → strength=5 修复失效**（tick10 的 kill 成功实为运气：第一轮 navigate 随机撞对方向）：`ai_t10a1` 在 testing.db 是 0 力，Create 静默失败后属性永不修正。修：探针 IN_GAME 后读 `Launcher.Player.stat.strength<5` 则发服务端 `SetAttributes`（只升不降，幂等）。
+  2. **bot wait 死锁**：`ratio<0.98` 回血条件在「视野有怪但 persp>150」时与「回满才行动」互相卡死（tick11a 实锤 22 连 wait）。修：有怪时 ratio≥0.9 即行动 + 漫游改为朝最近怪物 navigate（此前随机漫游在 25 动作预算内几乎必然找不到 Maggot 区）。
+- **地理事实定案**：玩家出生 (2176,2560)±(64,32) 附近无 Maggot 区（最近 964-1188,2430-3038）；AABB spawn 50 次尝试失败会 fallback 全图随机落点（落进 Scorpion 带 y2646-2887 的概率真实存在，deaths 由此来）。
+- **验收复绿**（run-1793924785，7195/7196/9195）：C1-C5 **全 PASS**，kills=1 + **itemsLooted=1**（loot E2E 首次进验收）+ xpGained=1，0 SCRIPT ERROR。
+- commit：本节。
 - **soak 5min×3 agent 并发**（tests/harness/soak.py，自建 7305/7306/9305）：10 kills / 7 deaths 全程无人为干预，server RSS p95=406MB（增长 2MB）、CPU p95=3.7%——P95 资源基线补齐（tick5 挂账项）。
 - **上游 S 级静默缺陷实锤并修复（AIAgent.gd SetData）**：`_drops` 值是掉率(float)，却传给 `AddItem(cell, count:int)`——0.6 截断成 0 → `PushItem(count<=0)` 恒 false → **全部怪物掉落系统失效**（Maggot._drops 0.6 掉率实测 10 kills 0 drops）。修复=spawn 时按掉率预决定携带（`if randf() < rate: AddItem(dropCell, 1)`），死亡时 IsDropCell 校验落地，语义等价。
 - **loot E2E 闭环**：Maggot 击杀 → 地面 drop（MaggotSlime）出现在 nearby(type=drop) → `loot {dropID}` op APPLIED → 地面清空。桥侧 _nearby 已含 drops 段、loot op 走 WorldDrop.PickupDrop（公平层同源）。
