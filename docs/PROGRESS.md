@@ -435,3 +435,10 @@
 - 测试实例已全部清理，工作树 clean。
 - MVP 主线（debug 收尾/AI 友好/组队/观战/汉化 + ARENA_MODE 保留）全部落地；剩余人工挂账：M0 签署、桌面 IME 人工复核、A2 人类侧开关 UI（Party 面板，随主会话收尾线）。
 
+
+
+## MVP-11 整体验收 ✅（676c134）：12/12 PASS
+- tests/harness/mvp11_acceptance.py：AC-1..AC-8 全清单自动化（隔离三元组）。
+- 修复：party_chat 镜像进双方桥事件流（聊天 rpc 不经桥缓冲）。
+- 端到端演示等价覆盖：人类替身+AI 中文组队+第三人观战+ARENA_MODE 双向。
+- 唯一人工挂账：桌面 IME 复核。交付说明→docs/MVP-DELIVERY.md。
