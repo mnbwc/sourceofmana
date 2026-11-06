@@ -176,6 +176,11 @@
 - **E2E**：①tutorial_maggot 完整跑完 → 落盘 `completed(kills_required_met, kills=3)`；②grind_maggot start→arena_stop → 落盘 `completed(explicit_stop)`，lineNo 递增追加正确。0 SCRIPT ERROR。
 - commit：7096123。下一步：LLM run 批量复测（3 run 平均）+ episode 结果进 run.meta.json 口径对齐。
 
+## tick19（2026-11-06 本会话）：episode_final 入 run.meta.json + 回归全绿
+- **somruntime.py**：run() 收尾（finally）读 `arena_status` → `meta.episode_final`（无 arena/已终局为 None；终局精确回查走 leaderboard JSONL——Status 只回 active episode）。
+- **回归**：rulebot acceptance（9331 三元组）5/5 ALL-PASS（kills=1/loot=1/deaths=2，wakeup 37.8%），0 SCRIPT ERROR，episode_final=None 正确。
+- commit：本节。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
