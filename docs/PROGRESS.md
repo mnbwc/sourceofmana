@@ -191,6 +191,7 @@
 - **批测结果②**（llm_arena_e2e.py 连跑）：warp 到 spawn 正常 → **LLM 完成整局 tutorial_maggot**：kills=3 / loot=1 / 0 deaths → `episode_end completed(kills_required_met)` → 排行榜落盘 `ai_llmf3 … kills:3`。多 run 稳定复现。
 - **口径注记**：EPISODE_FINAL 常显示 null（episode 已终局，Status 只回 active）——终局权威结果以 ARENA_EVENTS 的 episode_end 与排行榜 JSONL 为准。
 - 结论：LLM policy 位已在 arena 场景下具备完整"对局能力"（导航→索敌→攻击→拾取→完成目标），M2→M3 数据闭环成立。
+- **事件订阅修复（ArenaBridge）**：`arena_start` 先 `_hook_agent` 再建 episode——此前从未 snapshot/apply_action 过的新连接收不到 episode_start（_events 缓冲未建）。实测：全新连接 arena_start 后首次 drain_events 即含 `arena:episode_start`。
 
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
