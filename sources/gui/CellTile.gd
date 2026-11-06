@@ -105,7 +105,7 @@ func GetTooltipWeight() -> String:
 	return "\n\nWeight: [color=%s]%dg[/color]" % [lightColor, cell.weight]
 
 func GetTooltipHeader() -> String:
-	var bbcode : String = cell.name
+	var bbcode : String = tr(cell.name)
 	var lightColor : String = "#" + UICommons.LightTextColor.to_html(false)
 	if cell is ItemCell and not cell.customfield.is_empty():
 		bbcode += " (%s)" % cell.customfield

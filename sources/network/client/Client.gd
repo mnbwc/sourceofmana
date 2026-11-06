@@ -243,7 +243,7 @@ func ItemAdded(itemID : int, customfield : StringName, count : int, _peerID : in
 				Launcher.GUI.inventoryWindow.RefreshInventory()
 				Launcher.GUI.tradePanel.RefreshInventory()
 				var countText : String = " x" + str(count) if count > 1 else ""
-				Launcher.GUI.chatContainer.AddLocalFeedback("You receive " + cell.name + countText)
+				Launcher.GUI.chatContainer.AddLocalFeedback(tr("You receive ") + tr(cell.name) + countText)
 			if not (cell is ItemCell and CellCommons.IsEquipment(cell)):
 				cell.used.emit()
 

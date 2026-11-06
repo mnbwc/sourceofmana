@@ -531,7 +531,7 @@ environment/default_environment="res://default_env.tres"
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://data/db/zh/UI.en.translation", "res://data/db/zh/UI.zh.translation", "res://data/db/zh/UI-full.en.translation", "res://data/db/zh/UI-full.zh.translation", "res://data/db/zh/NPC.en.translation", "res://data/db/zh/NPC.zh.translation", "res://data/db/zh/QUEST.en.translation", "res://data/db/zh/QUEST.zh.translation")
+locale/translations=PackedStringArray("res://data/db/zh/UI.en.translation", "res://data/db/zh/UI.zh.translation", "res://data/db/zh/UI-full.en.translation", "res://data/db/zh/UI-full.zh.translation", "res://data/db/zh/NPC.en.translation", "res://data/db/zh/NPC.zh.translation", "res://data/db/zh/QUEST.en.translation", "res://data/db/zh/QUEST.zh.translation", "res://data/db/zh/ITEMS.en.translation", "res://data/db/zh/ITEMS.zh.translation")
 
 [sentry]
 
