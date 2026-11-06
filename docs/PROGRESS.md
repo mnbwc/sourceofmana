@@ -324,3 +324,10 @@
 - MVP-1 ✅：docs/MVP-EXECUTION.md 登记落定（模块登记表/汉化工作量实测 ~1100 条/D1-D9 现状/附录 B 待证清账）。
 - MVP-2 部分收口 ✅（148fed6）：D4 DSN 清空+sentry.dat 删除；D8 GLOBAL→Discord 外发移除；D7 非法频道粗粒度被拒提示。D1/D2/D3/D5/D6 前已修。
 - commit：148fed6。
+
+## tick26（2026-11-06 本 tick）：LLM tutorial_maggot 同判据对比复测 + 策略层三改进首验 ✅
+- **somllm.py 三改进（tick25 结论落地）**：① system prompt 注入 navigate/loot 技巧（目标坐标±5 直达、<15 立即 attack、loot 前置距离）；② 客户端侧前置距离守卫 _guard：射程外 attack / >40 loot 自动改写 navigate 目标坐标（省一次注定无效的决策）；③ 429/网络指数退避（2s→8s→32s，Retry-After 优先）。
+- **复测（隔离 7421/7422/9421，tutorial_maggot ×3/300s，LLM deepseek-v4-flash-0731 thinking off）**：改进前 episode 窗口内 **0 kill**（kills 全落在 300s expiry 之后不计分——排行榜 kills=0 与 META kills=2 的口径分裂即由此，终局权威读法=排行榜，tick22 定案再次验证）；改进后窗口内 **kills=1 / loot=1 / deaths=0**（turn3 即首次 attack、turn5 首杀+拾取，此前 turn4-18 全是射程边缘震荡）。0 SCRIPT ERROR。
+- **结论**：三改进方向有效但仍不达标（RuleBot 同模板 ~100s 打满 3 kills）。剩余瓶颈=单次决策延迟 ~13s（26 决策/564s），已在 300s 窗口内挤出 ~26 轮——LLM 位在快节奏 episode 上必须降延迟（本地推理/更小模型）或事件驱动减决策数。
+- **坑（新）**：探针 --agent-keep 不会在 close_session 后重连——harness 每次 run 后必须重启探针，否则下一 run wait_ready 报 no agent peer found（本 tick 实锤：keepalive 日志正常但 Peers.peers 已空）。
+- commit: 本节 + somllm.py。下一步（tick27）：① 决策去抖/事件驱动（同怪同态不重问 LLM）；或 ② M3 榜单聚合自动化（N seed→Markdown 一键产出）。
