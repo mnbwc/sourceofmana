@@ -338,3 +338,10 @@
 - tscn 键名试点：Social "No party joined"→UI_NO_PARTY、Progress "Bestiary"→UI_BESTIARY；auto_translate can_translate=true、atr() 输出中文验证。
 - 0 SCRIPT ERROR。commit 见 git log。
 - 下一步：MVP-4 核心路径全量文本（UI 139 + NPC 678 分批 + quest 109 + name ~180）；MVP-6 显示名匹配回归（AI snapshot 按 name 匹配）。
+
+## MVP-4 批量翻译进行中（2026-11-06 本轮）
+- 批1 UI 全量 ✅（c2769d9 + 0ee52cf + c526b95）：UI-full.csv 原文作 key 模式 125 键（含前导空格键），覆盖设置/战斗/属性/对话框/控件；真实进程 tr() 全命中。
+- 批2 NPC 管线 ✅（fb2593f）：NpcScript.Mes/Think/Narrate 一次改动走 tr()——46 个脚本 678 条全部受益，无需改脚本本身；NPC.csv 首批 Riskim 29 条全译；实机 tr() 命中+select NPC APPLIED+0 SCRIPT ERROR。
+- 关键发现：原文作 key 模式下 GDScript 侧零改动即可生效（tr fallback=原文），是最低 rebase 风险路径。
+- 待续：NPC 余 45 文件 ~649 条分批（cron）；任务文本 109 条（QuestData .tres 的 name/description 等字段为服务端数据结构，需评估走 tr 还是 zh 资源变体）；物品名 ~180 条（presets/cells name= 是 DB hash key，🔴 不可改——MVP-6 红线，需 key/display 分离方案）。
+- 🔴 待办（MVP-6 关联）：物品/实体 name= 字段被 DB.GetCellHash 用作查找键（AIAgent 索敌、掉落 roll 等全部按名匹配）——绝不能直接汉化，需实现「内部键不变 + 显示名 tr」分离层。
