@@ -426,3 +426,12 @@
 - on 时：完整 episode 生命周期照常（实测 ep-1-48032 → expired 落盘 lineNo=20，[AI] 前缀昵称）——模块按原规格工作、代码零删改（AC-8）。
 - 桥保留为共享基础设施（trace/verdict/观战随模块开关无关，规格 §6.2）。
 - 发现挂账：episode 终局判定与快照 score 的差值镜像在长 episode 下有计分不同步疑点（snapshot kills=2 vs episode 0）——挂账 MVP-11 前复查（可能为 cron 期间多 agent 残留 episode 干扰）。
+
+## MVP-11 整体验收 ✅（2026-11-06 本 cron tick31，12 PASS / 0 FAIL）
+- **AC-3 补缺：PARTY 聊天进桥事件流**（AgentBridge party op chat 分支）——聊天 rpc 不经桥缓冲，补 `_push_event` 同源落账 `party_chat`（from/text），双方队友事件流可达；AC-3 全链（邀请→接受→同 partyId→PARTY 消息送达→离队收缩）实测绿。
+- **tests/harness/mvp11_acceptance.py**：AC-1..AC-8 自动化验收脚本（headless 等价断言口径：桌面 IME 复核维持人工挂账）。隔离实例 7905/7906/9905 + 双 probe（p11h 人类替身 / p11a）实测 **12 PASS / 0 FAIL**，服务器 0 SCRIPT ERROR。
+  - AC-1/AC-5/AC-6 按既有实测证据引用（MVP-3/4 translation probes、MVP-2 隔离提交、R3 数值零改动声明）。
+- **AC-7 双向复核（独立复测）**：off 实例（7901/7902/9901）arena_start→`ARENA_MODE_OFF` 拒绝、status=episode null、stop=NO_ACTIVE_EPISODE；on 实例完整 episode ep-3-848515 → kills_required_met / kills=3 / xpGained=3 / completed 落盘——门控双向绿。
+- 测试实例已全部清理，工作树 clean。
+- MVP 主线（debug 收尾/AI 友好/组队/观战/汉化 + ARENA_MODE 保留）全部落地；剩余人工挂账：M0 签署、桌面 IME 人工复核、A2 人类侧开关 UI（Party 面板，随主会话收尾线）。
+
