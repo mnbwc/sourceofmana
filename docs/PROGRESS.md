@@ -181,6 +181,11 @@
 - **回归**：rulebot acceptance（9331 三元组）5/5 ALL-PASS（kills=1/loot=1/deaths=2，wakeup 37.8%），0 SCRIPT ERROR，episode_final=None 正确。
 - commit：本节。
 
+## tick20（2026-11-06 本会话）：攻击射程口径修正 40→15 + 回归全绿
+- **实测口径**（tick17 LLM run 数据复核）：persp 12.5 attack 通过 / 20.45 拒——此前 sombase/LLM prompt 的"射程 40"过宽导致大量 no_target_change 轮次。修正：RuleBot 判定 40→15、LLM SYSTEM_PROMPT 同步改 15。
+- **回归**（9335 三元组）：rulebot acceptance 5/5 ALL-PASS（kills=1/loot=1，wakeup 28.2%>25%），0 SCRIPT ERROR。
+- commit：本节。
+
 ## tick10（2026-11-06，本节）：harness v0.1 全量验收——判据 1-5 全 PASS ✅
 - **三件套落盘**（tests/harness/somruntime.py）：rollouts.jsonl + tools.jsonl + run.meta.json；Budget 硬闸门（maxActions/expiresAt）、事件分类器（kill/died/damaged + snapshot 派生 hp_low/navigation_arrived）、wakeup_reduction=1-decide/polls。
 - **桥增量**：新增 `op=respawn`（TriggerRespawn 半血复活+回出生点；新账号 respawnDestination 可能为 UnknownHash → 桥侧兜底 DefaultStartMapID+GetRandomStartPos）——死亡不再终局。
