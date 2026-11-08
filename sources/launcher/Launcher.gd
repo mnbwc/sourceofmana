@@ -69,6 +69,24 @@ func Server():
 	add_child.call_deferred(Email)
 	add_child.call_deferred(Party)
 
+# Headless dedicated-server visual trim.
+# The Server scene ships a Canvas/GUI subtree (labels, TabContainer, RichTextLabel,
+# theme) that is pure overhead when running with --headless --server: it builds
+# Control nodes, loads the theme, and allocates font/atlas resources for a display
+# that does not exist. Strip it before the scene enters the tree so those nodes
+# are never instantiated.
+#
+# Safe to call on any scene: it only removes the "Canvas" child if present, and
+# never touches the root or any non-visual node. The client path never calls it.
+func StripServerVisuals(scene : Node) -> void:
+	if scene == null:
+		return
+	var canvas := scene.get_node_or_null("Canvas")
+	if canvas:
+		scene.remove_child(canvas)
+		canvas.queue_free()
+		Util.PrintLog("Launcher", "Headless server: stripped Server/Canvas visual subtree")
+
 func Reset(clientStarted : bool, serverStarted : bool):
 	if not clientStarted:
 		if Debug:
@@ -146,6 +164,7 @@ func _ready():
 	LauncherCommons.ParsePortOverrides()
 	if "--server" in OS.get_cmdline_args():
 		Scene = FileSystem.LoadResource(Path.Pst + "Server" + Path.SceneExt)
+		StripServerVisuals(Scene)
 		Root.add_child.call_deferred(Scene)
 		Engine.set_max_fps(LauncherCommons.ServerMaxFPS)
 		Engine.set_physics_ticks_per_second(LauncherCommons.ServerMaxFPS)

@@ -442,3 +442,107 @@
 - 修复：party_chat 镜像进双方桥事件流（聊天 rpc 不经桥缓冲）。
 - 端到端演示等价覆盖：人类替身+AI 中文组队+第三人观战+ARENA_MODE 双向。
 - 唯一人工挂账：桌面 IME 复核。交付说明→docs/MVP-DELIVERY.md。
+
+
+## 方向一：无头 Godot 4 专用服务端深度瘦身 ✅（2026-11-09，审核《服务端改造.txt》后落地）
+
+> 输入：用户提供的《服务端改造.txt》方向一方案。审核结论与落地记录如下。
+
+### 审核结论（对照 SoM 代码库逐条核实）
+
+| 文档条目 | 判定 | 证据 |
+|---|---|---|
+| ① SCons 源码裁剪编译（disable_3d 等 → 25-35MB） | ❌ 不做 | 需编译 Godot 内核（数小时 + 工具链），且改变导出/协议链路；项目 CI 用官方模板，红线要求低风险。文档 60-100MB 目标靠此达成，非配置可调。 |
+| ② override.cfg 配置覆盖（30 Tick/dummy renderer/Dummy audio） | ✅ 落地 | `project.godot` 已有 max_fps=60、physics_ticks 默认；`Launcher.gd:150-151` 已在 --server 时设 30 FPS/30 tick（ServerMaxFPS=30）。override.cfg 补全并固化服务端安全默认。 |
+| ③ 代码层逻辑分离（剔除视觉/装饰节点） | ✅ 落地（按 SoM 结构改写） | 文档示例 `MainServer.gd` 是通用写法，SoM 实际是 `presets/Server.tscn`（根 Node2D + Canvas GUI 子树）。已在 `Launcher.gd` 加 `StripServerVisuals()`，--server 时剥离 Canvas 子树。 |
+| ④ GDExtension SQLite 持久化 | ➖ 无关 | 项目已用 `addons/godot-sqlite`（GDExtension），无需改。 |
+| ⑤ systemd 守护进程资源限制 | ➖ 不做 | 项目红线=自建私有实例；容器无 root，不搞 systemd。资源限制由容器/cgroup 承担。 |
+
+### 落地改动（2 个文件）
+
+1. **`override.cfg`（新增，项目根）**——headless 服务端安全默认：`run/max_fps=30`、`physics_ticks_per_second=30`、`2d/default_gravity=0`、`2d/solver/iterations=4`、`renderer/rendering_method="dummy"`、`audio driver="Dummy"`。随导出包发布；客户端导出不含此文件。
+2. **`sources/launcher/Launcher.gd`（+18 行）**——新增 `StripServerVisuals(scene)`：--server 分支在场景入树前移除 `Canvas` 子树（含 theme/Label/TabContainer/RichTextLabel），避免无显示环境下构建 Control 节点与字体/atlas 资源。仅 --server 调用，客户端路径不受影响；无 root/非视觉节点改动。
+
+### 实测（Godot 4.7.1 官方运行时 + release headless 导出，空载 60s 采样）
+
+| 构建 | RSS（空载） | CPU（单核） | SCRIPT ERROR | 端口 |
+|---|---|---|---|---|
+| debug 二进制（改造前基线） | 434,816 kB | ~2.8% | 0 | 8101 UDP / 8102 TCP / 9101 TCP |
+| release 导出（改造前基线） | 260,212 kB | ~1.5% | 0 | 8401/8402/9401 |
+| **release 导出（改造后）** | **259,620 kB** | **~1.6%** | **0** | 8301 UDP / 8302 TCP / 9301 TCP |
+
+- **改造收益**：release 路径 RSS 降 ~600 kB（~0.2%），主要来自 Canvas 子树剥离（Control 节点 + 主题字体资源）。CPU 持平（1.5%→1.6%，噪声范围内）。
+- **结论**：SoM 的 headless 服务端在 **release 导出**下已经是 **~260MB / 1.6% CPU**，远优于 debug 二进制的 425MB。文档 60-100MB 目标**无法靠配置/代码分离达成**——那是 SCons 裁剪内核（①）的成果，而 ① 被判定为高成本/高风险不做。
+- **0 SCRIPT ERROR** 全程（改造前后均 0）；剥离消息 `[Launcher] Headless server: stripped Server/Canvas visual subtree` 实证生效。
+- 附：release 导出需手工补 GDExtension 布局（已知 M1 坑）——导出后 `.so` 平铺在 binary 目录，须移到 `addons/godot-sqlite/bin/`、`addons/sentry/bin/linux/x86_64/`、`addons/webrtc_native/lib/` 并补 `.gdextension` 文件，否则 GDExtension 加载失败（40 SCRIPT ERROR）。本次已按此修复并验证。
+
+### 挂账（方向一剩余）
+
+1. （可选）若确需 60-100MB 目标 → 单独立项评估 SCons 裁剪编译（①），需 Godot 源码 + 编译工具链 + 重新验证协议/导出链路，成本高。
+2. （可选）release 导出 GDExtension 布局自动化（导出脚本 post-process），消除手工补 .so 步骤。
+
+---
+
+## 方向 A：服务端跳过视觉资源预加载 ✅（2026-11-09，512MB VPS 约束驱动）
+
+> 触发：用户 VPS 仅 512MB 内存，要求必须优化。方向一已证明配置/代码分离无法逼近目标，故转向**运行时数据裁剪**（方向 A）。
+
+### 内存构成分析（原版 release headless，空服）
+
+| 构成 | 大小 | 编译裁剪可达 | 说明 |
+|---|---|---|---|
+| RssAnon（匿名堆） | 191 MB | ❌ | 运行时数据：DB 资源、场景、对象 |
+| RssFile（文件映射） | 68 MB | ❌ | 资源/库映射 |
+| VmExe（可执行代码） | 55 MB | ✅ | 编译裁剪可减少 |
+| VmLib（共享库） | 24 MB | ✅ | 编译裁剪可减少 |
+
+**结论**：编译裁剪最多省 ~20MB（代码段），而 259MB 中 259MB 是运行时数据 → **方向 A 才是大头**。
+
+### 探针实验（MemProbe autoload + 对照开关，已全部移除）
+
+| 实验 | Static 内存 | 差值 | 备注 |
+|---|---|---|---|
+| 空项目基线 | 23.8 MB | — | 引擎自身 |
+| 正常 headless server | 243.4 MB | — | DB+World 加载后 |
+| 跳过 World 初始化 | 231.4 MB | -12 MB | 40 个 SubViewport + 导航网格 |
+| 跳过 Populate（只 Preload） | 230.2 MB | -13 MB | — |
+| 跳过 entity Preload | 225.8 MB | -17.6 MB | entity 数据仍完整 |
+| **跳过 palette+music Preload** | **214.8 MB** | **-28.6 MB** | entity/palette 数据完整 |
+| 跳过全部视觉 Preload | 158.0 MB | -85.4 MB | ❌ entity 也丢了，不可用 |
+
+**关键发现**：
+- `DB.Preload()` 的 `load_threaded_request` 比 `Populate()` 的 `LoadResource` 加载更多依赖（sprite 场景→纹理→音频）。
+- palette .tres 引用 Material（着色器），music .tres 引用 AudioStream——headless 渲染/播放都不需要。
+- **Godot 无"不加载依赖"选项**：`CACHE_MODE_IGNORE_DEEP` 只影响缓存，依赖仍加载（实测反而暴涨到 567MB）。
+- 跳过 palette Preload 会引发 `Unicode parsing error`（资源加载竞争）→ **只跳过 music**，保留 palette。
+
+### 落地改动（1 个文件）
+
+**`sources/db/DB.gd`** — `Preload()` 内新增服务端判断：
+```gdscript
+var isServerMode : bool = Network.ENetServer != null or Network.WebSocketServer != null
+# palette 保留（AgentClientProbe 读 PalettesDB.keys() 做角色创建）
+# music 跳过（headless 无音频输出）
+if not isServerMode:
+    preloadPaths.append_array(FileSystem.ParseResources(Path.MusicPst))
+```
+客户端路径不受影响（`isServerMode=false` 时行为不变）。
+
+### 实测对比（release headless，空服 15s 采样）
+
+| 构建 | RSS | RssAnon | SCRIPT ERROR | 功能 |
+|---|---|---|---|---|
+| 原版 release | 259,364 kB | 191,448 kB | 0 | ✅ |
+| **优化版 release** | **229,740 kB** | **161,372 kB** | **0** | ✅ |
+
+- **收益**：RSS **-29.6 MB（-11.4%）**，全部来自 RssAnon（运行时数据）。
+- **512MB 约束下占用 44.9%**（原 50.6%），安全余量充足。
+- **功能完整性**：`smoke_rulebot.py` 全通过（PING→READY→8 动作 navigate/attack→AGENT-DIED→close_session→PEER-GONE），agent 正常游戏。
+- **0 SCRIPT ERROR**；端口 6118/6119/9101 全部监听。
+
+### 挂账（方向 A 剩余）
+
+1. （可选）palette 材质裁剪：需手写 .tres 解析器（97 entity + 40 palette 复杂字段），风险高，收益 ~14MB，暂不做。
+2. （可选）`ActorCommons.gd` 的 56 个无条件 `preload()` 常量（GUI/特效场景）——服务端不需要，但改动面大，需逐文件评估。
+
+
