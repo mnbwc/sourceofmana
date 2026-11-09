@@ -1,32 +1,25 @@
 package main
 
-// Phase-3 persistence: the AccountStore is mirrored to a JSON file so that
-// accounts, characters, and their traits survive a server restart. Writes are
-// serialized through the store's own mutex and are atomic (write to a temp
-// file, then rename), so a crash mid-write cannot corrupt the live database.
+// Phase-3 persistence: the AccountStore is backed by SQLite (see
+// sqlite_store.go for the schema and write-through helpers). The in-memory
+// cache is still the fast path for reads; SQLite is the source of truth.
 //
-// The file format is deliberately simple:
+// On startup, loadStore() opens the SQLite database (SOM_DB_FILE, default
+// som.db). If the database is empty and a legacy JSON file exists
+// (SOM_STORE_FILE, default som_store.json), the JSON data is imported once.
 //
-//	{
-//	  "nextCharID": 7,
-//	  "accounts": [
-//	    {"name": "alice", "password": "secret1", "token": "...",
-//	     "characters": [{"id": 3, "name": "Alica", "level": 1, "race": 1, ...}]}
-//	  ]
-//	}
+// saveLocked() is a no-op: SQLite writes are immediate and atomic.
 
 import (
-	"encoding/json"
 	"log"
 	"os"
-	"path/filepath"
-	"sort"
 )
 
-// storeFileDefault is used when SOM_STORE_FILE is not set.
+// storeFileDefault is used when SOM_STORE_FILE is not set. It is only used
+// for the one-time JSON -> SQLite migration.
 const storeFileDefault = "som_store.json"
 
-// storeFile returns the configured persistence path.
+// storeFile returns the configured JSON migration path.
 func storeFile() string {
 	if p := os.Getenv("SOM_STORE_FILE"); p != "" {
 		return p
@@ -34,7 +27,7 @@ func storeFile() string {
 	return storeFileDefault
 }
 
-// ---- wire format ----
+// ---- JSON wire format (for migration only) ----
 
 type storeFileFormat struct {
 	NextCharID int64              `json:"nextCharID"`
@@ -83,57 +76,35 @@ type storeFileEquipment struct {
 
 // ---- load ----
 
-// loadStore reads the store from disk. A missing file is not an error: it
-// yields an empty store, matching the pre-persistence behaviour.
+// loadStore opens the SQLite database and loads all accounts into memory.
+// If the database is empty and a legacy JSON file exists, it is imported
+// first. A missing database is not an error: it yields an empty store.
 func loadStore() *AccountStore {
-	s := NewAccountStore()
-	path := storeFile()
-	data, err := os.ReadFile(path)
+	path := dbFile()
+	db, err := openSQLite(path)
 	if err != nil {
-		if os.IsNotExist(err) {
-			log.Printf("store: no file at %s, starting empty", path)
-			return s
+		log.Printf("store: open sqlite %s: %v (starting empty)", path, err)
+		return NewAccountStore()
+	}
+
+	// One-time migration: if the DB is empty, try importing from JSON.
+	var count int
+	if err := db.QueryRow(`SELECT COUNT(*) FROM account`).Scan(&count); err != nil {
+		log.Printf("store: count accounts: %v", err)
+	} else if count == 0 {
+		jsonPath := storeFile()
+		if _, err := os.Stat(jsonPath); err == nil {
+			log.Printf("store: importing from %s into %s", jsonPath, path)
+			if err := importFromJSON(db, jsonPath); err != nil {
+				log.Printf("store: import from %s: %v", jsonPath, err)
+			}
 		}
-		log.Printf("store: read %s: %v (starting empty)", path, err)
-		return s
 	}
-	var f storeFileFormat
-	if err := json.Unmarshal(data, &f); err != nil {
-		log.Printf("store: parse %s: %v (starting empty)", path, err)
-		return s
-	}
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.nextCharID = f.NextCharID
-	if s.nextCharID < 1 {
-		s.nextCharID = 1
-	}
-	for _, fa := range f.Accounts {
-		acc := &Account{Name: fa.Name, Password: fa.Password, Token: fa.Token, Permission: fa.Permission}
-		for _, fc := range fa.Characters {
-			c := &Character{
-				ID: fc.ID, Name: fc.Name, Level: fc.Level, Race: fc.Race,
-				Gender: fc.Gender, Hairstyle: fc.Hairstyle,
-				Haircolor: fc.Haircolor, Skintone: fc.Skintone,
-				Experience: fc.Experience, GP: fc.GP,
-				Health: fc.Health, Mana: fc.Mana, Stamina: fc.Stamina,
-				Karma: fc.Karma, Weight: fc.Weight,
-				Inventory: []ItemRecord{},
-				Equipment: map[int64]ItemRecord{},
-			}
-			for _, it := range fc.Inventory {
-				c.Inventory = append(c.Inventory, ItemRecord{
-					ItemID: it.ItemID, Customfield: it.Customfield, Count: it.Count,
-				})
-			}
-			for _, eq := range fc.Equipment {
-				c.Equipment[eq.Slot] = ItemRecord{
-					ItemID: eq.ItemID, Customfield: eq.Customfield,
-				}
-			}
-			acc.Characters = append(acc.Characters, c)
-		}
-		s.accounts[fa.Name] = acc
+
+	s, err := loadFromSQLite(db)
+	if err != nil {
+		log.Printf("store: load from sqlite: %v (starting empty)", err)
+		return NewAccountStore()
 	}
 	log.Printf("store: loaded %d account(s) from %s", len(s.accounts), path)
 	return s
@@ -141,72 +112,10 @@ func loadStore() *AccountStore {
 
 // ---- save ----
 
-// saveLocked writes the store to disk. Callers must hold s.mu.
+// saveLocked is a no-op: SQLite writes are immediate and atomic. It is kept
+// for API compatibility with existing callers.
 func (s *AccountStore) saveLocked() {
-	path := storeFile()
-	f := storeFileFormat{NextCharID: s.nextCharID}
-	// Sort account names so the file is deterministic across runs.
-	names := make([]string, 0, len(s.accounts))
-	for n := range s.accounts {
-		names = append(names, n)
-	}
-	sort.Strings(names)
-	for _, n := range names {
-		acc := s.accounts[n]
-		fa := storeFileAccount{Name: acc.Name, Password: acc.Password, Token: acc.Token, Permission: acc.Permission}
-		for _, c := range acc.Characters {
-			fc := storeFileCharacter{
-				ID: c.ID, Name: c.Name, Level: c.Level, Race: c.Race,
-				Gender: c.Gender, Hairstyle: c.Hairstyle,
-				Haircolor: c.Haircolor, Skintone: c.Skintone,
-				Experience: c.Experience, GP: c.GP,
-				Health: c.Health, Mana: c.Mana, Stamina: c.Stamina,
-				Karma: c.Karma, Weight: c.Weight,
-				Inventory: []storeFileItem{},
-				Equipment: []storeFileEquipment{},
-			}
-			for _, it := range c.Inventory {
-				fc.Inventory = append(fc.Inventory, storeFileItem{
-					ItemID: it.ItemID, Customfield: it.Customfield, Count: it.Count,
-				})
-			}
-			for slot, eq := range c.Equipment {
-				fc.Equipment = append(fc.Equipment, storeFileEquipment{
-					Slot: slot, ItemID: eq.ItemID, Customfield: eq.Customfield,
-				})
-			}
-			fa.Characters = append(fa.Characters, fc)
-		}
-		f.Accounts = append(f.Accounts, fa)
-	}
-	data, err := json.MarshalIndent(&f, "", "  ")
-	if err != nil {
-		log.Printf("store: marshal: %v", err)
-		return
-	}
-	// Atomic write: temp file in the same directory, then rename.
-	dir := filepath.Dir(path)
-	tmp, err := os.CreateTemp(dir, filepath.Base(path)+".tmp*")
-	if err != nil {
-		log.Printf("store: temp file: %v", err)
-		return
-	}
-	tmpName := tmp.Name()
-	if _, err := tmp.Write(data); err != nil {
-		log.Printf("store: write temp: %v", err)
-		tmp.Close()
-		os.Remove(tmpName)
-		return
-	}
-	if err := tmp.Close(); err != nil {
-		log.Printf("store: close temp: %v", err)
-		os.Remove(tmpName)
-		return
-	}
-	if err := os.Rename(tmpName, path); err != nil {
-		log.Printf("store: rename %s -> %s: %v", tmpName, path, err)
-		os.Remove(tmpName)
-	}
+	// SQLite writes are immediate; no batching needed.
 }
 
 // ---- mutation hooks ----
@@ -217,6 +126,7 @@ func (s *AccountStore) Add(name, password string) *Account {
 	defer s.mu.Unlock()
 	acc := &Account{Name: name, Password: password}
 	s.accounts[name] = acc
+	s.dbAddAccount(acc)
 	s.saveLocked()
 	return acc
 }
@@ -247,6 +157,7 @@ func (s *AccountStore) AddCharacter(acc *Account, name string, traits map[string
 		Equipment:  map[int64]ItemRecord{},
 	}
 	acc.Characters = append(acc.Characters, c)
+	s.dbAddCharacter(acc, c)
 	s.saveLocked()
 	return c
 }
@@ -258,6 +169,7 @@ func (s *AccountStore) RemoveCharacter(acc *Account, name string) bool {
 	for i, c := range acc.Characters {
 		if c.Name == name {
 			acc.Characters = append(acc.Characters[:i], acc.Characters[i+1:]...)
+			s.dbRemoveCharacter(c)
 			s.saveLocked()
 			return true
 		}
@@ -270,5 +182,6 @@ func (s *AccountStore) SetToken(acc *Account, token string) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	acc.Token = token
+	s.dbSetToken(acc, token)
 	s.saveLocked()
 }

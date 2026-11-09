@@ -1,7 +1,7 @@
 package main
 
 // Phase-3 persistence tests: verify the AccountStore survives a restart by
-// round-tripping through the JSON file on disk.
+// round-tripping through SQLite on disk.
 
 import (
 	"os"
@@ -9,15 +9,15 @@ import (
 	"testing"
 )
 
-// TestStorePersistenceRoundTrip writes a store to a temp file, loads it into a
-// fresh store, and checks that accounts, characters, tokens, and the char-ID
-// counter all survive.
+// TestStorePersistenceRoundTrip writes a store to a temp SQLite DB, loads it
+// into a fresh store, and checks that accounts, characters, tokens, and the
+// char-ID counter all survive.
 func TestStorePersistenceRoundTrip(t *testing.T) {
 	dir := t.TempDir()
-	path := filepath.Join(dir, "store.json")
-	t.Setenv("SOM_STORE_FILE", path)
+	t.Setenv("SOM_DB_FILE", filepath.Join(dir, "store.db"))
+	t.Setenv("SOM_STORE_FILE", filepath.Join(dir, "nonexistent.json"))
 
-	s := NewAccountStore()
+	s := loadStore()
 	acc := s.Add("alice", "secret1")
 	s.SetToken(acc, "tok-alice")
 	s.AddCharacter(acc, "Alica", map[string]Variant{
@@ -66,10 +66,10 @@ func TestStorePersistenceRoundTrip(t *testing.T) {
 // TestStorePersistenceRemove verifies RemoveCharacter persists.
 func TestStorePersistenceRemove(t *testing.T) {
 	dir := t.TempDir()
-	path := filepath.Join(dir, "store.json")
-	t.Setenv("SOM_STORE_FILE", path)
+	t.Setenv("SOM_DB_FILE", filepath.Join(dir, "store.db"))
+	t.Setenv("SOM_STORE_FILE", filepath.Join(dir, "nonexistent.json"))
 
-	s := NewAccountStore()
+	s := loadStore()
 	acc := s.Add("carol", "pw")
 	s.AddCharacter(acc, "Cara", map[string]Variant{})
 	if !s.RemoveCharacter(acc, "Cara") {
@@ -86,16 +86,18 @@ func TestStorePersistenceRemove(t *testing.T) {
 	}
 }
 
-// TestStorePersistenceMissingFile verifies a missing file yields an empty store.
+// TestStorePersistenceMissingFile verifies a missing DB yields an empty store.
 func TestStorePersistenceMissingFile(t *testing.T) {
-	t.Setenv("SOM_STORE_FILE", filepath.Join(t.TempDir(), "does-not-exist.json"))
+	dbPath := filepath.Join(t.TempDir(), "does-not-exist.db")
+	t.Setenv("SOM_DB_FILE", dbPath)
+	t.Setenv("SOM_STORE_FILE", filepath.Join(t.TempDir(), "nonexistent.json"))
 	s := loadStore()
 	if s == nil || len(s.accounts) != 0 {
 		t.Fatalf("missing file: want empty store, got %+v", s)
 	}
 	// A subsequent save must create the file.
 	s.Add("dave", "pw")
-	if _, err := os.Stat(storeFile()); err != nil {
+	if _, err := os.Stat(dbPath); err != nil {
 		t.Errorf("save after load: %v", err)
 	}
 }

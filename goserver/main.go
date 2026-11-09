@@ -10,9 +10,11 @@ package main
 
 import (
 	"encoding/binary"
+	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 
@@ -103,6 +105,9 @@ type Server struct {
 	randSrc rand.Source
 	// password reset codes (progression.go).
 	resetCodes map[string]resetCode
+	// bridge is the AgentBridge TCP NDJSON interface (port 9101). It is
+	// started in main after the WebSocket server is listening.
+	bridge *Bridge
 }
 
 // resetCode is a server-side password reset verification code.
@@ -328,5 +333,17 @@ func (s *Server) routes() *http.ServeMux {
 func main() {
 	s := NewServer()
 	log.Println("Go Game Server (phase-1 login chain) running on :27012")
-	log.Fatal(http.ListenAndServe(":27012", s.routes()))
+	go func() {
+		log.Fatal(http.ListenAndServe(":27012", s.routes()))
+	}()
+	// Start the AgentBridge TCP NDJSON interface after the WebSocket server
+	// is up. Port comes from BRIDGE_PORT (default 9101, matching SoM).
+	addr := fmt.Sprintf(":%d", bridgeDefaultPort)
+	if p := os.Getenv("BRIDGE_PORT"); p != "" {
+		addr = ":" + p
+	}
+	if _, err := StartBridge(s, addr); err != nil {
+		log.Printf("AgentBridge: start failed: %v", err)
+	}
+	select {}
 }

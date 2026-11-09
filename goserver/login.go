@@ -22,6 +22,7 @@ package main
 //   DeleteCharacter / DisconnectAccount / DisconnectCharacter
 
 import (
+	"database/sql"
 	"log"
 	"sort"
 	"sync"
@@ -197,11 +198,13 @@ type ItemRecord struct {
 	Count       int64
 }
 
-// AccountStore is the in-memory database, mirrored to disk (see store.go).
+// AccountStore is the in-memory database, mirrored to SQLite (see store.go /
+// sqlite_store.go). The db field is nil for in-memory-only stores (tests).
 type AccountStore struct {
 	mu         sync.Mutex
 	accounts   map[string]*Account
 	nextCharID int64
+	db         *sql.DB
 }
 
 func NewAccountStore() *AccountStore {

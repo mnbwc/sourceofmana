@@ -9,8 +9,9 @@ import (
 // TestPersistenceSurvivesRestart verifies that an account created on one
 // server instance is visible to a second instance sharing the same store file.
 func TestPersistenceSurvivesRestart(t *testing.T) {
-	path := t.TempDir() + "/store.json"
-	t.Setenv("SOM_STORE_FILE", path)
+	path := t.TempDir() + "/store.db"
+	t.Setenv("SOM_DB_FILE", path)
+	t.Setenv("SOM_STORE_FILE", t.TempDir()+"/nonexistent.json")
 
 	// Instance 1: create the account and a character.
 	s1 := NewServer()

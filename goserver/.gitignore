@@ -9,3 +9,6 @@
 
 # Test artifacts
 *.log
+/som.db
+/som.db-shm
+/som.db-wal
