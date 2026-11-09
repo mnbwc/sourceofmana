@@ -336,10 +336,19 @@ func (s *Server) routes() *http.ServeMux {
 	return mux
 }
 
-// bindAddr returns "IP:PORT" from BIND_IP and PORT env vars.
-// Defaults to all interfaces (":PORT").
-func bindAddr(portEnv string, defaultPort int) string {
-	ip := os.Getenv("BIND_IP")
+// bindAddr returns "IP:PORT" from the per-endpoint bind env vars.
+// Resolution order (per endpoint):
+//   1. <PREFIX>_BIND_IP  (e.g. WS_BIND_IP, WSS_BIND_IP, BRIDGE_BIND_IP)
+//   2. BIND_IP           (global fallback)
+//   3. ""               (all interfaces)
+// This lets a VPS expose the game port publicly while keeping the admin
+// endpoints (AgentBridge) loopback-only, without running two server
+// instances.
+func bindAddr(portEnv string, bindPrefix string, defaultPort int) string {
+	ip := os.Getenv(bindPrefix + "_BIND_IP")
+	if ip == "" {
+		ip = os.Getenv("BIND_IP")
+	}
 	port := envInt(portEnv, defaultPort)
 	if ip == "" {
 		return fmt.Sprintf(":%d", port)
@@ -350,8 +359,8 @@ func bindAddr(portEnv string, defaultPort int) string {
 func main() {
 	s := NewServer()
 
-	// WebSocket endpoint (ws://) — native clients, nginx proxy.
-	wsAddr := bindAddr("WS_PORT", 27012)
+	// WebSocket endpoint (ws://) — native clients, AI headless, nginx proxy.
+	wsAddr := bindAddr("WS_PORT", "WS", 27012)
 	log.Printf("Go Game Server (ws://) running on %s", wsAddr)
 	go func() {
 		log.Fatal(http.ListenAndServe(wsAddr, s.routes()))
@@ -359,7 +368,7 @@ func main() {
 
 	// Secure WebSocket endpoint (wss://) — browser clients.
 	if os.Getenv("WSS_PORT") != "" {
-		wssAddr := bindAddr("WSS_PORT", 27013)
+		wssAddr := bindAddr("WSS_PORT", "WSS", 27013)
 		tlsCfg := loadTLSConfig()
 		log.Printf("Go Game Server (wss://) running on %s", wssAddr)
 		go func() {
@@ -373,7 +382,7 @@ func main() {
 	}
 
 	// AgentBridge TCP NDJSON interface — AI agent exploration.
-	bridgeAddr := bindAddr("BRIDGE_PORT", bridgeDefaultPort)
+	bridgeAddr := bindAddr("BRIDGE_PORT", "BRIDGE", bridgeDefaultPort)
 	log.Printf("AgentBridge running on %s", bridgeAddr)
 	if _, err := StartBridge(s, bridgeAddr); err != nil {
 		log.Printf("AgentBridge: start failed: %v", err)

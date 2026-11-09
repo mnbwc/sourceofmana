@@ -79,10 +79,11 @@ RestartSec=5
 StandardOutput=journal
 StandardError=journal
 
-# 网络绑定：只监听本地回环，通过 nginx 暴露
-Environment="BIND_IP=127.0.0.1"
+# 网络绑定：游戏端口对外（网页 + AI 无头），管理端口仅本地
+Environment="WS_BIND_IP=0.0.0.0"
 Environment="WS_PORT=27012"
 Environment="WSS_PORT=27013"
+Environment="BRIDGE_BIND_IP=127.0.0.1"
 Environment="BRIDGE_PORT=9102"
 Environment="SOM_DB_FILE=$INSTALL_DIR/som.db"
 
@@ -195,6 +196,20 @@ if [ "$DOMAIN" != "localhost" ]; then
     }
 fi
 
+# 7. 配置防火墙
+echo ""
+echo "[防火墙] 配置端口..."
+if command -v ufw >/dev/null 2>&1; then
+    ufw allow 80/tcp   >/dev/null 2>&1 || true
+    ufw allow 443/tcp  >/dev/null 2>&1 || true
+    ufw allow 27012/tcp >/dev/null 2>&1 || true
+    ufw --force enable >/dev/null 2>&1 || true
+    echo "  已开放: 80, 443, 27012"
+    ufw status | grep -E "80|443|27012" || true
+else
+    echo "  未安装 ufw，请手动在 NAT/安全组开放: 80, 443, 27012"
+fi
+
 echo ""
 echo "============================================"
 echo "  部署完成！"
@@ -202,10 +217,18 @@ echo "============================================"
 echo ""
 echo "服务状态: systemctl status som-goserver"
 echo "查看日志: journalctl -u som-goserver -f"
-echo "游戏地址: https://$DOMAIN/"
-echo "WebSocket: wss://$DOMAIN/ws"
+echo ""
+echo "人类网页登录: https://$DOMAIN/"
+echo "人类 WebSocket: wss://$DOMAIN/ws"
+echo "AI 无头登录:   ws://$DOMAIN:27012/ws"
+echo ""
+echo "NAT/安全组需映射的端口:"
+echo "  80    (TCP) — HTTP→HTTPS + 证书续期"
+echo "  443   (TCP) — 人类网页登录 (WSS)"
+echo "  27012 (TCP) — AI 无头客户端登录 (WS)"
 echo ""
 echo "验证命令:"
 echo "  curl http://127.0.0.1:27012/health"
 echo "  ss -tln | grep -E ':(27012|27013|9102)'"
 echo ""
+
