@@ -162,6 +162,11 @@ func _ready():
 	Root = get_tree().get_root()
 
 	LauncherCommons.ParsePortOverrides()
+	# During export (--export-release/--export-debug), skip client/server
+	# initialization entirely.  The exporter instantiates autoloads, which would
+	# otherwise try to connect to a live server and hang the export process.
+	if "--export-release" in OS.get_cmdline_args() or "--export-debug" in OS.get_cmdline_args():
+		return
 	if "--server" in OS.get_cmdline_args():
 		Scene = FileSystem.LoadResource(Path.Pst + "Server" + Path.SceneExt)
 		StripServerVisuals(Scene)

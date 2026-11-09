@@ -500,6 +500,10 @@ ui_context_next={
 pointing/android/enable_pan_and_scale_gestures=true
 pointing/emulate_touch_from_mouse=true
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://data/db/zh/UI.en.translation", "res://data/db/zh/UI.zh.translation", "res://data/db/zh/UI-full.en.translation", "res://data/db/zh/UI-full.zh.translation", "res://data/db/zh/NPC.en.translation", "res://data/db/zh/NPC.zh.translation", "res://data/db/zh/QUEST.en.translation", "res://data/db/zh/QUEST.zh.translation", "res://data/db/zh/ITEMS.en.translation", "res://data/db/zh/ITEMS.zh.translation")
+
 [navigation]
 
 2d/merge_rasterizer_cell_scale=0.15
@@ -529,15 +533,10 @@ environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 2d/snap/snap_2d_transforms_to_pixel=true
 environment/default_environment="res://default_env.tres"
 
-[internationalization]
-
-locale/translations=PackedStringArray("res://data/db/zh/UI.en.translation", "res://data/db/zh/UI.zh.translation", "res://data/db/zh/UI-full.en.translation", "res://data/db/zh/UI-full.zh.translation", "res://data/db/zh/NPC.en.translation", "res://data/db/zh/NPC.zh.translation", "res://data/db/zh/QUEST.en.translation", "res://data/db/zh/QUEST.zh.translation", "res://data/db/zh/ITEMS.en.translation", "res://data/db/zh/ITEMS.zh.translation")
-
 [sentry]
 
 schema_version=4
 options/auto_init=false
-options/dsn=""
 options/attach_log=false
 godot_logger/include_variables=true
 godot_logger/events=15

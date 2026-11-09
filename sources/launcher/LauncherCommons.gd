@@ -62,7 +62,7 @@ static func _ParseWebURLParams() -> void:
 static func _GetURLParams() -> Dictionary:
 	var result : Dictionary = {}
 	if OS.has_feature("web"):
-		# JavaScriptBridge 在 web 导出中可用；读取 window.location.search
+		# JavaScriptBridge is provided by the stock Godot web export template.
 		if Engine.has_singleton("JavaScriptBridge"):
 			var js = Engine.get_singleton("JavaScriptBridge")
 			var search : String = js.eval("window.location.search")

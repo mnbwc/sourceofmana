@@ -326,7 +326,25 @@ func ftoa(v float64) string {
 // routes wires the HTTP endpoints for the server.
 func (s *Server) routes() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/ws", s.handleWS)
+	// Accept WebSocket connections at any path.  Godot's WebSocketMultiplayerPeer
+	// connects to the bare host:port without a path, so a strict /ws-only route
+	// would reject browser clients.  The original SoM server (Godot WebSocketServer)
+	// also accepts any path, so this matches its behaviour.
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("Upgrade") == "websocket" {
+			s.handleWS(w, r)
+			return
+		}
+		// CORS preflight (used by browser web clients)
+		if r.Method == http.MethodOptions {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "*")
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		http.NotFound(w, r)
+	})
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
