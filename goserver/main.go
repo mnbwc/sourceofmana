@@ -327,22 +327,55 @@ func ftoa(v float64) string {
 func (s *Server) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ws", s.handleWS)
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, `{"ok":true}`)
+	})
 	return mux
+}
+
+// bindAddr returns "IP:PORT" from BIND_IP and PORT env vars.
+// Defaults to all interfaces (":PORT").
+func bindAddr(portEnv string, defaultPort int) string {
+	ip := os.Getenv("BIND_IP")
+	port := envInt(portEnv, defaultPort)
+	if ip == "" {
+		return fmt.Sprintf(":%d", port)
+	}
+	return fmt.Sprintf("%s:%d", ip, port)
 }
 
 func main() {
 	s := NewServer()
-	log.Println("Go Game Server (phase-1 login chain) running on :27012")
+
+	// WebSocket endpoint (ws://) — native clients, nginx proxy.
+	wsAddr := bindAddr("WS_PORT", 27012)
+	log.Printf("Go Game Server (ws://) running on %s", wsAddr)
 	go func() {
-		log.Fatal(http.ListenAndServe(":27012", s.routes()))
+		log.Fatal(http.ListenAndServe(wsAddr, s.routes()))
 	}()
-	// Start the AgentBridge TCP NDJSON interface after the WebSocket server
-	// is up. Port comes from BRIDGE_PORT (default 9101, matching SoM).
-	addr := fmt.Sprintf(":%d", bridgeDefaultPort)
-	if p := os.Getenv("BRIDGE_PORT"); p != "" {
-		addr = ":" + p
+
+	// Secure WebSocket endpoint (wss://) — browser clients.
+	if os.Getenv("WSS_PORT") != "" {
+		wssAddr := bindAddr("WSS_PORT", 27013)
+		tlsCfg := loadTLSConfig()
+		log.Printf("Go Game Server (wss://) running on %s", wssAddr)
+		go func() {
+			server := &http.Server{
+				Addr:      wssAddr,
+				Handler:   s.routes(),
+				TLSConfig: tlsCfg,
+			}
+			log.Fatal(server.ListenAndServeTLS("", ""))
+		}()
 	}
-	if _, err := StartBridge(s, addr); err != nil {
+
+	// AgentBridge TCP NDJSON interface — AI agent exploration.
+	bridgeAddr := bindAddr("BRIDGE_PORT", bridgeDefaultPort)
+	log.Printf("AgentBridge running on %s", bridgeAddr)
+	if _, err := StartBridge(s, bridgeAddr); err != nil {
 		log.Printf("AgentBridge: start failed: %v", err)
 	}
 	select {}
