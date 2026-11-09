@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+		<title>Source of Mana</title>
+		<style>
+html, body, #canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	color: white;
+	background-color: #0a0a1a;
+	overflow: hidden;
+	touch-action: none;
+}
+
+#canvas {
+	display: block;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#status, #status-splash, #status-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+#status, #status-splash {
+	top: 0;
+	bottom: 0;
+}
+
+#status {
+	background-color: #0a0a1a;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	visibility: hidden;
+	z-index: 100;
+}
+
+#status-splash {
+	max-height: 100%;
+	max-width: 100%;
+	margin: auto;
+}
+
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
+#status-progress, #status-notice {
+	display: none;
+}
+
+#status-progress {
+	bottom: 10%;
+	width: 50%;
+	margin: 0 auto;
+}
+
+#status-notice {
+	background-color: #5b3943;
+	border-radius: 0.5rem;
+	border: 1px solid #9b3943;
+	color: #e0e0e0;
+	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
+	line-height: 1.3;
+	margin: 0 2rem;
+	overflow: hidden;
+	padding: 1rem;
+	text-align: center;
+	z-index: 1;
+}
+
+/* Custom loading overlay */
+#loading-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a1a2e 100%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#loading-overlay.hidden {
+	display: none;
+}
+
+.loading-title {
+	font-size: 32px;
+	font-weight: 700;
+	color: #69b4fa;
+	margin-bottom: 8px;
+	text-shadow: 0 0 20px rgba(105, 180, 250, 0.5);
+}
+
+.loading-subtitle {
+	font-size: 14px;
+	color: #888;
+	margin-bottom: 40px;
+}
+
+.progress-container {
+	width: 80%;
+	max-width: 500px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	overflow: hidden;
+	height: 24px;
+	position: relative;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar {
+	height: 100%;
+	background: linear-gradient(90deg, #4ecca3 0%, #69b4fa 50%, #4ecca3 100%);
+	border-radius: 12px;
+	width: 0%;
+	transition: width 0.3s ease;
+	box-shadow: 0 0 12px rgba(78, 204, 163, 0.6);
+}
+
+.progress-text {
+	margin-top: 16px;
+	font-size: 16px;
+	color: #ccc;
+	font-weight: 500;
+}
+
+.progress-percent {
+	color: #4ecca3;
+	font-weight: 700;
+}
+
+.loading-tips {
+	margin-top: 40px;
+	font-size: 12px;
+	color: #555;
+	text-align: center;
+	line-height: 1.8;
+}
+
+.loading-tips span {
+	color: #888;
+}
+		</style>
+		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
+<link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+<link rel="manifest" href="index.manifest.json">
+
+	</head>
+	<body>
+		<!-- Custom loading overlay - visible immediately -->
+		<div id="loading-overlay">
+			<div class="loading-title">Source of Mana</div>
+			<div class="loading-subtitle">Go Server · Web Client</div>
+			<div class="progress-container">
+				<div class="progress-bar" id="progressBar"></div>
+			</div>
+			<div class="progress-text" id="progressText">正在初始化引擎...</div>
+			<div class="loading-tips">
+				<span>首次加载需要下载 130MB 游戏资源，请耐心等待</span><br>
+				<span>如果长时间无响应，请刷新页面重试</span>
+			</div>
+		</div>
+
+		<canvas id="canvas">
+			Your browser does not support the canvas tag.
+		</canvas>
+
+		<noscript>
+			Your browser does not support JavaScript.
+		</noscript>
+
+		<div id="status">
+			<img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="index.png" alt="">
+			<progress id="status-progress"></progress>
+			<div id="status-notice"></div>
+		</div>
+
+<script src="index.js"></script>
+<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":90154028,"index.wasm":1508095},"focusCanvas":true,"gdextensionLibs":["libgdsqlite.web.template_release.wasm32.nothreads.wasm","libsentry.web.release.wasm32.nothreads.wasm"],"godotPoolSize":4};
+const GODOT_THREADS_ENABLED = false;
+
+// Pre-compile wasm files in a Web Worker to avoid blocking the main thread
+function precompileWasm() {
+	return new Promise((resolve) => {
+		const wasmFiles = ['index.wasm', 'index.side.wasm', 'libgdsqlite.web.template_release.wasm32.nothreads.wasm', 'libsentry.web.release.wasm32.nothreads.wasm'];
+		console.log('[SOM] Starting pre-compilation of', wasmFiles.length, 'files...');
+		const workerCode = `
+			self.onmessage = async function(e) {
+				const { fileName, url } = e.data;
+				console.log('[Worker] Compiling:', fileName);
+				try {
+					const response = await fetch(url);
+					const buffer = await response.arrayBuffer();
+					console.log('[Worker] Fetched', fileName, buffer.byteLength, 'bytes, compiling...');
+					// Use a timeout to prevent hanging
+					const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Compilation timeout')), 120000));
+					const module = await Promise.race([WebAssembly.compile(buffer), timeout]);
+					console.log('[Worker] Compiled:', fileName);
+					self.postMessage({ fileName, module });
+				} catch (err) {
+					console.error('[Worker] Failed:', fileName, err);
+					self.postMessage({ fileName, error: err.message });
+				}
+			};
+		`;
+		console.log('[SOM] Creating Worker...');
+		const worker = new Worker(URL.createObjectURL(new Blob([workerCode], { type: 'application/javascript' })));
+		console.log('[SOM] Worker created, posting messages...');
+		self.__somPrecompiled = {};
+		let completed = 0;
+		worker.onmessage = function(e) {
+			const { fileName, module, error } = e.data;
+			if (module) {
+				self.__somPrecompiled[fileName] = module;
+				console.log('[SOM] Pre-compiled:', fileName);
+			} else {
+				console.warn('[SOM] Pre-compile failed:', fileName, error);
+			}
+			completed++;
+			if (completed >= wasmFiles.length) {
+				console.log('[SOM] All pre-compilation complete!');
+				resolve();
+			}
+		};
+		worker.onerror = function(err) {
+			console.error('[SOM] Worker error:', err);
+		};
+		wasmFiles.forEach(fileName => {
+			worker.postMessage({ fileName, url: new URL(fileName, window.location.href).href });
+		});
+	});
+}
+
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusNotice = document.getElementById('status-notice');
+	const loadingOverlay = document.getElementById('loading-overlay');
+	const progressBar = document.getElementById('progressBar');
+	const progressText = document.getElementById('progressText');
+
+	let initializing = true;
+	let statusMode = '';
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		if (mode === 'hidden') {
+			statusOverlay.remove();
+			initializing = false;
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) {
+			statusNotice.removeChild(statusNotice.lastChild);
+		}
+		const lines = text.split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		// Do NOT log the error object — it may have a circular structure
+		// that causes console.error to recurse infinitely.
+		var msg = 'An unknown error occurred.';
+		if (err instanceof Error) {
+			msg = err.message;
+			if (err.stack) {
+				msg += '\n' + err.stack.split('\n').slice(0, 10).join('\n');
+			}
+		} else if (typeof err === 'string') {
+			msg = err;
+		}
+		setStatusNotice(msg);
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures({
+		threads: GODOT_THREADS_ENABLED,
+	});
+	console.log('[SOM] Missing features:', JSON.stringify(missing));
+	console.log('[SOM] crossOriginIsolated:', self.crossOriginIsolated);
+
+	// Always proceed to startGame — even if cross-origin isolation is missing,
+	// Godot will fall back to single-threaded mode.
+	setStatusMode('progress');
+	progressText.textContent = '正在预编译资源...';
+	// Wait for wasm pre-compilation to complete before starting the engine
+	precompileWasm().then(() => {
+		console.log('[SOM] Pre-compilation complete, starting engine...');
+		progressText.textContent = '正在下载游戏资源...';
+		try {
+			engine.startGame({
+				'onProgress': function (current, total) {
+					console.log('[SOM] Progress:', current, '/', total);
+					if (current > 0 && total > 0) {
+						statusProgress.value = current;
+						statusProgress.max = total;
+						// Update custom progress bar
+						var percent = Math.round((current / total) * 100);
+						progressBar.style.width = percent + '%';
+						progressText.innerHTML = '正在加载游戏资源... <span class="progress-percent">' + percent + '%</span>';
+					} else {
+						statusProgress.removeAttribute('value');
+						statusProgress.removeAttribute('max');
+					}
+				},
+			}).then(() => {
+				console.log('[SOM] startGame resolved!');
+				setStatusMode('hidden');
+				// Hide loading overlay
+				loadingOverlay.classList.add('hidden');
+			}, displayFailureNotice);
+		} catch (e) {
+			console.error('[SOM] startGame threw:', e);
+			displayFailureNotice(e);
+		}
+	});
+
+	// Safety timeout: if still loading after 5 minutes, show error
+	setTimeout(() => {
+		if (initializing) {
+			console.error('[SOM] Timeout: engine did not initialize within 5 minutes');
+			progressText.textContent = '加载超时，请刷新页面重试';
+		}
+	}, 300000);
+}());
+		</script>
+	</body></html>

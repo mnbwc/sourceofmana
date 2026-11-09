@@ -5,3 +5,7 @@
 *.sh    text eol=lf
 *.py    text eol=lf
 *.yml   text eol=lf
+# Binary web client assets
+*.wasm   binary
+*.pck    binary
+*.png    binary

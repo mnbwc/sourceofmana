@@ -1,6 +1,7 @@
 *.DS_Store
 android/*
 binary/*
+!binary/Web_nothreads/
 build/*
 publishing/*
 
