@@ -423,7 +423,7 @@ const CameraZoomLevels : PackedVector2Array	= [
 	Vector2(3.0, 3.0),
 ]
 const CameraZoomMin : int					= 0
-const CameraZoomDefault : int				= 3
+const CameraZoomDefault : int				= 5
 const CameraZoomDouble : int				= 6
 const CameraZoomTriple : int				= 7
 static var CameraZoomMax : int				= CameraZoomLevels.size()

@@ -88,6 +88,39 @@ layout_mode = 2
 tooltip_text = "Makes the game fill your whole screen."
 text = "Fullscreen Mode"
 
+[node name="CameraZoom" type="HBoxContainer" parent="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox" unique_id=1909061269]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Label" type="Label" parent="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/CameraZoom" unique_id=1899750435]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " Camera Zoom"
+
+[node name="Option" type="OptionButton" parent="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/CameraZoom" unique_id=815910695]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Zooms the in-game camera view. Higher levels make characters appear larger."
+selected = 5
+item_count = 8
+popup/item_0/text = "x0.6"
+popup/item_0/id = 0
+popup/item_1/text = "x0.7"
+popup/item_1/id = 1
+popup/item_2/text = "x0.85"
+popup/item_2/id = 2
+popup/item_3/text = "x1.0"
+popup/item_3/id = 3
+popup/item_4/text = "x1.2"
+popup/item_4/id = 4
+popup/item_5/text = "x1.5"
+popup/item_5/id = 5
+popup/item_6/text = "x2.0"
+popup/item_6/id = 6
+popup/item_7/text = "x3.0"
+popup/item_7/id = 7
+
 [node name="WindowResolution" type="HBoxContainer" parent="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox" unique_id=1027751738]
 layout_mode = 2
 size_flags_vertical = 10
@@ -428,6 +461,7 @@ alignment = 1
 [connection signal="toggled" from="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/Fullscreen" to="." method="set_fullscreen"]
 [connection signal="item_selected" from="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/WindowResolution/Option" to="." method="set_resolutionIdx"]
 [connection signal="item_selected" from="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/Scaling/Option" to="." method="set_scaling"]
+[connection signal="item_selected" from="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/CameraZoom/Option" to="." method="set_camerazoom"]
 [connection signal="toggled" from="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/ActionOverlay" to="." method="set_actionoverlay"]
 [connection signal="pressed" from="Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/ResetWindows" to="." method="reset_sessionoverlay"]
 [connection signal="toggled" from="Layout/Margin/TabBar/Render/RenderVBox/EffectVBox/Lighting" to="." method="set_lighting"]

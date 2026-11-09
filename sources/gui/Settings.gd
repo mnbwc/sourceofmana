@@ -8,6 +8,7 @@ const creditsJson : JSON						= preload("res://data/db/credits.json")
 	"Render-MinWindowSize": [init_minwinsize, set_minwinsize, apply_minwinsize, null],
 	"Render-Fullscreen": [init_fullscreen, set_fullscreen, apply_fullscreen, $Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/Fullscreen],
 	"Render-Scaling": [init_scaling, set_scaling, apply_scaling, $Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/Scaling/Option],
+	"Render-CameraZoom": [init_camerazoom, set_camerazoom, apply_camerazoom, $Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/CameraZoom/Option],
 	"Render-WindowSize": [init_resolution, set_resolution, apply_resolution, $Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/WindowResolution/Option],
 	"Render-WindowPos": [init_windowPos, set_windowPos, apply_windowPos, null],
 	"Render-ActionOverlay": [init_actionoverlay, set_actionoverlay, apply_actionoverlay, $Layout/Margin/TabBar/Render/RenderVBox/VisualVBox/ActionOverlay],
@@ -140,6 +141,21 @@ func set_scaling(mode : int):
 	apply_scaling(mode)
 func apply_scaling(mode : int):
 	Launcher.Root.set_content_scale_factor(mode + 1)
+	init_actionoverlay(true)
+
+# CameraZoom
+func init_camerazoom(apply : bool):
+	var level : int = GetVal("Render-CameraZoom")
+	var label : OptionButton = renderAccessors["Render-CameraZoom"][ACC_TYPE.LABEL]
+	label.selected = level
+	if apply:
+		apply_camerazoom(level)
+func set_camerazoom(level : int):
+	SetVal("Render-CameraZoom", level)
+	apply_camerazoom(level)
+func apply_camerazoom(level : int):
+	if Launcher.Camera:
+		Launcher.Camera.ZoomAt(level)
 	init_actionoverlay(true)
 
 # ActionOverlay
