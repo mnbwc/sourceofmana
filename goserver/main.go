@@ -351,6 +351,8 @@ func (s *Server) routes() *http.ServeMux {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, `{"ok":true}`)
 	})
+	// GM web API (browser-based admin panel).
+	s.gmRoutes(mux)
 	return mux
 }
 
