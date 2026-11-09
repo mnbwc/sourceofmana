@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SoM Web Login Test</title>
+<style>
+body { font-family: monospace; background: #1a1a2e; color: #eee; padding: 20px; }
+#log { background: #16213e; padding: 10px; border-radius: 8px; height: 400px; overflow-y: auto; white-space: pre-wrap; }
+.success { color: #4ecca3; }
+.error { color: #e94560; }
+.info { color: #a0a0a0; }
+button { background: #0f3460; color: #eee; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+button:hover { background: #1a4a7a; }
+input { background: #16213e; color: #eee; border: 1px solid #0f3460; padding: 8px; border-radius: 4px; width: 300px; }
+</style>
+</head>
+<body>
+<h1>Source of Mana — Web Login Test</h1>
+<div>
+  <label>Server: <input id="server" value="wss://127.0.0.1:27013/ws"></label>
+  <button onclick="testConnection()">Test WebSocket</button>
+  <button onclick="testHealth()">Test Health</button>
+  <button onclick="clearLog()">Clear</button>
+</div>
+<div id="log"></div>
+
+<script>
+const log = document.getElementById('log');
+
+function addLog(msg, cls = 'info') {
+  const line = document.createElement('div');
+  line.className = cls;
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+
+function clearLog() { log.innerHTML = ''; }
+
+async function testHealth() {
+  const url = document.getElementById('server').value.replace('/ws', '/health');
+  const httpUrl = url.replace('wss://', 'https://').replace('ws://', 'http://');
+  addLog(`Fetching ${httpUrl}...`);
+  try {
+    const resp = await fetch(httpUrl);
+    const text = await resp.text();
+    addLog(`Health: ${resp.status} ${text}`, resp.ok ? 'success' : 'error');
+  } catch (e) {
+    addLog(`Health failed: ${e.message}`, 'error');
+  }
+}
+
+function testConnection() {
+  const url = document.getElementById('server').value;
+  addLog(`Connecting to ${url}...`);
+
+  let ws;
+  try {
+    ws = new WebSocket(url);
+  } catch (e) {
+    addLog(`WebSocket creation failed: ${e.message}`, 'error');
+    return;
+  }
+
+  ws.binaryType = 'arraybuffer';
+
+  ws.onopen = () => {
+    addLog('WebSocket connected!', 'success');
+    // Godot's protocol: server sends 4-byte little-endian unique_id first
+  };
+
+  ws.onmessage = (event) => {
+    if (event.data instanceof ArrayBuffer) {
+      const bytes = new Uint8Array(event.data);
+      addLog(`Binary message: ${bytes.length} bytes — ${Array.from(bytes.slice(0, 8)).map(b => b.toString(16).padStart(2, '0')).join(' ')}`);
+      if (bytes.length === 4) {
+        const id = new DataView(event.data).getUint32(0, true);
+        addLog(`Server assigned unique_id=${id}`, 'success');
+      }
+    } else {
+      addLog(`Text message: ${event.data}`);
+    }
+  };
+
+  ws.onerror = (e) => {
+    addLog(`WebSocket error: ${e.message || 'connection failed'}`, 'error');
+  };
+
+  ws.onclose = (e) => {
+    addLog(`WebSocket closed: code=${e.code} reason=${e.reason || '(none)'}`, 'info');
+  };
+
+  // Auto-close after 10 seconds
+  setTimeout(() => {
+    if (ws.readyState === WebSocket.OPEN) {
+      addLog('Auto-closing after 10s...');
+      ws.close();
+    }
+  }, 10000);
+}
+
+addLog('Page loaded. Click "Test WebSocket" to connect.');
+</script>
+</body>
+</html>

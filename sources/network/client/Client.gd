@@ -469,6 +469,19 @@ func CommandModifier(effect : CellCommons.Modifier, value : float, _peerID : int
 func IsActiveClient() -> bool:
 	return Network.Client == self or Network.WebRTCClient == self
 
+# _LoadTrustedCert loads the server's self-signed certificate so TLS
+# verification succeeds when connecting to a development server. It looks in
+# res://server.crt (bundled with the export) and user://server.crt (written by
+# the user or a previous run). Returns null when no certificate is available.
+func _LoadTrustedCert() -> X509Certificate:
+	var cert := X509Certificate.new()
+	for path in ["res://server.crt", "user://server.crt"]:
+		if ResourceLoader.exists(path):
+			var err : Error = cert.load(path)
+			if err == OK:
+				return cert
+	return null
+
 func ConnectServer():
 	if not IsActiveClient():
 		return
@@ -530,17 +543,35 @@ func _enter_tree():
 		multiplayerAPI.peer_authenticating.connect(_OnServerAuthenticating)
 	multiplayerAPI.auth_callback = _ValidateServerAuth
 
-	var serverAddress : String = NetworkCommons.LocalServerAddress if isLocal else NetworkCommons.ServerAddress
+	var serverAddress : String = LauncherCommons.ResolveServerAddress(isLocal)
 	var serverPort : int = LauncherCommons.ResolvePort(useWebSocket)
 	if OS.get_cmdline_user_args().find("--agent-client") >= 0:
 		Util.PrintLog("AgentClient", "connecting %s:%d ws=%s" % [serverAddress, serverPort, useWebSocket])
-	if LauncherCommons.IsTesting:
-		serverAddress = NetworkCommons.LocalServerAddress if isLocal else NetworkCommons.ServerAddressTesting
 
 	var ret : Error = FAILED
+	# When connecting to a remote server over TLS, load the server's certificate
+	# as a trusted CA so self-signed certificates work for development. The
+	# certificate is expected at res://server.crt (bundled) or user://server.crt.
+	# In production, use a real certificate (Let's Encrypt) so the default CA
+	# list validates it and this fallback is never needed.
 	var tlsOptions : TLSOptions = TLSOptions.client_unsafe()
+	if not isLocal and not LauncherCommons.isWeb:
+		var trustedCert := _LoadTrustedCert()
+		if trustedCert:
+			tlsOptions = TLSOptions.client_unsafe(trustedCert)
+			Util.PrintLog("Client", "TLS: using trusted certificate from server.crt")
 	if useWebSocket:
-		var prefix : String = "ws://" if isLocal else "wss://"
+		# Web clients use wss:// when connecting cross-origin (browser requires
+		# secure context), ws:// for same-origin or local. Native clients always
+		# use ws:// unless explicitly remote.
+		var prefix : String = "ws://"
+		if LauncherCommons.isWeb:
+			# Web export: use wss:// unless the server is on localhost/127.0.0.1
+			var host : String = serverAddress.to_lower()
+			if not host.begins_with("127.") and host != "localhost" and host != "::1":
+				prefix = "wss://"
+		elif not isLocal:
+			prefix = "wss://"
 		ret = currentPeer.create_client(prefix + serverAddress + ":" + str(serverPort), tlsOptions)
 	else:
 		ret = currentPeer.create_client(serverAddress, serverPort)

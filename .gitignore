@@ -20,3 +20,5 @@ presets/maps/*
 *.tmp
 __pycache__/
 runs/
+server.crt
+godot-run
