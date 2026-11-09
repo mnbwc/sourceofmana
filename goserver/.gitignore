@@ -1,0 +1,11 @@
+# Binaries
+/goserver
+/godot-run
+
+# Runtime data
+/som_store.json
+/autodrive.log
+/testdata/.godot/
+
+# Test artifacts
+*.log

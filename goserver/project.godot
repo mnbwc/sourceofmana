@@ -1,0 +1,8 @@
+config_version=5
+
+[application]
+config/name="goserver"
+run/main_scene="res://testdata/e2e_client.tscn"
+
+[debug]
+gdscript/warnings/return_value_discarded=0
