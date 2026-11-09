@@ -615,3 +615,130 @@ func TestNpcQuestLoopback(t *testing.T) {
 		t.Fatalf("CommandFeedback empty: %s", formatArgs(cf.Args))
 	}
 }
+
+// TestValidateNameCJK is a unit test for the CJK-aware validateName. It checks
+// that Chinese, Japanese and Korean names pass, that ASCII still passes, and
+// that size/character constraints are still enforced (now counting runes).
+func TestValidateNameCJK(t *testing.T) {
+	cases := []struct {
+		name       string
+		min, max   int
+		wantErr    int // 0 = valid, 1 = too small, 2 = too large, 3 = invalid char
+	}{
+		// Chinese (CJK Unified Ideographs U+4E00–U+9FFF).
+		{"张三", charNameMinSize, charNameMaxSize, 0},
+		{"玩家测试", accountNameMinSize, accountNameMaxSize, 0},
+		{"李小龙", charNameMinSize, charNameMaxSize, 0},
+		// Boundary: exactly min / max runes.
+		{"一二", charNameMinSize, charNameMaxSize, 0},
+		{"一二三四五六七八", 8, 8, 0},
+		// Japanese Hiragana / Katakana.
+		{"ひらがな", charNameMinSize, charNameMaxSize, 0},
+		{"カタカナ", charNameMinSize, charNameMaxSize, 0},
+		// Korean Hangul.
+		{"김철수", charNameMinSize, charNameMaxSize, 0},
+		// ASCII still valid.
+		{"TestPlayer", accountNameMinSize, accountNameMaxSize, 0},
+		{"Test_1", accountNameMinSize, accountNameMaxSize, 0},
+		// Account name constraints (min 4).
+		{"abc", accountNameMinSize, accountNameMaxSize, 1},  // too small (3 runes)
+		{"ab", accountNameMinSize, accountNameMaxSize, 1},   // too small (2 runes)
+		{"a", accountNameMinSize, accountNameMaxSize, 1},    // too small
+		// Too large: 17 CJK runes > accountNameMaxSize (16).
+		{"一二三四五六七八九十一二三四五六七", accountNameMinSize, accountNameMaxSize, 2},
+		// Invalid characters: space, @, #, $, emoji, combining mark.
+		{"Test@", accountNameMinSize, accountNameMaxSize, 3},
+		{"Test@#$", accountNameMinSize, accountNameMaxSize, 3},
+		{"Test Player", accountNameMinSize, accountNameMaxSize, 3},
+		{"玩家🎮", charNameMinSize, charNameMaxSize, 3}, // emoji outside CJK ranges
+	}
+	for _, tc := range cases {
+		got := validateName(tc.name, tc.min, tc.max)
+		if got != tc.wantErr {
+			t.Errorf("validateName(%q, %d, %d) = %d, want %d",
+				tc.name, tc.min, tc.max, got, tc.wantErr)
+		}
+	}
+}
+
+// TestChineseNamesLoopback is an end-to-end loopback test over the real
+// WebSocket protocol: it creates an account with a Chinese name, logs in with
+// it, creates a character with a Chinese name, and verifies no ERR_NAME_VALID
+// / ERR_NAME_SIZE errors occur and that names round-trip through the wire
+// codec intact.
+func TestChineseNamesLoopback(t *testing.T) {
+	url, stop := startTestServer(t)
+	defer stop()
+
+	const cacheID = uint32(5)
+	const path = "/root/Network"
+
+	fc := dialFake(t, url)
+	fc.announce(t, cacheID, path)
+
+	const (
+		accountName = "玩家测试" // 4 CJK runes, within [4,16]
+		charName    = "张三"   // 2 CJK runes, within [2,16]
+		password    = "密码1234" // 4 CJK runes + 4 digits, within [4,32]
+	)
+
+	// 1. CreateAccount with a Chinese account name -> AuthError(ERR_OK).
+	// rememberMe=true, so AuthTokenResult is pushed first.
+	replies := fc.callCollect(t, cacheID, rpcCreateAccount, []Variant{
+		NewString(accountName), NewString(password), NewString("zh@test.com"), NewBool(true), NewInt(0)}, 2)
+	if replies[0].NameID != rpcAuthTokenResult || replies[0].Args[0].Str != accountName {
+		t.Fatalf("create account token: want AuthTokenResult(%q), got nameID=%d args=%s",
+			accountName, replies[0].NameID, formatArgs(replies[0].Args))
+	}
+	if replies[1].NameID != rpcAuthError || replies[1].Args[0].Int != authErrOK {
+		t.Fatalf("create account: want AuthError(ERR_OK=0), got nameID=%d args=%s",
+			replies[1].NameID, formatArgs(replies[1].Args))
+	}
+
+	// 2. LoginWithPassword with the Chinese account name -> AuthError(ERR_OK).
+	rpc := parseReply(t, fc.call(t, cacheID, rpcLoginWithPassword, []Variant{
+		NewString(accountName), NewString(password), NewBool(false), NewInt(0)}))
+	if rpc.NameID != rpcAuthError || rpc.Args[0].Int != authErrOK {
+		t.Fatalf("login: want AuthError(ERR_OK=0), got nameID=%d args=%s",
+			rpc.NameID, formatArgs(rpc.Args))
+	}
+
+	// 3. CreateCharacter with a Chinese character name -> CharacterInfo + CharacterError(ERR_OK).
+	replies = fc.callCollect(t, cacheID, rpcCreateCharacter, []Variant{
+		NewString(charName), NewDict(map[string]Variant{"race": NewInt(1), "gender": NewInt(0)}), NewDict(map[string]Variant{})}, 2)
+	if replies[0].NameID != rpcCharacterInfo {
+		t.Fatalf("create character: want CharacterInfo first, got nameID=%d args=%s",
+			replies[0].NameID, formatArgs(replies[0].Args))
+	}
+	info := replies[0].Args[0].Dict
+	if info == nil || info["nickname"].Str != charName {
+		t.Fatalf("create character info: want nickname=%q, got %s", charName, formatArgs(replies[0].Args))
+	}
+	if replies[1].NameID != rpcCharacterError || replies[1].Args[0].Int != charErrOK {
+		t.Fatalf("create character: want CharacterError(ERR_OK=0), got nameID=%d args=%s",
+			replies[1].NameID, formatArgs(replies[1].Args))
+	}
+
+	// 4. CharacterListing returns the Chinese-named character.
+	replies = fc.callCollect(t, cacheID, rpcCharacterListing, nil, 2)
+	if replies[0].NameID != rpcCharacterInfo || replies[0].Args[0].Dict["nickname"].Str != charName {
+		t.Fatalf("listing: want CharacterInfo nickname=%q, got %s", charName, formatArgs(replies[0].Args))
+	}
+
+	// 5. ConnectCharacter with the Chinese name -> CharacterError(ERR_OK).
+	rpc = parseReply(t, fc.call(t, cacheID, rpcConnectCharacter, []Variant{NewString(charName)}))
+	if rpc.NameID != rpcCharacterError || rpc.Args[0].Int != charErrOK {
+		t.Fatalf("connect character: want CharacterError(ERR_OK=0), got nameID=%d args=%s",
+			rpc.NameID, formatArgs(rpc.Args))
+	}
+
+	// 6. Negative control: a name with invalid characters still fails.
+	rpc = parseReply(t, fc.call(t, cacheID, rpcCreateCharacter, []Variant{
+		NewString("玩家@测试"), NewDict(map[string]Variant{"race": NewInt(1), "gender": NewInt(0)}), NewDict(map[string]Variant{})}))
+	// The invalid-char name may be rejected as NAME_SIZE (validateName returns
+	// non-zero) or NAME_AVAILABLE (duplicate), never OK.
+	if rpc.NameID != rpcCharacterError || rpc.Args[0].Int == charErrOK {
+		t.Fatalf("invalid char name: want non-OK CharacterError, got nameID=%d args=%s",
+			rpc.NameID, formatArgs(rpc.Args))
+	}
+}
