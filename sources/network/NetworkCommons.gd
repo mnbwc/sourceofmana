@@ -108,11 +108,11 @@ const ServerKeyPath : String			= "user://server.key"
 const ServerCertPath : String			= "user://server.crt"
 
 # Auth
-const PlayerNameMinSize : int			= 3
-const PlayerNameMaxSize : int			= 30
+const PlayerNameMinSize : int			= 2
+const PlayerNameMaxSize : int			= 16
 const PasswordMinSize : int				= 6
 const PasswordMaxSize : int				= 128
-const EntryValidRegex : String			= "^[\\w#!@%&:;<>,\\$\\^*\\(\\)_+=\\{\\}\\[\\]\\.?/-]+$"
+const EntryValidRegex : String			= "^[\\w\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff\\uac00-\\ud7af#!@%&:;<>,\\$\\^*\\(\\)_+=\\{\\}\\[\\]\\.?/-]+$"
 const PasswordValidRegex : String		= "^[^\\x00-\\x1F\\x7F]+$"
 const EmailValidRegex : String			= "^[\\w\\.\\+\\-]+@[a-zA-Z0-9\\.\\-]+\\.[a-zA-Z]{2,}$"
 
@@ -180,7 +180,11 @@ enum AuthError {
 }
 
 static func CheckSize(entry : String, minSize : int, maxSize : int) -> bool:
-	var currentSize : int = entry.length()
+	# Count Unicode code points (characters), not bytes, so CJK names work correctly.
+	# Godot's String.length() returns bytes; we iterate to count actual characters.
+	var currentSize : int = 0
+	for _i in entry:
+		currentSize += 1
 	return (currentSize >= minSize and currentSize <= maxSize)
 
 static func CheckValid(entry : String, validRegex : String) -> bool:

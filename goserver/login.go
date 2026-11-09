@@ -151,7 +151,7 @@ const (
 	accountNameMaxSize = 16
 	passwordMinSize    = 4
 	passwordMaxSize    = 32
-	charNameMinSize    = 3
+	charNameMinSize    = 2
 	charNameMaxSize    = 16
 	maxCharacterCount  = 4
 )
@@ -251,16 +251,27 @@ func dictInt(d map[string]Variant, key string) int64 {
 	return 0
 }
 
-// validateName mirrors NetworkCommons.CheckValid/CheckSize (minimal ASCII form).
+// validateName mirrors NetworkCommons.CheckValid/CheckSize.
+// Accepts ASCII alphanumerics, underscore, and CJK Unicode ranges:
+//   - CJK Unified Ideographs: U+4E00–U+9FFF (Chinese, Japanese Kanji)
+//   - Hiragana: U+3040–U+309F
+//   - Katakana: U+30A0–U+30FF
+//   - Hangul Syllables: U+AC00–U+D7AF (Korean)
 func validateName(name string, minSize, maxSize int) int {
-	if len(name) < minSize || len(name) > maxSize {
-		if len(name) < minSize {
+	// Count runes (Unicode code points), not bytes, for length validation.
+	r := []rune(name)
+	if len(r) < minSize || len(r) > maxSize {
+		if len(r) < minSize {
 			return 1 // too small
 		}
 		return 2 // too large
 	}
-	for _, r := range name {
-		ok := r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' || r >= '0' && r <= '9' || r == '_'
+	for _, c := range r {
+		ok := c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_' ||
+			c >= '\u4e00' && c <= '\u9fff' ||
+			c >= '\u3040' && c <= '\u309f' ||
+			c >= '\u30a0' && c <= '\u30ff' ||
+			c >= '\uac00' && c <= '\ud7af'
 		if !ok {
 			return 3 // invalid char
 		}
