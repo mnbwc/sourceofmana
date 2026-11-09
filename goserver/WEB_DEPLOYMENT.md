@@ -16,6 +16,24 @@ Go 游戏服务器 (:27012)
 
 浏览器只与 nginx 通信（标准 HTTPS/WSS），nginx 负责 TLS 终止并转发到 Go 服务器的明文 WebSocket 端口。
 
+## 0. 快速部署
+
+### Ubuntu/Debian
+
+```bash
+cd goserver
+sudo bash deploy.sh your-domain.com
+```
+
+### Alpine Linux
+
+```bash
+cd goserver
+sudo sh deploy_alpine.sh your-domain.com
+```
+
+两个脚本都会自动完成：安装依赖、构建 Go 服务器、配置 nginx、配置服务、部署 Web 客户端。
+
 ## 1. 生成 TLS 证书
 
 ### 生产环境（Let's Encrypt）
@@ -35,8 +53,15 @@ sudo certbot certonly --nginx -d som.manasource.org
 ### 本地开发（自签名）
 
 ```bash
+# RSA (Ubuntu/Debian)
 openssl req -x509 -newkey rsa:2048 \
   -keyout key.pem -out cert.pem -days 365 -nodes \
+  -subj "/CN=localhost" \
+  -addext "subjectAltName=DNS:localhost,IP:127.0.0.1"
+
+# ECDSA P-256 (Alpine — 更轻量)
+openssl ecparam -genkey -name prime256v1 -out key.pem
+openssl req -new -x509 -key key.pem -out cert.pem -days 365 -sha256 \
   -subj "/CN=localhost" \
   -addext "subjectAltName=DNS:localhost,IP:127.0.0.1"
 ```
@@ -101,11 +126,46 @@ WSS_PORT=27013 BRIDGE_PORT=9102 ./goserver
 
 ## 4. Godot Web 客户端配置
 
-### 4.1 导出 Web 版本
+### 4.1 预编译二进制（推荐）
 
-在 Godot 编辑器中选择 `Project > Export > Web`，导出到 `binary/Web/`。
+仓库已包含预编译的 Web 客户端，位于 [`binary/Web_nothreads/`](binary/Web_nothreads/)。
 
-### 4.2 配置服务器地址
+直接部署：
+
+```bash
+# 复制到 nginx 根目录
+cp -r binary/Web_nothreads/* /var/www/som/game/
+
+# 确保文件权限正确
+# Alpine:
+chown -R nginx:nginx /var/www/som/game/
+# Ubuntu/Debian:
+chown -R www-data:www-data /var/www/som/game/
+```
+
+### 4.2 自定义导出（可选）
+
+如需重新导出 Web 客户端：
+
+1. 在 Godot 编辑器中打开项目
+2. 选择 `Project > Export > Web`（preset: `Web`）
+3. 导出到 `binary/Web_nothreads/`
+4. 修改 `index.html` 和 `index.js` 以支持 Web Worker 预编译（参考现有文件）
+
+**导出配置要点：**
+
+```ini
+# export_presets.cfg
+[preset.5.options]
+variant/thread_support=false
+progressive_web_app/enabled=false
+progressive_web_app/ensure_cross_origin_isolation_headers=false
+sentry/inject_script=false
+sentry/_export_check=false
+html/head_include=""
+```
+
+### 4.3 配置服务器地址
 
 Web 客户端默认连接 `wss://som.manasource.org:6118/ws`（SoM 原版端口）。
 要连接到 Go 服务器，有两种方式：
@@ -121,22 +181,26 @@ const ServerAddressTesting : String = "som.manasource.org"
 const WebSocketPortTesting : int = 443  # nginx TLS 端口
 ```
 
-### 4.3 部署静态文件
-
-```bash
-# 复制 Godot Web 导出文件到 nginx 根目录
-cp binary/Web/* /var/www/som/
-
-# 确保文件权限正确
-chown -R www-data:www-data /var/www/som
-```
-
 ## 5. 验证
 
 1. 浏览器访问 `https://som.manasource.org/` — 应看到游戏登录界面
 2. 打开浏览器开发者工具 → Network → WS — 应看到 WebSocket 连接到 `/ws`
 3. 输入账号密码登录 — 应成功进入游戏
 4. 检查 `wss://som.manasource.org/ws` 的 WebSocket 帧 — 应看到 Godot 协议数据包
+
+**Alpine 验证命令：**
+
+```bash
+# 检查服务状态
+rc-service som-goserver status
+rc-service nginx status
+
+# 检查端口监听
+ss -tln | grep -E ':(27012|443)'
+
+# 测试健康检查
+curl -k https://127.0.0.1:443/health
+```
 
 ## 6. 故障排除
 
@@ -147,6 +211,10 @@ chown -R www-data:www-data /var/www/som
 | 连接超时 | 防火墙阻止 | 开放 443 端口 |
 | RPC checksum 失败 | 客户端/服务器方法不匹配 | 确保 Go 服务器与 SoM 客户端版本一致 |
 | 浏览器显示混合内容警告 | 页面 HTTP + WSS | 确保页面也通过 HTTPS 加载 |
+| 游戏加载卡在 100% | wasm 编译阻塞主线程 | 确认使用 `Web_nothreads` 版本 |
+| `ERR_CONNECTION_REFUSED` | 服务器未启动 | Alpine: `rc-service som-goserver start`；Ubuntu: `systemctl start som-goserver` |
+| nginx 配置测试失败 | 配置文件语法错误 | Alpine: `nginx -t`；检查 `/etc/nginx/nginx.conf` |
+| 自签名证书警告 | 浏览器不信任自签名证书 | 点击「高级」→「继续访问」，或替换为 Let's Encrypt 证书 |
 
 ## 7. 本地测试
 
@@ -163,3 +231,14 @@ python3 -m http.server 8080 --directory testdata/
 # 然后访问 http://127.0.0.1:8080/web_test.html
 # 点击 "Test WebSocket"
 ```
+
+## 8. Alpine 特别说明
+
+Alpine Linux 使用 musl libc 而非 glibc，需要注意：
+
+- **Go 编译**：使用 `CGO_ENABLED=0` 生成纯静态二进制
+- **nginx 配置**：Alpine 的 nginx 配置在 `/etc/nginx/nginx.conf`（不是 `sites-available`）
+- **服务管理**：使用 OpenRC（`rc-service` / `rc-update`），不是 systemd
+- **证书**：推荐使用 ECDSA P-256 自签名证书（更轻量）
+- **日志**：使用 `logread` 查看系统日志，不是 `journalctl`
+- **防火墙**：使用 `iptables` 或 `nftables`，不是 `ufw`

@@ -1,6 +1,6 @@
 # Source of Mana — Go 服务器部署交接文档
 
-> 版本：2026-11-09
+> 版本：2026-11-10
 > 分支：`feat/agent-arena`
 > 仓库：https://github.com/mnbwc/sourceofmana
 
@@ -41,7 +41,7 @@ Source of Mana (SoM) 是一个 2D MMORPG，Godot 4.7.1 引擎。本项目将其�
 
 | 项目 | 最低要求 | 推荐 |
 |------|---------|------|
-| OS | Ubuntu 20.04 / Debian 11 | Ubuntu 24.04 |
+| OS | Ubuntu 20.04 / Debian 11 / Alpine 3.18 | Ubuntu 24.04 / Alpine 3.21 |
 | CPU | 1 核 | 2 核 |
 | 内存 | 512 MB | 2 GB |
 | 磁盘 | 1 GB | 10 GB SSD |
@@ -201,7 +201,39 @@ echo "游戏地址: https://$DOMAIN/"
 echo "WebSocket: wss://$DOMAIN/ws"
 ```
 
-### 3.3 快速验证
+### 3.3 Alpine Linux 部署
+
+```bash
+# 克隆仓库
+git clone -b feat/agent-arena https://github.com/mnbwc/sourceofmana.git
+cd sourceofmana/goserver
+
+# 运行 Alpine 部署脚本
+sudo sh deploy_alpine.sh your-domain.com
+```
+
+Alpine 部署脚本 (`deploy_alpine.sh`) 自动完成：
+1. 安装依赖（apk: nginx, git, go, sqlite, openssl）
+2. 克隆/更新代码
+3. 构建 Go 服务器（`CGO_ENABLED=0`，静态二进制）
+4. 生成 TLS 自签名证书（ECDSA P-256）
+5. 配置 nginx + WebSocket 代理
+6. 配置 OpenRC 服务（`rc-service` / `rc-update`）
+7. 部署 Web 客户端到 `/var/www/som/game/`
+
+**Alpine 与 Ubuntu/Debian 的区别：**
+
+| 项目 | Ubuntu/Debian | Alpine |
+|------|--------------|--------|
+| 包管理 | `apt-get` | `apk` |
+| 服务管理 | `systemctl` | `rc-service` / `rc-update` |
+| libc | glibc | musl |
+| CGO | 默认启用 | `CGO_ENABLED=0`（纯静态） |
+| nginx 配置 | `/etc/nginx/sites-available/` | `/etc/nginx/nginx.conf` |
+| 防火墙 | `ufw` | `iptables` / `nftables` |
+| 日志 | `journalctl` | `logread` |
+
+### 3.4 快速验证
 
 ```bash
 # 检查服务状态
@@ -251,12 +283,15 @@ print('AgentBridge OK:', json.loads(buf.decode().strip()))
 
 ### 4.2 NAT 映射
 
-**只需映射 2 个公网端口：**
+**只需映射 3 个公网端口：**
 
 | 公网端口 | 协议 | 指向 VPS 内部 | 说明 |
 |---------|------|-------------|------|
-| **443** | TCP | 443 | 所有客户端（网页/PC/安卓） |
-| **80** | TCP | 80 | HTTP→HTTPS 重定向 + 证书续期 |
+| **11443** | TCP | 443 | 人类网页登录 (WSS) |
+| **27012** | TCP | 27012 | AI 无头客户端登录 (WS) |
+| **20080** | TCP | 80 | HTTP→HTTPS 重定向 |
+
+> 如果使用标准端口（80/443），则只需映射 80 和 443。
 
 ### 4.3 数据流
 
@@ -295,7 +330,7 @@ print('AgentBridge OK:', json.loads(buf.decode().strip()))
 | `SOM_DB_FILE` | som.db | SQLite 数据库路径 |
 | `SOM_STORE_FILE` | som_store.json | JSON 迁移源（仅首次启动） |
 
-### 5.2 systemd 配置
+### 5.2 systemd 配置 (Ubuntu/Debian)
 
 ```ini
 [Unit]
@@ -319,7 +354,38 @@ Environment="SOM_DB_FILE=/opt/sourceofmana/goserver/som.db"
 WantedBy=multi-user.target
 ```
 
-### 5.3 nginx 配置
+### 5.3 OpenRC 配置 (Alpine)
+
+```sh
+# /etc/init.d/som-goserver
+#!/sbin/openrc-run
+
+description="Source of Mana Go Server"
+command="/opt/sourceofmana/goserver/goserver"
+command_background="yes"
+command_user="root"
+pidfile="/run/${RC_SVCNAME}.pid"
+
+depend() {
+    need net
+    after firewall
+}
+
+start_pre() {
+    checkpath -d -m 0755 -o root /opt/sourceofmana/goserver
+}
+```
+
+```sh
+# /etc/conf.d/som-goserver
+BIND_IP=0.0.0.0
+WS_PORT=27012
+WSS_PORT=27013
+BRIDGE_PORT=9102
+SOM_DB_FILE=/opt/sourceofmana/goserver/som.db
+```
+
+### 5.4 nginx 配置
 
 ```nginx
 server {
@@ -393,6 +459,8 @@ https://your-domain/?server=your-domain&port=443
 
 ### 7.1 日常管理
 
+**Ubuntu/Debian (systemd):**
+
 ```bash
 # 启动服务
 systemctl start som-goserver
@@ -408,7 +476,30 @@ systemctl status som-goserver
 
 # 查看日志
 journalctl -u som-goserver -f
+```
 
+**Alpine (OpenRC):**
+
+```bash
+# 启动服务
+rc-service som-goserver start
+
+# 停止服务
+rc-service som-goserver stop
+
+# 重启服务
+rc-service som-goserver restart
+
+# 查看状态
+rc-service som-goserver status
+
+# 查看日志
+logread -f | grep goserver
+```
+
+**通用命令:**
+
+```bash
 # 查看实时连接数
 ss -tn | grep 27012 | wc -l
 
@@ -428,11 +519,22 @@ tar -czf /backup/som-$(date +%Y%m%d).tar.gz /opt/sourceofmana/goserver/
 
 ### 7.3 更新部署
 
+**Ubuntu/Debian:**
+
 ```bash
 cd /opt/sourceofmana/goserver
 git pull
 go build -o goserver .
 systemctl restart som-goserver
+```
+
+**Alpine:**
+
+```bash
+cd /opt/sourceofmana/goserver
+git pull
+CGO_ENABLED=0 go build -o goserver .
+rc-service som-goserver restart
 ```
 
 ### 7.4 故障排除
@@ -529,7 +631,52 @@ sourceofmana/
 
 ---
 
-## 10. 常见问题
+## 10. Web 客户端部署
+
+### 10.1 预编译二进制
+
+预编译的 Web 客户端位于 [`binary/Web_nothreads/`](binary/Web_nothreads/)，包含：
+
+| 文件 | 大小 | 说明 |
+|------|------|------|
+| `index.html` | 10 KB | 游戏 HTML（含加载进度条 + Web Worker 预编译） |
+| `index.js` | 2.9 MB | Godot JS glue 代码（已修改支持预编译） |
+| `index.pck` | 90 MB | 游戏数据包 |
+| `index.wasm` | 1.5 MB | 主 wasm 模块 |
+| `index.side.wasm` | 44 MB | Side 模块（引擎） |
+| `libgdsqlite...wasm` | 2.5 MB | SQLite GDExtension |
+| `libsentry...wasm` | 2.6 MB | Sentry GDExtension |
+
+### 10.2 技术要点
+
+- **单线程 wasm**：`thread_support=false`，无需 SharedArrayBuffer，不需要 COOP/COEP headers
+- **Web Worker 预编译**：wasm 模块在 Worker 线程中预编译，避免阻塞主线程
+- **进度条**：加载过程显示「初始化引擎 → 预编译资源 → 正在加载游戏资源」
+- **WSS 连接**：通过 nginx 反向代理，TLS 终止在 nginx，Go 服务器使用明文 WebSocket
+
+### 10.3 部署到服务器
+
+```bash
+# 复制 Web 客户端到 nginx 根目录
+cp -r binary/Web_nothreads/* /var/www/som/game/
+
+# 确保文件权限正确
+chown -R nginx:nginx /var/www/som/game/  # Alpine
+chown -R www-data:www-data /var/www/som/game/  # Ubuntu/Debian
+```
+
+### 10.4 浏览器兼容性
+
+| 浏览器 | 最低版本 | 说明 |
+|--------|---------|------|
+| Chrome | 80+ | ✅ 完全支持 |
+| Firefox | 78+ | ✅ 完全支持 |
+| Safari | 14+ | ✅ 完全支持 |
+| Edge | 80+ | ✅ 完全支持 |
+
+---
+
+## 11. 常见问题
 
 ### Q: Go 服务器和 SoM 原版服务器有什么区别？
 
@@ -590,7 +737,7 @@ A:
 
 ---
 
-## 11. 联系方式
+## 12. 联系方式
 
 - 仓库：https://github.com/mnbwc/sourceofmana
 - 分支：`feat/agent-arena`
