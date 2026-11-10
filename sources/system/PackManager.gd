@@ -11,9 +11,7 @@ extends Node
 
 const PACK_DIR := "user://packs/"
 
-# signal packLoaded(packName: String, path: String)
 signal packLoaded(packName: String, path: String)
-# signal packError(packName: String, message: String)
 signal packError(packName: String, message: String)
 
 var _mounted: Dictionary = {}  # packName -> path
