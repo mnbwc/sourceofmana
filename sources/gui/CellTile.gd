@@ -55,6 +55,20 @@ func GetTooltipModifiers(currentEquipped : ItemCell) -> String:
 		return ""
 	var lightColor : String = "#" + UICommons.LightTextColor.to_html(false)
 	var bbcode : String = ""
+	
+	# RPG 系统：词条显示
+	if Launcher.Player and Launcher.Player.inventory:
+		var item : Item = Launcher.Player.inventory.GetItem(cell)
+		if item and not item.affixes.is_empty():
+			bbcode += "\n[color=%s]词条:[/color]" % lightColor
+			for affixData in item.affixes:
+				var affixName : String = affixData.get("name", "")
+				var affixNameEn : String = affixData.get("nameEn", "")
+				var affixValue : float = affixData.get("value", 0.0)
+				var displayName : String = affixNameEn if affixNameEn != "" else affixName
+				bbcode += "\n  [color=%s]%s +%.1f[/color]" % [lightColor, displayName, affixValue]
+	
+	# 基础属性
 	if cell.modifiers and cell.modifiers.HasAny():
 		for modifier in cell.modifiers._modifiers:
 			if modifier and (modifier._persistent or cell.usable):
@@ -107,6 +121,18 @@ func GetTooltipWeight() -> String:
 func GetTooltipHeader() -> String:
 	var bbcode : String = tr(cell.name)
 	var lightColor : String = "#" + UICommons.LightTextColor.to_html(false)
+	
+	# RPG 系统：稀有度、强化等级
+	if cell is ItemCell and Launcher.Player and Launcher.Player.inventory:
+		var item : Item = Launcher.Player.inventory.GetItem(cell)
+		if item and item.rarity > 0:
+			var rarityColor : String = RaritySystem.GetRarityColorString(item.rarity)
+			var rarityName : String = RaritySystem.GetRarityName(item.rarity)
+			bbcode += " [color=%s][%s][/color]" % [rarityColor, rarityName]
+		if item and item.enhanceLevel > 0:
+			var enhanceColor : String = "#" + EnhanceSystem.GetEnhanceLevelColor(item.enhanceLevel).to_html(false)
+			bbcode += " [color=%s]+%d[/color]" % [enhanceColor, item.enhanceLevel]
+	
 	if cell is ItemCell and not cell.customfield.is_empty():
 		bbcode += " (%s)" % cell.customfield
 	if cell.description:
@@ -358,6 +384,15 @@ func RefreshColor():
 		targetColor = UICommons.CellTileColorEquipped
 	else:
 		targetColor = UICommons.CellTileColorDefault
+	
+	# RPG 系统：稀有度边框颜色
+	if cell is ItemCell and Launcher.Player and Launcher.Player.inventory:
+		var item : Item = Launcher.Player.inventory.GetItem(cell)
+		if item and item.rarity > 0:
+			var rarityColor : Color = RaritySystem.GetRarityColor(item.rarity)
+			# 混合稀有度颜色到背景色
+			targetColor = targetColor.lerp(rarityColor, 0.3)
+	
 	color = Color(targetColor.r, targetColor.g, targetColor.b, color.a)
 
 func _on_focus_entered():

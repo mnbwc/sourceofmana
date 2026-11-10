@@ -280,6 +280,10 @@ func SetItem(charID : int, itemID : int, customfield : String, itemCount : int, 
 	return ExecuteBindings("INSERT INTO item (item_id, char_id, count, storage, customfield) VALUES (?, ?, ?, ?, ?) \
 ON CONFLICT (char_id, item_id, storage, customfield) DO UPDATE SET count = excluded.count;", [itemID, charID, itemCount, storageType, customfield])
 
+# 更新物品的稀有度/强化/词条（RPG 系统）
+func SetItemRarity(charID : int, itemID : int, customfield : String, storageType : int, rarity : int, enhanceLevel : int, affixesJson : String) -> bool:
+	return ExecuteBindings("UPDATE item SET rarity = ?, enhance_level = ?, affixes = ? WHERE char_id = ? AND item_id = ? AND storage = ? AND customfield = ?;", [rarity, enhanceLevel, affixesJson, charID, itemID, storageType, customfield])
+
 func GetStorage(charID : int, storageType : int = 0) -> Array[Dictionary]:
 	return QueryBindings("SELECT * FROM item WHERE char_id = ? AND storage = ?;", [charID, storageType])
 
