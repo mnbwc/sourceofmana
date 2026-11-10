@@ -1,5 +1,4 @@
 extends Node
-class_name AutoPlay
 
 # ============================================================
 # AutoPlay — 自动打怪 + 自动拾取
@@ -203,7 +202,7 @@ func _on_potion_tick():
 func _is_potion(cell : ItemCell) -> bool:
 	# 简单判断：名字包含 Potion 或 药水
 	var name : String = cell.name.to_lower()
-	return name.contains("potion") or name.contains("药水") or cell.slot == ActorCommons.Slot.CONSUMABLE
+	return name.contains("potion") or name.contains("药水")
 
 # --- 通知回调 ---
 func _on_player_killed(targetRID : int):

@@ -368,7 +368,7 @@ func GetUITarget(target : UICommons.UITarget) -> Control:
 		UICommons.UITarget.PROGRESS:		return progressWindow
 		UICommons.UITarget.SOCIAL:			return socialWindow
 		UICommons.UITarget.EMOTE:			return emoteWindow
-UICommons.UITarget.SETTINGS:		return settingsWindow
+		UICommons.UITarget.SETTINGS:		return settingsWindow
 		UICommons.UITarget.AUTOPLAY:		return autoPlayWindow
 		UICommons.UITarget.ACTION_BAR:		return actionBoxes
 		_: push_error("Unhandled UITarget")
