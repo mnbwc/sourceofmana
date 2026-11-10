@@ -132,7 +132,9 @@ def write_pck(src_data, entries, out_path):
         else:
             out += src_data[e['offset']:e['offset'] + e['size']]
 
-    # Write directory
+    # Write directory (must be 4-byte aligned)
+    padding_needed = (4 - (len(out) % 4)) % 4
+    out += b'\x00' * padding_needed
     dir_start = len(out)
     out += struct.pack('<I', len(entries))
     for i, e in enumerate(entries):
