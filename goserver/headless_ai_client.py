@@ -167,6 +167,9 @@ def enc_variant(v) -> bytes:
         for item in v:
             payload += enc_variant_uncompressed(item)
         return enc_uncompressed(ARRAY, payload)
+    if isinstance(v, tuple) and len(v) == 2:
+        # Vector2: 4-byte header + 2x float32
+        return enc_uncompressed(VECTOR2, struct.pack("<ff", float(v[0]), float(v[1])))
     raise TypeError(f"unsupported variant type: {type(v)}")
 
 def enc_variant_uncompressed(v) -> bytes:
@@ -188,6 +191,8 @@ def enc_variant_uncompressed(v) -> bytes:
         for item in v:
             payload += enc_variant_uncompressed(item)
         return enc_uncompressed(ARRAY, payload)
+    if isinstance(v, tuple) and len(v) == 2:
+        return enc_uncompressed(VECTOR2, struct.pack("<ff", float(v[0]), float(v[1])))
     raise TypeError(f"unsupported variant type: {type(v)}")
 
 def enc_args(args: list) -> bytes:
@@ -289,6 +294,11 @@ def parse_variant(buf: bytes):
         return struct.unpack_from("<q", buf, 1)[0], 9
     if t == FLOAT:
         return struct.unpack_from("<f", buf, 1)[0], 5
+    if t == VECTOR2:
+        # Uncompressed: 4-byte header + 2x float32 (8 bytes) = 12 bytes.
+        x = struct.unpack_from("<f", buf, 4)[0]
+        y = struct.unpack_from("<f", buf, 8)[0]
+        return (x, y), 12
     if t == STRING:
         n = struct.unpack_from("<I", buf, 4)[0]
         s = buf[8:8 + n].decode("utf-8")
@@ -326,6 +336,10 @@ def parse_variant_uncompressed(buf: bytes):
         return struct.unpack_from("<i", buf, 4)[0], 8
     if t == FLOAT:
         return struct.unpack_from("<f", buf, 4)[0], 8
+    if t == VECTOR2:
+        x = struct.unpack_from("<f", buf, 4)[0]
+        y = struct.unpack_from("<f", buf, 8)[0]
+        return (x, y), 12
     if t == STRING:
         n = struct.unpack_from("<I", buf, 4)[0]
         s = buf[8:8 + n].decode("utf-8")
@@ -378,8 +392,12 @@ class WorldState:
                 self._handle_preload_player(args)
             elif name_id == 54:  # PreloadEntity
                 self._handle_preload_entity(args)
+            elif name_id == 118:  # WarpPlayer — tells us our spawn position
+                self._handle_warp(args)
             elif name_id == 112:  # UpdateEntity
                 self._handle_update_entity(args)
+            elif name_id == 39:  # FullUpdateEntity
+                self._handle_full_update(args)
             elif name_id == 61:  # RemoveEntity
                 self._handle_remove_entity(args)
             elif name_id == 41:  # ItemAdded
@@ -391,40 +409,135 @@ class WorldState:
             elif name_id == 0:  # AddOnlinePlayer
                 self._handle_add_online(args)
 
-    def _handle_preload_player(self, args):
-        if not args or not isinstance(args[0], dict):
+    def _handle_warp(self, args):
+        # Go server WarpPlayer: [mapID(int), position(vec2)]
+        if not args or len(args) < 2:
             return
-        d = args[0]
-        pid = d.get("peer_id") or d.get("rid") or d.get("id")
-        if pid is not None:
-            self.players[pid] = d
-            if self.self_peer and pid == self.self_peer:
-                self._update_self(d)
-            log.debug(f"PreloadPlayer: {d.get('nick', '?')} (peer={pid})")
+        pos = args[1]
+        if pos and isinstance(pos, (list, tuple)) and len(pos) >= 2:
+            self.self_pos = (float(pos[0]), float(pos[1]))
+            log.debug(f"WarpPlayer: map={args[0]} pos=({pos[0]},{pos[1]})")
+
+    def _handle_preload_player(self, args):
+        # Go server sends flat variant array (movement.go preloadPlayerArgs):
+        #   [agentRID(int), spirit(int), currentShape(int), nick(str),
+        #    level(int), health(int), hairstyle(int), haircolor(int),
+        #    gender(int), race(int), skintone(int), equipment(dict)]
+        if not args:
+            return
+        if isinstance(args[0], dict):
+            # Legacy dict format — keep for compatibility.
+            d = args[0]
+            pid = d.get("peer_id") or d.get("rid") or d.get("id")
+            if pid is not None:
+                self.players[pid] = d
+                if self.self_peer and pid == self.self_peer:
+                    self._update_self(d)
+            return
+        if len(args) < 4 or not isinstance(args[0], int):
+            return
+        pid = args[0]
+        d = {
+            "peer_id": pid,
+            "nick": args[3] if len(args) > 3 else None,
+            "level": args[4] if len(args) > 4 else 0,
+            "health": args[5] if len(args) > 5 else 0,
+        }
+        self.players[pid] = d
+        self.entities[pid] = d
+        # Identify self by nick match (server uses CharID as agentRID, not peer_id)
+        if self.self_nick and d.get("nick") == self.self_nick:
+            self.self_peer = pid
+            self._update_self(d)
+            log.info(f"Self identified: {d['nick']} (rid={pid})")
+        log.debug(f"PreloadPlayer: {d['nick']} (peer={pid})")
 
     def _handle_preload_entity(self, args):
-        if not args or not isinstance(args[0], dict):
+        # Go server npcPublicStatsArgs: [agentRID(int), actorType(int),
+        #   currentShape(int), nick(str), defaultState(int)]
+        if not args:
             return
-        d = args[0]
-        pid = d.get("peer_id") or d.get("rid") or d.get("id")
-        if pid is not None:
-            self.npcs[pid] = d
-            self.entities[pid] = d
-            log.debug(f"PreloadEntity: {d.get('name', '?')} (peer={pid})")
+        if isinstance(args[0], dict):
+            d = args[0]
+            pid = d.get("peer_id") or d.get("rid") or d.get("id")
+            if pid is not None:
+                self.npcs[pid] = d
+                self.entities[pid] = d
+            return
+        if len(args) < 4 or not isinstance(args[0], int):
+            return
+        pid = args[0]
+        d = {
+            "peer_id": pid,
+            "name": args[3] if len(args) > 3 else None,
+            "actor_type": args[1] if len(args) > 1 else 0,
+        }
+        self.npcs[pid] = d
+        self.entities[pid] = d
+        log.debug(f"PreloadEntity: {d['name']} (peer={pid})")
 
     def _handle_update_entity(self, args):
-        if not args or not isinstance(args[0], dict):
+        # Go server updateEntityArgs: [agentRID(int), velocity(vec2),
+        #   position(vec2), frameID(int)]
+        if not args:
             return
-        d = args[0]
-        pid = d.get("peer_id") or d.get("rid") or d.get("id")
-        if pid is not None:
-            self.entities[pid] = d
-            if pid in self.players:
-                self.players[pid] = d
-            if pid in self.npcs:
-                self.npcs[pid] = d
-            if self.self_peer and pid == self.self_peer:
-                self._update_self(d)
+        if isinstance(args[0], dict):
+            d = args[0]
+            pid = d.get("peer_id") or d.get("rid") or d.get("id")
+            if pid is not None:
+                self.entities[pid] = d
+                if pid in self.players:
+                    self.players[pid] = d
+                if pid in self.npcs:
+                    self.npcs[pid] = d
+                if self.self_peer and pid == self.self_peer:
+                    self._update_self(d)
+            return
+        if len(args) < 3 or not isinstance(args[0], int):
+            return
+        pid = args[0]
+        pos = args[2] if len(args) > 2 else None
+        d = {
+            "peer_id": pid,
+            "pos": list(pos) if pos and isinstance(pos, (list, tuple)) and len(pos) >= 2 else None,
+        }
+        # Merge with existing entry rather than replace.
+        existing = self.entities.get(pid, {})
+        if isinstance(existing, dict):
+            existing.update(d)
+            d = existing
+        self.entities[pid] = d
+        if pid in self.players:
+            self.players[pid] = d
+        if pid in self.npcs:
+            self.npcs[pid] = d
+        if self.self_peer and pid == self.self_peer:
+            self._update_self(d)
+
+    def _handle_full_update(self, args):
+        # Go server fullUpdateArgs: [agentRID(int), velocity(vec2),
+        #   position(vec2), orientation(vec2), agentState(int),
+        #   skillCastID(int), isRunning(bool), frameID(int)]
+        if not args or not isinstance(args[0], int):
+            return
+        pid = args[0]
+        pos = args[2] if len(args) > 2 else None
+        d = {
+            "peer_id": pid,
+            "pos": list(pos) if pos and isinstance(pos, (list, tuple)) and len(pos) >= 2 else None,
+            "state": args[4] if len(args) > 4 else 0,
+        }
+        existing = self.entities.get(pid, {})
+        if isinstance(existing, dict):
+            existing.update(d)
+            d = existing
+        self.entities[pid] = d
+        if pid in self.players:
+            self.players[pid] = d
+        if pid in self.npcs:
+            self.npcs[pid] = d
+        if self.self_peer and pid == self.self_peer:
+            self._update_self(d)
 
     def _handle_remove_entity(self, args):
         if not args:
@@ -451,21 +564,24 @@ class WorldState:
             self.drops.pop(rid, None)
 
     def _handle_update_stats(self, args):
-        if not args:
+        # Go server sendPublicStats: [agentRID, level, health, maxHealth,
+        #   hairstyle, haircolor, gender, race, skintone, currentShape]
+        if not args or not isinstance(args[0], int):
             return
-        # args: [peer_id, health, max_health, mana, max_mana, stamina, max_stamina, ...]
-        pid = args[0] if len(args) > 0 else None
+        pid = args[0]
         if self.self_peer and pid == self.self_peer:
-            if len(args) > 1:
-                self.self_hp = args[1]
             if len(args) > 2:
-                self.self_max_hp = args[2]
+                self.self_hp = args[2]
+            if len(args) > 3:
+                self.self_max_hp = args[3]
 
     def _handle_add_online(self, args):
         pass
 
     def _update_self(self, d):
-        self.self_nick = d.get("nick")
+        nick = d.get("nick")
+        if nick is not None:
+            self.self_nick = nick
         pos = d.get("pos") or d.get("position") or d.get("click_pos")
         if pos and isinstance(pos, (list, tuple)) and len(pos) >= 2:
             self.self_pos = (float(pos[0]), float(pos[1]))
@@ -663,7 +779,20 @@ class AgentBridgeServer:
 
         if action == "move_to":
             pos = args.get("pos") or args.get("position") or [0, 0]
-            self.client.send_rpc(RPC_SET_CLICK_POS, [float(pos[0]), float(pos[1])])
+            # Schedule on the main event loop (bridge runs in a separate thread).
+            loop = self.client.loop
+            if loop and loop.is_running():
+                fut = asyncio.run_coroutine_threadsafe(
+                    self.client.move_to(float(pos[0]), float(pos[1])), loop)
+                # Log any exception from the scheduled coroutine
+                def _log_exc(f):
+                    try:
+                        f.result(timeout=5)
+                    except Exception as e:
+                        log.debug(f"move_to coroutine error: {e}")
+                fut.add_done_callback(_log_exc)
+            else:
+                self.client.send_rpc(RPC_SET_CLICK_POS, [(float(pos[0]), float(pos[1]))])
             return {"ok": True, "verdict": "APPLIED", "action": action}
         elif action == "attack":
             skill_id = args.get("skill_id", args.get("skillID", 0))
@@ -712,6 +841,7 @@ class SoMClient:
         self.in_game = False
         self.self_entity_rid = None
         self.msg_queue = asyncio.Queue()
+        self.loop = None  # set in run(), used by bridge thread for scheduling
 
     async def connect(self):
         """Connect to server and perform handshake."""
@@ -720,12 +850,14 @@ class SoMClient:
         # Server pushes 4-byte LE unique_id
         raw = await asyncio.wait_for(self.ws.recv(), timeout=10)
         self.peer_id = struct.unpack("<I", raw[:4])[0]
-        self.world.self_peer = self.peer_id
-        log.info(f"Connected: peer_id={self.peer_id}")
+        self.world.self_peer = None  # will be set when we identify self by nick
+        self.world.self_nick = self.nick
+        log.info(f"Connected: peer_id={self.peer_id}, nick={self.nick}")
         # Announce Network node
         await self.ws.send(build_simplify_path(CACHE_ID, NODE_PATH))
         # Start receive loop
         self.running = True
+        self.loop = asyncio.get_running_loop()
         self.msg_queue = asyncio.Queue()
         asyncio.create_task(self._recv_loop())
 
@@ -746,6 +878,47 @@ class SoMClient:
                 break
             except Exception as e:
                 log.debug(f"recv error: {e}")
+
+    async def move_to(self, x, y):
+        """Send SetClickPos and predict movement locally (server never sends
+        position updates back to the mover — it's locally predicted in SoM)."""
+        log.debug(f"move_to: ({x}, {y}) from {self.world.self_pos}")
+        await self.send_rpc_async(RPC_SET_CLICK_POS, [(float(x), float(y))])
+        # Cancel any existing prediction task
+        if hasattr(self, "_predict_task") and self._predict_task and not self._predict_task.done():
+            self._predict_task.cancel()
+        self._predict_task = asyncio.create_task(self._predict_move(x, y))
+        log.debug(f"move_to: prediction task created")
+
+    async def _predict_move(self, tx, ty):
+        """Simulate walking toward (tx, ty) at 120 px/s until arrival."""
+        speed = 120.0  # px/s, must match Go server walkSpeed
+        interval = 0.05  # 50 ms update interval
+        try:
+            while self.running:
+                sx, sy = self.world.self_pos
+                dx, dy = tx - sx, ty - sy
+                dist = (dx * dx + dy * dy) ** 0.5
+                if dist < 2.0:
+                    self.world.self_pos = (float(tx), float(ty))
+                    break
+                step = speed * interval
+                if step >= dist:
+                    self.world.self_pos = (float(tx), float(ty))
+                    break
+                nx = sx + dx / dist * step
+                ny = sy + dy / dist * step
+                self.world.self_pos = (nx, ny)
+                # Sync to players dict so snapshot/list_players show current pos
+                if self.world.self_peer is not None:
+                    p = self.world.players.get(self.world.self_peer)
+                    if isinstance(p, dict):
+                        p["pos"] = [nx, ny]
+                await asyncio.sleep(interval)
+        except asyncio.CancelledError:
+            pass
+        except Exception as e:
+            log.debug(f"predict error: {e}")
 
     async def send_rpc_async(self, name_id, args):
         async with self.rpc_lock:
@@ -887,7 +1060,7 @@ class SoMClient:
                     pid, npc = target
                     pos = npc.get("pos") or npc.get("position") or [0, 0]
                     if pos:
-                        await self.send_rpc_async(RPC_SET_CLICK_POS, [float(pos[0]), float(pos[1])])
+                        await self.move_to(float(pos[0]), float(pos[1]))
                         await asyncio.sleep(0.5)
                         await self.send_rpc_async(RPC_TRIGGER_SKILL, [0])  # basic attack
                         log.debug(f"Auto-attack: {npc.get('name', '?')} at {pos}")
@@ -900,7 +1073,7 @@ class SoMClient:
                     rid, d = drop
                     pos = d.get("pos") or d.get("position") or [0, 0]
                     if pos:
-                        await self.send_rpc_async(RPC_SET_CLICK_POS, [float(pos[0]), float(pos[1])])
+                        await self.move_to(float(pos[0]), float(pos[1]))
                         await asyncio.sleep(0.3)
                         await self.send_rpc_async(RPC_PICKUP_DROP, [int(rid)])
                         log.debug(f"Auto-loot: drop {rid} at {pos}")
@@ -914,6 +1087,7 @@ class SoMClient:
 
     async def run(self):
         """Main run loop."""
+        self.loop = asyncio.get_running_loop()
         # Start AgentBridge
         if self.bridge:
             self.bridge.start()
@@ -1027,6 +1201,7 @@ async def main():
             nick = args.nick or f"AI_{client.account}"
             log.info(f"No characters found, creating: {nick}")
             await client.create_character(nick)
+            client.nick = nick  # keep in sync for self-identification
             chars = await client.list_characters()
 
         if not chars:
@@ -1035,6 +1210,7 @@ async def main():
 
         # Connect to first character (or match by nick)
         nick = args.nick or chars[0].get("nickname")
+        client.nick = nick  # keep in sync for self-identification
         if not await client.connect_character(nick):
             log.error("Failed to connect character")
             return
