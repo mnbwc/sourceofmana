@@ -10,7 +10,7 @@ const actionCategories : Dictionary[StringName, Array] = {
 		"gp_interact", "gp_target", "gp_untarget",
 	],
 	"Gameplay": [
-		"gp_sit", "gp_run", "gp_pickup", "gp_morph",
+		"gp_sit", "gp_run", "gp_pickup", "gp_morph", "gp_toggle_autoplay",
 	],
 	"Interface": [
 		"ui_validate", "ui_close", "ui_stat", "ui_menu",

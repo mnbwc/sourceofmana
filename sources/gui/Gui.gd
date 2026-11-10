@@ -39,6 +39,7 @@ extends ServiceBase
 @onready var socialWindow : WindowPanel			= $Windows/Floating/Social
 @onready var dialoguePanel : WindowPanel		= $Windows/Floating/Dialogue
 @onready var tradePanel : WindowPanel			= $Windows/Floating/Trade
+@onready var autoPlayWindow : WindowPanel		= $Windows/Floating/AutoPlay
 
 @onready var chatContainer : ChatContainer		= $Windows/Floating/Chat/Margin/VBoxContainer
 @onready var emoteContainer : Container			= $Windows/Floating/Emote/Layout/ItemContainer/Grid
@@ -367,7 +368,8 @@ func GetUITarget(target : UICommons.UITarget) -> Control:
 		UICommons.UITarget.PROGRESS:		return progressWindow
 		UICommons.UITarget.SOCIAL:			return socialWindow
 		UICommons.UITarget.EMOTE:			return emoteWindow
-		UICommons.UITarget.SETTINGS:		return settingsWindow
+UICommons.UITarget.SETTINGS:		return settingsWindow
+		UICommons.UITarget.AUTOPLAY:		return autoPlayWindow
 		UICommons.UITarget.ACTION_BAR:		return actionBoxes
 		_: push_error("Unhandled UITarget")
 	return null

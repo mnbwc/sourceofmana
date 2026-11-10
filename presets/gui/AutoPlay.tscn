@@ -1,0 +1,116 @@
+[gd_scene load_steps=4 format=3 uid="uid://auto1play2panel3"]
+
+[ext_resource type="Theme" uid="uid://dhb6h35g1bk0x" path="res://data/themes/DefaultTheme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://sources/gui/AutoPlayPanel.gd" id="2_script"]
+[ext_resource type="PackedScene" uid="uid://da8nt01w5gjsp" path="res://presets/gui/TitleBar.tscn" id="3_titlebar"]
+
+[node name="AutoPlayPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(280, 200)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -800.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+theme_type_variation = &"WindowPanel"
+script = ExtResource("2_script")
+blockActions = true
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TitleBar" parent="Layout" instance=ExtResource("3_titlebar")]
+layout_mode = 2
+size_flags_vertical = 0
+titleText = "挂机设置"
+
+[node name="Margin" type="MarginContainer" parent="Layout"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="Layout/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="EnableRow" type="HBoxContainer" parent="Layout/Margin/VBox"]
+layout_mode = 2
+
+[node name="EnableLabel" type="Label" parent="Layout/Margin/VBox/EnableRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "开启挂机"
+
+[node name="EnableCheck" type="CheckButton" parent="Layout/Margin/VBox/EnableRow"]
+layout_mode = 2
+
+[node name="CombatRow" type="HBoxContainer" parent="Layout/Margin/VBox"]
+layout_mode = 2
+
+[node name="CombatLabel" type="Label" parent="Layout/Margin/VBox/CombatRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "自动战斗"
+
+[node name="CombatCheck" type="CheckButton" parent="Layout/Margin/VBox/CombatRow"]
+layout_mode = 2
+
+[node name="LootRow" type="HBoxContainer" parent="Layout/Margin/VBox"]
+layout_mode = 2
+
+[node name="LootLabel" type="Label" parent="Layout/Margin/VBox/LootRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "自动拾取"
+
+[node name="LootCheck" type="CheckButton" parent="Layout/Margin/VBox/LootRow"]
+layout_mode = 2
+
+[node name="PotionRow" type="HBoxContainer" parent="Layout/Margin/VBox"]
+layout_mode = 2
+
+[node name="PotionLabel" type="Label" parent="Layout/Margin/VBox/PotionRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "自动喝药"
+
+[node name="PotionCheck" type="CheckButton" parent="Layout/Margin/VBox/PotionRow"]
+layout_mode = 2
+
+[node name="ThresholdRow" type="HBoxContainer" parent="Layout/Margin/VBox"]
+layout_mode = 2
+
+[node name="ThresholdLabel" type="Label" parent="Layout/Margin/VBox/ThresholdRow"]
+layout_mode = 2
+text = "30%"
+
+[node name="ThresholdSlider" type="HSlider" parent="Layout/Margin/VBox/ThresholdRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 10.0
+max_value = 90.0
+step = 5.0
+value = 30.0
+
+[node name="StatusRow" type="HBoxContainer" parent="Layout/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StatusLabel" type="Label" parent="Layout/Margin/VBox/StatusRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "已停止"
+
+[node name="StatsRow" type="HBoxContainer" parent="Layout/Margin/VBox"]
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="Layout/Margin/VBox/StatsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "击杀: 0 | 拾取: 0"

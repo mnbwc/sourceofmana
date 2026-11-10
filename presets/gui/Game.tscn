@@ -62,6 +62,7 @@
 [ext_resource type="Script" uid="uid://bx03gb6d40i6f" path="res://sources/gui/QuitBox.gd" id="55_6huw9"]
 [ext_resource type="PackedScene" uid="uid://b8ixr8s8711q0" path="res://presets/gui/CellDetails.tscn" id="56_2uxo9"]
 [ext_resource type="PackedScene" uid="uid://ds2uy7m56ff2m" path="res://presets/gui/Trade.tscn" id="57_q4v1n"]
+[ext_resource type="PackedScene" uid="uid://auto1play2panel3" path="res://presets/gui/AutoPlay.tscn" id="58_autoplay"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wjdwk"]
 shader = ExtResource("4_60kv4")
@@ -554,6 +555,14 @@ offset_right = 270.0
 offset_bottom = -115.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="AutoPlay" parent="Windows/Floating" unique_id=1630451101 instance=ExtResource("58_autoplay")]
+visible = false
+layout_mode = 0
+offset_left = 900.0
+offset_top = 100.0
+offset_right = 1200.0
+offset_bottom = 350.0
 
 [node name="Modals" type="Control" parent="." unique_id=1630451200]
 layout_mode = 3

@@ -51,6 +51,7 @@ enum UITarget
 	EMOTE,
 	SETTINGS,
 	ACTION_BAR,
+	AUTOPLAY,
 }
 
 enum PlayerMenu

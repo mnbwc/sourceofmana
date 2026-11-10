@@ -215,7 +215,10 @@ func _input(event : InputEvent):
 			elif TryJustPressed(event, "ui_progress"):		Launcher.GUI.ToggleControl(Launcher.GUI.progressWindow)
 			elif TryJustPressed(event, "ui_settings"):		Launcher.GUI.ToggleControl(Launcher.GUI.settingsWindow)
 			elif TryJustPressed(event, "ui_stat"):			Launcher.GUI.ToggleControl(Launcher.GUI.statWindow)
-			elif TryJustPressed(event, "ui_social"):		Launcher.GUI.ToggleControl(Launcher.GUI.socialWindow)
+elif TryJustPressed(event, "ui_social"):		Launcher.GUI.ToggleControl(Launcher.GUI.socialWindow)
+			elif TryJustPressed(event, "gp_toggle_autoplay"):
+				AutoPlay.toggle()
+				Launcher.GUI.notificationLabel.AddNotification("挂机已%s" % ("开启" if AutoPlay.is_enabled() else "关闭"))
 			elif TryJustPressed(event, "ui_validate"):		Launcher.GUI.ToggleChatNewLine()
 			elif TryJustPressed(event, "ui_screenshot"):	FileSystem.SaveScreenshot()
 			elif TryJustPressed(event, "ui_fullscreen"):	Launcher.GUI.ToggleFullscreen()

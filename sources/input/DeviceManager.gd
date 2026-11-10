@@ -76,6 +76,7 @@ static var actionNames : Dictionary[String, String] = {
 	"gp_shortcut_8" : "Shortcut 8",
 	"gp_shortcut_9" : "Shortcut 9",
 	"gp_shortcut_10" : "Shortcut 10",
+	"gp_toggle_autoplay" : "Toggle AutoPlay",
 	"gp_target" : "Target",
 	"gp_untarget" : "Clear Target",
 	"gp_pickup" : "Pickup",
