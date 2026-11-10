@@ -110,14 +110,25 @@ def is_map_layer(path):
 
 
 def write_pck(src_data, entries, out_path):
-    """Write a PCK with the given entries, copying data from src_data."""
+    """Write a PCK with the given entries, copying data from src_data.
+    
+    Godot 4.7 PCK v4 format:
+    - Header: magic + version + major + minor + patch + flags + file_count + pad + dir_offset
+    - File data
+    - Directory: file_count + entries
+    - Each entry: path_len (includes padding) + path (with padding) + offset + size + md5 + flags
+    
+    Note: In Godot 4.7, the path_len INCLUDES the padding bytes, and the path
+    itself contains the padding (trailing NUL bytes). This is different from
+    what we previously assumed.
+    """
     out = bytearray()
     out += b'GDPC'
     out += struct.pack('<I', 4)       # version
     out += struct.pack('<I', 4)       # major
     out += struct.pack('<I', 7)       # minor
     out += struct.pack('<I', 1)       # patch
-    out += struct.pack('<I', 0)       # flags
+    out += struct.pack('<I', 2)       # flags (2 = Godot 4.7 format)
     out += struct.pack('<I', len(entries))  # file_count (header field)
     out += struct.pack('<I', 0)       # alignment pad
     dir_offset_pos = len(out)
@@ -139,10 +150,13 @@ def write_pck(src_data, entries, out_path):
     out += struct.pack('<I', len(entries))
     for i, e in enumerate(entries):
         path_bytes = e['path'].encode('utf-8')
-        path_len = len(path_bytes)
+        # Include padding in path_len (Godot 4.7 format)
+        pad_len = (-len(path_bytes)) % 4
+        path_with_padding = path_bytes + b'\x00' * pad_len
+        path_len = len(path_with_padding)
+        
         out += struct.pack('<I', path_len)
-        out += path_bytes
-        out += b'\x00' * ((-path_len) % 4)
+        out += path_with_padding
         out += struct.pack('<Q', offsets[i])
         out += struct.pack('<Q', e['size'])
         out += b'\x00' * 16          # md5 (unused)
