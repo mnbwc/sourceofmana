@@ -12,7 +12,6 @@ extends WindowPanel
 @onready var statsLabel : Label = $Layout/Margin/VBox/StatsRow/StatsLabel
 
 func _ready():
-	titleText = "挂机设置"
 	enableCheck.text = "开启挂机"
 	combatCheck.text = "自动战斗"
 	lootCheck.text = "自动拾取"

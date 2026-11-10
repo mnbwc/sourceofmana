@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+<title>$GODOT_PROJECT_NAME</title>
+<style>
+html, body, #canvas { margin: 0; padding: 0; border: 0; }
+body {
+	color: #fff;
+	background-color: #000;
+	overflow: hidden;
+	touch-action: none;
+	font-family: 'Noto Sans SC', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+#canvas { display: block; }
+#canvas:focus { outline: none; }
+#status, #status-splash, #status-progress, #status-detail, #status-notice {
+	position: absolute; left: 0; right: 0;
+}
+#status, #status-splash { top: 0; bottom: 0; }
+#status {
+	background-color: $GODOT_SPLASH_COLOR;
+	display: flex; flex-direction: column;
+	justify-content: center; align-items: center;
+	visibility: hidden; z-index: 10;
+}
+#status-splash {
+	max-height: 100%; max-width: 100%; margin: auto;
+}
+#status-splash.show-image--false { display: none; }
+#status-splash.fullsize--true { height: 100%; width: 100%; object-fit: contain; }
+#status-splash.use-filter--false { image-rendering: pixelated; }
+#status-progress {
+	display: none;
+	bottom: 18%;
+	width: 56%;
+	margin: 0 auto;
+	height: 6px;
+	-webkit-appearance: none;
+	appearance: none;
+	background: rgba(255,255,255,0.15);
+	border-radius: 3px;
+	overflow: hidden;
+}
+#status-progress::-webkit-progress-bar {
+	background: rgba(255,255,255,0.15);
+	border-radius: 3px;
+}
+#status-progress::-webkit-progress-value {
+	background: #4fc3f7;
+	border-radius: 3px;
+}
+#status-progress::-moz-progress-bar {
+	background: #4fc3f7;
+	border-radius: 3px;
+}
+#status-detail {
+	display: none;
+	bottom: 12%;
+	width: 60%;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 13px;
+	line-height: 1.5;
+	color: rgba(255,255,255,0.85);
+	text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+#status-notice {
+	display: none;
+	background-color: #5b3943;
+	border-radius: 0.5rem;
+	border: 1px solid #9b3943;
+	color: #e0e0e0;
+	line-height: 1.4;
+	margin: 0 2rem;
+	overflow: hidden;
+	padding: 1rem;
+	text-align: center;
+	z-index: 1;
+}
+#status-title {
+	display: none;
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	margin-bottom: 16px;
+	text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+#start-btn {
+	display: none;
+	cursor: pointer;
+	padding: 12px 36px;
+	font-size: 16px;
+	font-family: inherit;
+	color: #fff;
+	background: linear-gradient(135deg, #1e88e5, #1565c0);
+	border: none;
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(30,136,229,0.4);
+	transition: transform 0.15s, box-shadow 0.15s;
+}
+#start-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(30,136,229,0.55); }
+#start-btn:active { transform: translateY(0); }
+</style>
+$GODOT_HEAD_INCLUDE
+</head>
+<body>
+<canvas id="canvas">
+Your browser does not support the canvas tag.
+</canvas>
+<noscript>Your browser does not support JavaScript.</noscript>
+
+<div id="status">
+	<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">
+	<div id="status-title">Source of Mana</div>
+	<progress id="status-progress"></progress>
+	<div id="status-detail"></div>
+	<button id="start-btn">点击开始</button>
+	<div id="status-notice"></div>
+</div>
+
+<script src="$GODOT_URL"></script>
+<script>
+const GODOT_CONFIG = $GODOT_CONFIG;
+const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusDetail = document.getElementById('status-detail');
+	const statusNotice = document.getElementById('status-notice');
+	const statusTitle = document.getElementById('status-title');
+	const startBtn = document.getElementById('start-btn');
+
+	let initializing = true;
+	let statusMode = '';
+	let started = false;
+
+	function fmtSize(bytes) {
+		if (bytes >= 1024 * 1024) return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+		if (bytes >= 1024) return (bytes / 1024).toFixed(1) + ' KB';
+		return bytes + ' B';
+	}
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) return;
+		if (mode === 'hidden') {
+			statusOverlay.remove();
+			initializing = false;
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		statusProgress.style.display = (mode === 'progress') ? 'block' : 'none';
+		statusDetail.style.display = (mode === 'detail') ? 'block' : (mode === 'progress' ? 'block' : 'none');
+		statusNotice.style.display = (mode === 'notice') ? 'block' : 'none';
+		statusTitle.style.display = (mode === 'notice') ? 'block' : 'none';
+		startBtn.style.display = (mode === 'ready') ? 'inline-block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusDetail(text) {
+		statusDetail.textContent = text;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) statusNotice.removeChild(statusNotice.lastChild);
+		const lines = String(text).split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		console.error(err);
+		const msg = (err instanceof Error) ? err.message : (typeof err === 'string' ? err : 'An unknown error occurred.');
+		setStatusNotice(msg);
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures({ threads: GODOT_THREADS_ENABLED });
+
+	if (missing.length !== 0) {
+		const missingMsg = '缺少运行所需功能：\n' + missing.join('\n');
+		displayFailureNotice(missingMsg);
+	} else {
+		// Show title immediately; show start button after a short delay so the
+		// user can read it before audio unlock is required.
+		statusTitle.style.display = 'block';
+		statusTitle.textContent = 'Source of Mana';
+		setStatusMode('ready');
+
+		let t0 = performance.now();
+		startBtn.addEventListener('click', () => {
+			if (started) return;
+			started = true;
+			t0 = performance.now();
+			setStatusMode('progress');
+			statusTitle.style.display = 'none';
+			startBtn.style.display = 'none';
+
+			engine.startGame({
+				'onProgress': function (current, total) {
+					if (current > 0 && total > 0) {
+						statusProgress.value = current;
+						statusProgress.max = total;
+						const pct = Math.floor(current / total * 100);
+						setStatusDetail(`正在下载游戏资源 ${pct}%（${fmtSize(current)} / ${fmtSize(total)}）`);
+					} else {
+						statusProgress.removeAttribute('value');
+						statusProgress.removeAttribute('max');
+						setStatusDetail('正在加载引擎…');
+					}
+				},
+			}).then(() => {
+				setStatusMode('hidden');
+			}, displayFailureNotice);
+		});
+
+		// Auto-start after 3 seconds if the user does not click (keeps the
+		// one-time audio gesture, but avoids an infinite wait).
+		const autoTimer = setTimeout(() => {
+			if (!started) startBtn.click();
+		}, 3000);
+		startBtn.addEventListener('click', () => clearTimeout(autoTimer), { once: true });
+	}
+}());
+</script>
+</body>
+</html>

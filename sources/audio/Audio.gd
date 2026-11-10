@@ -63,12 +63,10 @@ func Load(soundID : int):
 
 	var soundData : FileData = DB.MusicDB.get(soundID, null)
 	if not soundData:
-		assert(false, "Could not load music database id: %s" % soundID)
 		return
 
 	var soundStream : AudioStreamOggVorbis = soundData._resource as AudioStreamOggVorbis
 	if not soundStream:
-		assert(false, "Could not load music: %s" % soundData._name)
 		return
 
 	soundStream.set_loop(true)
@@ -107,4 +105,12 @@ func _post_launch():
 		Launcher.dbInitialized.connect(PlayDefault)
 	if Launcher.Map and not Launcher.Map.PlayerWarped.is_connected(Warped):
 		Launcher.Map.PlayerWarped.connect(Warped)
+		Warped()
+	# When the audio pack finishes downloading, retry loading the current track
+	# (the first attempt may have been skipped because the pack wasn't mounted yet).
+	if not PackManager.packLoaded.is_connected(_on_audio_pack_loaded):
+		PackManager.packLoaded.connect(_on_audio_pack_loaded)
+
+func _on_audio_pack_loaded(_pack_name: String, _path: String) -> void:
+	if DB.isInitialized and DB.MusicDB.size() > 0:
 		Warped()

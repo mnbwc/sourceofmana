@@ -36,6 +36,7 @@ ArenaLeaderboard="*res://sources/network/ArenaLeaderboard.gd"
 AgentClientProbe="*res://sources/network/AgentClientProbe.gd"
 FSM="*res://sources/launcher/FSM.gd"
 AutoPlay="*res://sources/autoplay/AutoPlay.gd"
+PackManager="*res://sources/system/PackManager.gd"
 
 [debug]
 

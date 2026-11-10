@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://crwvfu13v2a7e"
-path="res://.godot/imported/NotoSansCJK-Regular.ttc-76177c52963bc4867fd76d350065cc3d.fontdata"
+uid="uid://cfuo1v7aan3qb"
+path="res://.godot/imported/NotoSansCJKsc-subset.ttf-ab83ef825902f273e7dbcbcd9edb3b04.fontdata"
 
 [deps]
 
-source_file="res://data/graphics/fonts/NotoSansCJK-Regular.ttc"
-dest_files=["res://.godot/imported/NotoSansCJK-Regular.ttc-76177c52963bc4867fd76d350065cc3d.fontdata"]
+source_file="res://data/graphics/fonts/NotoSansCJKsc-subset.ttf"
+dest_files=["res://.godot/imported/NotoSansCJKsc-subset.ttf-ab83ef825902f273e7dbcbcd9edb3b04.fontdata"]
 
 [params]
 

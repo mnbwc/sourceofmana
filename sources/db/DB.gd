@@ -35,7 +35,11 @@ static var ShipHash : int									= "Ship".hash()
 #
 static func ParseFileDB(db : Dictionary, path : String):
 	for resourcePath in FileSystem.ParseResources(path):
+		if not ResourceLoader.exists(resourcePath):
+			continue
 		var data : FileData = FileSystem.LoadResource(resourcePath, false)
+		if data == null:
+			continue
 		data._id = SetCellHash(data._name, data._id)
 		if data._id != UnknownHash:
 			db[data._id] = data
@@ -174,7 +178,7 @@ static func Preload():
 	preloadPaths.append_array(FileSystem.ParseResources(Path.RacesPst))
 	preloadPaths.append_array(FileSystem.ParseResources(Path.HairstylePst))
 	preloadPaths.append_array(FileSystem.ParseResources(Path.MapDataPst))
-	if not isServerMode:
+	if not isServerMode and PackManager.is_mounted("audio"):
 		preloadPaths.append_array(FileSystem.ParseResources(Path.MusicPst))
 	preloadPaths.append_array(FileSystem.ParseResources(Path.EmotePst))
 	preloadPaths.append_array(FileSystem.ParseResources(Path.ItemPst))
@@ -212,7 +216,8 @@ static func Populate():
 	ParseFileDB(HairstylesDB, Path.HairstylePst)
 
 	ParseFileDB(MapsDB, Path.MapDataPst)
-	ParseFileDB(MusicDB, Path.MusicPst)
+	if PackManager.is_mounted("audio"):
+		ParseFileDB(MusicDB, Path.MusicPst)
 
 	ParseCellDB(EmotesDB, Path.EmotePst)
 	ParseCellDB(ItemsDB, Path.ItemPst)
@@ -220,6 +225,11 @@ static func Populate():
 
 	ParseQuestsDB()
 	ParseEntitiesDB()
+
+static func ReloadAudio():
+	"""Re-populate MusicDB after the audio pack is mounted at runtime."""
+	MusicDB.clear()
+	ParseFileDB(MusicDB, Path.MusicPst)
 
 static func Clear():
 	MapsDB.clear()

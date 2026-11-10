@@ -68,7 +68,7 @@ func HandleAlteration(alteration : ActorCommons.Alteration, involved : bool = tr
 	if not entity or not entity.data:
 		return
 
-	var audioStream : AudioStream = entity.data._alterationSFX[alteration] if entity.data._alterationSFX.has(alteration) else ActorCommons.DefaultSfx.get(alteration)
+	var audioStream : AudioStream = entity.data._alterationSFX[alteration] if entity.data._alterationSFX.has(alteration) else ActorCommons.GetDefaultSfx(alteration)
 	if ActorCommons.IsNotificationAlteration(alteration) and entity == Launcher.Player:
 		PlayNotification(audioStream)
 	else:

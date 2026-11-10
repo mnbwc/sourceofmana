@@ -469,16 +469,31 @@ static var DefaultSkills : Array[Dictionary] = [
 	{ "skill_id": SkillCommons.SkillMeleeName.hash(), "level": 1 },
 	{ "skill_id": SkillCommons.SkillRunName.hash(), "level": 1 },
 ]
-static var DefaultSfx : Dictionary[ActorCommons.Alteration, AudioStream] = {
-	Alteration.HIT:				preload("res://data/sounds/alteration/hit.ogg"),
-	Alteration.CRIT:			preload("res://data/sounds/alteration/crit.ogg"),
-	Alteration.DODGE:			preload("res://data/sounds/alteration/dodge.ogg"),
-	Alteration.HEAL:			preload("res://data/sounds/alteration/heal.ogg"),
-	Alteration.EXP:				preload("res://data/sounds/alteration/exp.ogg"),
-	Alteration.GP:				preload("res://data/sounds/alteration/gp.ogg"),
-	Alteration.LVL_UP:			preload("res://data/sounds/alteration/levelup.ogg"),
-	Alteration.SKILL_UP:		preload("res://data/sounds/alteration/skillup.ogg"),
-	Alteration.QUEST_COMPLETE:	preload("res://data/sounds/alteration/quest-done.ogg"),
-	Alteration.QUEST_UPDATE:	preload("res://data/sounds/alteration/quest-update.ogg"),
-	Alteration.WHISPER:			preload("res://data/sounds/alteration/quest-update.ogg"),
+# Audio streams are loaded lazily so they can be moved to a separate PCK pack.
+# preload() would fail at parse time if the audio pack is not yet mounted.
+static var _defaultSfxPaths : Dictionary[ActorCommons.Alteration, String] = {
+	Alteration.HIT:				"res://data/sounds/alteration/hit.ogg",
+	Alteration.CRIT:			"res://data/sounds/alteration/crit.ogg",
+	Alteration.DODGE:			"res://data/sounds/alteration/dodge.ogg",
+	Alteration.HEAL:			"res://data/sounds/alteration/heal.ogg",
+	Alteration.EXP:				"res://data/sounds/alteration/exp.ogg",
+	Alteration.GP:				"res://data/sounds/alteration/gp.ogg",
+	Alteration.LVL_UP:			"res://data/sounds/alteration/levelup.ogg",
+	Alteration.SKILL_UP:		"res://data/sounds/alteration/skillup.ogg",
+	Alteration.QUEST_COMPLETE:	"res://data/sounds/alteration/quest-done.ogg",
+	Alteration.QUEST_UPDATE:	"res://data/sounds/alteration/quest-update.ogg",
+	Alteration.WHISPER:			"res://data/sounds/alteration/quest-update.ogg",
 }
+static var _defaultSfxCache : Dictionary[ActorCommons.Alteration, AudioStream] = {}
+
+static func GetDefaultSfx(alteration : ActorCommons.Alteration) -> AudioStream:
+	if _defaultSfxCache.has(alteration):
+		return _defaultSfxCache[alteration]
+	if not _defaultSfxPaths.has(alteration):
+		return null
+	var path : String = _defaultSfxPaths[alteration]
+	if not ResourceLoader.exists(path):
+		return null
+	var stream : AudioStream = load(path)
+	_defaultSfxCache[alteration] = stream
+	return stream
