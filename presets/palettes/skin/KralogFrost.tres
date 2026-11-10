@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_script")
-_name = "Kralog Frost"
+_name = "克拉洛格-寒冰"
 _resource = ExtResource("2_material")

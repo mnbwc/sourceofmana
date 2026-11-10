@@ -198,7 +198,7 @@ func DeleteCharacter():
 	UICommons.MessageBox("""Are you sure you want to delete this character?
 This action is permanent, and you will not be able to recover or use this character again.
 """,
-		Callback.Empty, "Cancel",
+		Callback.Empty, "取消",
 		ConfirmDeleteCharacter, "Confirm")
 
 func ConfirmDeleteCharacter():
@@ -275,7 +275,7 @@ func EnableCharacterCreator(enable : bool):
 		if enable:
 			Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.PRIMARY, "Create", CreateCharacter)
 			Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.SECONDARY, "Randomize", RandomizeCharacter)
-			Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "Cancel", EnableCharacterCreator.bind(false))
+			Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "取消", EnableCharacterCreator.bind(false))
 			RefreshSuggestedButton()
 		else:
 			Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.PRIMARY, "Select", SelectCharacter)
@@ -283,7 +283,7 @@ func EnableCharacterCreator(enable : bool):
 				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.SECONDARY, "New Player", EnableCharacterCreator.bind(true))
 			if currentCharacterID != ActorCommons.InvalidCharacterSlot:
 				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.TERTIARY, "Delete Player", DeleteCharacter.bind())
-			Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "Cancel", Leave)
+			Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "取消", Leave)
 			RefreshSuggestedButton()
 
 func UpdateCharacterCreatorBody():

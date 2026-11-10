@@ -164,7 +164,7 @@ func RefreshVitalStats():
 
 	RefreshGender()
 	lName.set_text(Launcher.Player.nick)
-	lLevel.set_text("Lv. %d" % panelStats.level)
+	lLevel.set_text("等级 %d" % panelStats.level)
 	var spiritData : EntityData = DB.EntitiesDB.get(panelStats.spirit, null)
 	if spiritData:
 		lSpirit.set_text(spiritData._name)
@@ -174,7 +174,7 @@ func RefreshVitalStats():
 	pMana.SetStat(panelStats.mana, panelStats.current.maxMana)
 	pStamina.SetStat(panelStats.stamina, panelStats.current.maxStamina)
 	pWeight.SetStat(panelStats.weight, panelStats.current.weightCapacity)
-	lGP.set_text("%s GP" % Util.GetFormatedText(str(panelStats.gp)))
+	lGP.set_text("%s 金币" % Util.GetFormatedText(str(panelStats.gp)))
 
 func RefreshAttributes():
 	if not Launcher.Player:

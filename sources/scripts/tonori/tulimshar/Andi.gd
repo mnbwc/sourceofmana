@@ -6,20 +6,20 @@ func OnStart():
 		0: SeenClay()
 		1: GoingToSea()
 		2: Circles()
-		3: Chat("Oh, I really like that stone!")
-		4: Chat("Beware of hiding pirates, they are dangerous.")
-		5: Chat("Don't wipe away the chalk, please!")
+		3: Chat("哦，我真的很喜欢那块石头！")
+		4: Chat("小心藏匿的海盗，他们很危险。")
+		5: Chat("请别擦掉粉笔字！")
 
 func SeenClay():
-	Mes("Have you seen my chalk?")
-	Mes("I bet the guards took it to play with on their own.")
+	Mes("你看到我的粉笔了吗？")
+	Mes("我打赌是守卫拿去自己玩了。")
 
 func GoingToSea():
-	Mes("One day, I'm going to the sea to explore the world.")
-	Mes("I heard there's a city to the north with cold, white sand.")
+	Mes("总有一天，我要去海上探索世界。")
+	Mes("我听说北方有一座城市，有冰冷的白色沙子。")
 
 func Circles():
-	Mes("Can you draw a perfect circle? I can! My dad taught me.")
-	Mes("Wie can't draw circles. When she tries they look like fat squares.")
-	Mes("They look so funny, but she doesn't like when I laugh at them, so she always wants to be the X.")
-	Mes("I started calling her \"the wild X\".")
+	Mes("你会画完美的圆吗？我会！我爸爸教我的。")
+	Mes("薇不会画圆。她试着画时看起来像胖方块。")
+	Mes("它们看起来很好笑，但我不喜欢笑它们，所以她总是想当X。")
+	Mes("我开始叫她\"狂野X\"。")

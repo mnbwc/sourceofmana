@@ -17,100 +17,100 @@ func OnStart():
 
 #
 func OnFirstEncounter():
-	Mes("Who are you?")
+	Mes("你是谁？")
 	Choice("I was sent by Watchman Ekinu to help with scouting these mines.", OnPresentation)
 
 func OnPresentation():
-	Mes("He sent YOU? I told that sand brained idiot to send NEW RECRUITS.")
-	Mes("Not some random desert wanderer.")
-	Mes("You'll probably be running away at the first sight of a scorpion, won't you?")
+	Mes("他派你来？我告诉那个沙子脑子的白痴派新兵来。")
+	Mes("不是随便哪个沙漠流浪者。")
+	Mes("你大概一看到蝎子就会跑，对吧？")
 	if GetBestiary("Scorpion".hash()) > 0:
 		Choice("Actually, I have walked all the way here and fought off a few scorpions already.", OnHarshWelcome)
 	else:
 		Choice("I didn't come all this way to leave that quickly.", OnHarshWelcome)
 
 func OnHarshWelcome():
-	Mes("Right... whatever. Stop talking.")
-	Mes("Your voice is annoying. The last thing I need is to hear it echo through this cave.")
-	Mes("As you can see I already have some sorry beggars here who are desperate enough to dig through the dirt and see if there's any valuable metals left in this miserable place.")
+	Mes("好……随便吧。别说了。")
+	Mes("你的声音很烦人。我最不需要的就是听它在这个洞穴里回荡。")
+	Mes("你也看到了，我已经有一些可怜的家伙在这里了，他们拼命地挖土，看看这鬼地方还有什么值钱的金属。")
 	Choice("What am I supposed to do then?", OnExplainWhatToDo)
 
 func OnExplainWhatToDo():
-	Mes("I'm getting to it!")
-	Mes("I have sent one of these idiots to scout ahead, but it seems that he got lost.")
-	Mes("His name is Nickos. He hasn't been back for a while.")
-	Mes("Look for him.")
-	Mes("Bring him back if he's alive. If he's dead, then you will probably die as well and we will know there's danger down there.")
-	Mes("How does that sound?")
+	Mes("我在做了！")
+	Mes("我派了这些笨蛋中的一个去侦察前方，但他好像迷路了。")
+	Mes("他叫尼科斯。他已经有一阵子没回来了。")
+	Mes("去找他。")
+	Mes("如果他还活着就把他带回来。如果他死了，你大概也会死，然后我们就知道下面有危险了。")
+	Mes("听起来怎么样？")
 	Choice("Awful, but I'll do it.", OnStartQuest)
 	Choice("Okay... why did I agree to this...", OnStartQuest)
 
 func OnStartQuest():
-	Mes("Good. I wasn't going to give you a choice anyway.")
-	Mes("Go! Don't wait for me to kiss you goodbye.")
+	Mes("好。反正我也没打算给你选择。")
+	Mes("走！别等我吻别。")
 	SetQuest(QUEST_ID, ProgressCommons.MINE_EXPLORATION.FIND_NICKOS)
 
 func OnRemindObjective():
-	Mes("His name is Nickos. He hasn't been back for a while.")
-	Mes("Look for him.")
-	Mes("Bring him back if he's alive. If he's dead, then you will probably die as well and we will know there's danger down there.")
+	Mes("他叫尼科斯。他已经有一阵子没回来了。")
+	Mes("去找他。")
+	Mes("如果他还活着就把他带回来。如果他死了，你大概也会死，然后我们就知道下面有危险了。")
 
 func OnWarnAboutMines():
-	Mes("You're still alive.")
-	Mes("I was starting to think you'd gotten lost too. What happened down there?")
+	Mes("你还活着。")
+	Mes("我还以为你也迷路了。下面发生什么了？")
 	Choice("The lower level is completely flooded. There is no chance of getting through.", OnLieFlooded)
 	Choice("There are fire-breathing scorpions! Hundreds! They might get angry if we disturb them.", OnLieScorpions)
 	Choice("There are goblin nests everywhere! We could lose a lot of people clearing them out.", OnLieGoblins)
 	Choice("There was a magical tree. It talked to me!", OnLieManaTree) 
 
 func OnLieFlooded():
-	Mes("Flooded?")
-	Mes("I wonder where the water came from.")
-	Mes("There is a well just outside of here, maybe there was underground water nearby.")
-	Mes("We should not mess with flooded caves. The tunnels could collapse and trap us all inside. I'll report back that the mine is too far gone.")
+	Mes("被淹了？")
+	Mes("我想知道水是从哪来的。")
+	Mes("就在这外面有一口井，也许附近有地下水。")
+	Mes("我们不该乱闯被水淹的洞穴。隧道可能坍塌，把我们全困在里面。我会回去报告矿场已经没救了。")
 	Action(OnAskAboutNickos)
 
 func OnLieScorpions():
-	Mes("Fire-breathing? I have never seen that before.")
-	Mes("I've seen scorpions down there big enough to swallow a man whole. I guess it wouldn't be so unthinkable for them to breathe fire.")
-	Mes("Maybe we should avoid this place. It doesn't seem like we'll find much of use anyway.")
+	Mes("喷火？我从没见过。")
+	Mes("我在下面看到过能吞下一个人的大蝎子。我想它们喷火也不是不可能。")
+	Mes("也许我们应该避开这个地方。反正我们似乎也找不到什么有用的东西。")
 	Action(OnAskAboutNickos)
 
 func OnLieGoblins():
-	Mes("G...goblins? Are... are you sure?")
-	Mes("I'm... I'm not scared! If that's what you were wondering. I AM NOT SCARED OF GOBLINS!")
-	Mes("You know what? We should just leave this place. Yes, let's just go.")
-	Mes("It's way too dangerous down here. It's not worth the risk just to look for forgotten ores.")
+	Mes("哥……哥布林？你……你确定吗？")
+	Mes("我……我不害怕！如果你在怀疑的话。我不怕哥布林！")
+	Mes("你知道吗？我们应该离开这个地方。对，我们走吧。")
+	Mes("下面太危险了。为了寻找被遗忘的矿石冒这个险不值得。")
 	Action(OnAskAboutNickos)
 
 func OnLieManaTree():
-	Mes("A tree. A magical tree. A magical TALKING tree.")
-	Mes("What's next, you'll tell me the scorpions were breathing fire? Did a goblin sing you a song?")
-	Mes("You've lost your mind. Whatever happened down there made you stupid!")
-	Mes("Maybe this is one of those haunted caves. I'm starting to think we shouldn't go down at all.")
+	Mes("一棵树。一棵魔法树。一棵会说话的魔法树。")
+	Mes("接下来呢，你要告诉我蝎子会喷火？哥布林给你唱歌了？")
+	Mes("你疯了。下面发生的事让你变傻了！")
+	Mes("也许这是一个闹鬼的洞穴。我开始觉得我们根本不该下去。")
 	Action(OnAskAboutNickos)
 
 func OnAskAboutNickos():
-	Mes("Speaking of which. What about Nickos? Did you find him?")
+	Mes("说到这个。尼科斯呢？你找到他了吗？")
 	Choice("He's alive. Shaken up, but resting.", OnNickosAlive)
 	Choice("I found his remains.", OnNickosDead)
 
 func OnNickosAlive():
-	Mes("No surprise, I've seen him get scared by at the sight of a maggot walking towards him.")
-	Mes("He'd better not waste my time up here and get back quickly, or I may just leave him.")
+	Mes("不奇怪，我看到过他被一只朝他爬来的蛆虫吓到。")
+	Mes("他最好别在这里浪费我的时间，快点回来，不然我可能就丢下他。")
 	SetQuest(QUEST_ID, ProgressCommons.MINE_EXPLORATION.REWARDS_WITHDREW)
 	AddGP(1000)
 	OnFarewell()
 
 func OnNickosDead():
-	Mes("...")
-	Mes("Right.")
-	Mes("He knew the risks. Everyone who does this job knows that.")
-	Mes("...")
-	Mes("We're not going to get his body. Don't even suggest it.")
-	Mes("If I lose anyone else I'll never be allowed to lead anyone outside the city walls again.")
-	Mes("His pay was his own to collect. Consider it yours for the report.")
-	Mes("At least now I'm sure we won't be going down there. First person I send died. Not a good sign.")
+	Mes("……")
+	Mes("好。")
+	Mes("他知道风险。干这行的每个人都知道。")
+	Mes("……")
+	Mes("我们不会去收他的尸体。别提这个。")
+	Mes("如果我再失去任何人，我就再也不能带人出城墙了。")
+	Mes("他的报酬是他自己该领的。就当是给你的报告酬劳。")
+	Mes("至少现在我确定我们不会下去了。我派下去的第一个人死了。不是好兆头。")
 	SetQuest(QUEST_ID, ProgressCommons.MINE_EXPLORATION.REWARDS_WITHDREW)
 	AddGP(2000)
 	OnFarewell()

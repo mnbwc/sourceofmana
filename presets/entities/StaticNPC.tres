@@ -10,7 +10,7 @@
 script = ExtResource("2_h0mfk")
 _parent = ExtResource("2_4hm1b")
 _id = 89439950
-_name = "StaticNPC"
+_name = "静态NPC"
 _spritePreset = ExtResource("spr_StaticNPC")
 _stats = {}
 _equipment = Array[ExtResource("1_nshyd")]([null, null, null, null, null, null, null, null])

@@ -143,9 +143,9 @@ func TargetAlteration(agentRID : int, targetRID : int, value : int, alteration :
 		if entity == Launcher.Player:
 			match alteration:
 				ActorCommons.Alteration.EXP:
-					Launcher.GUI.chatContainer.AddLocalFeedback("You receive " + str(value) + " exp")
+					Launcher.GUI.chatContainer.AddLocalFeedback("你获得了 " + str(value) + " exp")
 				ActorCommons.Alteration.GP:
-					Launcher.GUI.chatContainer.AddLocalFeedback("You receive " + str(value) + " GP")
+					Launcher.GUI.chatContainer.AddLocalFeedback("你获得了 " + str(value) + " GP")
 
 func Casted(agentRID : int, skillID : int, cooldown : float, _peerID : int):
 	var entity : Entity = Entities.Get(agentRID)
@@ -264,7 +264,7 @@ func ItemAdded(itemID : int, customfield : StringName, count : int, _peerID : in
 				Launcher.GUI.inventoryWindow.RefreshInventory()
 				Launcher.GUI.tradePanel.RefreshInventory()
 				var countText : String = " x" + str(count) if count > 1 else ""
-				Launcher.GUI.chatContainer.AddLocalFeedback(tr("You receive ") + tr(cell.name) + countText)
+				Launcher.GUI.chatContainer.AddLocalFeedback(tr("你获得了 ") + tr(cell.name) + countText)
 			if not (cell is ItemCell and CellCommons.IsEquipment(cell)):
 				cell.used.emit()
 

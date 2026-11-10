@@ -12,7 +12,7 @@
 [resource]
 script = ExtResource("2_fj57b")
 _id = 2399925469
-_name = "Sand Snake"
+_name = "沙蛇"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 16
 _stats = {

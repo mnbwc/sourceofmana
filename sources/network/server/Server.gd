@@ -329,7 +329,7 @@ func PartyInvite(targetNick : String, peerID : int):
 	if player is PlayerAgent:
 		var target : PlayerAgent = PartyResolve(targetNick)
 		if not target or target.peerID == peerID:
-			Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "Player '%s' is not online" % targetNick, peerID)
+			Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "玩家 '%s' 不在线" % targetNick, peerID)
 			return
 		if not Launcher.Party.AddInvite(target.get_rid().get_id(), player.get_rid().get_id()):
 			Network.ChatSystem(str(GUICommons.ChatChannel.LOCAL), "%s is already in a party" % target.nick, peerID)
@@ -481,7 +481,7 @@ func TradeLock(revision : int, state : bool, peerID : int):
 func TradeCancel(peerID : int):
 	var player : PlayerAgent = Peers.GetAgent(peerID)
 	if player:
-		WorldTrade.Cancel(player, "%s cancelled the trade." % player.nick)
+		WorldTrade.Cancel(player, "%s 取消了交易。" % player.nick)
 		if player.ownScript is MerchantScript:
 			player.ownScript.CloseShop()
 

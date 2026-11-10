@@ -139,29 +139,29 @@ func Refresh():
 
 	RefreshLockButton()
 	if isMerchant:
-		statusLabel.set_text("Not enough GP." if not CanAffordMerchant() else "")
+		statusLabel.set_text("金币不足。" if not CanAffordMerchant() else "")
 	elif ownLocked and otherLocked:
-		statusLabel.set_text("Completing the trade...")
+		statusLabel.set_text("正在完成交易...")
 	elif ownLocked:
-		statusLabel.set_text("Waiting for partner...")
+		statusLabel.set_text("等待伙伴...")
 	elif otherLocked:
-		statusLabel.set_text("Partner locked.")
+		statusLabel.set_text("伙伴已锁定。")
 	else:
 		statusLabel.set_text("")
 
 func RefreshLockButton():
 	if isMerchant:
 		lockButton.set_disabled(not CanAffordMerchant() or (ownOffer.is_empty() and otherPicker.GetValues().is_empty()))
-		lockButton.set_text("Trade")
+		lockButton.set_text("交易")
 		return
 
 	var isCoolingDown : bool = lockCooldownLeft > 0.0 and not ownLocked
 	lockButton.set_disabled(isCoolingDown)
 
 	if isCoolingDown:
-		lockButton.set_text("Lock (%d)" % ceili(lockCooldownLeft))
+		lockButton.set_text("锁定 (%d)" % ceili(lockCooldownLeft))
 	else:
-		lockButton.set_text("Unlock" if ownLocked else "Lock")
+		lockButton.set_text("解锁" if ownLocked else "Lock")
 
 func FillGrid(grid : GridContainer, offer : Array) -> int:
 	var tileIdx : int = 0
@@ -236,7 +236,7 @@ func SetPickerVisible(state : bool):
 	doneButton.set_visible(state)
 	ownScroll.set_visible(not state)
 	lockButton.set_visible(not state)
-	cancelButton.set_text("Back" if state else "Cancel")
+	cancelButton.set_text("返回" if state else "取消")
 
 func RefreshInventory():
 	if picker.is_visible():

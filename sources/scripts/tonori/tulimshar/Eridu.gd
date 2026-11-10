@@ -51,10 +51,10 @@ func TakeMaterials(setCount : int):
 
 # Quest states
 func OnInactive():
-	Mes("Hey! Are you new to the city? I don't think I've seen you before. My name is Eridu. I'm a glassmaker.")
-	Mes("My family has always made glass. People find it useful to carry liquids out in this climate. That's why we mainly make bottles.")
-	Mes("We make our glass from the sand of Tonori. We also use salt, bones and sulphur powder.")
-	Mes("The sand is everywhere, as you can see, but the other components are harder to come by.")
+	Mes("嘿！你是新来的吧？我好像没见过你。我叫埃里杜。我是玻璃匠。")
+	Mes("我的家族一直在做玻璃。在这种气候下，人们发现用玻璃携带液体很方便。所以我们主要做瓶子。")
+	Mes("我们用托诺里的沙子做玻璃。我们还使用盐、骨头和硫磺粉。")
+	Mes("到处都是沙子，你也看到了，但其他成分更难弄到。")
 
 	QuestChoice()
 
@@ -72,33 +72,33 @@ func OnGathering():
 		return
 
 	if not HasRoomFor(QUEST_SETS, QUEST_REWARD):
-		Mes("You seem to be carrying a lot of stuff. Maybe get rid of some of that and come back.")
+		Mes("你好像带了很多东西。也许扔掉一些再回来。")
 		return
 
 	TakeMaterials(QUEST_SETS)
 	SetQuest(QUEST_ID, ProgressCommons.TULIMSHAR_GLASSMAKING.REWARDS_WITHDREW)
 
-	Mes("Salt, bones, sulphur. You seem to have everything!")
-	Mes("I'll get to making some new bottles right away.")
-	Mes("Meanwhile, I used up my last resources to make these. Take them.")
+	Mes("盐、骨头、硫磺。你好像什么都有！")
+	Mes("我这就去做一些新瓶子。")
+	Mes("同时，我用尽了最后的资源做了这些。拿着。")
 
 	AddItem(bottleID, QUEST_REWARD)
 	AddExp(QUEST_EXP)
 
-	Mes("%d bottles. Don't break them, they're fine Eridu glass!" % QUEST_REWARD)
-	Think("Eridu laughs.")
-	Mes("Bring me more materials any time. %d of each, and I will blow some more glass for you." % SET_INGREDIENT)
+	Mes("%d个瓶子。别打碎了，这可是上好的埃里杜玻璃！" % QUEST_REWARD)
+	Think("埃里杜笑了。")
+	Mes("随时给我带更多材料。每样 %d 份，我就给你吹更多玻璃。" % SET_INGREDIENT)
 
 func OnKeepLooking():
-	Mes("Still short, by my eye. %d of each material. Anything less and the mix won't work." % QUEST_INGREDIENT)
-	Mes("Take your time. The furnace is not going anywhere and neither am I.")
+	Mes("以我的观察还差。每样材料 %d 份。少了配比就不行。" % QUEST_INGREDIENT)
+	Mes("慢慢来。炉子不会跑，我也不会。")
 
 func OnComplete():
-	Mes("Back for some glass? Good to see you.")
+	Mes("又来买玻璃？见到你真好。")
 	CompleteChoice()
 
 func OnCompleteContinue():
-	Mes("Need anything else?")
+	Mes("还需要别的吗？")
 	CompleteChoice()
 
 func CompleteChoice(previousChoice : int = -1):
@@ -114,12 +114,12 @@ func CompleteChoice(previousChoice : int = -1):
 
 # Optional dialogue
 func OnAskRecipe():
-	Mes("Sand is the glass. We melt it and then we cool down the resulting liquid.")
-	Mes("I have plenty of that, as you can see.")
-	Mes("We use salt to bring down the melting temperature, so that it's not too hot for our clay pots. ")
-	Mes("Then, we add calcium. That's the bones, crushed into a powder. This is essential so that the glass does not melt when in contact with water.")
-	Mes("Finally, sulphur clears the bubbles and takes the green out.")
-	Mes("Get the balance wrong and your glass will be weak. Or worse, ugly.")
+	Mes("沙子就是玻璃。我们把它熔化，然后冷却得到的液体。")
+	Mes("我有很多，你也看到了。")
+	Mes("我们用盐降低熔化温度，这样就不会太热而损坏我们的陶罐。")
+	Mes("然后，我们加入钙。就是骨头，磨成粉。这很重要，这样玻璃接触水时不会融化。")
+	Mes("最后，硫磺去除气泡并消除绿色。")
+	Mes("比例不对，玻璃就会脆弱。或者更糟，很丑。")
 	if IsQuestCompleted(QUEST_ID):
 		CompleteChoice(1)
 	else:
@@ -127,30 +127,30 @@ func OnAskRecipe():
 
 func OnAskWhere():
 
-	Mes("Slimes often have high concentration of salts. Sometimes salt crystals form inside them. It's not easier than letting sea water dry, but it can be faster.")
-	Mes("Sulphur is trickier. The fire goblins out by the sandstorm carry it. I think that their body makes it. Maybe to produce their fire?")
-	Mes("Bones will need to come from the reanimated corpses that wander certain areas. I've heard they're created by Kaore. Certainly better than digging into graves.")
+	Mes("史莱姆通常有高浓度的盐。有时盐晶体在它们体内形成。不比让海水蒸发容易，但可能更快。")
+	Mes("硫磺更难搞。沙暴那边的火焰哥布林身上有。我觉得是它们的身体产生的。也许用来喷火？")
+	Mes("骨头需要从在某些区域游荡的复活尸体上获取。我听说它们是卡厄制造的。总比挖坟好。")
 	if IsQuestCompleted(QUEST_ID):
 		CompleteChoice(2)
 	else:
 		QuestChoice(2)
 
 func OnFarewell():
-	Chat("Watch out for broken glass.")
+	Chat("小心碎玻璃。")
 
 # Transitions to next states
 func OnAccept():
 	SetQuest(QUEST_ID, ProgressCommons.TULIMSHAR_GLASSMAKING.STARTED)
 
-	Mes("Good. You have everything.")
-	Mes("Bring them here and I will put %d bottles in your hands before they have finished cooling." % QUEST_REWARD)
+	Mes("好。你什么都齐了。")
+	Mes("把它们带到这里来，等它们冷却之前我就把 %d 个瓶子交到你手上。" % QUEST_REWARD)
 
 func OnDecline():
-	Mes("Suit yourself. The furnace keeps burning either way.")
+	Mes("随你便。反正炉子一直烧着。")
 
 # Repeatable exchange
 func OnTradeReminder():
-	Mes("It takes %d Salt, %d Bone and %d Sulphur Powder for one bottle. Twice that and you get two. It's simple, really." % [SET_INGREDIENT, SET_INGREDIENT, SET_INGREDIENT])
+	Mes("一个瓶子需要 %d 盐、%d 骨头和 %d 硫磺粉。两倍就能做两瓶。很简单。" % [SET_INGREDIENT, SET_INGREDIENT, SET_INGREDIENT])
 	CompleteChoice(0)
 
 func OnTrade():
@@ -159,7 +159,7 @@ func OnTrade():
 		OnTradeReminder()
 		return
 
-	Mes("Let me weigh what you have brought...")
+	Mes("让我称称你带来的东西……")
 	Choice("Just the one bottle.", OnExchange.bind(1))
 	if tradeCount > 1:
 		Choice("All of it, %d bottles." % tradeCount, OnExchange.bind(tradeCount))
@@ -171,7 +171,7 @@ func OnExchange(bottleCount : int):
 		return
 
 	if not HasRoomFor(bottleCount, bottleCount):
-		Mes("Your bag is fit to burst. How are you going to put glass in there? Go empty some stuff out!")
+		Mes("你的背包快撑破了。你怎么往里面装玻璃？去腾点东西出来！")
 		Action(OnCompleteContinue)
 		return
 
@@ -179,8 +179,8 @@ func OnExchange(bottleCount : int):
 	AddItem(bottleID, bottleCount)
 
 	if bottleCount > 1:
-		Mes("%d bottles. Try not to break them!" % bottleCount)
+		Mes("%d个瓶子。小心别打碎了！" % bottleCount)
 	else:
-		Mes("One bottle. Don't go and break it now!")
+		Mes("一瓶。现在别把它打碎了！")
 
 	Action(OnCompleteContinue)

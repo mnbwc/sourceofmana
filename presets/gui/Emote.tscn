@@ -20,7 +20,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 1
-titleText = "Emotes"
+titleText = "表情"
 
 [node name="ItemContainer" type="ScrollContainer" parent="Layout" unique_id=1414144521]
 custom_minimum_size = Vector2(34, 34)

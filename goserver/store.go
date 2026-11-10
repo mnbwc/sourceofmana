@@ -131,6 +131,11 @@ func (s *AccountStore) Add(name, password string) *Account {
 	return acc
 }
 
+// DefaultInventoryItemID is the item hash for "Short Sword" — given to every
+// new character so they don't spawn empty-handed.
+// Computed as "Short Sword".hash() in Godot (3056796356).
+const DefaultInventoryItemID int64 = 3056796356
+
 // AddCharacter persists after adding a character.
 func (s *AccountStore) AddCharacter(acc *Account, name string, traits map[string]Variant) *Character {
 	s.mu.Lock()
@@ -153,8 +158,10 @@ func (s *AccountStore) AddCharacter(acc *Account, name string, traits map[string
 		Stamina:    100,
 		Karma:      0,
 		Weight:     0,
-		Inventory:  []ItemRecord{},
-		Equipment:  map[int64]ItemRecord{},
+		Inventory: []ItemRecord{
+			{ItemID: DefaultInventoryItemID, Customfield: "", Count: 1},
+		},
+		Equipment: map[int64]ItemRecord{},
 	}
 	acc.Characters = append(acc.Characters, c)
 	s.dbAddCharacter(acc, c)

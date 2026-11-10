@@ -2,11 +2,11 @@ extends NpcScript
 
 #
 func OnStart():
-	Mes("You're the one Ekinu is sending down there?")
-	Mes("I won't lie to you, he probably thinks you won't make it back...")
+	Mes("你是埃基努派下去的人？")
+	Mes("我不骗你，他可能觉得你回不来了……")
 
-	Mes("Head south-east of here. The entrance to the mine will be next to an old well.")
-	Mes("If you find yourself crossing outside of this valley, you'll know it's the wrong direction.")
-	Mes("Look for Watchman Nathan, he should be the one stationed at the mine's entrance.")
+	Mes("往东南方向走。矿井入口在一口老井旁边。")
+	Mes("如果你发现自己走到了山谷外面，你就知道方向错了。")
+	Mes("找守卫内森，他应该驻守在矿井入口。")
 
-	Mes("Good luck.")
+	Mes("祝你好运。")

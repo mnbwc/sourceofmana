@@ -18,84 +18,84 @@ func OnStart():
 
 # Too early
 func OnSendToElanore():
-	Mes("You are already up?")
+	Mes("你已经醒了？")
 	LookAtNpc("Elanore")
-	Mes("Be sure to talk to Elanore, she took care of you while you were passed out after we found you.")
+	Mes("一定要和埃拉诺谈谈，我们捡到你之后你昏迷的时候是她照顾你的。")
 	ResetCamera()
 
 # Initial encounter
 func OnFirstMeeting():
-	Mes("Hello, are you the one they pulled off the sand? Glad to see you walking about. I need your help.")
-	Mes("The maggots love feeding on the cactus. Even though these maggots are unusually large, their mouths are still small and agile enough to eat their way around any spikes.")
-	Mes("Once they breach the outside they simply burrow into the plant and eat it from the inside. It's a horrible sight.")
+	Mes("你好，你是他们从沙子里挖出来的那个人吗？很高兴看到你能走动了。我需要你的帮助。")
+	Mes("蛆虫喜欢吃仙人掌。虽然这些蛆虫异常大，但它们的嘴仍然小且灵活，能绕过任何刺吃进去。")
+	Mes("一旦它们突破外部，就会钻进植物从里面吃。很可怕。")
 	Choice("Why are these maggots so monstrous?", OnKaoreExplanation)
 	Choice("That sounds terrifying.", OnWildFauna)
 	Choice("That sounds so cool!", OnWildFauna)
 
 func OnKaoreExplanation():
-	Mes("They say they weren't always like this. I'm not old enough to remember, no one is anymore.")
-	Mes("Back before the Age of Kaore, hundreds of years ago, some creatures of this world were not as... Strange as they are today.")
-	Mes("The Age of Kaore changed them. This type of maggot grew very large and very plentiful. Other creatures were changed in worse ways.")
-	Mes("They say that squirrels used to be as intelligent as people, but they simply lost all that over time.")
+	Mes("他们说它们并不总是这样的。我太年轻不记得了，现在没人记得了。")
+	Mes("在卡厄时代之前，几百年前，这个世界的一些生物不像今天这么……奇怪。")
+	Mes("卡厄时代改变了它们。这种蛆虫变得又大又多。其他生物被改变得更糟。")
+	Mes("他们说松鼠曾经和人类一样聪明，但随着时间推移它们失去了这一切。")
 	if GetQuest(ProgressCommons.Quest.TUTORIAL) >= ProgressCommons.TUTORIAL.KAEL_DONE:
 		MainChoices()
 	else:
-		Mes("Anyway, enough chatting. I need you to get in this field and clean away this mess!")
+		Mes("好了，闲聊到此为止。我要你到田里去清理这些乱七八糟的东西！")
 		Choice("Yes, I'll get to work!", OnFieldCleanUp)
 		Choice("What do you mean? What has been happening out in the desert?", OnDesertExplanation)
 
 func OnWildFauna():
-	Mes("Regardless, they need to be culled.")
-	Mes("Whatever has been happening out in the desert has affected the maggots of the city as well.")
-	Mes("Even worse, it seems cacti are also affected.")
-	Mes("Some of them are jumping around and doing silly faces while splashing nearby crops! You need to help me deal with this.")
+	Mes("无论如何，它们需要被清除。")
+	Mes("沙漠里发生的一切也影响了城市的蛆虫。")
+	Mes("更糟的是，仙人掌似乎也受到了影响。")
+	Mes("它们中有些跳来跳去，做着鬼脸，还溅到附近的庄稼！你需要帮我处理这个问题。")
 	Choice("Alright. I'll get to work, then.", OnFieldCleanUp)
 	Choice("What do you mean? What has been happening out in the desert?", OnDesertExplanation)
 
 func OnDesertExplanation():
-	Mes("Kaore is affecting all sorts of creatures.")
-	Mes("It's this evil force that twists living things into... I don't know... Worse versions of themselves? I suppose. More aggressive.")
-	Mes("Until it takes a full hold on them, then they become sort of undead too. It's really a nasty curse.")
+	Mes("卡厄正在影响各种生物。")
+	Mes("就是这种邪恶力量把生物扭曲成……我不知道……更差的自己？大概吧。更具攻击性。")
+	Mes("直到它完全控制它们，然后它们也变成某种亡灵。真是个恶毒的诅咒。")
 	if GetQuest(ProgressCommons.Quest.TUTORIAL) >= ProgressCommons.TUTORIAL.KAEL_DONE:
 		MainChoices()
 	else:
-		Mes("The mages over at the tower... The Manayir. They've issued the warning that Kaore is currently concentrating in dangerous patterns throughout Tonori.")
+		Mes("塔楼那边的法师……玛纳伊尔。他们发布了警告，卡厄目前正在托诺里以危险的模式聚集。")
 		Choice("Alright alright, it's time to kill these things. Let's do it.", OnFieldCleanUp)
 		Choice("Who are the Manayir?", OnManayir)
 
 func OnManayir():
-	Mes("They're some ancient order that studies Mana and does who-knows-what-else with it, up in that tower to the west of the city.")
-	Mes("They're the ones who issue warnings about Kaore.")
-	Mes("The Manayir Order are the ones who announced the end of the Age of Kaore about 27 years ago.")
-	Mes("Ever since then they've been updating the people of Tulimshar about the flow of energies.")
-	Mes("It's much like weather, different concentrations of Mana and Kaore are everchanging and can affect all living things in the area.")
+	Mes("他们是某个古老的教团，研究魔力，在城西的塔楼里用它做谁知道还有什么的事。")
+	Mes("他们是发布卡厄警告的人。")
+	Mes("玛纳伊尔教团是大约27年前宣布卡厄时代结束的人。")
+	Mes("从那以后，他们一直在向图利姆沙的人们通报能量的流动情况。")
+	Mes("很像天气，不同浓度的魔力和卡厄不断变化，可以影响区域内所有生物。")
 	Choice("Alright alright, it's time to kill these things. Let's do it.", OnFieldCleanUp)
 	Choice("What's the Age of Kaore?", OnAgeOfKaore)
 
 func OnAgeOfKaore():
-	Mes("I'm too young to remember, but until a few decades ago life was much more difficult for everyone.")
-	Mes("Kaore had become more plentiful than Mana and for a few hundred years people struggled a lot more than today with mutated and even undead creatures.")
-	Mes("We complain about maggots and peyotes, but really we have it easy compared to what my parents lived through.")
+	Mes("我太年轻了不记得，但在几十年前，大家的生活要困难得多。")
+	Mes("卡厄曾经比魔力更充足，在几百年里，人们比今天更艰难地应对变异甚至亡灵生物。")
+	Mes("我们抱怨蛆虫和佩约特，但和我父母经历过的相比，我们过得轻松多了。")
 	Choice("Alright alright, it's time to kill these things. Let's do it.", OnFieldCleanUp)
 
 # Task assignment
 func OnFieldCleanUp():
 	var shortSwordID : int = DB.GetCellHash("Short Sword")
 
-	Mes("You're not going to clear that field with your bare hands though.")
-	Mes("Here, take this sword. It's not much, but it will cut through Maggots and Peyotes just fine.")
+	Mes("不过你不会徒手清理那片田。")
+	Mes("来，拿这把剑。虽然不怎么样，但对付蛆虫和佩约特够用了。")
 	AddItem(shortSwordID)
 	OnFightTutorial()
-	Mes("Start with the peyotes in that field just north from here.")
+	Mes("先从这北边田里的佩约特开始。")
 	LookAtPosition(FIELD_POSITION)
-	Mes("They're kaore-infused cacti, harmless to us but useless for farming now.")
-	Mes("They just taunt people by jumping around and splashing crops near them...")
+	Mes("它们是卡厄浸染的仙人掌，对我们无害，但现在没法耕种了。")
+	Mes("它们只是跳来跳去，溅到附近的庄稼来嘲弄人……")
 	ResetCamera()
-	Mes("Getting rid of 5 peyotes and 5 maggots should suffice to keep our crops safe for the day.")
+	Mes("除掉5株佩约特和5只蛆虫应该就足以保护我们的庄稼一天了。")
 	HighlightUI(UICommons.UITarget.PROGRESS)
-	Narrate("The progress window will group all your on-going quests and monster encounters.")
+	Narrate("进度窗口会分组显示你所有进行中的任务和怪物遭遇。")
 	HighlightUI(UICommons.UITarget.NONE)
-	Narrate("You can see the number of monsters you got rid within the Manapedia tab of the menu bar.")
+	Narrate("你可以在菜单栏的魔力百科标签中查看你消灭的怪物数量。")
 	SetQuest(ProgressCommons.Quest.TUTORIAL, ProgressCommons.TUTORIAL.KAEL_MET)
 	npc.ownScript.TrackPlayer(own)
 
@@ -109,16 +109,16 @@ func OnCheckProgress():
 	if peyoteKills >= KaelGlobal.PEYOTE_REQUIRED and maggotKills >= KaelGlobal.MAGGOT_REQUIRED:
 		OnTaskComplete()
 	elif peyoteKills < KaelGlobal.PEYOTE_REQUIRED:
-		Mes("Not done yet. I still need you to clear out %d more peyote from the field." % (KaelGlobal.PEYOTE_REQUIRED - peyoteKills))
+		Mes("还没完。我还需要你清除田里 %d 株佩约特。" % (KaelGlobal.PEYOTE_REQUIRED - peyoteKills))
 	else:
-		Mes("Good work on the peyotes. Still need you to deal with %d more maggots though." % (KaelGlobal.MAGGOT_REQUIRED - maggotKills))
+		Mes("佩约特处理得不错。不过还需要你处理 %d 只蛆虫。" % (KaelGlobal.MAGGOT_REQUIRED - maggotKills))
 
 # Task completion
 func OnTaskComplete():
-	Mes("Impressive work!")
-	Mes("You took care of that very quickly and way better than I expected.")
-	Mes("You should report to Watchman Ekinu, near the gate where you met Elanore. Tell him I was happy with your work here.")
-	Mes("We're going on a small expedition into the desert soon and you might be the right type of person to help us out.")
+	Mes("干得漂亮！")
+	Mes("你处理得非常快，比我预期的好得多。")
+	Mes("你应该向守卫埃基努报告，在遇见埃拉诺的城门附近。告诉他我对你在这里的工作很满意。")
+	Mes("我们很快要去沙漠做一次小型探险，你可能是帮助我们的人选。")
 	SetQuest(ProgressCommons.Quest.TUTORIAL, ProgressCommons.TUTORIAL.KAEL_DONE)
 	AddExp(20)
 	npc.ownScript.UntrackPlayer(own)
@@ -126,13 +126,13 @@ func OnTaskComplete():
 
 #
 func OnSendToEkinu():
-	Mes("Report back to Watchman Ekinu when you're ready.")
-	Mes("He'll know what to do next.")
+	Mes("准备好了向守卫埃基努报告。")
+	Mes("他会知道接下来该做什么。")
 	MainChoices()
 
 #
 func OnComplete():
-	Mes("Glad to see you! As you can see, I'm still surrounded by these squirky white maggots.")
+	Mes("见到你真好！你也看到了，我还在被这些恶心的白色蛆虫包围着。")
 	MainChoices()
 
 #
@@ -143,12 +143,12 @@ func MainChoices():
 	Choice("I have to leave.", Farewell)
 
 func Farewell():
-	Chat("Watch your back out there.")
+	Chat("在外面注意背后。")
 
 func OnFightTutorial():
-	Mes("Aim, shoot and block your ears as they do some nasty sounds when you hit them.")
+	Mes("瞄准、射击，然后捂住耳朵，因为击中它们时会发出难听的声音。")
 	DisplayActions(["gp_interact", "gp_target", "gp_sit"])
-	Narrate("Press Interact near an enemy to automatically target and attack it.")
-	Narrate("You can also use the Target action to cycle target manually.")
-	Narrate("Each hit costs stamina. Run out and your attacks will have less effect.")
-	Narrate("Sitting down helps stamina regeneration.")
+	Narrate("在敌人附近按交互键自动锁定并攻击。")
+	Narrate("你也可以使用目标动作手动切换目标。")
+	Narrate("每次攻击消耗耐力。耐力耗尽后攻击效果会降低。")
+	Narrate("坐下有助于耐力恢复。")

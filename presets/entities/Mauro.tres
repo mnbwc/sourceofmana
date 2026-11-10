@@ -15,7 +15,7 @@
 script = ExtResource("2_23djo")
 _parent = ExtResource("5_hhh52")
 _id = 229085321
-_name = "Mauro"
+_name = "毛罗"
 _spritePreset = ExtResource("spr_Player")
 _stats = {
 "gender": "Male",

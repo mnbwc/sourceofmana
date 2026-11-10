@@ -11,7 +11,7 @@
 script = ExtResource("2_entity")
 _parent = ExtResource("3_parent")
 _id = 220195358
-_name = "Eridu"
+_name = "埃里杜"
 _stats = {
 "gender": "Male",
 "race": "Kralog",

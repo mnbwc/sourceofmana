@@ -5,9 +5,9 @@ const ENTRANCE_POS : Vector2 = Vector2(1536, 1600) # tile (48, 50)
 
 #
 func OnStart():
-	Mes("Hold it right there.")
-	Mes("Councillor Bones' orders. Nobody walks these corridors without clearance.")
-	Mes("I don't care why you're here. Turn around.")
+	Mes("站住别动。")
+	Mes("bones议员的命令。未经许可不得走这些走廊。")
+	Mes("我不管你来干什么。转身。")
 	Action(Escort)
 
 func Escort():

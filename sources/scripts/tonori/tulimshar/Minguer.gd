@@ -5,5 +5,5 @@ func GetStock() -> PackedStringArray:
 	return ["Bandana Scarf", "Desert Boots"]
 
 func OnStart():
-	Mes("Hot sand burns through bare feet in no time. Need some boots?")
+	Mes("滚烫的沙子很快就会烧穿赤脚。需要靴子吗？")
 	super.OnStart()

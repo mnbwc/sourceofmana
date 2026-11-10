@@ -6,4 +6,4 @@
 [resource]
 script = ExtResource("1_script")
 texture = ExtResource("tex_cheekbone-bob")
-_name = "Cheekbone Bob"
+_name = "颧骨波波头"

@@ -138,7 +138,7 @@ func RefreshControls():
 	news.set_visible(not isAccountCreatorEnabled and not isRecovering)
 	agreement.set_visible(isAccountCreatorEnabled)
 
-	passwordLabel.text = "New Password" if enteringCode else "Password"
+	passwordLabel.text = "新密码" if enteringCode else "Password"
 	passwordTextControl.secret = true
 
 	SetPanelExpand(not isRecovering)
@@ -248,7 +248,7 @@ func RefreshOnlineMode():
 func OnlineMode(_clientStarted : bool, serverStarted : bool):
 	if onlineIndicator:
 		Launcher.GUI.buttonBoxes.Rename(UICommons.ButtonBox.TERTIARY, "Switch Online" if serverStarted else "Switch Offline")
-		onlineIndicator.text = "Playing Offline" if serverStarted else "Playing Online"
+		onlineIndicator.text = "离线游戏中" if serverStarted else "Playing Online"
 		if onlineIndicator.button_pressed != not serverStarted:
 			onlineIndicator.button_pressed = not serverStarted
 
@@ -258,13 +258,13 @@ func EnableButtons(state : bool):
 		if state:
 			if recoveryState == RecoveryState.REQUEST_EMAIL:
 				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.PRIMARY, "Send Code", RequestReset)
-				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "Cancel", SetRecoveryState.bind(RecoveryState.NONE))
+				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "取消", SetRecoveryState.bind(RecoveryState.NONE))
 			elif recoveryState == RecoveryState.ENTER_CODE:
 				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.PRIMARY, "Reset Password", ConfirmReset)
-				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "Cancel", SetRecoveryState.bind(RecoveryState.NONE))
+				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "取消", SetRecoveryState.bind(RecoveryState.NONE))
 			elif isAccountCreatorEnabled:
 				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.PRIMARY, "Create", CreateAccount)
-				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "Cancel", EnableAccountCreator.bind(false))
+				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "取消", EnableAccountCreator.bind(false))
 			else:
 				isConnectPrimary = IsConnectPreferred()
 				if isConnectPrimary:
@@ -278,7 +278,7 @@ func EnableButtons(state : bool):
 				RefreshOnlineMode()
 			RefreshServerButtons()
 		else:
-			onlineIndicator.text = "Connecting..."
+			onlineIndicator.text = "连接中..."
 
 # Every action behind these buttons needs the server, so they stay greyed out until the client is connected
 func RefreshServerButtons():
@@ -291,7 +291,7 @@ func RefreshServerButtons():
 		Launcher.GUI.buttonBoxes.Enable(UICommons.ButtonBox.SECONDARY, reachable)
 		Launcher.GUI.buttonBoxes.Enable(UICommons.ButtonBox.CANCEL, reachable)
 		if not reachable and onlineIndicator:
-			onlineIndicator.text = "Connecting..."
+			onlineIndicator.text = "连接中..."
 
 	if reachable:
 		Launcher.GUI.buttonBoxes.Suggest(UICommons.ButtonBox.PRIMARY)
@@ -342,7 +342,7 @@ func FillFieldsFromToken():
 
 	fillingFields = true
 	nameTextControl.set_text(nameText)
-	passwordTextControl.set_text("tokentokentoken")
+	passwordTextControl.set_text("令牌令牌令牌")
 	fillingFields = false
 
 #

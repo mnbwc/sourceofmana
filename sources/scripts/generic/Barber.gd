@@ -2,7 +2,7 @@ extends NpcScript
 
 #
 func OnStart():
-	Mes("Would you like to change your hair style or color today?")
+	Mes("你今天想换发型或发色吗？")
 	Choice("I want to try another style", OnHairstyle)
 	Choice("A new color", OnHaircolor)
 	Choice("None", OnQuit)

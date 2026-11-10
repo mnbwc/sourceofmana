@@ -109,7 +109,7 @@ func Run(shouldRun : bool):
 
 func LevelUp():
 	if Launcher.Player == self:
-		Network.PushNotification("Level %d reached.\nFeel the mana power growing inside you!" % (stat.level))
+		Network.PushNotification("等级 %d 已达成。\n感受魔力在你体内增长！" % (stat.level))
 
 	stat.RefreshAttributes()
 	if interactive:

@@ -110,7 +110,7 @@ func GetTooltipHeader() -> String:
 	if cell is ItemCell and not cell.customfield.is_empty():
 		bbcode += " (%s)" % cell.customfield
 	if cell.description:
-		bbcode += "\n[color=%s]%s[/color]" % [lightColor, cell.description]
+		bbcode += "\n[color=%s]%s[/color]" % [lightColor, tr(cell.description)]
 	if cell is SkillCell and Launcher.Player and Launcher.Player.progress:
 		bbcode += "\nLevel: [color=%s]%d[/color]" % [lightColor, Launcher.Player.progress.GetSkillLevel(cell)]
 	return bbcode

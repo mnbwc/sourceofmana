@@ -66,7 +66,7 @@ func SendPasswordResetEmail(toEmail : String, code : String) -> void:
 
 func FormatPasswordResetEmail(code : String) -> String:
 	if passwordResetTemplate.is_empty():
-		return "<p>Your password reset code is: <strong>%s</strong></p><p>This code expires in %d minutes.</p>" % [code, NetworkCommons.ResetCodeExpiryMinutes]
+		return "<p>你的密码重置码是：<strong>%s</strong></p><p>此码将在 %d 分钟后过期。</p>" % [code, NetworkCommons.ResetCodeExpiryMinutes]
 	return passwordResetTemplate.replace("{CODE}", code).replace("{EXPIRY_MINUTES}", str(NetworkCommons.ResetCodeExpiryMinutes)).replace("{SENDER_NAME}", senderName)
 
 func RequestCompleted(result : int, responseCode : int, _headers : PackedStringArray, body : PackedByteArray):

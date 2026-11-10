@@ -2,5 +2,5 @@ extends NpcScript
 
 #
 func OnStart():
-	Mes("Halt! You must not proceed further.")
-	Mes("Beyond this point lies the throne room of the Red Queen herself. Turn back now.")
+	Mes("站住！你不能继续前进。")
+	Mes("前方是红女王的宝座厅。现在转身回去。")

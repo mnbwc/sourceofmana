@@ -10,7 +10,7 @@
 script = ExtResource("2_vsu2s")
 _parent = ExtResource("2_xd5ga")
 _id = 228382689
-_name = "Locks"
+_name = "锁"
 _spritePreset = ExtResource("spr_CaveLocks")
 _radius = 26
 _stats = {}

@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_script")
-_name = "Used"
+_name = "使用痕迹"
 _resource = ExtResource("2_material")

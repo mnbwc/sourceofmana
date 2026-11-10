@@ -10,7 +10,7 @@
 script = ExtResource("3_tkxhb")
 _parent = ExtResource("2_xxgpu")
 _id = 219979635
-_name = "Elias"
+_name = "伊莱亚斯"
 _stats = {
 "gender": "Female",
 "race": "Human",

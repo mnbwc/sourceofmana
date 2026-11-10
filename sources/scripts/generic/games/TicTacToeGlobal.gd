@@ -111,13 +111,13 @@ func StartPvP(player : PlayerAgent) -> State:
 func LeavePvP(player : PlayerAgent):
 	if not player or not is_instance_valid(player):
 		if playerX and is_instance_valid(playerX):
-			NpcCommons.PushNotification(playerX, "Your opponent left. You win!")
+			NpcCommons.PushNotification(playerX, "你的对手离开了。你赢了！")
 		elif playerO and is_instance_valid(playerO):
-			NpcCommons.PushNotification(playerO, "Your opponent left. You win!")
+			NpcCommons.PushNotification(playerO, "你的对手离开了。你赢了！")
 	elif startStep == State.O and (player == playerX or player == playerO):
 		var opponent : PlayerAgent = playerO if player == playerX else playerX
 		if opponent and is_instance_valid(opponent):
-			NpcCommons.PushNotification(opponent, "Your opponent left. You win!")
+			NpcCommons.PushNotification(opponent, "你的对手离开了。你赢了！")
 	EndGame()
 
 func LeaveQueue(player : PlayerAgent):
@@ -139,10 +139,10 @@ func StartGame():
 	if playerX:
 		Callback.RemoveCallback(playerX.tree_exiting, LeaveQueue)
 		Callback.AddCallback(playerX.tree_exiting, LeavePvP, [playerX], ConnectFlags.CONNECT_ONE_SHOT)
-		NpcCommons.PushNotification(playerX, "Tic Tac Toe started! You play X!")
+		NpcCommons.PushNotification(playerX, "井字棋开始！你执X！")
 	if playerO:
 		Callback.AddCallback(playerO.tree_exiting, LeavePvP, [playerO], ConnectFlags.CONNECT_ONE_SHOT)
-		NpcCommons.PushNotification(playerO, "Tic Tac Toe started! You play O!")
+		NpcCommons.PushNotification(playerO, "井字棋开始！你执O！")
 
 func StartPvE(player : PlayerAgent) -> bool:
 	if startStep == State.NONE:
@@ -206,16 +206,16 @@ func NotifyTurn():
 		var activePlayer : PlayerAgent = playerX if currentTurn == State.X else playerO
 		var waitingPlayer : PlayerAgent = playerO if currentTurn == State.X else playerX
 		if activePlayer and is_instance_valid(activePlayer):
-			NpcCommons.PushNotification(activePlayer, "Your turn!")
+			NpcCommons.PushNotification(activePlayer, "轮到你了！")
 		if waitingPlayer and is_instance_valid(waitingPlayer):
-			NpcCommons.PushNotification(waitingPlayer, "Waiting for opponent...")
+			NpcCommons.PushNotification(waitingPlayer, "等待对手...")
 	else:
 		if currentTurn == State.X:
 			if playerX and is_instance_valid(playerX):
-				NpcCommons.PushNotification(playerX, "Your turn!")
+				NpcCommons.PushNotification(playerX, "轮到你了！")
 		else:
 			if playerX and is_instance_valid(playerX):
-				NpcCommons.PushNotification(playerX, "Waiting for opponent...")
+				NpcCommons.PushNotification(playerX, "等待对手...")
 
 func UpdateCellVisual(cellIndex : int):
 	if cellIndex < 0 or cellIndex >= CELL_COUNT:
@@ -260,7 +260,7 @@ func IdleTimeout():
 
 	var loserPlayer : PlayerAgent = playerX if loser == State.X else playerO
 	if loserPlayer and is_instance_valid(loserPlayer):
-		NpcCommons.PushNotification(loserPlayer, "You took too long! You lose.")
+		NpcCommons.PushNotification(loserPlayer, "你超时了！你输了。")
 
 	AnnounceResult(winner)
 

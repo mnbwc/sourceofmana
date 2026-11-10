@@ -15,7 +15,7 @@
 script = ExtResource("2_iue6w")
 _parent = ExtResource("7_ym3au")
 _id = 3662818686
-_name = "Red Queen"
+_name = "红女王"
 _spritePreset = ExtResource("spr_Player")
 _stats = {
 "gender": "Female",

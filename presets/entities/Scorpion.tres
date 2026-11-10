@@ -12,7 +12,7 @@
 [resource]
 script = ExtResource("2_arwd3")
 _id = 3842739378
-_name = "Scorpion"
+_name = "蝎子"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 18
 _stats = {

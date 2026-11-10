@@ -10,7 +10,7 @@
 script = ExtResource("2_n4fnj")
 _parent = ExtResource("2_yjqq5")
 _id = 1629942628
-_name = "StaticObject"
+_name = "静态物体"
 _spritePreset = ExtResource("spr_Static")
 _stats = {}
 _equipment = Array[ExtResource("1_8i0jd")]([null, null, null, null, null, null, null, null])

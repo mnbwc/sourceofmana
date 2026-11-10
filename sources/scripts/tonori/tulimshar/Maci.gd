@@ -3,10 +3,10 @@ extends NpcScript
 #
 func OnStart():
 	if own.stat and own.stat.level < 5:
-		Mes("Oh, a new face! Welcome to Tulimshar.")
-		Mes("I'm %s. I help people find their footing around here." % npc.nick)
+		Mes("哦，新面孔！欢迎来到图利姆沙。")
+		Mes("我是 %s。我帮人在这里找到立足之地。" % npc.nick)
 	else:
-		Mes("Need to know where something is? Ask away.")
+		Mes("想知道东西在哪？尽管问。")
 	OnMainChoice()
 
 # Main choice loop
@@ -17,19 +17,19 @@ func OnMainChoice():
 
 # Answers
 func OnCityOverview():
-	Mes("Tulimshar sits in the valley that lies between our eastern and western hills.")
-	Mes("The wall you see around us keeps the desert out from wildness and protects us from that southern sandstorm.")
-	Mes("We mostly stay within that area, most people live and work in the central district which spreads between here and the port to the north.")
-	Mes("That northern part is your best bet for anything you could need, markets, games, the lot.")
+	Mes("图利姆沙坐落在我们东边和西边丘陵之间的山谷中。")
+	Mes("你看到周围这堵墙把荒野沙漠挡在外面，保护我们免受南边沙暴的侵袭。")
+	Mes("我们大多待在那个区域，大多数人生活和工作在中央区，分布在从这里到北边港口之间。")
+	Mes("北边是你能找到任何需要的东西的最佳去处，市场、游戏，应有尽有。")
 	OnMainChoice()
 
 func OnLiveHere():
-	Mes("The community is very close-knit.")
-	Mes("We try to help each other and it's great to have people who care about each other's interests.")
-	Mes("Be warned: insults are not welcomed here, just so you know. We look after each other in this city.")
+	Mes("社区非常紧密。")
+	Mes("我们努力互相帮助，有互相关心的人真好。")
+	Mes("警告你：这里不欢迎侮辱，先跟你说清楚。在这座城市里我们互相照应。")
 
 	OnMainChoice()
 
 # Farewell
 func Farewell():
-	Chat("Keep up the good work %s." % own.nick)
+	Chat("继续好好干 %s。" % own.nick)

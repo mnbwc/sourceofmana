@@ -53,7 +53,7 @@ func RefreshBestiary(mobID : int, count : int):
 		bestiaries[mobID] = menuLine
 		bestiaryContainer.add_child.call_deferred(menuLine)
 
-	menuLine.set_text("%s (%d kill%s)" % [entityData._name, count, "s" if count > 1 else ""])
+	menuLine.set_text("%s (%d 击杀%s)" % [entityData._name, count, "s" if count > 1 else ""])
 
 	if not bestiaryLabel.is_visible():
 		bestiaryLabel.set_visible(true)
@@ -79,7 +79,7 @@ func RefreshQuest(questID : int, state : int):
 		if not completedQuests.get(questID, false):
 			completedQuestContainer.add_child.call_deferred(menuLine)
 			completedQuests[questID] = true
-			menuLine.set_text("%s (%s)" % [tr(questData.name), tr("Completed")])
+			menuLine.set_text("%s (%s)" % [tr(questData.name), tr("已完成")])
 	else:
 		if completedQuests.get(questID, false):
 			completedQuestContainer.remove_child.call_deferred(menuLine)

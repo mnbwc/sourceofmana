@@ -15,25 +15,25 @@ static func Unregister(commandName : StringName):
 
 static func Handle(caller : PlayerAgent, commandStr : String):
 	if commandStr.is_empty():
-		Network.CommandFeedback("Empty command sent", caller.peerID)
+		Network.CommandFeedback("空命令已发送", caller.peerID)
 		return
 
 	var args : Array = Parse(commandStr)
 	if args.is_empty():
-		Network.CommandFeedback("Invalid command sent", caller.peerID)
+		Network.CommandFeedback("无效命令已发送", caller.peerID)
 		return
 
 	var commandName : StringName = args.pop_front().to_lower()
 	var command : Command = commands.get(commandName, null)
 	var playerPermission : ActorCommons.Permission = Peers.GetPermission(caller.peerID)
 	if not command:
-		Network.CommandFeedback("Command '%s' is not registered" % commandName, caller.peerID)
+		Network.CommandFeedback("命令 '%s' 未注册" % commandName, caller.peerID)
 	elif not OS.is_debug_build() and command._permission > playerPermission:
-		Network.CommandFeedback("Command '%s' could not be called due to unmet permissions" % commandName, caller.peerID)
+		Network.CommandFeedback("命令 '%s' 因权限不足无法调用" % commandName, caller.peerID)
 	elif not args.is_empty() and args[0] == "?":
-		Network.CommandFeedback("Command usage: %s" % command._description, caller.peerID)
+		Network.CommandFeedback("命令用法：%s" % command._description, caller.peerID)
 	elif not command.Call(caller, args):
-		Network.CommandFeedback("Command '%s' could not be called due to incorrect arguments" % commandName, caller.peerID)
+		Network.CommandFeedback("命令 '%s' 因参数错误无法调用" % commandName, caller.peerID)
 	# Command succeeded
 	elif command._permission > ActorCommons.Permission.NONE:
 		Util.PrintLog("Command", "%s (%d) used: %s" % [caller.nick, caller.peerID, commandStr])

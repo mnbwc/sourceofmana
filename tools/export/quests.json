@@ -1,0 +1,189 @@
+[
+  {
+    "file": "SnakePitBitingThrist",
+    "id": 2646362849,
+    "name": "A Biting Thirst",
+    "description": "\"Mauro near a cave entrance tried to fetch water from a small pond inside, but some snakes bit him until he spilled and drank what little remained.",
+    "giver": "Mauro",
+    "giverLocation": "Desert Pit",
+    "target": "Water point",
+    "targetLocation": "Snake Pit",
+    "reward": "Unknown"
+  },
+  {
+    "file": "SandstormNathanWater",
+    "id": 1931438535,
+    "name": "A Drop of Relief",
+    "description": "Nathan is stationed outside the Sandstorm Mines and suffering under the blazing heat. He doesn't need water to drink, just a bottle to pour over himself.",
+    "giver": "Nathan",
+    "giverLocation": "Sandstorm Mines",
+    "target": "Water Bottle x1",
+    "targetLocation": "Tulimshar",
+    "reward": "50 EXP, 100 GP"
+  },
+  {
+    "file": "SandstormNaemHelmet",
+    "id": 2427453213,
+    "name": "A Miner's Helping Hand",
+    "description": "Naem, one of the workers in the Sandstorm Mines, offered you a spare mining helmet to keep you safe as you venture deeper.",
+    "giver": "Naem",
+    "giverLocation": "Sandstorm Mines",
+    "target": "Miner Helmet x1",
+    "targetLocation": "Sandstorm Mines",
+    "reward": "Miner Helmet"
+  },
+  {
+    "file": "TulimsharOldFriendship",
+    "id": 1070913343,
+    "name": "An Old Friendship",
+    "description": "Frost, a man sitting on a bench in Tulimshar, asks you to retrieve old letters from the castle corridor. Stay in the shadows to avoid the guards.",
+    "giver": "Frost",
+    "giverLocation": "Tulimshar Center",
+    "target": "Ben",
+    "targetLocation": "Tulimshar West Wall Pathway",
+    "reward": "1000 GP"
+  },
+  {
+    "file": "DesertSeed",
+    "id": 3532436717,
+    "name": "Desert Seed",
+    "description": "Deep in the Sandstorm Mines, you discovered a living Mana Tree and recovered its Kano, a rare Mana Seed.",
+    "giver": "Mana Tree",
+    "giverLocation": "Sandstorm Mines",
+    "target": "",
+    "targetLocation": "Unknown",
+    "reward": "Unknown"
+  },
+  {
+    "file": "ElanorePotion",
+    "id": 3984490417,
+    "name": "Elanore's Potions",
+    "description": "Elanore needs ingredients to brew healing potions. Bring her six Maggot Slimes, one Water and one Pitaya.",
+    "giver": "Elanore",
+    "giverLocation": "Tulimshar Gates",
+    "target": "Maggot Slime x6, Water x1, Pitaya x1",
+    "targetLocation": "Tulimshar region",
+    "reward": "Cactus Potion"
+  },
+  {
+    "file": "TulimsharEasternHillsChest",
+    "id": 4235969129,
+    "name": "Found a Chest in the Outskirts",
+    "description": "Found a chest in the Tulimshar eastern outskirts.",
+    "giver": "",
+    "giverLocation": "",
+    "target": "Chest",
+    "targetLocation": "Tulimshar Eastern Hills",
+    "reward": "Desert Shield"
+  },
+  {
+    "file": "GrainInTheDesert",
+    "id": 2893494389,
+    "name": "Grain in the desert",
+    "description": "Riskim the baker is waiting for a grain shipment marked with a blue Artis seal. Check the barrels at the docks.",
+    "giver": "Riskim",
+    "giverLocation": "Tulmshar Center",
+    "target": "Barrel",
+    "targetLocation": "Tulimshar Bay",
+    "reward": "Unknown"
+  },
+  {
+    "file": "MineExploration",
+    "id": 826825219,
+    "name": "Mine Exploration",
+    "description": "Scout the Sandstorm Mines and ensure the cave system is clear of major dangers before the miners move in.",
+    "giver": "Ekinu",
+    "giverLocation": "Tulimshar",
+    "target": "",
+    "targetLocation": "Sandstorm Mines",
+    "reward": "Unknown"
+  },
+  {
+    "file": "NinaHungry",
+    "id": 3098703797,
+    "name": "Nina's Snack",
+    "description": "Nina is hungry but too dedicated to leave her post. Find her a croissant from the market.",
+    "giver": "Nina",
+    "giverLocation": "Tulimshar Gates",
+    "target": "Croissant x1",
+    "targetLocation": "Tulimshar Market",
+    "reward": "Cactus Potion x10, 100 GP"
+  },
+  {
+    "file": "ShipPeterBounty",
+    "id": 2607006912,
+    "name": "Peter's Bounty",
+    "description": "A sailor aboard the ship is offering bounty contracts to clear rattos from the ship's hold.",
+    "giver": "Peter",
+    "giverLocation": "Ship Second Deck",
+    "target": "Clear the hold of Rattos",
+    "targetLocation": "Ship Hold",
+    "reward": "100 EXP, 500 GP"
+  },
+  {
+    "file": "SandstormMineAbandonedTreasure",
+    "id": 1083446768,
+    "name": "Sandstorm Mine Abandoned Treasure",
+    "description": "\"A rusty key lies hidden in the depths of the abandoned mine",
+    "giver": "Mine Key",
+    "giverLocation": "Abandoned Mine",
+    "target": "Chest",
+    "targetLocation": "Abandoned Mine",
+    "reward": "Piou Slayer"
+  },
+  {
+    "file": "SnakePitThief",
+    "id": 647884116,
+    "name": "Snake Pit Thief",
+    "description": "Investigate a hidden bedroom deep within the Snake Pit, uncover the fate of a Tulimshar thief, solve his riddle, and recover the treasure he never reclaimed.",
+    "giver": "Snake Pit Clue",
+    "giverLocation": "Snake Pit",
+    "target": "Thiefs Chest",
+    "targetLocation": "Snake Pit",
+    "reward": "Unknown"
+  },
+  {
+    "file": "SplatynaOffering",
+    "id": 665326971,
+    "name": "Splatyna's Offering",
+    "description": "\"Bicies waits at the cave entrance, obsessed with a giant slime named Splatyna. He says she loves gold and keeps the corruption away.",
+    "giver": "Bicies",
+    "giverLocation": "Splatyna Cave Entrance",
+    "target": "Splatyna",
+    "targetLocation": "Splatyna's Chamber",
+    "reward": "Unknown"
+  },
+  {
+    "file": "Tutorial",
+    "id": 1180319673,
+    "name": "Tutorial",
+    "description": "Get settled in Tulimshar with Elanore's help.",
+    "giver": "Elanore",
+    "giverLocation": "Tulimshar Gates",
+    "target": "",
+    "targetLocation": "",
+    "reward": "Unknown"
+  },
+  {
+    "file": "VeteranCaveExplorer",
+    "id": 2409290506,
+    "name": "Veteran Cave Explorer",
+    "description": "For those who once walked these lands before the world was reborn.",
+    "giver": "",
+    "giverLocation": "",
+    "target": "",
+    "targetLocation": "",
+    "reward": "Unknown"
+  },
+  {
+    "file": "TulimsharGlassmaking",
+    "id": 2192634378,
+    "name": "When the desert gives you sand...",
+    "description": "Eridu the glassmaker makes very useful glass bottles. He will exchange some bottles for salt, bones and sulphur powder gathered in the desert.",
+    "giver": "Eridu",
+    "giverLocation": "Tulimshar Center",
+    "target": "Salt x12, Bone x12, Sulphur Powder x12",
+    "targetLocation": "Tonori Desert",
+    "reward": "Bottle x3, 100 EXP"
+  }
+]

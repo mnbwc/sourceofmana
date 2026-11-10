@@ -3,8 +3,8 @@ extends NpcScript
 #
 func OnStart():
 	if randi() % 2:
-		Mes("This place doesn't feel right.")
-		Mes("It has an eerie feel to it. Maybe it's just because it was abandoned for so long?")
-		Mes("Or maybe it's why it was abandoned in the first place...")
+		Mes("这地方感觉不对劲。")
+		Mes("它有一种诡异的感觉。也许只是因为它被遗弃太久了？")
+		Mes("也许这就是它最初被遗弃的原因……")
 	else:
-		Mes("I heard some noises coming from further below. I really don't want to go there...")
+		Mes("我听到更深的地方传来一些声音。我真不想去那里……")

@@ -463,6 +463,7 @@ static var DefaultStats : Dictionary = {
 	"level": 1,
 }
 static var DefaultInventory : Array[Dictionary] = [
+	{ "item_id": "Short Sword".hash(), "customfield": "", "count": 1 },
 ]
 static var DefaultSkills : Array[Dictionary] = [
 	{ "skill_id": SkillCommons.SkillMeleeName.hash(), "level": 1 },

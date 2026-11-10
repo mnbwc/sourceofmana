@@ -12,7 +12,7 @@
 [resource]
 script = ExtResource("2_aovmb")
 _id = 2866154511
-_name = "Evil Mushroom"
+_name = "邪恶蘑菇"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 16
 _stats = {

@@ -1,0 +1,219 @@
+{
+  "AICommons": {
+    "Behaviour": {
+      "AGGRESSIVE": 1,
+      "FLEE": 1,
+      "FOLLOWER": 1,
+      "IMMOBILE": 1,
+      "LEADER": 1,
+      "NEUTRAL": 1,
+      "NONE": 0,
+      "PACIFIST": 1,
+      "SPAWNER": 1,
+      "STEAL": 1
+    },
+    "State": {
+      "ATTACK": 2,
+      "COUNT": 4,
+      "HALT": 3,
+      "IDLE": 0,
+      "WALK": 1
+    }
+  },
+  "ActorCommons": {
+    "Alteration": {
+      "CRIT": 2,
+      "DODGE": 4,
+      "EXP": 6,
+      "GP": 7,
+      "HEAL": 5,
+      "HIT": 0,
+      "LVL_UP": 8,
+      "MISS": 3,
+      "QUEST_COMPLETE": 10,
+      "QUEST_UPDATE": 11,
+      "SKILL_UP": 9,
+      "WHISPER": 12
+    },
+    "Attribute": {
+      "AGILITY": 2,
+      "CONCENTRATION": 4,
+      "ENDURANCE": 3,
+      "STRENGTH": 0,
+      "VITALITY": 1
+    },
+    "Direction": {
+      "DOWN": 1,
+      "DOWNLEFT": 2,
+      "DOWNRIGHT": 8,
+      "LEFT": 3,
+      "RIGHT": 7,
+      "UP": 5,
+      "UPLEFT": 4,
+      "UPRIGHT": 6
+    },
+    "Gender": {
+      "COUNT": 3,
+      "FEMALE": 1,
+      "MALE": 0,
+      "NONBINARY": 2
+    },
+    "Permission": {
+      "ADMIN": 3,
+      "GM": 2,
+      "MODERATOR": 1,
+      "NONE": 0
+    },
+    "Recovery": {
+      "COUNT": 4,
+      "GOOD": 3,
+      "NONE": 0,
+      "NORMAL": 2,
+      "POOR": 1
+    },
+    "Slot": {
+      "BODY": 9,
+      "CHEST": 0,
+      "COUNT": 13,
+      "FACE": 10,
+      "FEET": 3,
+      "HAIR": 11,
+      "HANDS": 4,
+      "HEAD": 5,
+      "LEGS": 2,
+      "NECK": 6,
+      "QUEST": 12,
+      "SHIELD": 8,
+      "WEAPON": 7
+    },
+    "State": {
+      "ATTACK": 4,
+      "COUNT": 9,
+      "DEATH": 5,
+      "FROM_TRIGGER": 8,
+      "IDLE": 0,
+      "SIT": 3,
+      "TO_TRIGGER": 6,
+      "TRIGGER": 7,
+      "WALK": 2
+    },
+    "Target": {
+      "ALLY": 1,
+      "ENEMY": 2,
+      "NONE": 0
+    },
+    "Type": {
+      "MONSTER": 2,
+      "NPC": 3,
+      "PLAYER": 0
+    }
+  },
+  "CellCommons": {
+    "Modifier": {
+      "Accuracy": 23,
+      "Attack": 20,
+      "AttackRange": 17,
+      "CastDelay": 15,
+      "CooldownDelay": 11,
+      "Count": 24,
+      "CritRate": 6,
+      "Defense": 14,
+      "DodgeRate": 16,
+      "Health": 1,
+      "Hide": 21,
+      "Invisible": 22,
+      "MAttack": 7,
+      "MDefense": 8,
+      "Mana": 2,
+      "MaxHealth": 12,
+      "MaxMana": 4,
+      "MaxStamina": 9,
+      "None": 0,
+      "RegenHealth": 13,
+      "RegenMana": 5,
+      "RegenStamina": 10,
+      "Stamina": 3,
+      "WalkSpeed": 18,
+      "WeightCapacity": 19
+    },
+    "Type": {
+      "COUNT": 3,
+      "EMOTE": 1,
+      "ITEM": 0,
+      "SKILL": 2
+    }
+  },
+  "ProgressCommons": {
+    "DESERT_SEED": {
+      "SEEK_MANAYIR": 2,
+      "SEEK_NINA": 1
+    },
+    "ELANORE_POTION": {
+      "STARTED": 1
+    },
+    "GRAIN_IN_THE_SAND": {
+      "SEARCHED_CRATES": 2,
+      "STARTED": 1
+    },
+    "MINE_EXPLORATION": {
+      "DEFEATED": 5,
+      "FIGHTING": 4,
+      "FIND_NICKOS": 2,
+      "MANA_TREE_MET": 6,
+      "STARTED": 1,
+      "STRANGER_SPOTTED": 3
+    },
+    "NINA_HUNGRY": {
+      "STARTED": 1
+    },
+    "SANDSTORM_MINE_ABANDONED_TREASURE": {
+      "KEY_FOUND": 1
+    },
+    "SANDSTORM_NAEM_HELMET": {},
+    "SANDSTORM_NATHAN_WATER": {
+      "STARTED": 1
+    },
+    "SHIP_PETER_BOUNTY": {
+      "WAVE_ONE_DONE": 1,
+      "WAVE_TWO_DONE": 2
+    },
+    "SNAKE_PIT_BITING_THIRST": {
+      "STARTED": 1
+    },
+    "SNAKE_PIT_THIEF": {
+      "ALL_CLUES_FOUND": 31,
+      "RIDDLE_SOLVED": 32
+    },
+    "SPLATYNA_OFFERING": {
+      "STARTED": 1
+    },
+    "TULIMSHAR_EASTERN_HILLS_CHEST": {},
+    "TULIMSHAR_GLASSMAKING": {
+      "STARTED": 1
+    },
+    "TULIMSHAR_OLD_FRIENDSHIP": {
+      "ENVELOPES_FOUND": 2,
+      "LETTERS_DELIVERED": 3,
+      "STARTED": 1
+    },
+    "TUTORIAL": {
+      "CLOTHES_GIVEN": 3,
+      "ELANORE_DONE": 5,
+      "INTRO_ITEMS_GIVEN": 1,
+      "KAEL_DONE": 7,
+      "KAEL_MET": 6,
+      "POTION_GIVEN": 2,
+      "UI_EXPLAINED": 4
+    },
+    "VETERAN_CAVE_EXPLORER": {
+      "UNCLAIMED": 1
+    }
+  },
+  "Skill": {
+    "TargetMode": {
+      "SELF": 2,
+      "SINGLE": 0,
+      "ZONE": 1
+    }
+  }
+}

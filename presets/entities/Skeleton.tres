@@ -14,7 +14,7 @@
 [resource]
 script = ExtResource("2_skel")
 _id = 890728458
-_name = "Skeleton"
+_name = "骷髅"
 _spritePreset = ExtResource("3_skel")
 _radius = 10
 _stats = {

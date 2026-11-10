@@ -29,7 +29,7 @@ func Setup(lineCell : BaseCell, lineMax : int, lineValue : int, ownedCount : int
 	if cell is ItemCell and not cell.customfield.is_empty():
 		title += " (%s)" % cell.customfield
 	nameLabel.set_text(title)
-	priceLabel.set_text("%s GP" % Util.GetCompactNumber(price) if price >= 0 else "")
+	priceLabel.set_text("%s 金币" % Util.GetCompactNumber(price) if price >= 0 else "")
 
 	SetValue(lineValue)
 

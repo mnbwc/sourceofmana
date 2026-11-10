@@ -13,7 +13,7 @@
 script = ExtResource("2_b016p")
 _parent = ExtResource("6_2ug6c")
 _id = 3639315857
-_name = "Tulimshar Guard"
+_name = "图利姆沙守卫"
 _stats = {
 "gender": "Female",
 "haircolor": "Light Violet",

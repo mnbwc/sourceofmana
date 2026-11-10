@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_script")
-_name = "Night is calling"
+_name = "夜之召唤"
 _resource = ExtResource("2_audio")

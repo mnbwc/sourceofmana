@@ -240,7 +240,7 @@ func _ready():
 
 func _exit_tree():
 	ClearScript()
-	WorldTrade.Cancel(self, "Trade cancelled, %s left." % nick)
+	WorldTrade.Cancel(self, "交易已取消，%s 离开了。" % nick)
 	super._exit_tree()
 
 #
@@ -264,7 +264,7 @@ func WarpTo(dest : Destination):
 
 func Killed():
 	super.Killed()
-	WorldTrade.Cancel(self, "Trade cancelled.")
+	WorldTrade.Cancel(self, "交易已取消。")
 	if ownScript:
 		ClearScript()
 		NpcCommons.ToggleContext(self, false)
@@ -279,7 +279,7 @@ func UpdateDeltas(delta : float):
 #
 func AddScript(npc : NpcAgent):
 	if npc:
-		WorldTrade.Cancel(self, "Trade cancelled.")
+		WorldTrade.Cancel(self, "交易已取消。")
 		SetRelativeMode(false, Vector2.ZERO)
 		ownScript = npc.playerScriptPreset.new(npc, self) if npc.playerScriptPreset else NpcScript.new(npc, self)
 		ownScript.PostInit()

@@ -6,4 +6,4 @@
 [resource]
 script = ExtResource("1_script")
 texture = ExtResource("tex_bald")
-_name = "Bald"
+_name = "光头"

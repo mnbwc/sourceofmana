@@ -1,0 +1,1039 @@
+[
+  {
+    "file": "Apple",
+    "category": "usable",
+    "id": 215387671,
+    "name": "Apple",
+    "slot": -1,
+    "buyPrice": 10,
+    "sellPrice": 1,
+    "weight": 5.0,
+    "stackable": true,
+    "usable": true,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Health": 20.0
+    }
+  },
+  {
+    "file": "ArtisFlourSack",
+    "category": "quest",
+    "id": 0,
+    "name": "Artis Flour Sack",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 50.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "BandanaScarf",
+    "category": "neck",
+    "id": 1956972377,
+    "name": "Bandana Scarf",
+    "slot": 5,
+    "buyPrice": 5000,
+    "sellPrice": 500,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "Bone",
+    "category": "common",
+    "id": 0,
+    "name": "Bone",
+    "slot": -1,
+    "buyPrice": 40,
+    "sellPrice": 4,
+    "weight": 0.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "BoneKnife",
+    "category": "weapon",
+    "id": 4119861718,
+    "name": "Bone Knife",
+    "slot": 6,
+    "buyPrice": 15500,
+    "sellPrice": 1550,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Attack": 80.0,
+      "CastDelay": -0.1
+    }
+  },
+  {
+    "file": "Bottle",
+    "category": "common",
+    "id": 2850928111,
+    "name": "Bottle",
+    "slot": -1,
+    "buyPrice": 90,
+    "sellPrice": 36,
+    "weight": 15.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "BrassZieliteAmulet",
+    "category": "quest",
+    "id": 0,
+    "name": "Brass Zielite Amulet",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 50.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "CactusDrink",
+    "category": "usable",
+    "id": 3877745440,
+    "name": "Cactus Drink",
+    "slot": -1,
+    "buyPrice": 55,
+    "sellPrice": 6,
+    "weight": 5.0,
+    "stackable": true,
+    "usable": true,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Health": 75.0
+    }
+  },
+  {
+    "file": "CactusPotion",
+    "category": "usable",
+    "id": 3878004993,
+    "name": "Cactus Potion",
+    "slot": -1,
+    "buyPrice": 140,
+    "sellPrice": 56,
+    "weight": 5.0,
+    "stackable": true,
+    "usable": true,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Health": 100.0
+    }
+  },
+  {
+    "file": "CactusSourCandy",
+    "category": "usable",
+    "id": 3589756736,
+    "name": "Cactus Sour Candy",
+    "slot": -1,
+    "buyPrice": 25,
+    "sellPrice": 3,
+    "weight": 5.0,
+    "stackable": true,
+    "usable": true,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Health": 20.0,
+      "Stamina": 50.0
+    }
+  },
+  {
+    "file": "ChestMineKey",
+    "category": "common",
+    "id": 0,
+    "name": "Chest Mine Key",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 15.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "Cleaver",
+    "category": "weapon",
+    "id": 746948327,
+    "name": "Cleaver",
+    "slot": 6,
+    "buyPrice": 3500,
+    "sellPrice": 350,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Attack": 100.0,
+      "CastDelay": 0.5
+    }
+  },
+  {
+    "file": "CloudPants",
+    "category": "legs",
+    "id": 1701922818,
+    "name": "Cloud Pants",
+    "slot": 1,
+    "buyPrice": 1000,
+    "sellPrice": 100,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "CottonShirt",
+    "category": "chest",
+    "id": 1837303590,
+    "name": "Cotton Shirt",
+    "slot": 0,
+    "buyPrice": 1200,
+    "sellPrice": 120,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 1.0
+    }
+  },
+  {
+    "file": "Croissant",
+    "category": "usable",
+    "id": 30320795,
+    "name": "Croissant",
+    "slot": -1,
+    "buyPrice": 25,
+    "sellPrice": 3,
+    "weight": 5.0,
+    "stackable": true,
+    "usable": true,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Mana": 20.0,
+      "Stamina": 50.0
+    }
+  },
+  {
+    "file": "CropTop",
+    "category": "chest",
+    "id": 2739365196,
+    "name": "Crop Top",
+    "slot": 0,
+    "buyPrice": 1000,
+    "sellPrice": 100,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "DaimBoots",
+    "category": "feet",
+    "id": 1757255399,
+    "name": "Daim Boots",
+    "slot": 2,
+    "buyPrice": 5100,
+    "sellPrice": 510,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 5.0,
+      "WalkSpeed": 20.0
+    }
+  },
+  {
+    "file": "DesertArmbands",
+    "category": "hands",
+    "id": 1633134452,
+    "name": "Desert Armbands",
+    "slot": 3,
+    "buyPrice": 7100,
+    "sellPrice": 710,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 15.0
+    }
+  },
+  {
+    "file": "DesertArmor",
+    "category": "chest",
+    "id": 585424461,
+    "name": "Desert Armor",
+    "slot": 0,
+    "buyPrice": 50000,
+    "sellPrice": 5000,
+    "weight": 5000.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 30.0
+    }
+  },
+  {
+    "file": "DesertBoots",
+    "category": "feet",
+    "id": 586504915,
+    "name": "Desert Boots",
+    "slot": 2,
+    "buyPrice": 1500,
+    "sellPrice": 150,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 2.0,
+      "WalkSpeed": 20.0
+    }
+  },
+  {
+    "file": "DesertGoggles",
+    "category": "head",
+    "id": 906139156,
+    "name": "Desert Goggles",
+    "slot": 4,
+    "buyPrice": 1900,
+    "sellPrice": 190,
+    "weight": 100.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 5.0
+    }
+  },
+  {
+    "file": "DesertHood",
+    "category": "head",
+    "id": 3532052630,
+    "name": "Desert Hood",
+    "slot": 4,
+    "buyPrice": 8000,
+    "sellPrice": 800,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 5.0
+    }
+  },
+  {
+    "file": "DesertJacket",
+    "category": "chest",
+    "id": 2470831870,
+    "name": "Desert Jacket",
+    "slot": 0,
+    "buyPrice": 13500,
+    "sellPrice": 1350,
+    "weight": 5000.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 20.0
+    }
+  },
+  {
+    "file": "DesertShield",
+    "category": "shield",
+    "id": 2831561157,
+    "name": "Desert Shield",
+    "slot": 7,
+    "buyPrice": 2700,
+    "sellPrice": 270,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 10.0,
+      "WalkSpeed": -10.0
+    }
+  },
+  {
+    "file": "DorianKey",
+    "category": "common",
+    "id": 3151885029,
+    "name": "Dorian's Key",
+    "slot": -1,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 15.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "DruidHood",
+    "category": "head",
+    "id": 0,
+    "name": "Druid Hood",
+    "slot": 4,
+    "buyPrice": 2700,
+    "sellPrice": 270,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "DruidRobe",
+    "category": "chest",
+    "id": 0,
+    "name": "Druid Robe",
+    "slot": 0,
+    "buyPrice": 2700,
+    "sellPrice": 270,
+    "weight": 600.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "FunkyHat",
+    "category": "head",
+    "id": 3690476111,
+    "name": "Funky Hat",
+    "slot": 4,
+    "buyPrice": 1900,
+    "sellPrice": 190,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "GabrielKey",
+    "category": "common",
+    "id": 2961268734,
+    "name": "Gabriel's Key",
+    "slot": -1,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 15.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "Ghutra",
+    "category": "head",
+    "id": 3038339760,
+    "name": "Ghutra",
+    "slot": 4,
+    "buyPrice": 2500,
+    "sellPrice": 250,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 5.0
+    }
+  },
+  {
+    "file": "Gladius",
+    "category": "weapon",
+    "id": 1613203406,
+    "name": "Gladius",
+    "slot": 6,
+    "buyPrice": 10000,
+    "sellPrice": 1000,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Attack": 50.0,
+      "AttackRange": 16.0
+    }
+  },
+  {
+    "file": "GoldBracelets",
+    "category": "hands",
+    "id": 2082846080,
+    "name": "Gold Bracelets",
+    "slot": 3,
+    "buyPrice": 17500,
+    "sellPrice": 1750,
+    "weight": 100.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 15.0
+    }
+  },
+  {
+    "file": "Gown",
+    "category": "chest",
+    "id": 2089150048,
+    "name": "Gown",
+    "slot": 0,
+    "buyPrice": 1900,
+    "sellPrice": 190,
+    "weight": 800.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "GuardCloudPants",
+    "category": "legs",
+    "id": 2687533109,
+    "name": "Guard Cloud Pants",
+    "slot": 1,
+    "buyPrice": 1900,
+    "sellPrice": 190,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "HeavyEnvelope",
+    "category": "quest",
+    "id": 0,
+    "name": "Heavy Envelope",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 25.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "JeanChaps",
+    "category": "legs",
+    "id": 1038638386,
+    "name": "Jean Chaps",
+    "slot": 1,
+    "buyPrice": 13500,
+    "sellPrice": 1350,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 20.0
+    }
+  },
+  {
+    "file": "LeatherArmbands",
+    "category": "hands",
+    "id": 1500003666,
+    "name": "Leather Armbands",
+    "slot": 3,
+    "buyPrice": 7100,
+    "sellPrice": 710,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 15.0
+    }
+  },
+  {
+    "file": "LeatherBoots",
+    "category": "feet",
+    "id": 3383004529,
+    "name": "Leather Boots",
+    "slot": 2,
+    "buyPrice": 5100,
+    "sellPrice": 510,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 5.0,
+      "WalkSpeed": 20.0
+    }
+  },
+  {
+    "file": "LeatherGloves",
+    "category": "hands",
+    "id": 162120794,
+    "name": "Leather Gloves",
+    "slot": 3,
+    "buyPrice": 2900,
+    "sellPrice": 290,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 8.0
+    }
+  },
+  {
+    "file": "LeatherPants",
+    "category": "legs",
+    "id": 3399103216,
+    "name": "Leather Pants",
+    "slot": 1,
+    "buyPrice": 3700,
+    "sellPrice": 370,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 10.0
+    }
+  },
+  {
+    "file": "LeatherShield",
+    "category": "shield",
+    "id": 626767907,
+    "name": "Leather Shield",
+    "slot": 7,
+    "buyPrice": 2700,
+    "sellPrice": 270,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 10.0,
+      "WalkSpeed": -10.0
+    }
+  },
+  {
+    "file": "LeatherShirt",
+    "category": "chest",
+    "id": 3402907028,
+    "name": "Leather Shirt",
+    "slot": 0,
+    "buyPrice": 1900,
+    "sellPrice": 190,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 5.0
+    }
+  },
+  {
+    "file": "Letter",
+    "category": "quest",
+    "id": 3230422613,
+    "name": "Letter",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 15.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "MaggotSlime",
+    "category": "common",
+    "id": 3136767230,
+    "name": "Maggot Slime",
+    "slot": -1,
+    "buyPrice": 5,
+    "sellPrice": 1,
+    "weight": 2.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "MarvinKey",
+    "category": "common",
+    "id": 1975170517,
+    "name": "Marvin's Key",
+    "slot": -1,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 15.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "MinerHelmet",
+    "category": "head",
+    "id": 0,
+    "name": "Miner Helmet",
+    "slot": 4,
+    "buyPrice": 1500,
+    "sellPrice": 150,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 3.0
+    }
+  },
+  {
+    "file": "PiouSlayer",
+    "category": "weapon",
+    "id": 629184690,
+    "name": "Piou Slayer",
+    "slot": 6,
+    "buyPrice": 2300,
+    "sellPrice": 230,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Attack": 20.0,
+      "CastDelay": -0.1
+    }
+  },
+  {
+    "file": "Pitaya",
+    "category": "usable",
+    "id": 3391687821,
+    "name": "Pitaya",
+    "slot": -1,
+    "buyPrice": 10,
+    "sellPrice": 1,
+    "weight": 5.0,
+    "stackable": true,
+    "usable": true,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Health": 15.0
+    }
+  },
+  {
+    "file": "RawWoodShield",
+    "category": "shield",
+    "id": 2754674049,
+    "name": "Raw Wood Shield",
+    "slot": 7,
+    "buyPrice": 6000,
+    "sellPrice": 600,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 20.0,
+      "WalkSpeed": -20.0
+    }
+  },
+  {
+    "file": "RockKnife",
+    "category": "weapon",
+    "id": 3712119489,
+    "name": "Rock Knife",
+    "slot": 6,
+    "buyPrice": 50000,
+    "sellPrice": 5000,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Attack": 100.0,
+      "MaxHealth": 30.0,
+      "AttackRange": 16.0
+    }
+  },
+  {
+    "file": "Salt",
+    "category": "common",
+    "id": 0,
+    "name": "Salt",
+    "slot": -1,
+    "buyPrice": 15,
+    "sellPrice": 2,
+    "weight": 0.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "SandstormKano",
+    "category": "quest",
+    "id": 0,
+    "name": "Sandstorm Kano",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 0.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "Scimitar",
+    "category": "weapon",
+    "id": 3601757377,
+    "name": "Scimitar",
+    "slot": 6,
+    "buyPrice": 25000,
+    "sellPrice": 2500,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Attack": 75.0,
+      "CooldownDelay": -0.2,
+      "AttackRange": 20.0
+    }
+  },
+  {
+    "file": "SealedLetters",
+    "category": "quest",
+    "id": 0,
+    "name": "Sealed Letters",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 10.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "ShortSword",
+    "category": "weapon",
+    "id": 3056796356,
+    "name": "Short Sword",
+    "slot": 6,
+    "buyPrice": 1500,
+    "sellPrice": 150,
+    "weight": 400.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Attack": 20.0
+    }
+  },
+  {
+    "file": "LinenShorts",
+    "category": "legs",
+    "id": 3507746760,
+    "name": "Shorts",
+    "slot": 1,
+    "buyPrice": 1200,
+    "sellPrice": 120,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 1.0
+    }
+  },
+  {
+    "file": "SilverBracelets",
+    "category": "hands",
+    "id": 3411966351,
+    "name": "Silver Bracelets",
+    "slot": 3,
+    "buyPrice": 10500,
+    "sellPrice": 1050,
+    "weight": 100.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 15.0
+    }
+  },
+  {
+    "file": "SnakeSkin",
+    "category": "common",
+    "id": 841480588,
+    "name": "Snake Skin",
+    "slot": -1,
+    "buyPrice": 120,
+    "sellPrice": 12,
+    "weight": 2.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "SulphurPowder",
+    "category": "common",
+    "id": 0,
+    "name": "Sulphur Powder",
+    "slot": -1,
+    "buyPrice": 30,
+    "sellPrice": 3,
+    "weight": 0.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "TankTop",
+    "category": "chest",
+    "id": 878238790,
+    "name": "Tank Top",
+    "slot": 0,
+    "buyPrice": 1000,
+    "sellPrice": 100,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "ThiefsKey",
+    "category": "common",
+    "id": 1577372888,
+    "name": "Thief's Key",
+    "slot": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "weight": 15.0,
+    "stackable": true,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "TonoriCrown",
+    "category": "head",
+    "id": 2445605769,
+    "name": "Tonori Crown",
+    "slot": 4,
+    "buyPrice": 20000,
+    "sellPrice": 2000,
+    "weight": 200.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Defense": 5.0
+    }
+  },
+  {
+    "file": "Trousers",
+    "category": "legs",
+    "id": 1412353772,
+    "name": "Trousers",
+    "slot": 1,
+    "buyPrice": 1000,
+    "sellPrice": 100,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "VNeckTee",
+    "category": "chest",
+    "id": 1416971591,
+    "name": "V-Neck Tee",
+    "slot": 0,
+    "buyPrice": 1000,
+    "sellPrice": 100,
+    "weight": 300.0,
+    "stackable": false,
+    "usable": false,
+    "type": 0,
+    "customfield": ""
+  },
+  {
+    "file": "WaterBottle",
+    "category": "usable",
+    "id": 3288439794,
+    "name": "Water Bottle",
+    "slot": -1,
+    "buyPrice": 100,
+    "sellPrice": 40,
+    "weight": 50.0,
+    "stackable": true,
+    "usable": true,
+    "type": 0,
+    "customfield": "",
+    "modifiers": {
+      "Health": 20.0
+    }
+  }
+]

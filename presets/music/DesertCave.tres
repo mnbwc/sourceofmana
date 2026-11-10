@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_script")
-_name = "Desert Cave"
+_name = "沙漠洞穴"
 _resource = ExtResource("2_audio")

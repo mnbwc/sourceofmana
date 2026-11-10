@@ -1,0 +1,78 @@
+[
+  {
+    "name": "None",
+    "value": 0
+  },
+  {
+    "name": "Health"
+  },
+  {
+    "name": "Mana"
+  },
+  {
+    "name": "Stamina"
+  },
+  {
+    "name": "MaxMana"
+  },
+  {
+    "name": "RegenMana"
+  },
+  {
+    "name": "CritRate"
+  },
+  {
+    "name": "MAttack"
+  },
+  {
+    "name": "MDefense"
+  },
+  {
+    "name": "MaxStamina"
+  },
+  {
+    "name": "RegenStamina"
+  },
+  {
+    "name": "CooldownDelay"
+  },
+  {
+    "name": "MaxHealth"
+  },
+  {
+    "name": "RegenHealth"
+  },
+  {
+    "name": "Defense"
+  },
+  {
+    "name": "CastDelay"
+  },
+  {
+    "name": "DodgeRate"
+  },
+  {
+    "name": "AttackRange"
+  },
+  {
+    "name": "WalkSpeed"
+  },
+  {
+    "name": "WeightCapacity"
+  },
+  {
+    "name": "Attack"
+  },
+  {
+    "name": "Hide"
+  },
+  {
+    "name": "Invisible"
+  },
+  {
+    "name": "Accuracy"
+  },
+  {
+    "name": "Count"
+  }
+]

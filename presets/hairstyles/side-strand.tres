@@ -6,4 +6,4 @@
 [resource]
 script = ExtResource("1_script")
 texture = ExtResource("tex_side-strand")
-_name = "Side Strand"
+_name = "侧束发"

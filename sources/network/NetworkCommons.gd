@@ -112,7 +112,7 @@ const PlayerNameMinSize : int			= 2
 const PlayerNameMaxSize : int			= 16
 const PasswordMinSize : int				= 6
 const PasswordMaxSize : int				= 128
-const EntryValidRegex : String			= "^[\\w\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff\\uac00-\\ud7af#!@%&:;<>,\\$\\^*\\(\\)_+=\\{\\}\\[\\]\\.?/-]+$"
+const EntryValidRegex : String			= "^[\\w\\x{4e00}-\\x{9fff}\\x{3040}-\\x{309f}\\x{30a0}-\\x{30ff}\\x{ac00}-\\x{d7af}#!@%&:;<>,\\$\\^*\\(\\)_+=\\{\\}\\[\\]\\.?/-]+$"
 const PasswordValidRegex : String		= "^[^\\x00-\\x1F\\x7F]+$"
 const EmailValidRegex : String			= "^[\\w\\.\\+\\-]+@[a-zA-Z0-9\\.\\-]+\\.[a-zA-Z]{2,}$"
 

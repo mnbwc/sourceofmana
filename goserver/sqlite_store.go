@@ -516,6 +516,16 @@ func (s *AccountStore) dbAddCharacter(acc *Account, c *Character) {
 	if err != nil {
 		log.Printf("sqlite: update trait for char %q: %v", c.Name, err)
 	}
+	// Insert default inventory items (storage=0 for inventory).
+	for _, it := range c.Inventory {
+		_, err = s.db.Exec(
+			`INSERT INTO item (item_id, char_id, count, storage, customfield) VALUES (?, ?, ?, 0, ?)`,
+			it.ItemID, charID, it.Count, it.Customfield,
+		)
+		if err != nil {
+			log.Printf("sqlite: add default item %d for char %q: %v", it.ItemID, c.Name, err)
+		}
+	}
 }
 
 // dbRemoveCharacter deletes a character from SQLite.

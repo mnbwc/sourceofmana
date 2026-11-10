@@ -10,7 +10,7 @@
 [resource]
 script = ExtResource("2_gobl")
 _id = 3045949408
-_name = "Goblin"
+_name = "哥布林"
 _spritePreset = ExtResource("3_gobl")
 _radius = 8
 _stats = {

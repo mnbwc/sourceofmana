@@ -5,5 +5,5 @@ func GetStock() -> PackedStringArray:
 	return ["Shorts", "Cotton Shirt", "Tank Top"]
 
 func OnStart():
-	Mes("Get yourself something light before the sun cooks you alive!")
+	Mes("在太阳把你烤熟之前，先给自己弄件轻的衣服！")
 	super.OnStart()

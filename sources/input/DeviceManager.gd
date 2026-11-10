@@ -83,7 +83,7 @@ static var actionNames : Dictionary[String, String] = {
 	"gp_face_direction" : "Face Direction",
 	"ui_skill": "Skill Window",
 	"ui_accept": "Accept",
-	"ui_cancel": "Cancel",
+	"ui_cancel": "取消",
 	"ui_context_validate": "Context Validate",
 	"ui_context_cancel": "Context Cancel",
 	"ui_context_secondary": "Context Secondary",
@@ -206,12 +206,12 @@ static func GetJoyButtonName(buttonIndex : int) -> String:
 
 static func GetMouseButtonName(buttonIndex : MouseButton) -> String:
 	match buttonIndex:
-		MOUSE_BUTTON_LEFT:		return "Mouse Left"
-		MOUSE_BUTTON_RIGHT:		return "Mouse Right"
-		MOUSE_BUTTON_MIDDLE:	return "Mouse Middle"
-		MOUSE_BUTTON_WHEEL_UP:	return "Mouse Wheel Up"
-		MOUSE_BUTTON_WHEEL_DOWN:return "Mouse Wheel Down"
-		_:						return "Mouse %d" % buttonIndex
+		MOUSE_BUTTON_LEFT:		return "鼠标左键"
+		MOUSE_BUTTON_RIGHT:		return "鼠标右键"
+		MOUSE_BUTTON_MIDDLE:	return "鼠标中键"
+		MOUSE_BUTTON_WHEEL_UP:	return "鼠标滚轮上"
+		MOUSE_BUTTON_WHEEL_DOWN:return "鼠标滚轮下"
+		_:						return "鼠标 %d" % buttonIndex
 
 static func GetJoyAxisName(axis : JoyAxis, value : float) -> String:
 	var axisName : String = ""

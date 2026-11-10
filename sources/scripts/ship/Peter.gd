@@ -9,11 +9,11 @@ const HOLD_SPAWN_MAP : StringName = "Ship Hold"
 #
 func OnStart():
 	if own.stat.level < MIN_LEVEL:
-		Mes("You're too young to wander around here, finish school first then we'll talk.")
+		Mes("你太小了不能在这里闲逛，先上学再说。")
 	elif npc.ownScript and npc.ownScript.IsInProgress(own):
-		Mes("What are you doing up here? The job's below deck. Move it!")
+		Mes("你在这里干什么？活在下面。快去！")
 	else:
-		Mes("Aye? Make it quick, I'm busy.")
+		Mes("嗯？快点，我很忙。")
 		match GetQuest(QUEST_ID):
 			ProgressCommons.SHIP_PETER_BOUNTY.INACTIVE:
 				OnFirstMeeting()
@@ -23,45 +23,45 @@ func OnStart():
 				OnReturnVisit()
 
 func OnFirstMeeting():
-	Mes("Something's been chewing through our stores in the hold. I bet it's again some Rattos... I need someone to deal with them.")
+	Mes("有什么东西一直在啃货舱的储物。我打赌又是老鼠……我需要有人去对付它们。")
 	Choice("I could use the practice, I'm in.", OnAccept)
 	Choice("Not my problem.", OnDecline)
 
 func OnAccept():
-	Mes("Here's the job.")
+	Mes("活儿在这儿。")
 	OnExplainBounties()
 
 func OnDecline():
-	Chat("Suit yourself.")
+	Chat("随你便。")
 
 func OnReturnVisit():
-	Mes("Back again? Good. That hold hasn't cleaned itself.")
+	Mes("又来了？好。货舱可不会自己清理干净。")
 	OnExplainBounties()
 
 func OnExplainBounties():
 	match GetQuest(QUEST_ID):
 		ProgressCommons.SHIP_PETER_BOUNTY.INACTIVE:
-			Mes("Rattos found something to sink their teeth into. Clear them out and you'll be paid for it.")
+			Mes("老鼠找到了能啃的东西。清理掉它们，你会得到报酬。")
 			Choice("Consider it done.", AcceptBounty.bind(ProgressCommons.SHIP_PETER_BOUNTY.WAVE_ONE_DONE, "Ratto", 5))
 		ProgressCommons.SHIP_PETER_BOUNTY.WAVE_ONE_DONE:
-			Mes("I found a new nest, there are more of them down there now, and bolder too. Pay's better this time.")
+			Mes("我发现了一个新巢穴，下面现在更多了，也更胆大了。这次报酬更好。")
 			Choice("I'll finish what I started.", AcceptBounty.bind(ProgressCommons.SHIP_PETER_BOUNTY.WAVE_TWO_DONE, "Ratto", 10))
 		ProgressCommons.SHIP_PETER_BOUNTY.WAVE_TWO_DONE:
-			Mes("Forget the rattos. We've got bats down there now. Bats, can you believe that?")
+			Mes("别管老鼠了。下面现在有蝙蝠。蝙蝠，你敢信？")
 			Choice("Bats it is.", AcceptBounty.bind(ProgressCommons.SHIP_PETER_BOUNTY.ALL_DONE, "Bat", 10))
 
 	Choice("Not right now.", OnDecline)
 
 func AcceptBounty(nextState : int, monsterName : String, monsterCount : int):
-	Mes("Close the door fast after you, the air there is quite nauseating.")
+	Mes("进去后快关门，那里的空气很恶心。")
 	WarpInstance(HOLD_SPAWN_MAP.hash(), HOLD_SPAWN_POS)
 	Action(npc.ownScript.StartRun.bind(own, nextState, monsterName.hash(), monsterCount))
 
 func OnDailyOffer():
 	if npc.ownScript.CanRunDailyQuest(own.get_rid().get_id()):
-		Mes("You again? Good. Rattos don't know when to quit, they're back.")
-		Mes("Same as always. Go down, clear them out, come up for your coin.")
+		Mes("又是你？好。老鼠不知道什么时候放弃，它们回来了。")
+		Mes("跟往常一样。下去清理干净，上来拿钱。")
 		Choice("On my way.", AcceptBounty.bind(ProgressCommons.SHIP_PETER_BOUNTY.ALL_DONE, "Ratto", 10))
 		Choice("Not today.", OnDecline)
 	else:
-		Mes("You again? Hold is quiet today, I won't need your help you can move on.")
+		Mes("又是你？今天货舱很安静，我不需要你帮忙了，你可以走了。")

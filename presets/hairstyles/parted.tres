@@ -6,4 +6,4 @@
 [resource]
 script = ExtResource("1_script")
 texture = ExtResource("tex_parted")
-_name = "Parted"
+_name = "偏分"

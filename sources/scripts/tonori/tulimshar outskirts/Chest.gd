@@ -18,4 +18,4 @@ func OnOpen():
 		AddItem(desertShieldID, 1)
 
 func OnEmpty():
-	Chat("This chest is empty.")
+	Chat("这个宝箱是空的。")

@@ -12,7 +12,7 @@
 script = ExtResource("2_jxq6m")
 _parent = ExtResource("3_0tiq2")
 _id = 2469123693
-_name = "Drain Slime"
+_name = "排水史莱姆"
 _spritePreset = ExtResource("spr_Slime")
 _radius = 10
 _stats = {

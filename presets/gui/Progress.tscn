@@ -24,7 +24,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 1
-titleText = "Progress"
+titleText = "进度"
 
 [node name="Margin" type="MarginContainer" parent="Layout" unique_id=1068376364]
 custom_minimum_size = Vector2(0, 1)
@@ -91,7 +91,7 @@ size_flags_vertical = 3
 [node name="BestiaryLabel" type="RichTextLabel" parent="Layout/Margin/TabBar/Manapedia/BestiaryList" unique_id=2062008106]
 layout_mode = 2
 mouse_filter = 1
-text = "UI_BESTIARY"
+text = "图鉴"
 fit_content = true
 
 [node name="Monsters" type="VBoxContainer" parent="Layout/Margin/TabBar/Manapedia/BestiaryList" unique_id=1287439083]

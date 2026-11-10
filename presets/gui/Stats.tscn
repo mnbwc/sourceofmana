@@ -50,7 +50,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 1
-titleText = "Stats"
+titleText = "属性"
 
 [node name="Scroll" type="ScrollContainer" parent="Layout" unique_id=1393768041]
 layout_mode = 2
@@ -80,7 +80,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(1, 1, 0.866667, 1)
-text = "Test"
+text = "测试"
 
 [node name="Gender" type="TextureRect" parent="Layout/Scroll/Margin/Layout/Stats/Information" unique_id=785173096]
 layout_mode = 2
@@ -94,7 +94,7 @@ size_flags_horizontal = 3
 [node name="Level" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/Information" unique_id=578063057]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0.866667, 1)
-text = "Lvl. 2"
+text = "等级 2"
 horizontal_alignment = 1
 
 [node name="Control2" type="Control" parent="Layout/Scroll/Margin/Layout/Stats/Information" unique_id=685774033]
@@ -126,7 +126,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Strength"
+text = "力量"
 
 [node name="Current" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/StatBox/StrengthBox" unique_id=1338229792]
 layout_mode = 2
@@ -161,7 +161,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Vitality"
+text = "体力"
 
 [node name="Current" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/StatBox/VitalityBox" unique_id=1491674885]
 layout_mode = 2
@@ -196,7 +196,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Agility"
+text = "敏捷"
 
 [node name="Current" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/StatBox/AgilityBox" unique_id=1494958386]
 layout_mode = 2
@@ -231,7 +231,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Endurance"
+text = "耐力"
 
 [node name="Current" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/StatBox/EnduranceBox" unique_id=1854145065]
 layout_mode = 2
@@ -266,7 +266,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Concentration"
+text = "专注"
 
 [node name="Current" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/StatBox/ConcentrationBox" unique_id=1093368796]
 layout_mode = 2
@@ -305,7 +305,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Available points"
+text = "可用点数"
 
 [node name="Value" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/StatBox/AvailablePointsBox" unique_id=469370077]
 layout_mode = 2
@@ -318,7 +318,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Reset"
+text = "重置"
 
 [node name="Spacer" type="Control" parent="Layout/Scroll/Margin/Layout/Stats/StatBox/AvailablePointsBox" unique_id=1111281695]
 layout_mode = 2
@@ -328,7 +328,7 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Save"
+text = "保存"
 
 [node name="HSeparator" type="HSeparator" parent="Layout/Scroll/Margin/Layout/Stats" unique_id=61609109]
 layout_mode = 2
@@ -347,7 +347,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/ExperienceBox" unique_id=745624693]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Experience"
+text = "经验"
 
 [node name="ProgressBar" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/ExperienceBox" unique_id=1801997528 instance=ExtResource("3_kjg3f")]
 layout_mode = 2
@@ -360,7 +360,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/HealthBox" unique_id=1669932858]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Health"
+text = "生命"
 
 [node name="ProgressBar" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/HealthBox" unique_id=2046759406 instance=ExtResource("3_kjg3f")]
 layout_mode = 2
@@ -374,7 +374,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/ManaBox" unique_id=1724439168]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Mana"
+text = "法力"
 
 [node name="ProgressBar" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/ManaBox" unique_id=617359452 instance=ExtResource("3_kjg3f")]
 layout_mode = 2
@@ -388,7 +388,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/StaminaBox" unique_id=640182376]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Stamina"
+text = "耐力值"
 
 [node name="ProgressBar" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/StaminaBox" unique_id=754648958 instance=ExtResource("3_kjg3f")]
 layout_mode = 2
@@ -402,7 +402,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/WeightBox" unique_id=372313290]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Weight"
+text = "负重"
 
 [node name="ProgressBar" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/WeightBox" unique_id=1645824016 instance=ExtResource("3_kjg3f")]
 layout_mode = 2
@@ -416,7 +416,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/GPBox" unique_id=658686980]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Money"
+text = "金币"
 
 [node name="Value" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/ActiveStatsBox/GPBox" unique_id=956398831]
 layout_mode = 2
@@ -440,7 +440,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/AtkBox" unique_id=996213641]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Attack"
+text = "攻击"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/AtkBox" unique_id=557657845]
 layout_mode = 2
@@ -456,7 +456,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/DefBox" unique_id=968774066]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Defense"
+text = "防御"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/DefBox" unique_id=1760337933]
 layout_mode = 2
@@ -472,7 +472,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/MAtkBox" unique_id=663846801]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "M. Attack"
+text = "魔法攻击"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/MAtkBox" unique_id=1328255112]
 layout_mode = 2
@@ -488,7 +488,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/MDefBox" unique_id=714122601]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "M. Defense"
+text = "魔法防御"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/MDefBox" unique_id=492017037]
 layout_mode = 2
@@ -504,7 +504,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/AtkRangeBox" unique_id=541949597]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Attack Range"
+text = "攻击范围"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/AtkRangeBox" unique_id=1781953864]
 layout_mode = 2
@@ -520,7 +520,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/CastDelayBox" unique_id=1685555095]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Cast Delay"
+text = "施法延迟"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/CastDelayBox" unique_id=517645900]
 layout_mode = 2
@@ -536,7 +536,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/CooldownDelayBox" unique_id=686724756]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Cooldown Delay"
+text = "冷却延迟"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/CooldownDelayBox" unique_id=849023670]
 layout_mode = 2
@@ -552,7 +552,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/CritRateBox" unique_id=244062382]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Crit Rate"
+text = "暴击率"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/CritRateBox" unique_id=632925413]
 layout_mode = 2
@@ -568,7 +568,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/DodgeRateBox" unique_id=1457468721]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Dodge Rate"
+text = "闪避率"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/DodgeRateBox" unique_id=524703946]
 layout_mode = 2
@@ -584,7 +584,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/AccuracyBox" unique_id=1900000002]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Accuracy"
+text = "命中"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/AccuracyBox" unique_id=1900000003]
 layout_mode = 2
@@ -600,7 +600,7 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/WalkBox" unique_id=524157223]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Walk Speed"
+text = "移动速度"
 
 [node name="Value" type="RichTextLabel" parent="Layout/Scroll/Margin/Layout/Stats/PreciseStats/AdvancedStatsBox/WalkBox" unique_id=1862930236]
 layout_mode = 2

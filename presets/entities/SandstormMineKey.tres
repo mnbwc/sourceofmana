@@ -11,7 +11,7 @@
 script = ExtResource("3_ts2iq")
 _parent = ExtResource("2_g3bif")
 _id = 3478975634
-_name = "SandstormMineKey"
+_name = "沙暴矿井钥匙"
 _spritePreset = ExtResource("spr_QuestHighlight")
 _radius = 10
 _stats = {}

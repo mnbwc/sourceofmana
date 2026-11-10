@@ -12,7 +12,7 @@
 script = ExtResource("2_7qgir")
 _parent = ExtResource("2_ty53i")
 _id = 3314548081
-_name = "Splatyna"
+_name = "斯普拉蒂娜"
 _spritePreset = ExtResource("spr_Splatyna")
 _radius = 26
 _stats = {

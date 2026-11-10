@@ -16,11 +16,11 @@ func OnStart():
 
 func AskChoice():
 	if HasItem(dorianKeyID) and HasItem(gabrielKeyID) and HasItem(marvinKeyID):
-		Mes("You notice three different key locks, what would you like to do?")
-		Choice("Open them", TryOpen)
-		Choice("Leave")
+		Mes("你注意到三把不同的钥匙锁，你想怎么做？")
+		Choice(tr("Open them"), TryOpen)
+		Choice("离开")
 	else:
-		Chat("You need three different keys to unlock this passage.")
+		Chat("你需要三把不同的钥匙来解锁这个通道。")
 
 func TryOpen():
 	# Check and remove items to open the chest
@@ -32,7 +32,7 @@ func TryOpen():
 			Warp(mapID, mapPosition)
 			Close()
 		else:
-			Chat("You need three different keys to unlock this passage.")
+			Chat("你需要三把不同的钥匙来解锁这个通道。")
 
 func Inactive():
-	Chat("Three locks are blocking this passage.")
+	Chat("三把锁挡住了这个通道。")

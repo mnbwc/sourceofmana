@@ -12,7 +12,7 @@
 [resource]
 script = ExtResource("2_5m01e")
 _id = 3003932433
-_name = "Fluffy"
+_name = "毛绒绒"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 16
 _stats = {

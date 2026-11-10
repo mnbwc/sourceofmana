@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("2_xb367")
 _id = 2089573209
-_name = "Ship"
+_name = "船"
 _spritePreset = ExtResource("spr_Ship")
 _radius = 16
 _stats = {

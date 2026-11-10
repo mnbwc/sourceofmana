@@ -12,7 +12,7 @@
 [resource]
 script = ExtResource("7_cqth5")
 _id = 608165177
-_name = "Manayir Druidess"
+_name = "玛纳伊尔女德鲁伊"
 _spritePreset = ExtResource("spr_Player")
 _radius = 20
 _stats = {

@@ -14,14 +14,14 @@ func OnStart():
 
 # Quest states
 func OnInactive():
-	Mes("My water is all gone! I don't know how I will get back to Tulimshar now.")
-	Mes("A few days ago I decided to confront the desert and explore this area.")
-	Mes("The cave here has an underground pond of very fresh and pure water.")
-	Mes("People used to come here to collect water, but a few years ago the place became infested with snakes.")
-	Mes("I thought I could fight the snakes back, but I did not expect to find this many!")
-	Mes("I tried to reach the pond but the snakes keep attacking and I spill all the water that I collect.")
-	Mes("Do you think you could give it a try? I am so tired. I will need at least one full jug to journey back to the city.")
-	Mes("These are not venomous snakes, but they are aggressive and there are so many...")
+	Mes("我的水全没了！我不知道现在怎么回图利姆沙。")
+	Mes("几天前我决定直面沙漠，探索这片区域。")
+	Mes("这里的洞穴有一个地下池塘，水非常清新纯净。")
+	Mes("人们过去常来这里取水，但几年前这里开始到处都是蛇。")
+	Mes("我以为我能击退那些蛇，但没想到有这么多！")
+	Mes("我想靠近池塘，但蛇不断攻击我，我把收集的水全洒了。")
+	Mes("你愿意试试吗？我太累了。我至少需要一满壶水才能回到城里。")
+	Mes("这些不是毒蛇，但它们很有攻击性，而且太多了……")
 	Choice("I can give it a try.", OnAccept)
 	Choice("Not today.", OnDecline)
 
@@ -33,36 +33,36 @@ func OnCheckProgress():
 		OnDeliverWater()
 
 func OnInProgress():
-	Mes("The pond is deep inside the cave. The best way to find it is to get lost, you'll see it eventually.")
-	Mes("Fill my jug if you find it and bring it back here.")
-	Mes("But watch out, you will lose some water along the way if one of those snakes bites you!")
+	Mes("池塘在洞穴深处。找到它的最佳方式就是迷路，你最终会看到的。")
+	Mes("如果你找到了就帮我把壶装满，带回来。")
+	Mes("但小心，如果被那些蛇咬了，你会损失一些水！")
 
 func OnDeliverWater():
 	WaterPondGlobal.StopJugTransport(own)
 	ClearTracker()
-	Mes("You made it! And with the water!")
-	Mes("Here, take this. It's all I have left.")
+	Mes("你成功了！还带着水！")
+	Mes("来，拿这个。这是我仅剩的了。")
 	SetQuest(WaterPondGlobal.QUEST_ID, ProgressCommons.SNAKE_PIT_BITING_THIRST.REWARDS_WITHDREW)
 	AddItem(DB.GetCellHash("Pitaya"), 10)
 	AddExp(50)
 	AddGP(1000)
 	AddKarma(1)
-	Mes("I will go back to Tulimshar now, this area is way too dangerous.")
-	Mes("We will keep relying on the much safer wells inside the city. I guess this water belongs to the snakes now.")
+	Mes("我现在要回图利姆沙，这片区域太危险了。")
+	Mes("我们会继续依靠城内更安全的水井。我想这水现在属于蛇了。")
 
 func OnComplete():
-	Mes("Thank you for getting me that water. Maybe now I can relax a bit and take my time on the way back.")
-	Mes("These days in the desert were my happiest but I think it's time for me to go back to civilization now.")
+	Mes("谢谢你帮我打水。也许现在我可以放松一点，回程不用那么赶了。")
+	Mes("这些在沙漠里的日子是我最快乐的，但我想现在是时候回到文明世界了。")
 
 func OnDecline():
-	Mes("I understand. Come back if you change your mind.")
+	Mes("我理解。改变主意就回来。")
 
 # Transitions
 func OnAccept():
 	SetQuest(WaterPondGlobal.QUEST_ID, ProgressCommons.SNAKE_PIT_BITING_THIRST.STARTED)
-	Mes("Here is the jug. The water source is deep inside the cave.")
-	Mes("Here is an important tip for you: to find it, I remember I first went north then east...")
-	Mes("Then south? Or maybe I went further to the east then north again...")
-	Mes("Truth be told, all I remember are the snakes and their sharp bites. Thankfully this kind doesn't have venom.")
-	Mes("Good luck out there, I'd still recommend for you to not go there all alone.")
-	Mes("If you could find someone else to help, I'm sure it would be easier to fight back the snakes and collect more water.")
+	Mes("给你壶。水源在洞穴深处。")
+	Mes("给你一个重要提示：要找到它，我记得我先往北走再往东……")
+	Mes("然后往南？还是我先往东走得更远再往北……")
+	Mes("说实话，我只记得蛇和它们锋利的咬伤。幸好这种没有毒。")
+	Mes("外面祝你好运，我还是建议你别一个人去。")
+	Mes("如果你能找到别人帮忙，我相信击退蛇并收集更多水会更容易。")

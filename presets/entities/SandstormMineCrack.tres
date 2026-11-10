@@ -10,7 +10,7 @@
 script = ExtResource("3_dsnwk")
 _parent = ExtResource("2_vtp66")
 _id = 817801695
-_name = "DeepLevelCrack"
+_name = "深层裂缝"
 _stats = {}
 _equipment = Array[ExtResource("1_7sdca")]([null, null, null, null, null, null, null, null])
 _behaviour = 9
@@ -19,7 +19,7 @@ _behaviour = 9
 script = ExtResource("3_dsnwk")
 _parent = SubResource("Resource_6o40j")
 _id = 434267405
-_name = "SandstormMineCrack"
+_name = "沙暴矿井裂缝"
 _spritePreset = ExtResource("spr_SandstormMineCrack")
 _radius = 10
 _stats = {}

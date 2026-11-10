@@ -21,38 +21,38 @@ func OnStart():
 			QuestCompleted()
 
 func QuestInactive():
-	Mes("Careful where you step. The cacti are just coming in.")
-	Mes("Sorry, I don't get many visitors. Not since I used to be a counsellor up in the palace.")
-	Mes("Quit a few years back. Too much weight on everyone's shoulders up there, you know?")
-	Mes("Out here it's just me and the dirt. Farming is useful for the city though, so I don't mind it.")
-	Mes("Do you ever run the same scenario over and over in your head and wonder how different things would be if you took a different decision?")
+	Mes("小心脚下。仙人掌刚长出来。")
+	Mes("抱歉，我不常来客人。自从我在宫殿里当顾问以来就没有了。")
+	Mes("几年前辞了。上面每个人的担子都太重了，你知道吗？")
+	Mes("在这里只有我和泥土。不过耕种对城市有用，所以我不介意。")
+	Mes("你有没有在脑子里反复回放同一个场景，想知道如果做了不同的决定，事情会有多不一样？")
 	Choice("What's on your mind?", Lore)
 	Choice("I should get going", Dismiss)
 
 func QuestStarted():
-	Mes("Still at it? Those corridors aren't friendly.")
+	Mes("还在走？那些走廊不太友好。")
 	Choice("Tell me about Ben again", Lore)
 	Choice("Where are the letters?", Directions)
 	Choice("I'm on it", Dismiss)
 
 func QuestEnvelopesFound():
-	Mes("You found them. Good, good.")
-	Mes("Bring the sealed letters to Ben. I just saw him walk into the corridor as soon as you left.")
-	Mes("He has good instincts, or maybe you made noise while focusing on not being seen. Anyway, he'll be in there.")
+	Mes("你找到了。好，好。")
+	Mes("把密封的信件交给本。你刚走我就看见他走进走廊了。")
+	Mes("他直觉很敏锐，或者你专注于不被发现时发出了声音。总之，他会在那里。")
 
 func QuestRewards():
 	if HasItem(heavyEnvelopeID):
-		Mes("You're back. What did he...")
-		Mes("This envelope. It's heavy.")
-		Mes("...")
-		Mes("Gold. He put gold in here. With my name on it.")
-		Mes("When the Queen first stationed us together, we each set aside a share for the other. In case things got bad enough that one of us needed to get out.")
-		Mes("I thought he'd spent this after I left. I would have understood if he did.")
-		Mes("I don't deserve this. It should belong to someone who is a better friend than I managed to be.")
-		Mes("Here. You take it. You've done more for us in one afternoon than we managed in years.")
+		Mes("你回来了。他……")
+		Mes("这个信封。很重。")
+		Mes("……")
+		Mes("金子。他在这里放了金子。上面写着我的名字。")
+		Mes("当女王第一次把我们安排在一起时，我们各自留了一份给对方。以防情况恶化到一个人需要离开。")
+		Mes("我以为我走后他会花掉这些。如果他花了，我能理解。")
+		Mes("我不配拥有这个。它应该属于一个比我更好的人。")
+		Mes("来。你拿着。你一个下午为我们做的比我们几年做的还多。")
 		ExchangeItems([heavyEnvelopeID], [], OnEnvelopeExchanged)
 	else:
-		Mes("Did you find Ben? He's in the western wall corridor.")
+		Mes("你找到本了吗？他在西墙走廊。")
 
 func OnEnvelopeExchanged(result : ActorInventory.ExchangeResult):
 	match result:
@@ -60,54 +60,54 @@ func OnEnvelopeExchanged(result : ActorInventory.ExchangeResult):
 			SetQuest(QUEST_ID, ProgressCommons.TULIMSHAR_OLD_FRIENDSHIP.REWARDS_WITHDREW)
 			AddGP(1000)
 		ActorInventory.ExchangeResult.MISSING_ITEMS:
-			Mes("Wait, where did the envelope go? Bring it back to me.")
+			Mes("等等，信封去哪了？把它带回来给我。")
 
 func QuestCompleted():
-	Mes("Cacti are coming in nicely this year.")
-	Mes("I keep thinking I should walk over there. To the corridor. Not today, but I decided I will.")
-	Mes("He kept those letters. That's something, right?")
+	Mes("今年仙人掌长得不错。")
+	Mes("我一直想着我应该走到那边去。到走廊。不是今天，但我决定我会去。")
+	Mes("他保留了那些信。这多少说明点什么，对吧？")
 
 func Lore():
-	Mes("There was someone I worked with. Ben. Brilliant man. Could fix anything, build anything.")
-	Mes("Quiet, though. He'd rather tear down a wall and rebuild it than explain why it needed fixing.")
-	Mes("Me, I was the one who talked to people. Organized shifts, sorted out disagreements, kept things running.")
-	Mes("We held these walls together for years. Under the Queen, that's no small thing.")
+	Mes("曾经有一个和我一起工作的人。本。聪明人。什么都能修，什么都能建。")
+	Mes("不过小声点。他宁愿把墙拆了重建，也不愿解释为什么要修。")
+	Mes("我，是那个跟人打交道的人。安排班次，解决分歧，维持运转。")
+	Mes("我们多年来共同守护这些城墙。在女王统治下，这不容易。")
 	Choice("What happened?", Conflict)
 	Choice("I should get going", Dismiss)
 
 func Conflict():
-	Mes("The Queen happened. Or kept happening I guess. Always more demands, always her way.")
-	Mes("I started making rules. Procedures for everything. I thought if I could just organize it all, maybe the pressure wouldn't crush us.")
-	Mes("Ben saw it differently. Said I was piling even more pressure on top of what we were already under.")
-	Mes("And he just did things. Decided things. Without telling me, without telling anyone. I'd find out after the fact.")
-	Mes("We were both trying to keep the same walls standing. But somewhere along the way we stopped talking about it and started fighting about it instead.")
-	Mes("I've made too many mistakes to think I was right about everything. But back then, neither of us would bend.")
-	Mes("He told me to leave. And I just did. I'm not proud of how I handled it, but I got out of the way.")
-	Mes("That was years ago. I still think about it more than I should.")
+	Mes("女王的事。或者我猜她一直在发生。总是更多要求，总是按她的方式。")
+	Mes("我开始定规矩。什么事都要走流程。我想如果我能把一切都组织好，也许压力就不会压垮我们。")
+	Mes("本看法不同。他说我在我们已经承受的压力上又加了一层。")
+	Mes("他就自己做事。自己做决定。不告诉我，也不告诉任何人。我总是事后才知道。")
+	Mes("我们都在努力维护同样的城墙。但在某个时候，我们不再讨论它，而是开始为此争吵。")
+	Mes("我犯了太多错误，不敢说我对所有事都是对的。但那时候，我们两个都不肯让步。")
+	Mes("他叫我走。我就走了。我对自己处理方式不自豪，但我让开了。")
+	Mes("那是多年前的事了。我还是比应该更多地想起它。")
 	if GetQuest(QUEST_ID) == ProgressCommons.TULIMSHAR_OLD_FRIENDSHIP.INACTIVE:
 		Choice("Is there anything I can do?", Quest)
 		Choice("I'm sorry to hear that", Dismiss)
 
 func Quest():
-	Mes("Actually... there might be.")
-	Mes("At the far end of the western wall corridor near us, past Ben's patrols, there's a small chamber with a library shelf.")
-	Mes("There's an envelope on that shelf. Letters we wrote each other, back when the Queen had us stationed apart. Before everything went wrong.")
-	Mes("I don't know if it'll change anything. But maybe if he read them again he'd remember we weren't always like this.")
-	Mes("The corridors are patrolled, though. You should stick to the shadows. If you step into the light, the guards will catch you.")
+	Mes("其实……也许有。")
+	Mes("在我们附近西墙走廊的尽头，过了本的巡逻区，有一个小房间，里面有个书架。")
+	Mes("那个架子上有一个信封。我们互相写的信，在女王把我们分开驻扎的时候。在一切出问题之前。")
+	Mes("我不知道这会不会改变什么。但也许如果他再读一遍，他会记得我们并不总是这样的。")
+	Mes("走廊有巡逻。你应该待在阴影里。如果你走进光亮处，守卫会抓住你。")
 	Choice("I'll do it", Accept)
 	Choice("Not now", Decline)
 
 func Directions():
-	Mes("Far end of the western wall corridor to our left, on top of the library shelf.")
-	Mes("And stay out of the light. The guards are on strict orders to escort any unauthorised citizens out.")
+	Mes("西墙走廊的尽头，在我们左边，书架上面。")
+	Mes("还有别待在光亮处。守卫接到严格命令，要把未经许可的市民赶出去。")
 
 func Accept():
 	SetQuest(QUEST_ID, ProgressCommons.TULIMSHAR_OLD_FRIENDSHIP.STARTED)
-	Mes("Thank you, really.")
+	Mes("谢谢，真的。")
 	Directions()
 
 func Decline():
-	Chat("No I understand. It's a lot to ask of a stranger.")
+	Chat("不，我理解。对陌生人要求太多了。")
 
 func Dismiss():
-	Chat("Right. Well, the cacti won't take care of themselves.")
+	Chat("好。嗯，仙人掌不会自己照顾自己。")

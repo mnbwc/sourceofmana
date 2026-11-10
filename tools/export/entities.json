@@ -1,0 +1,2795 @@
+[
+  {
+    "file": "Ally",
+    "id": 0,
+    "name": "",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false
+  },
+  {
+    "file": "Enemy",
+    "id": 0,
+    "name": "",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false
+  },
+  {
+    "file": "NPC",
+    "id": 193464646,
+    "name": "NPC",
+    "radius": 0,
+    "behaviour": 3,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Object",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Turtle",
+    "id": 3562408837,
+    "name": "乌龟",
+    "radius": 10,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 15,
+      "baseExp": 15,
+      "castAttackDelay": 1.0,
+      "cooldownAttackDelay": 1.5,
+      "defense": 35,
+      "level": 10,
+      "maxHealth": 250,
+      "mdefense": 40,
+      "walkSpeed": 30.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "TicTacToeCell",
+    "id": 1060916485,
+    "name": "井字棋格子",
+    "radius": 16,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Elias",
+    "id": 219979635,
+    "name": "伊莱亚斯",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Female",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Warp",
+    "id": 2089709631,
+    "name": "传送",
+    "radius": 16,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Peyote",
+    "id": 3387138907,
+    "name": "佩约特",
+    "radius": 14,
+    "behaviour": 10,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 15,
+      "baseExp": 3,
+      "cooldownAttackDelay": 3.0,
+      "defense": 2,
+      "level": 2,
+      "maxHealth": 70
+    },
+    "drops": [
+      {
+        "item": "Pitaya",
+        "chance": 0.33
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Letter Stash",
+    "id": 3922677720,
+    "name": "信件堆",
+    "radius": 8,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 1,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Light Trigger",
+    "id": 31947249,
+    "name": "光源触发器",
+    "radius": 0,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Kael",
+    "id": 2089277954,
+    "name": "凯尔",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Tanned"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Gabz",
+    "id": 2089134121,
+    "name": "加布兹",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Raijin",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Gabriel",
+    "id": 1184402587,
+    "name": "加百列",
+    "radius": 10,
+    "behaviour": 164,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "baseExp": 10,
+      "level": 5,
+      "walkSpeed": 40.0
+    },
+    "drops": [
+      {
+        "item": "GabrielKey",
+        "chance": 1.0
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Lulea",
+    "id": 228607896,
+    "name": "卢莱亚",
+    "radius": 10,
+    "behaviour": 146,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "level": 1,
+      "walkSpeed": 40.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Slime",
+    "id": 236582911,
+    "name": "史莱姆",
+    "radius": 10,
+    "behaviour": 130,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "level": 1,
+      "walkSpeed": 40.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Gilgames",
+    "id": 2550418766,
+    "name": "吉尔伽美",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Golden Blonde",
+      "hairstyle": "Tapered Nape",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "DesertArmor",
+      "GuardCloudPants",
+      "LeatherBoots",
+      "LeatherGloves",
+      null,
+      "BandanaScarf",
+      "BoneKnife",
+      null
+    ]
+  },
+  {
+    "file": "Goblin",
+    "id": 3045949408,
+    "name": "哥布林",
+    "radius": 8,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 30,
+      "baseExp": 100,
+      "defense": 45,
+      "level": 24,
+      "mattack": 70,
+      "maxHealth": 400,
+      "mdefense": 5,
+      "walkSpeed": 50.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Tulimshar Guard",
+    "id": 3639315857,
+    "name": "图利姆沙守卫",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "WalkingNPC",
+    "stats": {
+      "gender": "Female",
+      "haircolor": "Light Violet",
+      "hairstyle": "Imperial",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "DesertArmor",
+      "GuardCloudPants",
+      "LeatherBoots",
+      null,
+      null,
+      null,
+      "Scimitar",
+      null
+    ]
+  },
+  {
+    "file": "Tulimshar Sbire",
+    "id": 3652872819,
+    "name": "图利姆沙新兵",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "WalkingNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Esperia Blue",
+      "hairstyle": "Pompadour",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "DesertJacket",
+      "GuardCloudPants",
+      "LeatherBoots",
+      null,
+      "DesertGoggles",
+      null,
+      "Gladius",
+      null
+    ]
+  },
+  {
+    "file": "Tulimshar Desert Guard",
+    "id": 3905186616,
+    "name": "图利姆沙沙漠守卫",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "WalkingNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Dark Brown",
+      "hairstyle": "Center Parting",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "DesertArmor",
+      "GuardCloudPants",
+      "LeatherBoots",
+      null,
+      "DesertHood",
+      null,
+      "Scimitar",
+      null
+    ]
+  },
+  {
+    "file": "Tulimshar Desert Sbire",
+    "id": 3918743578,
+    "name": "图利姆沙沙漠新兵",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "WalkingNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Dark Copper",
+      "hairstyle": "Tapered Nape",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "DesertJacket",
+      "GuardCloudPants",
+      "LeatherBoots",
+      null,
+      "Ghutra",
+      null,
+      "Gladius",
+      null
+    ]
+  },
+  {
+    "file": "Emil",
+    "id": 2089075532,
+    "name": "埃米尔",
+    "radius": 10,
+    "behaviour": 146,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "level": 1,
+      "walkSpeed": 40.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Eridu",
+    "id": 220195358,
+    "name": "埃里杜",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Kralog",
+      "skintone": "Fire"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Sema",
+    "id": 2089570059,
+    "name": "塞玛",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Female",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Dorian",
+    "id": 2929114690,
+    "name": "多里安",
+    "radius": 10,
+    "behaviour": 164,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "baseExp": 10,
+      "level": 5,
+      "walkSpeed": 40.0
+    },
+    "drops": [
+      {
+        "item": "DorianKey",
+        "chance": 1.0
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Nina",
+    "id": 2089394763,
+    "name": "妮娜",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Female",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Andi",
+    "id": 2088932705,
+    "name": "安迪",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Chest",
+    "id": 217460284,
+    "name": "宝箱",
+    "radius": 26,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Pinkie",
+    "id": 3391482565,
+    "name": "小粉",
+    "radius": 12,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "level": 1,
+      "walkSpeed": 80.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Spiky Mushroom",
+    "id": 2549154767,
+    "name": "尖刺蘑菇",
+    "radius": 16,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "level": 1,
+      "walkSpeed": 80.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Nicolas",
+    "id": 1948908174,
+    "name": "尼古拉斯",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Kralog",
+      "skintone": "Fire"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Nickos",
+    "id": 3312816684,
+    "name": "尼科斯",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Giant Maggot",
+    "id": 2624609623,
+    "name": "巨型蛆",
+    "radius": 25,
+    "behaviour": 98,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 54,
+      "baseExp": 35,
+      "castAttackDelay": 1.1,
+      "cooldownAttackDelay": 1.2,
+      "defense": 20,
+      "level": 15,
+      "maxHealth": 370,
+      "walkSpeed": 50.0
+    },
+    "drops": [
+      {
+        "item": "MaggotSlime",
+        "chance": 0.6
+      }
+    ],
+    "spawns": [
+      {
+        "entity": "Maggot",
+        "count": 4
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Pachua",
+    "id": 3381597015,
+    "name": "帕丘亚",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Tanned"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Frost",
+    "id": 221388307,
+    "name": "弗罗斯特",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Light Violet",
+      "hairstyle": "Side Strand",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "sub:shirt_salamander",
+      "CloudPants",
+      "LeatherBoots",
+      null,
+      "sub:ghutra_sand",
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Bandit",
+    "id": 2834092087,
+    "name": "强盗",
+    "radius": 10,
+    "behaviour": 130,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 55,
+      "baseExp": 80,
+      "defense": 10,
+      "dodgeRate": 0.28,
+      "level": 25,
+      "maxHealth": 380,
+      "mdefense": 5,
+      "walkSpeed": 120.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Peter",
+    "id": 232785317,
+    "name": "彼得",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Xakelbael",
+    "id": 2715760142,
+    "name": "扎克贝尔",
+    "radius": 20,
+    "behaviour": 4,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 255,
+    "isBoss": true,
+    "stats": {
+      "baseExp": 50,
+      "defense": 0,
+      "gender": "Male",
+      "level": 20,
+      "maxHealth": 250,
+      "race": "Raijin",
+      "skintone": "Dark",
+      "vitality": 5
+    },
+    "skills": [
+      {
+        "skill": "Flar",
+        "probability": 0.3
+      },
+      {
+        "skill": "SonicWave",
+        "probability": 0.3
+      },
+      {
+        "skill": "Spitfire",
+        "probability": 0.3
+      },
+      {
+        "skill": "Jump",
+        "probability": 0.2
+      },
+      {
+        "skill": "Melee",
+        "probability": 0.0
+      }
+    ],
+    "equipment": [
+      "DruidRobe",
+      "LeatherPants",
+      "DesertBoots",
+      null,
+      "DruidHood",
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Drain Slime",
+    "id": 2469123693,
+    "name": "排水史莱姆",
+    "radius": 10,
+    "behaviour": 130,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "level": 1,
+      "walkSpeed": 70.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Splatyna",
+    "id": 3314548081,
+    "name": "斯普拉蒂娜",
+    "radius": 26,
+    "behaviour": 100,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": true,
+    "parent": "Slime",
+    "stats": {
+      "baseExp": 20,
+      "level": 10,
+      "walkSpeed": 50.0
+    },
+    "spawns": [
+      {
+        "entity": "Lilah",
+        "count": 3
+      },
+      {
+        "entity": "Lulea",
+        "count": 3
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Old Chest",
+    "id": 4054136443,
+    "name": "旧宝箱",
+    "radius": 26,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Chest",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Minguer",
+    "id": 670207772,
+    "name": "明格尔",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Dark Brown",
+      "hairstyle": "Center Parting",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      "TankTop",
+      "LinenShorts",
+      "DesertBoots",
+      null,
+      null,
+      "BandanaScarf",
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Ben",
+    "id": 193452314,
+    "name": "本",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Dark Brown",
+      "hairstyle": "Tapered Nape",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      "DesertArmor",
+      "GuardCloudPants",
+      "LeatherBoots",
+      "LeatherGloves",
+      null,
+      null,
+      "BoneKnife",
+      null
+    ]
+  },
+  {
+    "file": "Bicies",
+    "id": 2843189460,
+    "name": "比西斯",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "WalkingNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Dark Brown",
+      "hairstyle": "Center Parting",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "VNeckTee",
+      "Trousers",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Fluffy",
+    "id": 3003932433,
+    "name": "毛绒绒",
+    "radius": 16,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "level": 1,
+      "walkSpeed": 50.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Mauro",
+    "id": 229085321,
+    "name": "毛罗",
+    "radius": 0,
+    "behaviour": 8,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Twisted Teal",
+      "hairstyle": "Choppy",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "TankTop",
+      "CloudPants",
+      "LeatherBoots",
+      "LeatherGloves",
+      null,
+      "BandanaScarf",
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Well",
+    "id": 2089713785,
+    "name": "水井",
+    "radius": 32,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "SandstormMineCrack",
+    "id": 434267405,
+    "name": "沙暴矿井裂缝",
+    "radius": 10,
+    "behaviour": 8,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "sub:Resource_6o40j",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "SandstormMineKey",
+    "id": 3478975634,
+    "name": "沙暴矿井钥匙",
+    "radius": 10,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Sand Snake",
+    "id": 2399925469,
+    "name": "沙蛇",
+    "radius": 16,
+    "behaviour": 4,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 85,
+      "baseExp": 60,
+      "castAttackDelay": 0.35,
+      "cooldownAttackDelay": 0.3,
+      "defense": 5,
+      "dodgeRate": 0.22,
+      "level": 19,
+      "maxHealth": 200,
+      "walkSpeed": 120.0
+    },
+    "drops": [
+      {
+        "item": "SnakeSkin",
+        "chance": 0.05
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Hyland",
+    "id": 3097291557,
+    "name": "海兰",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Sea Slime",
+    "id": 1744780248,
+    "name": "海史莱姆",
+    "radius": 10,
+    "behaviour": 130,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "attack": 20,
+      "baseExp": 13,
+      "castAttackDelay": 1.0,
+      "cooldownAttackDelay": 1.5,
+      "defense": 15,
+      "level": 6,
+      "maxHealth": 200,
+      "mdefense": 2,
+      "walkSpeed": 40.0
+    },
+    "drops": [
+      {
+        "item": "Salt",
+        "chance": 0.33
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Sludge Slime",
+    "id": 2450367875,
+    "name": "淤泥史莱姆",
+    "radius": 10,
+    "behaviour": 130,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "level": 1,
+      "walkSpeed": 50.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Fire Goblin",
+    "id": 1836204198,
+    "name": "火焰哥布林",
+    "radius": 16,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 15,
+      "baseExp": 15,
+      "defense": 20,
+      "level": 8,
+      "mattack": 15,
+      "maxHealth": 75,
+      "mdefense": 20,
+      "walkSpeed": 80.0
+    },
+    "drops": [
+      {
+        "item": "SulphurPowder",
+        "chance": 0.2
+      }
+    ],
+    "skills": [
+      {
+        "skill": "Spitfire",
+        "probability": 2.0
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Fire Skull",
+    "id": 4234567318,
+    "name": "火焰骷髅",
+    "radius": 12,
+    "behaviour": 4,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "baseExp": 20,
+      "level": 10,
+      "walkSpeed": 50.0
+    },
+    "skills": [
+      {
+        "skill": "Flar",
+        "probability": 1.0
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Soul Menhir",
+    "id": 737772331,
+    "name": "灵魂巨石",
+    "radius": 32,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Object",
+    "id": 3343895260,
+    "name": "物体",
+    "radius": 16,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Lynx",
+    "id": 2089340336,
+    "name": "猞猁",
+    "radius": 24,
+    "behaviour": 4,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 40,
+      "baseExp": 55,
+      "cooldownAttackDelay": 1.5,
+      "defense": 15,
+      "dodgeRate": 0.22,
+      "level": 21,
+      "mattack": 60,
+      "maxHealth": 250,
+      "mdefense": 25,
+      "walkSpeed": 160.0
+    },
+    "skills": [
+      {
+        "skill": "SonicWave",
+        "probability": 10.0
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Neko",
+    "id": 2089390322,
+    "name": "猫",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Dark Brown",
+      "hairstyle": "Tapered Nape",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      "LeatherShirt",
+      "LeatherPants",
+      "LeatherBoots",
+      "LeatherGloves",
+      null,
+      null,
+      "Gladius",
+      null
+    ]
+  },
+  {
+    "file": "ManayirDruidess",
+    "id": 608165177,
+    "name": "玛纳伊尔女德鲁伊",
+    "radius": 20,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 255,
+    "isBoss": false,
+    "stats": {
+      "gender": "Female",
+      "race": "Raijin",
+      "skintone": "Light"
+    },
+    "equipment": [
+      "DruidRobe",
+      "LeatherPants",
+      "DesertBoots",
+      null,
+      "DruidHood",
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "ManayirDruid",
+    "id": 999510798,
+    "name": "玛纳伊尔德鲁伊",
+    "radius": 20,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 255,
+    "isBoss": false,
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Tanned"
+    },
+    "equipment": [
+      "DruidRobe",
+      "LeatherPants",
+      "DesertBoots",
+      null,
+      "DruidHood",
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Player",
+    "id": 3394588274,
+    "name": "玩家",
+    "radius": 10,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "level": 1,
+      "walkSpeed": 160.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Ryan",
+    "id": 2089555519,
+    "name": "瑞安",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Shiro",
+    "id": 236439338,
+    "name": "白",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Dark Brown",
+      "hairstyle": "Tapered Nape",
+      "race": "Human",
+      "skintone": "Dark"
+    },
+    "equipment": [
+      "DesertJacket",
+      "Trousers",
+      "DesertBoots",
+      null,
+      "Ghutra",
+      "BandanaScarf",
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Piou",
+    "id": 2089466690,
+    "name": "皮乌",
+    "radius": 8,
+    "behaviour": 258,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 5,
+      "baseExp": 1,
+      "defense": 1,
+      "level": 1,
+      "maxHealth": 30,
+      "walkSpeed": 30.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Salt Slime",
+    "id": 2250973363,
+    "name": "盐史莱姆",
+    "radius": 10,
+    "behaviour": 130,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "level": 1,
+      "walkSpeed": 40.0
+    },
+    "drops": [
+      {
+        "item": "Apple",
+        "chance": 0.7
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Thiefs Chest",
+    "id": 970294591,
+    "name": "盗贼宝箱",
+    "radius": 26,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 32,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Chest",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Red Queen",
+    "id": 3662818686,
+    "name": "红女王",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Female",
+      "haircolor": "Pure Platinum",
+      "hairstyle": "Long and Curly",
+      "race": "Kralog",
+      "skintone": "Fire"
+    },
+    "equipment": [
+      "Gown",
+      "GuardCloudPants",
+      "DaimBoots",
+      "GoldBracelets",
+      "TonoriCrown",
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Red Scorpion",
+    "id": 825312237,
+    "name": "红蝎",
+    "radius": 0,
+    "behaviour": 4,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Scorpion",
+    "stats": {
+      "attack": 55,
+      "baseExp": 30,
+      "defense": 5,
+      "level": 15,
+      "maxHealth": 500,
+      "mdefense": 5
+    },
+    "skills": [
+      {
+        "skill": "Poison",
+        "probability": 0.25
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Naem",
+    "id": 2089385766,
+    "name": "纳姆",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Nard",
+    "id": 2089386186,
+    "name": "纳德",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "haircolor": "Navy Blue",
+      "hairstyle": "Mane",
+      "race": "Human",
+      "skintone": "Tanned"
+    },
+    "equipment": [
+      "sub:tanktop_salamander",
+      "CloudPants",
+      "sub:boots_sand",
+      "SilverBracelets",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Wie",
+    "id": 193475306,
+    "name": "维",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Female",
+      "race": "Raijin",
+      "skintone": "Light"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Ship",
+    "id": 2089573209,
+    "name": "船",
+    "radius": 16,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 0.0,
+      "defense": 0.0,
+      "walkSpeed": 20.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Ekinu",
+    "id": 219944129,
+    "name": "艾基努",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Human",
+      "skintone": "Tanned"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Elanore",
+    "id": 3325600555,
+    "name": "艾拉诺",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Female",
+      "race": "Human",
+      "skintone": "Tanned"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Lilah",
+    "id": 228176527,
+    "name": "莉拉",
+    "radius": 10,
+    "behaviour": 146,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "level": 1,
+      "walkSpeed": 40.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Lizandre",
+    "id": 1435506622,
+    "name": "莉赞德",
+    "radius": 16,
+    "behaviour": 18,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 55,
+      "baseExp": 25,
+      "cooldownAttackDelay": 1.5,
+      "defense": 8,
+      "level": 12,
+      "maxHealth": 220,
+      "walkSpeed": 130.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Lizandra",
+    "id": 1435506618,
+    "name": "莉赞德拉",
+    "radius": 16,
+    "behaviour": 36,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 65,
+      "baseExp": 40,
+      "defense": 15,
+      "level": 14,
+      "maxHealth": 300,
+      "walkSpeed": 130.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Sawyl",
+    "id": 236203253,
+    "name": "萨威尔",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Female",
+      "race": "Human",
+      "skintone": "Medium"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Maggot",
+    "id": 3264333316,
+    "name": "蛆",
+    "radius": 10,
+    "behaviour": 258,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 10,
+      "baseExp": 1,
+      "defense": 1,
+      "level": 1,
+      "maxHealth": 50,
+      "walkSpeed": 50.0
+    },
+    "drops": [
+      {
+        "item": "MaggotSlime",
+        "chance": 0.6
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Snake",
+    "id": 236646007,
+    "name": "蛇",
+    "radius": 16,
+    "behaviour": 4,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 40,
+      "baseExp": 40,
+      "castAttackDelay": 0.1,
+      "cooldownAttackDelay": 0.6,
+      "critRate": 0.0,
+      "defense": 5,
+      "dodgeRate": 0.0,
+      "level": 17,
+      "maxHealth": 150,
+      "walkSpeed": 140.0
+    },
+    "drops": [
+      {
+        "item": "SnakeSkin",
+        "chance": 0.1
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Snake Pit Pond",
+    "id": 1190851605,
+    "name": "蛇坑池塘",
+    "radius": 20,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 1,
+    "questStateMax": 1,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Snake Pit Clue",
+    "id": 1190381389,
+    "name": "蛇坑线索",
+    "radius": 8,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 31,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Scorpion",
+    "id": 3842739378,
+    "name": "蝎子",
+    "radius": 18,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 22,
+      "baseExp": 8,
+      "defense": 0,
+      "level": 4,
+      "maxHealth": 200,
+      "walkSpeed": 60.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Bat",
+    "id": 193452188,
+    "name": "蝙蝠",
+    "radius": 12,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 10,
+      "baseExp": 6,
+      "castAttackDelay": 0.4,
+      "cooldownAttackDelay": 0.3,
+      "defense": 2,
+      "dodgeRate": 0.5,
+      "level": 3,
+      "mattack": 8,
+      "maxHealth": 90,
+      "walkSpeed": 120.0
+    },
+    "skills": [
+      {
+        "skill": "SonicScream",
+        "probability": 1.0
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "WalkingNPC",
+    "id": 2377595219,
+    "name": "行走NPC",
+    "radius": 0,
+    "behaviour": 1,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "NPC",
+    "stats": {
+      "walkSpeed": 160.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Evil Mushroom",
+    "id": 2866154511,
+    "name": "邪恶蘑菇",
+    "radius": 16,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "level": 1,
+      "walkSpeed": 80.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Riskim",
+    "id": 3469933044,
+    "name": "里斯基姆",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Raijin",
+      "skintone": "Light"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Locks",
+    "id": 228382689,
+    "name": "锁",
+    "radius": 26,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "StaticNPC",
+    "id": 89439950,
+    "name": "静态NPC",
+    "radius": 0,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "NPC",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "StaticObject",
+    "id": 1629942628,
+    "name": "静态物体",
+    "radius": 0,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Object",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Flour Barrel",
+    "id": 1902637957,
+    "name": "面粉桶",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 1,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticObject",
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Maclat",
+    "id": 3264194551,
+    "name": "马克拉特",
+    "radius": 0,
+    "behaviour": 0,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "StaticNPC",
+    "stats": {
+      "gender": "Male",
+      "race": "Kralog",
+      "skintone": "Fire"
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Marvin",
+    "id": 3264744754,
+    "name": "马文",
+    "radius": 10,
+    "behaviour": 228,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "parent": "Slime",
+    "stats": {
+      "baseExp": 10,
+      "level": 5,
+      "walkSpeed": 40.0
+    },
+    "drops": [
+      {
+        "item": "MarvinKey",
+        "chance": 1.0
+      }
+    ],
+    "spawns": [
+      {
+        "entity": "Lilah",
+        "count": 2
+      }
+    ],
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Skeleton",
+    "id": 890728458,
+    "name": "骷髅",
+    "radius": 10,
+    "behaviour": 4,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "baseExp": 45,
+      "defense": 0,
+      "level": 20,
+      "maxHealth": 300,
+      "mdefense": 35,
+      "walkSpeed": 100.0
+    },
+    "drops": [
+      {
+        "item": "Bone",
+        "chance": 0.33
+      }
+    ],
+    "equipment": [
+      "LeatherShirt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "BoneKnife",
+      "DesertShield"
+    ]
+  },
+  {
+    "file": "Mana Tree",
+    "id": 2025440114,
+    "name": "魔力树",
+    "radius": 16,
+    "behaviour": 9,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {},
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Croc",
+    "id": 2089009292,
+    "name": "鳄鱼",
+    "radius": 10,
+    "behaviour": 260,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 8,
+      "baseExp": 10,
+      "castAttackDelay": 0.4,
+      "cooldownAttackDelay": 0.5,
+      "defense": 40,
+      "dodgeRate": 0.2,
+      "level": 5,
+      "maxHealth": 55,
+      "walkSpeed": 90.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Bird",
+    "id": 2088963654,
+    "name": "鸟",
+    "radius": 20,
+    "behaviour": 130,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 35,
+      "baseExp": 110,
+      "castAttackDelay": 0.25,
+      "cooldownAttackDelay": 0.2,
+      "defense": 15,
+      "dodgeRate": 0.28,
+      "level": 27,
+      "maxHealth": 220,
+      "walkSpeed": 200.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  {
+    "file": "Ratto",
+    "id": 235013903,
+    "name": "鼠",
+    "radius": 10,
+    "behaviour": 258,
+    "questID": 0,
+    "questState": 0,
+    "questStateMax": 0,
+    "isBoss": false,
+    "stats": {
+      "attack": 10,
+      "baseExp": 10,
+      "castAttackDelay": 0.3,
+      "cooldownAttackDelay": 0.25,
+      "defense": 2,
+      "dodgeRate": 0.33,
+      "level": 5,
+      "maxHealth": 85,
+      "walkSpeed": 150.0
+    },
+    "equipment": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  }
+]

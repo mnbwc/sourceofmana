@@ -10,7 +10,7 @@ func JoinPvP(player : PlayerAgent) -> int:
 		var game : Dictionary = _CreateGame(waitingPlayer, player)
 		games[waitingPlayer.get_rid().get_id()] = game
 		games[player.get_rid().get_id()] = game
-		NpcCommons.PushNotification(waitingPlayer, "An opponent has arrived! Talk to %s." % npc.nick)
+		NpcCommons.PushNotification(waitingPlayer, "对手已到达！与 %s 对话。" % npc.nick)
 		waitingPlayer = null
 		return 1
 	waitingPlayer = player
@@ -72,7 +72,7 @@ func LeavePvP(player : PlayerAgent):
 				game["p2Busted"] = true
 			_ResolveGame(game)
 			if opponent and is_instance_valid(opponent):
-				NpcCommons.PushNotification(opponent, "Your opponent left. You win!")
+				NpcCommons.PushNotification(opponent, "你的对手离开了。你赢了！")
 		_ClearGameCallbacks(game)
 		games.erase(rid)
 

@@ -10,7 +10,7 @@
 script = ExtResource("2_pyd2m")
 _parent = ExtResource("2_b0nde")
 _id = 1190381389
-_name = "Snake Pit Clue"
+_name = "蛇坑线索"
 _radius = 8
 _stats = {}
 _equipment = Array[ExtResource("1_mtoxs")]([null, null, null, null, null, null, null, null])

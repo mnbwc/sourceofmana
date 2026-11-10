@@ -2,9 +2,9 @@ extends NpcScript
 
 #
 func OnStart():
-	Mes("Being stationed in this inner wall section is the best thing you could expect.")
-	Mes("I can stay in the shade all day and rest while other guards keep the wildlife outside our walls.")
-	Mes("All I have to do is to prevent people from bothering our queen while she works on her garden.")
+	Mes("被分配到内墙区域是最好的差事了。")
+	Mes("我可以整天待在阴凉处休息，而其他守卫负责把野生动物挡在城墙外。")
+	Mes("我要做的就是防止人们打扰我们女王照料花园。")
 	OnMainChoice()
 
 # Main choice loop
@@ -16,20 +16,20 @@ func OnMainChoice():
 
 # Answers
 func OnCastle():
-	Mes("That's the Red Queen's castle.")
-	Mes("You can request an audience to Her Majesty if you have something important to say but I wouldn't recommend to distract her from her gardens.")
-	Mes("You can also find the second largest library from the continent, it almost matches the number of books from the Manayir tower!")
+	Mes("那是红女王的城堡。")
+	Mes("如果你有重要的事要说，可以请求觐见女王陛下，但我建议不要打扰她的花园。")
+	Mes("你还可以找到大陆上第二大的图书馆，它的藏书量几乎与玛纳伊尔塔楼相当！")
 	OnMainChoice()
 
 func OnWest():
-	Mes("ARGH.")
-	Mes("...Sorry. That region just irritates me.")
-	Mes("It's dangerous. Lots of snakes, and that's the friendly part. Some native people live out there too, I don't want to deal with them, I heard they eat raw birds and dance with their feathers.")
-	Mes("Stick to the paths if you have to go. Better yet, don't.")
+	Mes("啊——！")
+	Mes("……抱歉。那个地方让我很不爽。")
+	Mes("很危险。很多蛇，这还是友好的部分。有些土著人住在外面，我不想跟他们打交道，我听说他们吃生鸟，戴着羽毛跳舞。")
+	Mes("如果非去不可，沿着路走。最好还是别去。")
 	OnMainChoice()
 
 func OnSouth():
-	Mes("You can find our old cactus fields and habitation outside these walls, they are completely uninhabited.")
-	Mes("The sandstorm ate all of it and forced us to barricade ourselves at the end of the valley.")
-	Mes("That's not ideal as that sandstorm keeps getting bigger year after year.")
+	Mes("你可以在城墙外找到我们旧的仙人掌田和居住区，完全没有人居住。")
+	Mes("沙暴吞没了一切，迫使我们在山谷尽头筑起路障自守。")
+	Mes("这不太理想，因为那场沙暴一年比一年大。")
 	OnMainChoice()

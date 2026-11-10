@@ -120,7 +120,7 @@ func DisplayPlayerMenu(nick : String):
 	playerMenu.clear()
 	playerMenu.add_item("Whisper", UICommons.PlayerMenu.WHISPER)
 	if not tradePanel.IsTrading():
-		playerMenu.add_item("Trade", UICommons.PlayerMenu.TRADE)
+		playerMenu.add_item("交易", UICommons.PlayerMenu.TRADE)
 	playerMenu.position = Vector2i(get_viewport().get_mouse_position())
 	playerMenu.popup()
 
@@ -137,29 +137,38 @@ func OpenDiscord():
 
 func DisplayFirstLogin():
 	if LauncherCommons.isWeb:
-		UICommons.MessageBox("""Welcome to Source of Mana!
+		UICommons.MessageBox("""%s
 
-You're currently playing the web version, which may run slower and isn't as stable as the downloadable versions.
+%s
 
-This version is mainly here to showcase the game.
-For the best experience, we recommend using the native client found on our itch.io page (Available on Windows, Linux, macOS, and Android).
-""",
-			settingsWindow.set_sessionfirstlogin.bind(false), "OK",
-			OpenDiscord, "Join our Discord")
+%s
+%s""" % [
+			tr("Welcome to Source of Mana!"),
+			tr("You're currently playing the web version, which may run slower and isn't as stable as the downloadable versions."),
+			tr("This version is mainly here to showcase the game."),
+			tr("For the best experience, we recommend using the native client found on our itch.io page (Available on Windows, Linux, macOS, and Android)."),
+		],
+			settingsWindow.set_sessionfirstlogin.bind(false), tr("OK"),
+			OpenDiscord, tr("Join our Discord"))
 	else:
-		UICommons.MessageBox("""Welcome to Source of Mana!
+		UICommons.MessageBox("""%s
 
-This is an open-source MMORPG and still a work in progress. You're welcome to explore, test, and enjoy the current features.
+%s
 
-We're also always looking for contributors!
-If you'd like to get involved in development, design, writing, or testing, feel free to join our community.
-Otherwise, have fun and thank you for playing!
-""",
-			settingsWindow.set_sessionfirstlogin.bind(false), "OK",
-			OpenDiscord, "Join our Discord")
+%s
+%s
+%s""" % [
+			tr("Welcome to Source of Mana!"),
+			tr("This is an open-source MMORPG and still a work in progress. You're welcome to explore, test, and enjoy the current features."),
+			tr("We're also always looking for contributors!"),
+			tr("If you'd like to get involved in development, design, writing, or testing, feel free to join our community."),
+			tr("Otherwise, have fun and thank you for playing!"),
+		],
+			settingsWindow.set_sessionfirstlogin.bind(false), tr("OK"),
+			OpenDiscord, tr("Join our Discord"))
 
 func DisplayDeath():
-	UICommons.MessageBox(DeathMessages.Pick(), Network.TriggerRespawn, "Respawn")
+	UICommons.MessageBox(DeathMessages.Pick(), Network.TriggerRespawn, tr("Respawn"))
 	messageBox.closeCallback = Callable()
 
 #

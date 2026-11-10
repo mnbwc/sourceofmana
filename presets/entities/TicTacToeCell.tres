@@ -12,7 +12,7 @@
 script = ExtResource("3_script")
 _parent = ExtResource("2_parent")
 _id = 1060916485
-_name = "TicTacToeCell"
+_name = "井字棋格子"
 _spritePreset = ExtResource("spr_TicTacToeCell")
 _radius = 16
 _stats = {}

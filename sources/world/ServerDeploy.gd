@@ -13,16 +13,16 @@ var requesterPeerID : int					= NetworkCommons.PeerUnknownID
 #
 func Request(caller : PlayerAgent) -> bool:
 	if Peers.GetPermission(caller.peerID) < ActorCommons.Permission.ADMIN:
-		Network.CommandFeedback("Only admins can deploy", caller.peerID)
+		Network.CommandFeedback("只有管理员可以部署", caller.peerID)
 		return false
 
 	var scriptPath : String = Conf.GetString("Deploy", "Deploy-Script", Conf.Type.CREDENTIAL)
 	if scriptPath.is_empty():
-		Network.CommandFeedback("Deploy-Script is not set in the server's credential.cfg", caller.peerID)
+		Network.CommandFeedback("服务器 credential.cfg 中未设置部署脚本", caller.peerID)
 		return false
 
 	if isRunning or Launcher.World.canary.isShuttingDown:
-		Network.CommandFeedback("A deploy or restart is already in progress", caller.peerID)
+		Network.CommandFeedback("部署或重启已在进行中", caller.peerID)
 		return false
 
 	isRunning = true

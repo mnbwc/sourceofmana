@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("2_band")
 _id = 2834092087
-_name = "Bandit"
+_name = "强盗"
 _spritePreset = ExtResource("3_band")
 _radius = 10
 _stats = {

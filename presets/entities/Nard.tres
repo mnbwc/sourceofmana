@@ -34,7 +34,7 @@ name = "Desert Boots"
 script = ExtResource("2_entity")
 _parent = ExtResource("3_parent")
 _id = 2089386186
-_name = "Nard"
+_name = "纳德"
 _spritePreset = ExtResource("spr_Player")
 _stats = {
 "gender": "Male",

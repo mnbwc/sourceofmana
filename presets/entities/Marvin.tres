@@ -13,7 +13,7 @@
 script = ExtResource("2_vkvo0")
 _parent = ExtResource("4_jsxmo")
 _id = 3264744754
-_name = "Marvin"
+_name = "马文"
 _spritePreset = ExtResource("spr_Slime")
 _radius = 10
 _stats = {

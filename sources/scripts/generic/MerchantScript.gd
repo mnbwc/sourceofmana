@@ -115,8 +115,8 @@ func HasValidPrices() -> bool:
 
 #
 func OnStart():
-	Choice("Trade", OpenShop)
-	Choice("Cancel")
+	Choice("交易", OpenShop)
+	Choice("取消")
 
 func OnQuit():
 	if isShopOpen:

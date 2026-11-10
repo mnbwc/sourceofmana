@@ -6,4 +6,4 @@
 [resource]
 script = ExtResource("1_script")
 texture = ExtResource("tex_tapered-nape")
-_name = "Tapered Nape"
+_name = "削短后颈"

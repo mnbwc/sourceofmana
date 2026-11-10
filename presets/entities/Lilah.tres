@@ -11,7 +11,7 @@
 script = ExtResource("2_1l7jc")
 _parent = ExtResource("3_5jejl")
 _id = 228176527
-_name = "Lilah"
+_name = "莉拉"
 _spritePreset = ExtResource("spr_Slime")
 _radius = 10
 _stats = {

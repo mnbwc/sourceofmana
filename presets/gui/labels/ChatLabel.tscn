@@ -27,5 +27,5 @@ script = ExtResource("2_chatlabel")
 canvas_item_default_texture_filter = 0
 theme = ExtResource("1_1ynyk")
 item_count = 1
-item_0/text = "Clear"
+item_0/text = "清空"
 item_0/id = 0

@@ -4,11 +4,11 @@ extends NpcScript
 func OnStart():
 	var questState : int = GetQuest(ProgressCommons.Quest.TUTORIAL)
 	if questState >= ProgressCommons.TUTORIAL.EKINU_DONE:
-		Mes("You're the new one Ekinu took on? Good.")
-		Mes("I guess you have many questions before going out, what can I help you with?")
+		Mes("你是埃基努新招的？好。")
+		Mes("我猜你出门前有很多问题，我能帮你什么？")
 		OnTutorialResume()
 	else:
-		Mes("Stand clear of the gate. Move along.")
+		Mes("离城门远点。走开。")
 
 # Common questions
 func OnTutorialResume():
@@ -18,34 +18,34 @@ func OnTutorialResume():
 	Choice("All good!", Farewell)
 
 func Farewell():
-	Chat("Try not to get yourself killed.")
+	Chat("尽量别把自己弄死了。")
 
 # Explanations
 func OnStat():
-	Mes("Completing an objective, fighting or taking part in activities will help you grow. Look around and don't be afraid to talk to people around you nor to explore surrounding areas.")
+	Mes("完成任务、战斗或参与活动都能帮助你成长。四处看看，别害怕和周围的人交谈，也别害怕探索周边区域。")
 	HighlightUI(UICommons.UITarget.STAT)
-	Narrate("When you level up you earn some new attribute points, you can spend them on attributes that match your play style and confirm your choice.")
-	Narrate("Strength increases your physical damage, walk speed and carrying capacity.")
-	Narrate("Agility affects how fast and far you can attack and how well you can dodge an attack.")
-	Narrate("Vitality raises your health pool, regeneration and global defense.")
-	Narrate("Endurance helps your stamina last longer, regenerate faster and lets you land another hit sooner.")
-	Narrate("Concentration feeds your mana and permits you to reach peak performance from your skills.")
+	Narrate("升级时你获得一些新的属性点，可以花在与你玩法匹配的属性上，并确认你的选择。")
+	Narrate("力量增加你的物理伤害、移动速度和负重。")
+	Narrate("敏捷影响你的攻击速度、攻击距离以及闪避能力。")
+	Narrate("体力提升你的生命值上限、再生和全局防御。")
+	Narrate("耐力让你的耐力值更持久、恢复更快，并让你更快再次攻击。")
+	Narrate("专注为你的法力提供养分，让你能发挥技能的最佳效果。")
 	HighlightUI(UICommons.UITarget.STATINDICATOR)
-	Narrate("Keep a look at your vital resources, running into the wild with low health, mana or stamina may not be the wisest choice.")
+	Narrate("注意你的生命资源，在生命、法力或耐力低的时候冲进荒野可能不是最明智的选择。")
 	HighlightUI(UICommons.UITarget.NONE)
-	Mes("You will need every edge you can get to defeat what you will face in the desert.")
+	Mes("你需要在沙漠中面对的一切，能用的优势都要用上。")
 	OnTutorialResume()
 
 func OnMinimap():
-	Mes("Your map is your friend, do not hesitate to use it to know where you have to go.")
+	Mes("地图是你的朋友，不要犹豫用它来知道该去哪。")
 	HighlightUI(UICommons.UITarget.MINIMAP)
-	Narrate("You can pinpoint any location on the map to move toward it in case you are lost.")
+	Narrate("你可以在地图上定位任何位置并向其移动，以防迷路。")
 	HighlightUI(UICommons.UITarget.NONE)
 	OnTutorialResume()
 
 func OnShortcut():
-	Mes("Keep your favorite objects, potions or even skills nearby, they may be useful during the sandstorm.")
+	Mes("把你喜欢的物品、药水甚至技能放在身边，沙暴时可能有用。")
 	HighlightUI(UICommons.UITarget.ACTION_BAR)
-	Narrate("You can drag and drop any usable items, skills or even emotes into the shortcut bar.")
+	Narrate("你可以将任何可用的物品、技能甚至表情拖放到快捷栏。")
 	HighlightUI(UICommons.UITarget.NONE)
 	OnTutorialResume()

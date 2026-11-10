@@ -52,6 +52,6 @@ offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"NotificationBox"
-text = "Loading..."
+text = "加载中..."
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

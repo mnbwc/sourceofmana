@@ -33,7 +33,7 @@ func SetValue(dealer : Entity, target : Entity, value : int, alteration : ActorC
 		ActorCommons.Alteration.DODGE:
 			hue = ActorCommons.DodgeAttackColor
 			bounce = true
-			set_text("dodge")
+			set_text("闪避")
 		ActorCommons.Alteration.HIT:
 			bounce = true
 			hue = ActorCommons.MonsterColor
@@ -46,7 +46,7 @@ func SetValue(dealer : Entity, target : Entity, value : int, alteration : ActorC
 		ActorCommons.Alteration.MISS:
 			bounce = true
 			hue = ActorCommons.MissAttackColor
-			set_text("miss")
+			set_text("未命中")
 		ActorCommons.Alteration.HEAL:
 			bounce = true
 			hue = ActorCommons.HealColor
@@ -55,11 +55,11 @@ func SetValue(dealer : Entity, target : Entity, value : int, alteration : ActorC
 			velocity = Vector2(0.0, 12)
 			floorPosition = -100000.0
 			hue = ActorCommons.ExpColor
-			set_text("%d xp" % value)
+			set_text("%d 经验" % value)
 		ActorCommons.Alteration.GP:
 			velocity = Vector2(0.0, 12)
 			hue = ActorCommons.GPColor
-			set_text("%d GP" % value)
+			set_text("%d 金币" % value)
 		_:
 			assert(false, "Alteration type not handled: " + str(alteration))
 

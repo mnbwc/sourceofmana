@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("2_mtree")
 _id = 2025440114
-_name = "Mana Tree"
+_name = "魔力树"
 _radius = 16
 _stats = {}
 _equipment = Array[ExtResource("1_mtree")]([null, null, null, null, null, null, null, null])

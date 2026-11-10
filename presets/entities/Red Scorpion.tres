@@ -11,7 +11,7 @@
 script = ExtResource("1_r3ds")
 _parent = ExtResource("3_prnt")
 _id = 825312237
-_name = "Red Scorpion"
+_name = "红蝎"
 _stats = {
 "attack": 55,
 "baseExp": 30,

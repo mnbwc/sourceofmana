@@ -5,27 +5,27 @@ const Greetings : PackedStringArray = [
 	"Hello %s!",
 	"Greetings, %s.",
 	"Ah, %s.",
-	"Welcome.",
-	"Salutations.",
+	"欢迎。",
+	"你好。",
 	"Good to see you, %s.",
-	"Ahoy!",
+	"喂！",
 	"Well met, %s.",
-	"Hey there.",
-	"Good day.",
-	"Well met."
+	"嘿，你好。",
+	"日安。",
+	"幸会。"
 ]
 
 static var Farewells : PackedStringArray = [
 	"Goodbye, %s.",
-	"Farewell.",
+	"再见。",
 	"See you later, %s.",
-	"Until next time.",
+	"下次见。",
 	"Safe travels, %s.",
-	"Take care.",
-	"Good journey.",
+	"保重。",
+	"旅途愉快。",
 	"Until we meet again, %s.",
-	"Stay safe.",
-	"Goodbye for now."
+	"注意安全。",
+	"暂时告别了。"
 ]
 
 # Display
@@ -171,10 +171,10 @@ static func SetQuest(caller : BaseAgent, questID : int, state : int):
 			return
 
 		if caller.progress.GetQuest(questID) == ProgressCommons.UnknownProgress:
-			PushNotification(caller, TranslationServer.translate("Quest Started: ") + TranslationServer.translate(questData.name))
+			PushNotification(caller, TranslationServer.translate("任务开始：") + TranslationServer.translate(questData.name))
 		caller.progress.SetQuest(questID, state)
 		if state == ProgressCommons.CompletedProgress:
-			PushNotification(caller, TranslationServer.translate("Quest Completed: ") + TranslationServer.translate(questData.name))
+			PushNotification(caller, TranslationServer.translate("任务完成：") + TranslationServer.translate(questData.name))
 
 static func AddBestiary(caller : BaseAgent, monsterID : int, count : int):
 	if caller is PlayerAgent and caller.progress:

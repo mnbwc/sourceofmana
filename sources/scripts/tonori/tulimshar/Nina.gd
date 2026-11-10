@@ -14,13 +14,13 @@ func OnStart():
 		if questState == ProgressCommons.NINA_HUNGRY.INACTIVE:
 			OnIntro()
 		else:
-			Mes("Hello again.")
+			Mes("又见面了。")
 			OnPlayerChoice()
 
 # Intro
 func OnIntro():
-	Mes("Hello. Elanore sent you? Welcome.")
-	Mes("We are standing before Tulimshar's ancient Soul Menhir. I am its guardian and use its powers to protect the people of this city, or as much as I am allowed to.")
+	Mes("你好。埃拉诺派你来的？欢迎。")
+	Mes("我们站在图利姆沙古老的灵魂巨石前。我是它的守护者，用它的力量保护这座城市的人民，尽我所能。")
 	OnPlayerChoice()
 
 func OnPlayerChoice():
@@ -34,110 +34,110 @@ func OnPlayerChoice():
 
 # Opposition and faith
 func OnExplainOpposition():
-	Mes("Not exactly. Kahwes, or Druids, have always been allowed in Tulimshar. If anything because without us the city would not survive the worst droughts and other perils of Tonori's climate.")
-	Mes("The Kingdom however officially follows the Savean Creed. They believe, like half of the people around you, that Mana is also a corrupting force just like Kaore and that both should be avoided unless strictly necessary.")
-	Mes("Our Menhir still stands because it makes people's lives easier. Even those who have opposing beliefs cannot deny the benefit of Mana use. They will oppose it publicly, but when a personal need arises, they will seek Kahwes like myself to heal a loved one or bring some needed rain.")
-	Mes("I just wish that more people embraced the ancient traditions more openly. The Savean beliefs have brought much trouble to our world. Now they have even spawned these new cultists, the Varunian, who essentially worship Kaore.")
-	Mes("None of this is how the relationship with Mana has been for most of Aemil's existence.")
+	Mes("不完全是。卡韦，或德鲁伊，一直都被允许在图利姆沙。因为没有我们，这座城市就无法挺过最严重的干旱和托诺里气候的其他危险。")
+	Mes("然而，王国官方信奉萨维安教义。他们和你周围一半人一样，认为魔力也是像卡厄一样的腐蚀力量，两者都应避免，除非绝对必要。")
+	Mes("我们的巨石仍然矗立，因为它让人们的生活更轻松。即使信仰对立的人也不能否认魔力的好处。他们会在公开场合反对，但当个人需要出现时，他们会找像我这样的卡韦来治愈亲人或带来需要的雨水。")
+	Mes("我只希望更多人公开拥抱古老传统。萨维安信仰给我们世界带来了很多麻烦。现在他们甚至催生出了这些新信徒，瓦鲁尼安人，他们基本上崇拜卡厄。")
+	Mes("这一切都不像埃米尔大部分存在时期与魔力的关系。")
 	Choice("What is your people's position?", OnKahwePosition)
 	Choice("I have some other topics I wanted to discuss.", OnPlayerChoice)
 	Choice("Thank you for your time.", Farewell)
 
 func OnKahwePosition():
-	Mes("The Kahwe carry on the knowledge of times when Mana was a harmonious force of good in our world. We seek to restore the balance that was lost when the Uru were destroyed.")
+	Mes("卡韦传承着魔力曾经是我们世界和谐善力量的时代的知识。我们寻求恢复乌鲁被摧毁时失去的平衡。")
 	Choice("What are the Uru?", OnExplainUru)
 	Choice("I have some other topics I wanted to discuss.", OnPlayerChoice)
 	Choice("Thank you for your time.", Farewell)
 
 func OnExplainUru():
-	Mes("Uru, also known as Mana Trees, used to be the heart of the world's lifeforce, acting as a natural conductor for Mana energy.")
-	Mes("In ancient times, there were many, each serving as a stabilizing force, preventing Mana from decaying into Kaore.")
-	Mes("The Mana Trees were destroyed many years ago after a devastating war where the Savean Creed took hold among the ruling elites of Aemil.")
-	Mes("The decision was made to destroy the Uru and attempt to create a world without Mana.")
+	Mes("乌鲁，也叫魔力树，曾经是世界生命力的核心，充当魔力的天然导体。")
+	Mes("在古代，有很多，每一个都充当稳定力量，防止魔力衰变成卡厄。")
+	Mes("魔力树在很多年前被摧毁，那是一场毁灭性的战争之后，萨维安教义在埃米尔统治精英中扎根。")
+	Mes("他们决定摧毁乌鲁，尝试创造一个没有魔力的世界。")
 	Choice("Where do things stand now?", OnCurrentSituation)
 	Choice("I have some other topics I wanted to discuss.", OnPlayerChoice)
 	Choice("Thank you for your time.", Farewell)
 
 func OnCurrentSituation():
-	Mes("It depends on who you ask. Some people, like the Red Queen, would say that life is better without magic.")
-	Mes("But then, she still uses it in her palace. She only means that it's better for the common people to not have it, claims that it's too dangerous.")
-	Mes("If you ask me, I believe that magic is a natural part of our world. It has led us to where we are today, and despite being the most dangerous force of nature, we need it.")
-	Mes("Water is a dangerous force of nature too if you think about it, but no one is suggesting to close the wells.")
+	Mes("取决于你问谁。有些人，比如红女王，会说没有魔法的生活更好。")
+	Mes("但她在宫殿里还是用的。她只是觉得平民最好不要有，声称太危险了。")
+	Mes("如果你问我，我认为魔法是我们世界的自然组成部分。它带领我们走到今天，尽管是最危险的自然力量，我们需要它。")
+	Mes("仔细想想，水也是一种危险的自然力量，但没人建议关闭水井。")
 	Choice("Who is the Red Queen?", OnRedQueen)
 	Choice("Is there anything I can do for you?", OnAskForHelp)
 
 func OnRedQueen():
-	Mes("She's the ruler of our city and the whole Kingdom of Tonori, though she doesn't have much power outside of the city walls.")
-	Mes("The Zuni tribes of Tonori never recognised our Kingdom so she really only rules over the city.")
-	Mes("Another reason for her to keep magic away from her people. The Zuni still practice their ancient magic and it makes them very hard to fight.")
-	Mes("She'd rather not have the same problem here in Tulimshar.")
+	Mes("她是我们城市和整个托诺里王国的统治者，不过在城墙外她没有多大权力。")
+	Mes("托诺里的祖尼部落从未承认我们的王国，所以她实际上只统治这座城市。")
+	Mes("又一个她不让人民接触魔法的理由。祖尼人仍在修习古老的魔法，这让他们很难对付。")
+	Mes("她不想在图利姆沙也遇到同样的问题。")
 	Choice("What can you tell me about the Zuni?", OnZuni)
 	Choice("Is there anything I can do for you?", OnAskForHelp)
 
 func OnZuni():
-	Mes("They have lived in the Tonori desert for a very long time. In fact, they still tell stories of this land before it was even a desert.")
-	Mes("They've always traded with Tulimshar and are mostly friendly towards us, but only as long as we don't send our soldiers too far outside our walls.")
-	Mes("Whenever that has happened in the past they've fought us back until we gave up. I respect that about them, they have clear boundaries and will defend their homeland.")
+	Mes("他们在托诺里沙漠生活了很长时间。事实上，他们仍在讲述这片土地还是沙漠之前的故事。")
+	Mes("他们一直和图利姆沙交易，对我们大多友好，但前提是我们不把士兵派到城墙外太远。")
+	Mes("过去每次发生这种情况，它们都会击退我们直到我们放弃。我尊重它们这一点，它们有明确的界限，会保卫自己的家园。")
 	Choice("It would be interesting to meet them!", OnZuniMarket)
 	Choice("Bah! They seem like uncivilised nomads to me.", OnZuniDismissal)
 
 func OnZuniDismissal():
-	Mes("Right...")
+	Mes("好……")
 	OnZuniMarket()
 
 func OnZuniMarket():
-	Mes("You can find some of their traders in the marketplace north of here.")
-	Mes("I'm sure they'll be happy to chat, especially if you buy some of their wares.")
+	Mes("你可以在这北边的市场找到他们的一些商人。")
+	Mes("我相信他们很乐意聊天，尤其是你买他们东西的话。")
 	Choice("Is there anything I can do for you?", OnAskForHelp)
 
 # Mana and Kaore
 func OnExplainMana():
-	Mes("Mana, often called \"lifepower,\" is the essence of all living things.")
-	Mes("It flows through the world's biomass, forming an interconnected web of energy. Properly channelled, it can be harnessed to produce magic, heal the land, and sustain life.")
-	Mes("Kaore is what remains when Mana is severed from its source.")
-	Mes("Instead of nourishing life, it festers, corrupts, and decays. It seeps into the land, warping living beings into hostile, aggressive forms.")
-	Mes("Kaore in many ways is a form of Mana, which is the main energy we can perceive.")
-	Mes("Mana flows through all living things, but also infuses a particular mineral known as Zielite. That's what this Soul Menhir is made of.")
+	Mes("魔力，通常被称为\"生命力\"，是所有生物的本质。")
+	Mes("它流经世界的生物量，形成相互连接的能量网。正确引导后，可以利用它产生魔法、治愈大地、维持生命。")
+	Mes("卡厄是魔力与其源头断绝后剩下的东西。")
+	Mes("它不滋养生命，而是溃烂、腐化、衰败。它渗入大地，将生物扭曲成敌对、攻击性的形态。")
+	Mes("卡厄在很多方面是魔力的一种形式，是我们能感知的主要能量。")
+	Mes("魔力流经所有生物，但也注入一种叫齐埃尔石的特定矿物。这块灵魂巨石就是用它做的。")
 	OnPlayerChoice()
 
 # Soul Menhir and Zielite
 func OnExplainMenhir():
-	Mes("Soul Menhirs are ancient monoliths carved from massive blocks of Zielite, once erected by the Kahwe, known as druids around here, to channel and radiate Mana.")
-	Mes("When active, they generate a protective aura, repelling Kaore-infected creatures and stabilizing the land.")
-	Mes("With the help of a Kahwe, a Soul Menhir can be used to heal those who are injured and even to prevent death in some cases, giving people multiple chances at life.")
+	Mes("灵魂巨石是古老的巨石，由巨大的齐埃尔石块雕刻而成，曾经由卡韦（在这里被称为德鲁伊）竖立，用于引导辐射魔力。")
+	Mes("激活时，它们产生保护光环，驱逐卡厄感染的生物并稳定土地。")
+	Mes("在卡韦的帮助下，灵魂巨石可以用来治愈受伤的人，甚至在某些情况下防止死亡，给人们多次生命机会。")
 	Choice("What do you know about Zielite?", OnExplainZielite)
 	Choice("I have some other topics I wanted to discuss.", OnPlayerChoice)
 	Choice("Thank you for your time.", Farewell)
 
 func OnExplainZielite():
-	Mes("Zielite is a rare mineral with a natural affinity for Mana. It can absorb, store, and emit Mana energy, making it invaluable for both magic and protection.")
-	Mes("Though once abundant, Zielite has become scarce due to the purge that took place when the Savean Creed turned society against the use of Mana.")
-	Mes("Zielite craftsmanship still exists in hidden talismans, forgotten ruins, and the few remaining Soul Menhirs that continue to stand as bastions against Kaore.")
+	Mes("齐埃尔石是一种稀有矿物，与魔力有天然亲和力。它可以吸收、储存和释放魔力能量，对魔法和防护都极其宝贵。")
+	Mes("虽然曾经丰富，但齐埃尔石由于萨维安教义使社会反对使用魔力时发生的清洗而变得稀缺。")
+	Mes("齐埃尔石工艺仍存在于隐藏的护身符、被遗忘的废墟和少数继续矗立作为对抗卡厄堡垒的灵魂巨石中。")
 	OnPlayerChoice()
 
 # Hungry quest
 func OnAskForHelp():
 	var questState : int = GetQuest(ProgressCommons.Quest.NINA_HUNGRY)
 	if questState == ProgressCommons.NINA_HUNGRY.STARTED:
-		Mes("Not at the moment. I am still hoping for that snack, if you happen to find one!")
+		Mes("现在不用。我还在盼着那份点心，如果你碰巧找到的话！")
 		OnPlayerChoice()
 	elif questState == ProgressCommons.NINA_HUNGRY.REWARDS_WITHDREW:
-		Mes("Not at the moment, but thank you for asking.")
+		Mes("现在不用，但谢谢你的好意。")
 		OnPlayerChoice()
 	else:
-		Mes("Not at the moment...")
-		Mes("I am a bit hungry though. Not that I would ask you to bring me food! I'll take care of it later.")
+		Mes("现在不用……")
+		Mes("不过我有点饿了。倒不是要你帮我带吃的！我待会儿自己解决。")
 		Choice("I'll keep an eye out for snacks on the way to the market.", OnStartHungryQuest)
 		Choice("Ok bye.", Farewell)
 
 func OnStartHungryQuest():
-	Mes("That is very kind of you. I would not normally ask, but a croissant would be absolutely wonderful right now.")
-	Mes("You can usually find them at the bakery stand in the market. I would go myself but, well... this Menhir will not guard itself.")
+	Mes("你真是太好了。我一般不会开口，但一个羊角面包现在简直太美妙了。")
+	Mes("你通常可以在市场的面包摊找到它们。我本想自己去，但……这块巨石不会自己守护。")
 	SetQuest(ProgressCommons.Quest.NINA_HUNGRY, ProgressCommons.NINA_HUNGRY.STARTED)
 
 func OnCroissantTurnIn():
-	Mes("Oh my!")
-	Mes("A croissant! I cannot believe it. You are truly too kind, I did not expect this at all!")
+	Mes("天哪！")
+	Mes("一个羊角面包！真不敢相信。你太好了，我完全没想到！")
 	ExchangeItems([DB.GetCellHash("Croissant")], [[DB.GetCellHash("Cactus Potion"), 10]], OnCroissantExchanged)
 
 func OnCroissantExchanged(result : ActorInventory.ExchangeResult):
@@ -145,73 +145,73 @@ func OnCroissantExchanged(result : ActorInventory.ExchangeResult):
 		ActorInventory.ExchangeResult.OK:
 			SetQuest(ProgressCommons.Quest.NINA_HUNGRY, ProgressCommons.NINA_HUNGRY.REWARDS_WITHDREW)
 			AddGP(100)
-			Mes("Please, take these Cactus Potions and a bit of gold to cover what you spent.")
+			Mes("请收下这些仙人掌药水和一点金子，弥补你的花费。")
 		ActorInventory.ExchangeResult.MISSING_ITEMS:
-			Mes("Oh... Where did it go? Never mind, maybe another time.")
+			Mes("哦……去哪了？算了，也许下次吧。")
 		ActorInventory.ExchangeResult.NO_SPACE:
-			Mes("I would like to give you something in return, but your bag is full. Make some room and come back to me.")
+			Mes("我想给你点什么作为回报，但你的背包满了。腾点空间再来找我。")
 
 # Desert Seed quest
 func OnDesertSeedIntro():
-	Mes("You're back!")
-	Mes("How was the expedition?")
+	Mes("你回来了！")
+	Mes("探险怎么样？")
 	Choice("You will not believe what happened. I found this...", OnRevealKano)
 
 func OnRevealKano():
-	Mes("May I see it?")
-	Mes("...")
-	Mes("You're right. I can't believe this. This is a Kano. A Mana Seed!")
-	Mes("I have only ever read about these. I never imagined I would see one in my lifetime.")
-	Mes("How did you come to find this?")
+	Mes("我能看看吗？")
+	Mes("……")
+	Mes("你说得对。我不敢相信。这是一颗卡诺。魔力种子！")
+	Mes("我只是在书上读到过这些。我从没想过我这辈子能看到一棵。")
+	Mes("你是怎么找到这个的？")
 	Choice("There is a Mana Tree at the bottom of the mines. It gave it to me.", OnRevealManaTree)
 
 func OnRevealManaTree():
-	Mes("Excuse me?! Did you say a Mana Tree? Alive? In the Sandstorm Mines???")
-	Mes("I...")
-	Mes("I need a moment.")
-	Mes("I once felt something in that direction, a long time ago. I assumed it was a deep Zielite deposit. I had no idea.")
-	Mes("Were you able to communicate with it? Did it tell you what to do with that Kano?")
+	Mes("你说什么？！你刚才说魔力树？活的？在沙暴矿场里？？？")
+	Mes("我……")
+	Mes("我需要一点时间。")
+	Mes("很久以前我在那个方向感觉到过什么。我以为是深层齐埃尔石矿。我完全不知道。")
+	Mes("你能和它交流吗？它告诉你怎么处理那个卡诺了吗？")
 	Choice("It said to bring it to you and that you could be trusted.", OnNinaReacts)
 
 func OnNinaReacts():
-	Mes("How does it know me? This is all... very hard to grasp.")
-	Mes("I'm glad it trusted me, but we will need to let the Manayir know about this. They are an ancient order of druids who were once guardians of these trees.")
-	Mes("They built a castle into a small peninsula, all the way across the beach on west side of the Tulimshar Valley, past the storm.")
-	Mes("Just head south past the city walls and then west.")
-	Mes("Find them and show them the Kano. Explain what you saw.")
-	Mes("Avoid telling anyone else about this for now. This is a very powerful item. Something that will surely attract the wrong attention.")
-	Mes("Before you go, take this.")
+	Mes("它怎么认识我？这一切……很难理解。")
+	Mes("我很高兴它信任我，但我们需要让玛纳伊尔知道这件事。他们是一个古老的德鲁伊教团，曾经是这些树的守护者。")
+	Mes("他们在图利姆沙山谷西边的海滩尽头的一个小半岛上建了一座城堡，在风暴之外。")
+	Mes("往南走，过了城墙再往西。")
+	Mes("找到他们，给他们看卡诺。解释你看到的一切。")
+	Mes("暂时别告诉别人这件事。这是一件非常强大的物品。肯定会引来不该有的注意。")
+	Mes("走之前，带上这个。")
 	ExchangeItems([], [DB.GetCellHash("Brass Zielite Amulet")], OnAmuletExchanged)
 
 func OnAmuletExchanged(result : ActorInventory.ExchangeResult):
 	match result:
 		ActorInventory.ExchangeResult.OK:
 			SetQuest(DESERT_SEED_ID, ProgressCommons.DESERT_SEED.SEEK_MANAYIR)
-			Mes("It is a Zielite Amulet. The stone at its centre is a fragment of pure Zielite, the same mineral this Menhir is made of.")
-			Mes("When worn, it allows you to channel Mana, and to connect with Soul Menhirs.")
+			Mes("这是一块齐埃尔石护身符。中心的石头是纯齐埃尔石的碎片，这块巨石也是同一种矿物做的。")
+			Mes("佩戴时，它让你能引导魔力，并与灵魂巨石连接。")
 			Choice("What does connecting to a Soul Menhir do?", OnExplainMenhirSync)
 		ActorInventory.ExchangeResult.NO_SPACE:
-			Mes("Your bag is too full to carry it. Make some room and come back to me.")
+			Mes("你的背包太满了装不下。腾点空间再来找我。")
 
 func OnExplainMenhirSync():
-	Mes("When you touch a Soul Menhir while wearing a Zielite Amulet, the stone resonates with the Menhir's Zielite.")
-	Mes("This creates a bond between your soul and the Menhir. Should something happen to you, the Menhir acts as an anchor.")
-	Mes("Your soul returns here instead of being lost.")
-	Mes("It is how we Kahwe have always protected those under our care. I should have given you one sooner.")
+	Mes("当你戴着齐埃尔石护身符触摸灵魂巨石时，石头与巨石的齐埃尔石产生共鸣。")
+	Mes("这在你的灵魂和巨石之间建立了一种联系。如果你出了什么事，巨石会充当锚点。")
+	Mes("你的灵魂在这里回归而不是消散。")
+	Mes("这就是我们卡韦一直以来保护我们所照顾之人的方式。我应该早点给你一个。")
 	Choice("[Touch the Soul Menhir]", OnTouchMenhir)
 
 func OnTouchMenhir():
-	Narrate("You place your hand on the Soul Menhir. The Zielite Amulet grows warm against your skin.")
-	Narrate("A strange sensasion passes through you. Like flowing water, but not wet. The stone briefly pulsates with a faint blue light.")
+	Narrate("你把手放在灵魂巨石上。齐埃尔石护身符贴着你的皮肤变暖。")
+	Narrate("一种奇怪的感觉传遍全身。像流水，但没有湿润感。石头短暂地闪烁着微弱的蓝光。")
 	Action(SaveRespawnSoulMenhir)
-	Mes("Good. You are connected now.")
-	Mes("If you ever find another Soul Menhir, touch it. You will become attuned to the last on you have touched.")
-	Mes("Now, you should make your way to the Manayir. We cannot wait around with a Kano in our hands.")
+	Mes("好。你现在连接上了。")
+	Mes("如果你找到另一块灵魂巨石，触摸它。你会与最后一块你触摸过的巨石产生共鸣。")
+	Mes("现在，你应该前往玛纳伊尔。我们不能带着卡诺在这里干等。")
 	OnPlayerChoice()
 
 func OnDesertSeedReminder():
-	Mes("Have you found the Manayir yet?")
-	Mes("You should head south, then west. Their tower is past the sandstorm, on a quiet peninsula. Ask around in that area, someone should be able to point you in the right direction.")
+	Mes("你找到玛纳伊尔了吗？")
+	Mes("你应该往南走，然后往西。他们的塔楼在沙暴之外，在一个安静的半岛上。在那附近问问，应该有人能指给你正确的方向。")
 	OnPlayerChoice()
 
 func SaveRespawnSoulMenhir():

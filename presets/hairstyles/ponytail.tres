@@ -9,4 +9,4 @@ script = ExtResource("1_script")
 texture = ExtResource("tex_ponytail")
 animationOverrides = ExtResource("2_overrides")
 spriteHframes = 13
-_name = "Ponytail"
+_name = "马尾"

@@ -1,0 +1,2021 @@
+{
+  "tscn_text": {
+    "Network State": [
+      "presets/Server.tscn:29"
+    ],
+    "You": [
+      "presets/gui/Trade.tscn:43"
+    ],
+    "GP": [
+      "presets/gui/Trade.tscn:149",
+      "presets/gui/Trade.tscn:186",
+      "presets/gui/Trade.tscn:208"
+    ],
+    "Done": [
+      "presets/gui/Trade.tscn:231"
+    ],
+    "Lock": [
+      "presets/gui/Trade.tscn:236"
+    ],
+    "Cancel": [
+      "presets/gui/Trade.tscn:241",
+      "presets/gui/ButtonBox.tscn:20",
+      "presets/gui/Inventory.tscn:165"
+    ],
+    "Enter Character Name": [
+      "presets/gui/Character.tscn:33"
+    ],
+    "Attributes": [
+      "presets/gui/Character.tscn:75"
+    ],
+    "Strength": [
+      "presets/gui/Character.tscn:86",
+      "presets/gui/Stats.tscn:129"
+    ],
+    "Vitality": [
+      "presets/gui/Character.tscn:113",
+      "presets/gui/Stats.tscn:164"
+    ],
+    "Agility": [
+      "presets/gui/Character.tscn:140",
+      "presets/gui/Stats.tscn:199"
+    ],
+    "Endurance": [
+      "presets/gui/Character.tscn:167",
+      "presets/gui/Stats.tscn:234"
+    ],
+    "Concentration": [
+      "presets/gui/Character.tscn:194",
+      "presets/gui/Stats.tscn:269"
+    ],
+    "Stats": [
+      "presets/gui/Character.tscn:234"
+    ],
+    "Level": [
+      "presets/gui/Character.tscn:245"
+    ],
+    "Location": [
+      "presets/gui/Character.tscn:262"
+    ],
+    "Artis": [
+      "presets/gui/Character.tscn:271"
+    ],
+    "Previous": [
+      "presets/gui/Character.tscn:280"
+    ],
+    "Next": [
+      "presets/gui/Character.tscn:290"
+    ],
+    "Traits": [
+      "presets/gui/Character.tscn:318"
+    ],
+    "Hairstyle": [
+      "presets/gui/Character.tscn:329",
+      "presets/gui/Character.tscn:343"
+    ],
+    "Hair Color": [
+      "presets/gui/Character.tscn:356",
+      "presets/gui/Character.tscn:370"
+    ],
+    "Gender": [
+      "presets/gui/Character.tscn:383",
+      "presets/gui/Character.tscn:397"
+    ],
+    "Race": [
+      "presets/gui/Character.tscn:410"
+    ],
+    "Ethnicity": [
+      "presets/gui/Character.tscn:424"
+    ],
+    "Skin Tone": [
+      "presets/gui/Character.tscn:437",
+      "presets/gui/Character.tscn:451"
+    ],
+    "No guild joined": [
+      "presets/gui/Social.tscn:95"
+    ],
+    "Tertiary": [
+      "presets/gui/ButtonBox.tscn:30"
+    ],
+    "Secondary": [
+      "presets/gui/ButtonBox.tscn:40"
+    ],
+    "Primary": [
+      "presets/gui/ButtonBox.tscn:50"
+    ],
+    "Refresh": [
+      "presets/gui/Server.tscn:44",
+      "addons/game_data_manager/EntityDropsView.tscn:27",
+      "addons/game_data_manager/EntityStatsView.tscn:27",
+      "addons/game_data_manager/EntitySkillsView.tscn:27",
+      "addons/game_data_manager/ItemTableView.tscn:38",
+      "addons/game_data_manager/EntityEquipmentView.tscn:27",
+      "addons/game_data_manager/EntityTableView.tscn:38",
+      "addons/game_data_manager/SkillTableView.tscn:38",
+      "addons/game_data_manager/EntityBaseStatsView.tscn:27",
+      "addons/game_data_manager/SkillModifierTableView.tscn:27",
+      "addons/game_data_manager/ItemModifierTableView.tscn:27"
+    ],
+    "0/0": [
+      "presets/gui/ProgressBar.tscn:50"
+    ],
+    "Preset": [
+      "presets/gui/Settings.tscn:66"
+    ],
+    "PC": [
+      "presets/gui/Settings.tscn:74"
+    ],
+    "Mobile": [
+      "presets/gui/Settings.tscn:76"
+    ],
+    "Visual": [
+      "presets/gui/Settings.tscn:84"
+    ],
+    "Makes the game fill your whole screen.": [
+      "presets/gui/Settings.tscn:88"
+    ],
+    "Fullscreen Mode": [
+      "presets/gui/Settings.tscn:89"
+    ],
+    " Camera Zoom": [
+      "presets/gui/Settings.tscn:98"
+    ],
+    "Zooms the in-game camera view. Higher levels make characters appear larger.": [
+      "presets/gui/Settings.tscn:104"
+    ],
+    " Window Resolution": [
+      "presets/gui/Settings.tscn:131"
+    ],
+    "Sets the size of the game window.": [
+      "presets/gui/Settings.tscn:137"
+    ],
+    " Scaling": [
+      "presets/gui/Settings.tscn:146"
+    ],
+    "Zooms the whole game view by one, two or three times.": [
+      "presets/gui/Settings.tscn:152"
+    ],
+    "Shows touch buttons on screen for movement and actions.": [
+      "presets/gui/Settings.tscn:164"
+    ],
+    "Action Overlay": [
+      "presets/gui/Settings.tscn:165"
+    ],
+    "Resets all game windows to their default size and position.": [
+      "presets/gui/Settings.tscn:169"
+    ],
+    "Reset Window Layout": [
+      "presets/gui/Settings.tscn:170"
+    ],
+    "Effect": [
+      "presets/gui/Settings.tscn:180"
+    ],
+    "Turns on dynamic lights and shadows.": [
+      "presets/gui/Settings.tscn:184"
+    ],
+    "Lighting": [
+      "presets/gui/Settings.tscn:185"
+    ],
+    "Smooths the image when the view is scaled up.": [
+      "presets/gui/Settings.tscn:189"
+    ],
+    "High Quality Scale": [
+      "presets/gui/Settings.tscn:190"
+    ],
+    "Adds an old television screen look.": [
+      "presets/gui/Settings.tscn:194"
+    ],
+    "Cathode Ray Tube": [
+      "presets/gui/Settings.tscn:195"
+    ],
+    "Volume": [
+      "presets/gui/Settings.tscn:214"
+    ],
+    "Sets the volume of every sound in the game at once.": [
+      "presets/gui/Settings.tscn:219"
+    ],
+    "Global": [
+      "presets/gui/Settings.tscn:225"
+    ],
+    "Sets the volume of the background music.": [
+      "presets/gui/Settings.tscn:238"
+    ],
+    "Music": [
+      "presets/gui/Settings.tscn:244"
+    ],
+    "Sets the volume of combat feedback like hits, crits, dodges and heals.": [
+      "presets/gui/Settings.tscn:257"
+    ],
+    "Combat": [
+      "presets/gui/Settings.tscn:263"
+    ],
+    "Sets the volume of alerts meant for you: whispers, level ups, skill ups and quest updates.": [
+      "presets/gui/Settings.tscn:276"
+    ],
+    "Alerts": [
+      "presets/gui/Settings.tscn:282"
+    ],
+    "Sets the volume of creatures and surrounding objects: attacks, deaths and chests opening.": [
+      "presets/gui/Settings.tscn:295"
+    ],
+    "Creatures & Objects": [
+      "presets/gui/Settings.tscn:301"
+    ],
+    "Sets the volume of fights you are not part of. Your own actions and your target stay at full volume.": [
+      "presets/gui/Settings.tscn:314"
+    ],
+    "Other Fights": [
+      "presets/gui/Settings.tscn:320"
+    ],
+    "Silences the game while its window is in the background.": [
+      "presets/gui/Settings.tscn:335"
+    ],
+    "Mute When Unfocused": [
+      "presets/gui/Settings.tscn:336"
+    ],
+    "Change Password": [
+      "presets/gui/Settings.tscn:358",
+      "presets/gui/Settings.tscn:408"
+    ],
+    " Current Password": [
+      "presets/gui/Settings.tscn:366"
+    ],
+    "Type your current password so we know it is really you.": [
+      "presets/gui/Settings.tscn:372"
+    ],
+    " New Password": [
+      "presets/gui/Settings.tscn:381"
+    ],
+    "Type the new password you want to use from now on.": [
+      "presets/gui/Settings.tscn:387"
+    ],
+    " Confirm Password": [
+      "presets/gui/Settings.tscn:396"
+    ],
+    "Type your new password again so it can be checked for typos.": [
+      "presets/gui/Settings.tscn:402"
+    ],
+    "Saves your new password.": [
+      "presets/gui/Settings.tscn:407"
+    ],
+    "Sends anonymous crash and error reports to help fix bugs. No personal data is collected.": [
+      "presets/gui/Settings.tscn:429"
+    ],
+    "Bug Reports": [
+      "presets/gui/Settings.tscn:430"
+    ],
+    "Connects to a dedicated server running on this machine (127.0.0.1) instead of the public server.": [
+      "presets/gui/Settings.tscn:434"
+    ],
+    "★ Local Server": [
+      "presets/gui/Settings.tscn:435"
+    ],
+    "Name": [
+      "presets/gui/Login.tscn:62"
+    ],
+    "Password": [
+      "presets/gui/Login.tscn:86"
+    ],
+    "Confirm Password": [
+      "presets/gui/Login.tscn:114"
+    ],
+    "Email": [
+      "presets/gui/Login.tscn:140"
+    ],
+    "Reset Code": [
+      "presets/gui/Login.tscn:168"
+    ],
+    "000000": [
+      "presets/gui/Login.tscn:181"
+    ],
+    "Remember me": [
+      "presets/gui/Login.tscn:193"
+    ],
+    "Drop": [
+      "presets/gui/Inventory.tscn:128"
+    ],
+    "Unequip": [
+      "presets/gui/Inventory.tscn:140"
+    ],
+    "Equip": [
+      "presets/gui/Inventory.tscn:147"
+    ],
+    "Use": [
+      "presets/gui/Inventory.tscn:154"
+    ],
+    "Confirm": [
+      "presets/gui/Inventory.tscn:199"
+    ],
+    "Equipment": [
+      "presets/gui/Inventory.tscn:216"
+    ],
+    "Modifiers": [
+      "presets/gui/Inventory.tscn:269"
+    ],
+    "Capacity": [
+      "presets/gui/Inventory.tscn:281"
+    ],
+    "Weight": [
+      "presets/gui/Inventory.tscn:289",
+      "presets/gui/Stats.tscn:405"
+    ],
+    "Slots": [
+      "presets/gui/Inventory.tscn:303"
+    ],
+    "Loading...": [
+      "presets/gui/Loading.tscn:55"
+    ],
+    "Test": [
+      "presets/gui/Stats.tscn:83"
+    ],
+    "Lvl. 2": [
+      "presets/gui/Stats.tscn:97"
+    ],
+    "Available points": [
+      "presets/gui/Stats.tscn:308"
+    ],
+    "Reset": [
+      "presets/gui/Stats.tscn:321"
+    ],
+    "Save": [
+      "presets/gui/Stats.tscn:331"
+    ],
+    "Experience": [
+      "presets/gui/Stats.tscn:350"
+    ],
+    "Health": [
+      "presets/gui/Stats.tscn:363"
+    ],
+    "Mana": [
+      "presets/gui/Stats.tscn:377"
+    ],
+    "Stamina": [
+      "presets/gui/Stats.tscn:391"
+    ],
+    "Money": [
+      "presets/gui/Stats.tscn:419"
+    ],
+    "Attack": [
+      "presets/gui/Stats.tscn:443"
+    ],
+    "Defense": [
+      "presets/gui/Stats.tscn:459"
+    ],
+    "M. Attack": [
+      "presets/gui/Stats.tscn:475"
+    ],
+    "M. Defense": [
+      "presets/gui/Stats.tscn:491"
+    ],
+    "Attack Range": [
+      "presets/gui/Stats.tscn:507"
+    ],
+    "Cast Delay": [
+      "presets/gui/Stats.tscn:523"
+    ],
+    "Cooldown Delay": [
+      "presets/gui/Stats.tscn:539"
+    ],
+    "Crit Rate": [
+      "presets/gui/Stats.tscn:555"
+    ],
+    "Dodge Rate": [
+      "presets/gui/Stats.tscn:571"
+    ],
+    "Accuracy": [
+      "presets/gui/Stats.tscn:587"
+    ],
+    "Walk Speed": [
+      "presets/gui/Stats.tscn:603"
+    ],
+    "Clear": [
+      "presets/gui/labels/ChatLabel.tscn:30"
+    ],
+    "Type here": [
+      "presets/gui/chat/Chat.tscn:61"
+    ],
+    "Search:": [
+      "addons/game_data_manager/EntityDropsView.tscn:34",
+      "addons/game_data_manager/EntityStatsView.tscn:34",
+      "addons/game_data_manager/EntitySkillsView.tscn:34",
+      "addons/game_data_manager/ItemTableView.tscn:49",
+      "addons/game_data_manager/EntityEquipmentView.tscn:34",
+      "addons/game_data_manager/EntityTableView.tscn:49",
+      "addons/game_data_manager/SkillTableView.tscn:49",
+      "addons/game_data_manager/EntityBaseStatsView.tscn:34",
+      "addons/game_data_manager/SkillModifierTableView.tscn:34",
+      "addons/game_data_manager/ItemModifierTableView.tscn:34"
+    ],
+    "Filter entities by name...": [
+      "addons/game_data_manager/EntityDropsView.tscn:39",
+      "addons/game_data_manager/EntityStatsView.tscn:39",
+      "addons/game_data_manager/EntitySkillsView.tscn:39",
+      "addons/game_data_manager/EntityEquipmentView.tscn:39",
+      "addons/game_data_manager/EntityBaseStatsView.tscn:39"
+    ],
+    "Select an entity": [
+      "addons/game_data_manager/EntityDropsView.tscn:64",
+      "addons/game_data_manager/EntitySkillsView.tscn:64"
+    ],
+    "Add Drop": [
+      "addons/game_data_manager/EntityDropsView.tscn:69"
+    ],
+    "0 entities": [
+      "addons/game_data_manager/EntityStatsView.tscn:43",
+      "addons/game_data_manager/EntityEquipmentView.tscn:43",
+      "addons/game_data_manager/EntityTableView.tscn:69",
+      "addons/game_data_manager/EntityBaseStatsView.tscn:43"
+    ],
+    "Add Skill": [
+      "addons/game_data_manager/EntitySkillsView.tscn:69"
+    ],
+    "Create Item": [
+      "addons/game_data_manager/ItemTableView.tscn:27"
+    ],
+    "Delete Selected": [
+      "addons/game_data_manager/ItemTableView.tscn:31",
+      "addons/game_data_manager/EntityTableView.tscn:31",
+      "addons/game_data_manager/SkillTableView.tscn:31"
+    ],
+    "Export CSV": [
+      "addons/game_data_manager/ItemTableView.tscn:42",
+      "addons/game_data_manager/EntityTableView.tscn:42",
+      "addons/game_data_manager/SkillTableView.tscn:42"
+    ],
+    "Filter items...": [
+      "addons/game_data_manager/ItemTableView.tscn:54"
+    ],
+    "In:": [
+      "addons/game_data_manager/ItemTableView.tscn:58",
+      "addons/game_data_manager/EntityTableView.tscn:58",
+      "addons/game_data_manager/SkillTableView.tscn:58"
+    ],
+    "All Fields": [
+      "addons/game_data_manager/ItemTableView.tscn:64",
+      "addons/game_data_manager/EntityTableView.tscn:64",
+      "addons/game_data_manager/SkillTableView.tscn:64"
+    ],
+    "0 items": [
+      "addons/game_data_manager/ItemTableView.tscn:69",
+      "addons/game_data_manager/ItemModifierTableView.tscn:43"
+    ],
+    "Create Entity": [
+      "addons/game_data_manager/EntityTableView.tscn:27"
+    ],
+    "Filter entities...": [
+      "addons/game_data_manager/EntityTableView.tscn:54"
+    ],
+    "Create Skill": [
+      "addons/game_data_manager/SkillTableView.tscn:27"
+    ],
+    "Filter skills...": [
+      "addons/game_data_manager/SkillTableView.tscn:54"
+    ],
+    "0 skills": [
+      "addons/game_data_manager/SkillTableView.tscn:69",
+      "addons/game_data_manager/SkillModifierTableView.tscn:43"
+    ],
+    "Filter skills by name...": [
+      "addons/game_data_manager/SkillModifierTableView.tscn:39"
+    ],
+    "Filter items by name...": [
+      "addons/game_data_manager/ItemModifierTableView.tscn:39"
+    ]
+  },
+  "tres_names": {
+    "Combed Back": [
+      "presets/hairstyles/combed-back.tres:9"
+    ],
+    "Tapered Nape": [
+      "presets/hairstyles/tapered-nape.tres:9"
+    ],
+    "Wave": [
+      "presets/hairstyles/wave.tres:9"
+    ],
+    "Flat Ponytail": [
+      "presets/hairstyles/flat-ponytail.tres:9"
+    ],
+    "Mane": [
+      "presets/hairstyles/mane.tres:9"
+    ],
+    "Bowl Cut": [
+      "presets/hairstyles/bowl-cut.tres:9"
+    ],
+    "Bunches": [
+      "presets/hairstyles/bunches.tres:9"
+    ],
+    "Ponytail": [
+      "presets/hairstyles/ponytail.tres:12"
+    ],
+    "Pompadour": [
+      "presets/hairstyles/pompadour.tres:9"
+    ],
+    "Messy": [
+      "presets/hairstyles/messy.tres:9"
+    ],
+    "Mohawk": [
+      "presets/hairstyles/mohawk.tres:9"
+    ],
+    "Emo": [
+      "presets/hairstyles/emo.tres:9"
+    ],
+    "Bun": [
+      "presets/hairstyles/bun.tres:9"
+    ],
+    "Choppy": [
+      "presets/hairstyles/choppy.tres:9"
+    ],
+    "Long and Curly": [
+      "presets/hairstyles/long-and-curly.tres:9"
+    ],
+    "Long Ponytail": [
+      "presets/hairstyles/long-ponytail.tres:9"
+    ],
+    "Center Parting": [
+      "presets/hairstyles/center-parting.tres:9"
+    ],
+    "Imperial": [
+      "presets/hairstyles/imperial.tres:9"
+    ],
+    "Cheekbone Bob": [
+      "presets/hairstyles/cheekbone-bob.tres:9"
+    ],
+    "Bald": [
+      "presets/hairstyles/bald.tres:9"
+    ],
+    "Short and Curly": [
+      "presets/hairstyles/short-and-curly.tres:9"
+    ],
+    "Wild": [
+      "presets/hairstyles/wild.tres:9"
+    ],
+    "Parted": [
+      "presets/hairstyles/parted.tres:9"
+    ],
+    "Long and Slick": [
+      "presets/hairstyles/long-and-slick.tres:9"
+    ],
+    "Side Strand": [
+      "presets/hairstyles/side-strand.tres:9"
+    ],
+    "Pigtails": [
+      "presets/hairstyles/pigtails.tres:9"
+    ],
+    "Infinitely Long": [
+      "presets/hairstyles/infinitely-long.tres:9"
+    ],
+    "Artis": [
+      "presets/maps/data/artis/Artis.tres:13"
+    ],
+    "Splatyna's Chamber": [
+      "presets/maps/data/splatyna/Splatyna's Chamber.tres:13"
+    ],
+    "Splatyna's Corridor": [
+      "presets/maps/data/splatyna/Splatyna's Corridor.tres:13"
+    ],
+    "Splatyna Cave Entrance": [
+      "presets/maps/data/splatyna/Splatyna Cave Entrance.tres:13"
+    ],
+    "Splatyna's Gabriel Pit": [
+      "presets/maps/data/splatyna/Splatyna's Gabriel Pit.tres:13"
+    ],
+    "Splatyna's Marvin Hole": [
+      "presets/maps/data/splatyna/Splatyna's Marvin Hole.tres:13"
+    ],
+    "Splatyna's Dorian Dead End": [
+      "presets/maps/data/splatyna/Splatyna's Dorian Dead End.tres:13"
+    ],
+    "Ship Alige Hide": [
+      "presets/maps/data/ship/Ship Alige Hide.tres:13"
+    ],
+    "Ship Hold": [
+      "presets/maps/data/ship/Ship Hold.tres:13"
+    ],
+    "Ship Second Deck": [
+      "presets/maps/data/ship/Ship Second Deck.tres:13"
+    ],
+    "Ship First Deck": [
+      "presets/maps/data/ship/Ship First Deck.tres:13"
+    ],
+    "Ship Nard's Room": [
+      "presets/maps/data/ship/Ship Nard's Room.tres:13"
+    ],
+    "Artis Sewer": [
+      "presets/maps/data/sewer/Artis Sewer.tres:13"
+    ],
+    "Overworld": [
+      "presets/maps/data/overworld/Overworld.tres:13"
+    ],
+    "Ocean": [
+      "presets/maps/data/ocean/Ocean.tres:13"
+    ],
+    "Manayir": [
+      "presets/maps/data/tonori/manayir/Manayir.tres:13"
+    ],
+    "Manayir Beach": [
+      "presets/maps/data/tonori/manayir/Manayir Beach.tres:13"
+    ],
+    "Desert Mines": [
+      "presets/maps/data/tonori/sandstorm/Desert Mines.tres:13"
+    ],
+    "Desert Deep Level": [
+      "presets/maps/data/tonori/sandstorm/Desert Deep Level.tres:13"
+    ],
+    "Desert Abandoned Level": [
+      "presets/maps/data/tonori/sandstorm/Desert Abandoned Level.tres:13"
+    ],
+    "Sandstorm": [
+      "presets/maps/data/tonori/sandstorm/Sandstorm.tres:13"
+    ],
+    "Tulimshar Castle": [
+      "presets/maps/data/tonori/tulimshar/Tulimshar Castle.tres:13"
+    ],
+    "Tulimshar Bay": [
+      "presets/maps/data/tonori/tulimshar/Tulimshar Bay.tres:13"
+    ],
+    "Tulimshar Center": [
+      "presets/maps/data/tonori/tulimshar/Tulimshar Center.tres:13"
+    ],
+    "Tulimshar": [
+      "presets/maps/data/tonori/tulimshar/Tulimshar.tres:13"
+    ],
+    "Tulimshar Castle Corridors": [
+      "presets/maps/data/tonori/tulimshar/Tulimshar Castle Corridors.tres:13"
+    ],
+    "Tulimshar West Wall Pathway": [
+      "presets/maps/data/tonori/tulimshar/Tulimshar West Wall Pathway.tres:13"
+    ],
+    "Tulimshar West Chamber": [
+      "presets/maps/data/tonori/tulimshar/Tulimshar West Chamber.tres:13"
+    ],
+    "Desert Mountains": [
+      "presets/maps/data/tonori/desertpit/Desert Mountains.tres:13"
+    ],
+    "Desert Mountain Cave": [
+      "presets/maps/data/tonori/desertpit/Desert Mountain Cave.tres:13"
+    ],
+    "Desert Pit": [
+      "presets/maps/data/tonori/desertpit/Desert Pit.tres:13"
+    ],
+    "Snake Pit": [
+      "presets/maps/data/tonori/desertpit/Snake Pit.tres:13"
+    ],
+    "Tulimshar Beach": [
+      "presets/maps/data/tonori/tulimshar outskirts/Tulimshar Beach.tres:13"
+    ],
+    "Tulimshar Southern Hills": [
+      "presets/maps/data/tonori/tulimshar outskirts/Tulimshar Southern Hills.tres:13"
+    ],
+    "Tulimshar Western Hills": [
+      "presets/maps/data/tonori/tulimshar outskirts/Tulimshar Western Hills.tres:13"
+    ],
+    "Tulimshar Eastern Hills": [
+      "presets/maps/data/tonori/tulimshar outskirts/Tulimshar Eastern Hills.tres:13"
+    ],
+    "Tulimshar Western Cave": [
+      "presets/maps/data/tonori/tulimshar outskirts/Tulimshar Western Cave.tres:13"
+    ],
+    "Drazil": [
+      "presets/maps/data/drazil/Drazil.tres:13"
+    ],
+    "Candor Arena": [
+      "presets/maps/data/candor/Candor Arena.tres:13"
+    ],
+    "Candor Cave": [
+      "presets/maps/data/candor/Candor Cave.tres:13"
+    ],
+    "Tulimshar Desert Guard": [
+      "presets/entities/Tulimshar Desert Guard.tres:17"
+    ],
+    "Thiefs Chest": [
+      "presets/entities/Thiefs Chest.tres:14"
+    ],
+    "Fire Goblin": [
+      "presets/entities/Fire Goblin.tres:16"
+    ],
+    "Naem": [
+      "presets/entities/Naem.tres:13"
+    ],
+    "Elanore": [
+      "presets/entities/Elanore.tres:13"
+    ],
+    "Nina": [
+      "presets/entities/Nina.tres:13"
+    ],
+    "Xakelbael": [
+      "presets/entities/Xakelbael.tres:20"
+    ],
+    "Gabriel": [
+      "presets/entities/Gabriel.tres:15"
+    ],
+    "Turtle": [
+      "presets/entities/Turtle.tres:15"
+    ],
+    "Light Trigger": [
+      "presets/entities/Light Trigger.tres:12"
+    ],
+    "Bat": [
+      "presets/entities/Bat.tres:14"
+    ],
+    "Neko": [
+      "presets/entities/Neko.tres:18"
+    ],
+    "Goblin": [
+      "presets/entities/Goblin.tres:13"
+    ],
+    "StaticNPC": [
+      "presets/entities/StaticNPC.tres:13"
+    ],
+    "SandstormMineKey": [
+      "presets/entities/SandstormMineKey.tres:14"
+    ],
+    "Tulimshar Desert Sbire": [
+      "presets/entities/Tulimshar Desert Sbire.tres:17"
+    ],
+    "Emil": [
+      "presets/entities/Emil.tres:12"
+    ],
+    "Andi": [
+      "presets/entities/Andi.tres:13"
+    ],
+    "Bandit": [
+      "presets/entities/Bandit.tres:11"
+    ],
+    "Hyland": [
+      "presets/entities/Hyland.tres:13"
+    ],
+    "Red Queen": [
+      "presets/entities/Red Queen.tres:18"
+    ],
+    "Wie": [
+      "presets/entities/Wie.tres:13"
+    ],
+    "Lulea": [
+      "presets/entities/Lulea.tres:14"
+    ],
+    "Snake Pit Clue": [
+      "presets/entities/Snake Pit Clue.tres:13"
+    ],
+    "Drain Slime": [
+      "presets/entities/Drain Slime.tres:15"
+    ],
+    "Lizandre": [
+      "presets/entities/Lizandre.tres:13"
+    ],
+    "Ekinu": [
+      "presets/entities/Ekinu.tres:13"
+    ],
+    "Slime": [
+      "presets/entities/Slime.tres:14"
+    ],
+    "Tulimshar Sbire": [
+      "presets/entities/Tulimshar Sbire.tres:17"
+    ],
+    "Croc": [
+      "presets/entities/Croc.tres:14"
+    ],
+    "Bird": [
+      "presets/entities/Bird.tres:15"
+    ],
+    "Snake": [
+      "presets/entities/Snake.tres:14"
+    ],
+    "Lizandra": [
+      "presets/entities/Lizandra.tres:14"
+    ],
+    "Sema": [
+      "presets/entities/Sema.tres:13"
+    ],
+    "Old Chest": [
+      "presets/entities/Old Chest.tres:13"
+    ],
+    "TicTacToeCell": [
+      "presets/entities/TicTacToeCell.tres:15"
+    ],
+    "Piou": [
+      "presets/entities/Piou.tres:15"
+    ],
+    "Maggot": [
+      "presets/entities/Maggot.tres:15"
+    ],
+    "Fluffy": [
+      "presets/entities/Fluffy.tres:15"
+    ],
+    "Lilah": [
+      "presets/entities/Lilah.tres:14"
+    ],
+    "Shiro": [
+      "presets/entities/Shiro.tres:18"
+    ],
+    "Flour Barrel": [
+      "presets/entities/Flour Barrel.tres:15"
+    ],
+    "Nard": [
+      "presets/entities/Nard.tres:37"
+    ],
+    "Sea Slime": [
+      "presets/entities/Sea Slime.tres:14"
+    ],
+    "Nicolas": [
+      "presets/entities/Nicolas.tres:13"
+    ],
+    "Evil Mushroom": [
+      "presets/entities/Evil Mushroom.tres:15"
+    ],
+    "Ben": [
+      "presets/entities/Ben.tres:18"
+    ],
+    "Bicies": [
+      "presets/entities/Bicies.tres:14"
+    ],
+    "Gabz": [
+      "presets/entities/Gabz.tres:13"
+    ],
+    "Lynx": [
+      "presets/entities/Lynx.tres:13"
+    ],
+    "DeepLevelCrack": [
+      "presets/entities/SandstormMineCrack.tres:13"
+    ],
+    "SandstormMineCrack": [
+      "presets/entities/SandstormMineCrack.tres:22"
+    ],
+    "Snake Pit Pond": [
+      "presets/entities/Snake Pit Pond.tres:13"
+    ],
+    "Scorpion": [
+      "presets/entities/Scorpion.tres:15"
+    ],
+    "Mana Tree": [
+      "presets/entities/Mana Tree.tres:10"
+    ],
+    "Marvin": [
+      "presets/entities/Marvin.tres:16"
+    ],
+    "Player": [
+      "presets/entities/Player.tres:11"
+    ],
+    "NPC": [
+      "presets/entities/NPC.tres:12"
+    ],
+    "Elias": [
+      "presets/entities/Elias.tres:13"
+    ],
+    "Peyote": [
+      "presets/entities/Peyote.tres:14"
+    ],
+    "Sludge Slime": [
+      "presets/entities/Sludge Slime.tres:15"
+    ],
+    "StaticObject": [
+      "presets/entities/StaticObject.tres:13"
+    ],
+    "Splatyna": [
+      "presets/entities/Splatyna.tres:15"
+    ],
+    "Red Scorpion": [
+      "presets/entities/Red Scorpion.tres:14"
+    ],
+    "Pachua": [
+      "presets/entities/Pachua.tres:13"
+    ],
+    "Gilgames": [
+      "presets/entities/Gilgames.tres:19"
+    ],
+    "Ratto": [
+      "presets/entities/Ratto.tres:14"
+    ],
+    "Well": [
+      "presets/entities/Well.tres:12"
+    ],
+    "Skeleton": [
+      "presets/entities/Skeleton.tres:17"
+    ],
+    "Nickos": [
+      "presets/entities/Nickos.tres:13"
+    ],
+    "Dorian": [
+      "presets/entities/Dorian.tres:15"
+    ],
+    "Sawyl": [
+      "presets/entities/Sawyl.tres:13"
+    ],
+    "Mauro": [
+      "presets/entities/Mauro.tres:18"
+    ],
+    "Tulimshar Guard": [
+      "presets/entities/Tulimshar Guard.tres:16"
+    ],
+    "Peter": [
+      "presets/entities/Peter.tres:13"
+    ],
+    "Maclat": [
+      "presets/entities/Maclat.tres:14"
+    ],
+    "Frost": [
+      "presets/entities/Frost.tres:40"
+    ],
+    "Manayir Druid": [
+      "presets/entities/ManayirDruid.tres:15"
+    ],
+    "Salt Slime": [
+      "presets/entities/Salt Slime.tres:16"
+    ],
+    "Riskim": [
+      "presets/entities/Riskim.tres:13"
+    ],
+    "Manayir Druidess": [
+      "presets/entities/ManayirDruidess.tres:15"
+    ],
+    "Letter Stash": [
+      "presets/entities/Letter Stash.tres:14"
+    ],
+    "Warp": [
+      "presets/entities/Warp.tres:10"
+    ],
+    "Spiky Mushroom": [
+      "presets/entities/Spiky Mushroom.tres:15"
+    ],
+    "Fire Skull": [
+      "presets/entities/Fire Skull.tres:14"
+    ],
+    "Locks": [
+      "presets/entities/Locks.tres:13"
+    ],
+    "Soul Menhir": [
+      "presets/entities/Soul Menhir.tres:13"
+    ],
+    "Chest": [
+      "presets/entities/Chest.tres:15"
+    ],
+    "Object": [
+      "presets/entities/Object.tres:10"
+    ],
+    "Sand Snake": [
+      "presets/entities/Sand Snake.tres:15"
+    ],
+    "Ryan": [
+      "presets/entities/Ryan.tres:13"
+    ],
+    "Eridu": [
+      "presets/entities/Eridu.tres:14"
+    ],
+    "Ship": [
+      "presets/entities/Ship.tres:11"
+    ],
+    "Giant Maggot": [
+      "presets/entities/Giant Maggot.tres:16"
+    ],
+    "Kael": [
+      "presets/entities/Kael.tres:13"
+    ],
+    "Minguer": [
+      "presets/entities/Minguer.tres:17"
+    ],
+    "Pinkie": [
+      "presets/entities/Pinkie.tres:14"
+    ],
+    "WalkingNPC": [
+      "presets/entities/WalkingNPC.tres:13"
+    ],
+    "Ukar Nordic": [
+      "presets/palettes/skin/UkarNordic.tres:8"
+    ],
+    "Raijin Light": [
+      "presets/palettes/skin/RaijinLight.tres:8"
+    ],
+    "Human Tanned": [
+      "presets/palettes/skin/HumanTanned.tres:8"
+    ],
+    "Raijin Dark": [
+      "presets/palettes/skin/RaijinDark.tres:8"
+    ],
+    "Kralog Frost": [
+      "presets/palettes/skin/KralogFrost.tres:8"
+    ],
+    "Tritan Ocean": [
+      "presets/palettes/skin/TritanOcean.tres:8"
+    ],
+    "Kralog Fire": [
+      "presets/palettes/skin/KralogFire.tres:8"
+    ],
+    "Tritan Oranye": [
+      "presets/palettes/skin/TritanOranye.tres:8"
+    ],
+    "Human Medium": [
+      "presets/palettes/skin/HumanMedium.tres:8"
+    ],
+    "Snake Sand": [
+      "presets/palettes/skin/SnakeSand.tres:8"
+    ],
+    "Human Dark": [
+      "presets/palettes/skin/HumanDark.tres:8"
+    ],
+    "Used": [
+      "presets/palettes/equip/Used.tres:8"
+    ],
+    "Olive": [
+      "presets/palettes/equip/Olive.tres:8"
+    ],
+    "Sage": [
+      "presets/palettes/equip/Sage.tres:8"
+    ],
+    "Natural": [
+      "presets/palettes/equip/Natural.tres:8"
+    ],
+    "Cerulean": [
+      "presets/palettes/equip/Cerulean.tres:8"
+    ],
+    "Crimson": [
+      "presets/palettes/equip/Crimson.tres:8"
+    ],
+    "Sand": [
+      "presets/palettes/equip/Sand.tres:8"
+    ],
+    "Salamander": [
+      "presets/palettes/equip/Salamander.tres:8"
+    ],
+    "Dark Copper": [
+      "presets/palettes/hair/DarkCopper.tres:8"
+    ],
+    "Twisted Teal": [
+      "presets/palettes/hair/TwistedTeal.tres:8"
+    ],
+    "Fire Red": [
+      "presets/palettes/hair/FireRed.tres:8"
+    ],
+    "Honey Brown": [
+      "presets/palettes/hair/HoneyBrown.tres:8"
+    ],
+    "Off Black": [
+      "presets/palettes/hair/OffBlack.tres:8"
+    ],
+    "Lagoon Blue": [
+      "presets/palettes/hair/LagoonBlue.tres:8"
+    ],
+    "Copper Blonde": [
+      "presets/palettes/hair/CopperBlonde.tres:8"
+    ],
+    "Esperia Blue": [
+      "presets/palettes/hair/EsperiaBlue.tres:8"
+    ],
+    "Pinky Pink": [
+      "presets/palettes/hair/PinkyPink.tres:8"
+    ],
+    "Silver Grey": [
+      "presets/palettes/hair/SilverGrey.tres:8"
+    ],
+    "Pure Platinum": [
+      "presets/palettes/hair/PurePlatinum.tres:8"
+    ],
+    "Spring Green": [
+      "presets/palettes/hair/SpringGreen.tres:8"
+    ],
+    "Auburn Brown": [
+      "presets/palettes/hair/AuburnBrown.tres:8"
+    ],
+    "Forest Green": [
+      "presets/palettes/hair/ForestGreen.tres:8"
+    ],
+    "Navy Blue": [
+      "presets/palettes/hair/NavyBlue.tres:8"
+    ],
+    "Light Violet": [
+      "presets/palettes/hair/LightViolet.tres:8"
+    ],
+    "Purple Plum": [
+      "presets/palettes/hair/PurplePlum.tres:8"
+    ],
+    "Ash Brown": [
+      "presets/palettes/hair/AshBrown.tres:8"
+    ],
+    "Golden Blonde": [
+      "presets/palettes/hair/GoldenBlonde.tres:8"
+    ],
+    "Cherry Blossom": [
+      "presets/palettes/hair/CherryBlossom.tres:8"
+    ],
+    "Dark Brown": [
+      "presets/palettes/hair/DarkBrown.tres:8"
+    ],
+    "Foreboding": [
+      "presets/music/Foreboding.tres:8"
+    ],
+    "Adventure Begins": [
+      "presets/music/AdventureBegins.tres:8"
+    ],
+    "LaJohanne": [
+      "presets/music/LaJohanne.tres:8"
+    ],
+    "Night is calling": [
+      "presets/music/NightIsCalling.tres:8"
+    ],
+    "Desert Cave": [
+      "presets/music/DesertCave.tres:8"
+    ],
+    "Faith": [
+      "presets/music/Faith.tres:8"
+    ],
+    "Lenia": [
+      "presets/music/Lenia.tres:8"
+    ],
+    "AttackDown": [
+      "presets/animations/overrides/Ponytail.tres:4",
+      "presets/animations/overrides/Ghutra.tres:4"
+    ],
+    "AttackLeft": [
+      "presets/animations/overrides/Ponytail.tres:21",
+      "presets/animations/overrides/Ghutra.tres:21"
+    ],
+    "AttackRight": [
+      "presets/animations/overrides/Ponytail.tres:38",
+      "presets/animations/overrides/Ghutra.tres:38"
+    ],
+    "AttackUp": [
+      "presets/animations/overrides/Ponytail.tres:55",
+      "presets/animations/overrides/Ghutra.tres:55"
+    ],
+    "Death": [
+      "presets/animations/overrides/Ponytail.tres:72",
+      "presets/animations/overrides/Ghutra.tres:72"
+    ],
+    "IdleDown": [
+      "presets/animations/overrides/Ponytail.tres:87",
+      "presets/animations/overrides/Ghutra.tres:87"
+    ],
+    "IdleLeft": [
+      "presets/animations/overrides/Ponytail.tres:103",
+      "presets/animations/overrides/Ghutra.tres:103"
+    ],
+    "IdleRight": [
+      "presets/animations/overrides/Ponytail.tres:119",
+      "presets/animations/overrides/Ghutra.tres:119"
+    ],
+    "IdleUp": [
+      "presets/animations/overrides/Ponytail.tres:135",
+      "presets/animations/overrides/Ghutra.tres:135"
+    ],
+    "SitDown": [
+      "presets/animations/overrides/Ponytail.tres:151",
+      "presets/animations/overrides/Ghutra.tres:151"
+    ],
+    "SitLeft": [
+      "presets/animations/overrides/Ponytail.tres:167",
+      "presets/animations/overrides/Ghutra.tres:167"
+    ],
+    "SitRight": [
+      "presets/animations/overrides/Ponytail.tres:183",
+      "presets/animations/overrides/Ghutra.tres:183"
+    ],
+    "SitUp": [
+      "presets/animations/overrides/Ponytail.tres:199",
+      "presets/animations/overrides/Ghutra.tres:199"
+    ],
+    "Trigger": [
+      "presets/animations/overrides/Ponytail.tres:215",
+      "presets/animations/overrides/Ghutra.tres:215"
+    ],
+    "WalkDown": [
+      "presets/animations/overrides/Ponytail.tres:231",
+      "presets/animations/overrides/Ghutra.tres:231"
+    ],
+    "WalkLeft": [
+      "presets/animations/overrides/Ponytail.tres:248",
+      "presets/animations/overrides/Ghutra.tres:248"
+    ],
+    "WalkRight": [
+      "presets/animations/overrides/Ponytail.tres:265",
+      "presets/animations/overrides/Ghutra.tres:265"
+    ],
+    "WalkUp": [
+      "presets/animations/overrides/Ponytail.tres:282",
+      "presets/animations/overrides/Ghutra.tres:282",
+      "presets/animations/overrides/GhutraWalkUp.tres:4"
+    ]
+  },
+  "gd_texts": {
+    "[center]%s[/center]": [
+      "sources/actor/entity/components/Interactive.gd:228",
+      "sources/gui/Notification.gd:24"
+    ],
+    "%s... %d%%": [
+      "sources/gui/Loading.gd:39"
+    ],
+    "[center][color=#": [
+      "sources/gui/Scrollable.gd:24"
+    ],
+    "[color=#": [
+      "sources/gui/Scrollable.gd:38",
+      "sources/gui/Scrollable.gd:49"
+    ],
+    "New Password": [
+      "sources/gui/Login.gd:141"
+    ],
+    "Playing Offline": [
+      "sources/gui/Login.gd:251"
+    ],
+    "Connecting...": [
+      "sources/gui/Login.gd:281",
+      "sources/gui/Login.gd:294"
+    ],
+    "tokentokentoken": [
+      "sources/gui/Login.gd:345"
+    ],
+    "Lv. %d": [
+      "sources/gui/StatPanel.gd:167"
+    ],
+    "%s GP": [
+      "sources/gui/StatPanel.gd:177",
+      "sources/gui/ItemPickerLine.gd:32"
+    ],
+    "%s[color=#%s]%s[/color]": [
+      "sources/gui/Dialogue.gd:39"
+    ],
+    "[color=#%s]%s[/color]": [
+      "sources/gui/Dialogue.gd:45",
+      "sources/gui/Dialogue.gd:52",
+      "sources/gui/settings/AccountSettings.gd:22"
+    ],
+    "999+": [
+      "sources/gui/CellTile.gd:160"
+    ],
+    "%s (%d kill%s)": [
+      "sources/gui/Progress.gd:56"
+    ],
+    "%s (%s)": [
+      "sources/gui/Progress.gd:82"
+    ],
+    "dodge": [
+      "sources/gui/AlterationLabel.gd:36"
+    ],
+    "miss": [
+      "sources/gui/AlterationLabel.gd:49"
+    ],
+    "%d xp": [
+      "sources/gui/AlterationLabel.gd:58"
+    ],
+    "%d GP": [
+      "sources/gui/AlterationLabel.gd:62"
+    ],
+    "Not enough GP.": [
+      "sources/gui/Trade.gd:142"
+    ],
+    "Completing the trade...": [
+      "sources/gui/Trade.gd:144"
+    ],
+    "Waiting for partner...": [
+      "sources/gui/Trade.gd:146"
+    ],
+    "Partner locked.": [
+      "sources/gui/Trade.gd:148"
+    ],
+    "Trade": [
+      "sources/gui/Trade.gd:155"
+    ],
+    "Lock (%d)": [
+      "sources/gui/Trade.gd:162"
+    ],
+    "Unlock": [
+      "sources/gui/Trade.gd:164"
+    ],
+    "Back": [
+      "sources/gui/Trade.gd:239"
+    ],
+    "... (%d)": [
+      "sources/gui/settings/InputBindings.gd:94"
+    ],
+    "Reset to Default": [
+      "sources/gui/settings/InputBindings.gd:236"
+    ],
+    "Refresh": [
+      "addons/game_data_manager/CombatSimulatorView.gd:121"
+    ],
+    "── Player ──": [
+      "addons/game_data_manager/CombatSimulatorView.gd:146"
+    ],
+    "Level:": [
+      "addons/game_data_manager/CombatSimulatorView.gd:153"
+    ],
+    "Points: 0 / 13  (free: 13)": [
+      "addons/game_data_manager/CombatSimulatorView.gd:165"
+    ],
+    "── Equipment ──": [
+      "addons/game_data_manager/CombatSimulatorView.gd:187"
+    ],
+    "── Active Modifiers ──": [
+      "addons/game_data_manager/CombatSimulatorView.gd:215"
+    ],
+    "(no modifiers)": [
+      "addons/game_data_manager/CombatSimulatorView.gd:223",
+      "addons/game_data_manager/CombatSimulatorView.gd:367"
+    ],
+    "Combat Matrix": [
+      "addons/game_data_manager/CombatSimulatorView.gd:233"
+    ],
+    "Points: %d / %d  (free: %d)": [
+      "addons/game_data_manager/CombatSimulatorView.gd:324"
+    ],
+    "Cancel": [
+      "addons/game_data_manager/EntityTableView.gd:183"
+    ],
+    "Apply": [
+      "addons/game_data_manager/EntityTableView.gd:188"
+    ],
+    "Property:": [
+      "addons/game_data_manager/BulkEditDialog.gd:21"
+    ],
+    "New Value:": [
+      "addons/game_data_manager/BulkEditDialog.gd:28"
+    ],
+    "No drops configured. Click 'Add Drop' to add one.": [
+      "addons/game_data_manager/EntityDropsView.gd:78"
+    ],
+    "Probability:": [
+      "addons/game_data_manager/EntityDropsView.gd:110",
+      "addons/game_data_manager/EntitySkillsView.gd:109"
+    ],
+    "No skills configured. Click 'Add Skill' to add one.": [
+      "addons/game_data_manager/EntitySkillsView.gd:78"
+    ]
+  },
+  "csv_issues": {
+    "UI-full.csv": [
+      {
+        "line": 2,
+        "key": "UI_BESTIARY",
+        "en": "UI_BESTIARY",
+        "zh": ""
+      },
+      {
+        "line": 3,
+        "key": "UI_NO_PARTY",
+        "en": "UI_NO_PARTY",
+        "zh": ""
+      }
+    ]
+  },
+  "gd_strings": {
+    "Could not find the default database template": [
+      "sources/sql/SQLCommons.gd:55"
+    ],
+    "Database compacted": [
+      "sources/sql/SQL.gd:40"
+    ],
+    "Duplicated account row": [
+      "sources/sql/SQL.gd:80"
+    ],
+    "Character attribute row is missing": [
+      "sources/sql/SQL.gd:208"
+    ],
+    "Character trait row is missing": [
+      "sources/sql/SQL.gd:226"
+    ],
+    "Character stat row is missing": [
+      "sources/sql/SQL.gd:249"
+    ],
+    "Source of Mana": [
+      "sources/launcher/LauncherCommons.gd:5",
+      "sources/network/server/EmailService.gd:23"
+    ],
+    "Cannot kick yourself": [
+      "sources/world/WorldCommands.gd:505"
+    ],
+    "Ban registration failed": [
+      "sources/world/WorldCommands.gd:534"
+    ],
+    "No active bans found": [
+      "sources/world/WorldCommands.gd:569"
+    ],
+    "IP ban registration failed": [
+      "sources/world/WorldCommands.gd:592"
+    ],
+    "No IP bans found": [
+      "sources/world/WorldCommands.gd:631"
+    ],
+    "You cannot whisper to yourself": [
+      "sources/world/WorldCommands.gd:654"
+    ],
+    "You cannot query yourself": [
+      "sources/world/WorldCommands.gd:671"
+    ],
+    "You cannot trade with yourself": [
+      "sources/world/WorldCommands.gd:687"
+    ],
+    "Only admins can deploy": [
+      "sources/world/ServerDeploy.gd:16"
+    ],
+    "A deploy or restart is already in progress": [
+      "sources/world/ServerDeploy.gd:25"
+    ],
+    "No triangulation available": [
+      "sources/world/WorldNavigation.gd:41"
+    ],
+    "Content file not found ": [
+      "sources/system/FileSystem.gd:37"
+    ],
+    "File parsing issue on file ": [
+      "sources/system/FileSystem.gd:41",
+      "sources/system/FileSystem.gd:50"
+    ],
+    "DB file not found ": [
+      "sources/system/FileSystem.gd:62"
+    ],
+    "DB parsing issue on file ": [
+      "sources/system/FileSystem.gd:70"
+    ],
+    "Error loading the config file ": [
+      "sources/system/FileSystem.gd:93"
+    ],
+    "Config file not found ": [
+      "sources/system/FileSystem.gd:101"
+    ],
+    "Config file ": [
+      "sources/system/FileSystem.gd:106"
+    ],
+    "Error saving the config file ": [
+      "sources/system/FileSystem.gd:111"
+    ],
+    "Could not get a viewport screenshot": [
+      "sources/system/FileSystem.gd:145"
+    ],
+    "Config files count mismatch": [
+      "sources/system/Conf.gd:109"
+    ],
+    "Empty command sent": [
+      "sources/debug/CommandManager.gd:18"
+    ],
+    "Invalid command sent": [
+      "sources/debug/CommandManager.gd:23"
+    ],
+    "Focus Next": [
+      "sources/input/DeviceManager.gd:25"
+    ],
+    "Focus Previous": [
+      "sources/input/DeviceManager.gd:26"
+    ],
+    "Page Up": [
+      "sources/input/DeviceManager.gd:27"
+    ],
+    "Page Down": [
+      "sources/input/DeviceManager.gd:28"
+    ],
+    "Move Up": [
+      "sources/input/DeviceManager.gd:33"
+    ],
+    "Move Down": [
+      "sources/input/DeviceManager.gd:34"
+    ],
+    "Move Left": [
+      "sources/input/DeviceManager.gd:35"
+    ],
+    "Move Right": [
+      "sources/input/DeviceManager.gd:36"
+    ],
+    "Inventory Window": [
+      "sources/input/DeviceManager.gd:37"
+    ],
+    "Minimap Window": [
+      "sources/input/DeviceManager.gd:39"
+    ],
+    "Chat Window": [
+      "sources/input/DeviceManager.gd:40"
+    ],
+    "Click To": [
+      "sources/input/DeviceManager.gd:42"
+    ],
+    "Emote Window": [
+      "sources/input/DeviceManager.gd:45"
+    ],
+    "Stat Window": [
+      "sources/input/DeviceManager.gd:65"
+    ],
+    "Progress Window": [
+      "sources/input/DeviceManager.gd:66"
+    ],
+    "Social Window": [
+      "sources/input/DeviceManager.gd:67"
+    ],
+    "Toggle Fullscreen": [
+      "sources/input/DeviceManager.gd:68"
+    ],
+    "Clear Target": [
+      "sources/input/DeviceManager.gd:80"
+    ],
+    "Face Direction": [
+      "sources/input/DeviceManager.gd:83"
+    ],
+    "Skill Window": [
+      "sources/input/DeviceManager.gd:84"
+    ],
+    "Context Validate": [
+      "sources/input/DeviceManager.gd:87"
+    ],
+    "Context Cancel": [
+      "sources/input/DeviceManager.gd:88"
+    ],
+    "Context Secondary": [
+      "sources/input/DeviceManager.gd:89"
+    ],
+    "Context Tertiary": [
+      "sources/input/DeviceManager.gd:90"
+    ],
+    "Context Previous": [
+      "sources/input/DeviceManager.gd:91"
+    ],
+    "Context Next": [
+      "sources/input/DeviceManager.gd:92"
+    ],
+    "Zoom In": [
+      "sources/input/DeviceManager.gd:93"
+    ],
+    "Zoom Out": [
+      "sources/input/DeviceManager.gd:94"
+    ],
+    "Reset Zoom": [
+      "sources/input/DeviceManager.gd:95"
+    ],
+    "Mouse Left": [
+      "sources/input/DeviceManager.gd:209"
+    ],
+    "Mouse Right": [
+      "sources/input/DeviceManager.gd:210"
+    ],
+    "Mouse Middle": [
+      "sources/input/DeviceManager.gd:211"
+    ],
+    "Mouse Wheel Up": [
+      "sources/input/DeviceManager.gd:212"
+    ],
+    "Mouse Wheel Down": [
+      "sources/input/DeviceManager.gd:213"
+    ],
+    "Left Stick X": [
+      "sources/input/DeviceManager.gd:219"
+    ],
+    "Left Stick Y": [
+      "sources/input/DeviceManager.gd:220"
+    ],
+    "Right Stick X": [
+      "sources/input/DeviceManager.gd:221"
+    ],
+    "Right Stick Y": [
+      "sources/input/DeviceManager.gd:222"
+    ],
+    "Left Trigger": [
+      "sources/input/DeviceManager.gd:223"
+    ],
+    "Right Trigger": [
+      "sources/input/DeviceManager.gd:224"
+    ],
+    "Discord bot disabled": [
+      "sources/discord/Discord.gd:35"
+    ],
+    "Discord bot not configured": [
+      "sources/discord/Discord.gd:38"
+    ],
+    "Non Binary": [
+      "sources/actor/ActorCommons.gd:31"
+    ],
+    "To Trigger": [
+      "sources/actor/ActorCommons.gd:173"
+    ],
+    "From Trigger": [
+      "sources/actor/ActorCommons.gd:175"
+    ],
+    "Alteration SFX": [
+      "sources/actor/ActorCommons.gd:313"
+    ],
+    "Notification SFX": [
+      "sources/actor/ActorCommons.gd:314"
+    ],
+    "State SFX": [
+      "sources/actor/ActorCommons.gd:315"
+    ],
+    "Exchange could not add an item despite its space validation": [
+      "sources/actor/Inventory.gd:309"
+    ],
+    "Caller actor node should never be null": [
+      "sources/actor/Stats.gd:121"
+    ],
+    "Grain in the desert": [
+      "sources/actor/ProgressCommons.gd:10"
+    ],
+    "Snake Pit Thief": [
+      "sources/actor/ProgressCommons.gd:11"
+    ],
+    "A Biting Thirst": [
+      "sources/actor/ProgressCommons.gd:12"
+    ],
+    "Sandstorm Mine Abandoned Treasure": [
+      "sources/actor/ProgressCommons.gd:13"
+    ],
+    "An Old Friendship": [
+      "sources/actor/ProgressCommons.gd:14"
+    ],
+    "Mine Exploration": [
+      "sources/actor/ProgressCommons.gd:18"
+    ],
+    "A Drop of Relief": [
+      "sources/actor/ProgressCommons.gd:19"
+    ],
+    "Desert Seed": [
+      "sources/actor/ProgressCommons.gd:21"
+    ],
+    "Found a Chest in the Outskirts": [
+      "sources/actor/ProgressCommons.gd:22"
+    ],
+    "Veteran Cave Explorer": [
+      "sources/actor/ProgressCommons.gd:25"
+    ],
+    "Provided skill cell is null": [
+      "sources/actor/Progress.gd:56",
+      "sources/actor/Progress.gd:60",
+      "sources/actor/Progress.gd:79"
+    ],
+    "Trying to init a NPC Script with a missing player or NPC": [
+      "sources/actor/agent/NpcScript.gd:508"
+    ],
+    "Max Health": [
+      "sources/cell/CellCommons.gd:68"
+    ],
+    "Max Mana": [
+      "sources/cell/CellCommons.gd:69"
+    ],
+    "Max Stamina": [
+      "sources/cell/CellCommons.gd:70"
+    ],
+    "Atk Range": [
+      "sources/cell/CellCommons.gd:75"
+    ],
+    "Crit Rate": [
+      "sources/cell/CellCommons.gd:76"
+    ],
+    "Dodge Rate": [
+      "sources/cell/CellCommons.gd:77"
+    ],
+    "Cast Delay": [
+      "sources/cell/CellCommons.gd:79"
+    ],
+    "HP Regen": [
+      "sources/cell/CellCommons.gd:81"
+    ],
+    "MP Regen": [
+      "sources/cell/CellCommons.gd:82"
+    ],
+    "SP Regen": [
+      "sources/cell/CellCommons.gd:83"
+    ],
+    "Walk Speed": [
+      "sources/cell/CellCommons.gd:84"
+    ],
+    "Carry Weight": [
+      "sources/cell/CellCommons.gd:85"
+    ],
+    "Cell type not recognized": [
+      "sources/cell/BaseCell.gd:32"
+    ],
+    "Open them": [
+      "sources/scripts/splatyna/Locks.gd:20"
+    ],
+    "Ship Hold": [
+      "sources/scripts/ship/PeterGlobal.gd:6",
+      "sources/scripts/ship/Peter.gd:7"
+    ],
+    "Ship Second Deck": [
+      "sources/scripts/ship/PeterGlobal.gd:7"
+    ],
+    "I want to try another style": [
+      "sources/scripts/generic/Barber.gd:6"
+    ],
+    "A new color": [
+      "sources/scripts/generic/Barber.gd:7"
+    ],
+    "Another style": [
+      "sources/scripts/generic/Barber.gd:21"
+    ],
+    "Another color": [
+      "sources/scripts/generic/Barber.gd:35"
+    ],
+    "Water Bottle": [
+      "sources/scripts/generic/Well.gd:10",
+      "sources/scripts/tonori/sandstorm/Nathan.gd:71",
+      "sources/scripts/tonori/sandstorm/Nathan.gd:77",
+      "sources/scripts/tonori/sandstorm/Nathan.gd:82",
+      "sources/scripts/tonori/tulimshar/Elanore.gd:26",
+      "sources/scripts/tonori/tulimshar/Elanore.gd:95",
+      "sources/scripts/tonori/tulimshar/Elanore.gd:159"
+    ],
+    "Fill another bottle": [
+      "sources/scripts/generic/Well.gd:48"
+    ],
+    "Cactus Potion": [
+      "sources/scripts/tonori/sandstorm/Nickos.gd:36",
+      "sources/scripts/tonori/sandstorm/Nickos.gd:45",
+      "sources/scripts/tonori/tulimshar/Nina.gd:141",
+      "sources/scripts/tonori/tulimshar/Elanore.gd:160"
+    ],
+    "Nathan thinks to himself": [
+      "sources/scripts/tonori/sandstorm/Nathan.gd:68"
+    ],
+    "To Mines": [
+      "sources/scripts/tonori/sandstorm/Sawyl.gd:20",
+      "sources/scripts/tonori/sandstorm/Elias.gd:11"
+    ],
+    "Chest Mine Key": [
+      "sources/scripts/tonori/sandstorm/Chest.gd:7",
+      "sources/scripts/tonori/sandstorm/MineKey.gd:7"
+    ],
+    "Piou Slayer": [
+      "sources/scripts/tonori/sandstorm/Chest.gd:10"
+    ],
+    "Desert Deep Level": [
+      "sources/scripts/tonori/sandstorm/DeepLevelEntranceGlobal.gd:5"
+    ],
+    "Sandstorm Kano": [
+      "sources/scripts/tonori/sandstorm/XakelbaelGlobal.gd:65",
+      "sources/scripts/tonori/tulimshar/Nina.gd:8"
+    ],
+    "Mana Tree": [
+      "sources/scripts/tonori/sandstorm/XakelbaelGlobal.gd:83"
+    ],
+    "Miner Helmet": [
+      "sources/scripts/tonori/sandstorm/Naem.gd:19"
+    ],
+    "To Tulimshar": [
+      "sources/scripts/tonori/sandstorm/Elias.gd:17"
+    ],
+    "Artis Flour Sack": [
+      "sources/scripts/tonori/tulimshar/FlourBarrel.gd:3",
+      "sources/scripts/tonori/tulimshar/Riskim.gd:4"
+    ],
+    "Tulimshar Guard": [
+      "sources/scripts/tonori/tulimshar/LightTriggerGlobal.gd:42"
+    ],
+    "Tulimshar Sbire": [
+      "sources/scripts/tonori/tulimshar/LightTriggerGlobal.gd:42",
+      "sources/scripts/tonori/tulimshar/castle/RedQueenGlobal.gd:22"
+    ],
+    "Play against you": [
+      "sources/scripts/tonori/tulimshar/Wie.gd:19"
+    ],
+    "Play against someone else": [
+      "sources/scripts/tonori/tulimshar/Wie.gd:20"
+    ],
+    "Maybe later": [
+      "sources/scripts/tonori/tulimshar/Wie.gd:22",
+      "sources/scripts/tonori/tulimshar/Wie.gd:28"
+    ],
+    "I have to go": [
+      "sources/scripts/tonori/tulimshar/Wie.gd:33",
+      "sources/scripts/tonori/tulimshar/Wie.gd:43"
+    ],
+    "Ok ok": [
+      "sources/scripts/tonori/tulimshar/Wie.gd:40"
+    ],
+    "Cotton Shirt": [
+      "sources/scripts/tonori/tulimshar/Maclat.gd:5",
+      "sources/scripts/tonori/tulimshar/Elanore.gd:57"
+    ],
+    "Tank Top": [
+      "sources/scripts/tonori/tulimshar/Maclat.gd:5"
+    ],
+    "Sealed Letters": [
+      "sources/scripts/tonori/tulimshar/Frost.gd:5",
+      "sources/scripts/tonori/tulimshar/LetterStash.gd:5",
+      "sources/scripts/tonori/tulimshar/Ben.gd:5"
+    ],
+    "Heavy Envelope": [
+      "sources/scripts/tonori/tulimshar/Frost.gd:6",
+      "sources/scripts/tonori/tulimshar/LetterStash.gd:6"
+    ],
+    "I should get going": [
+      "sources/scripts/tonori/tulimshar/Frost.gd:30",
+      "sources/scripts/tonori/tulimshar/Frost.gd:76"
+    ],
+    "Tell me about Ben again": [
+      "sources/scripts/tonori/tulimshar/Frost.gd:34"
+    ],
+    "Not now": [
+      "sources/scripts/tonori/tulimshar/Frost.gd:98"
+    ],
+    "Cactus Sour Candy": [
+      "sources/scripts/tonori/tulimshar/Riskim.gd:8",
+      "sources/scripts/tonori/tulimshar/Elanore.gd:27"
+    ],
+    "Bandana Scarf": [
+      "sources/scripts/tonori/tulimshar/Minguer.gd:5"
+    ],
+    "Desert Boots": [
+      "sources/scripts/tonori/tulimshar/Minguer.gd:5",
+      "sources/scripts/tonori/tulimshar/Ekinu.gd:71"
+    ],
+    "Brass Zielite Amulet": [
+      "sources/scripts/tonori/tulimshar/Nina.gd:184"
+    ],
+    "Soul Menhir": [
+      "sources/scripts/tonori/tulimshar/Nina.gd:218"
+    ],
+    "Desert Goggles": [
+      "sources/scripts/tonori/tulimshar/Ekinu.gd:72",
+      "sources/scripts/tonori/tulimshar/Shiro.gd:5"
+    ],
+    "Short Sword": [
+      "sources/scripts/tonori/tulimshar/Ekinu.gd:81",
+      "sources/scripts/tonori/tulimshar/Neko.gd:5",
+      "sources/scripts/tonori/tulimshar/Kael.gd:83"
+    ],
+    "Tulimshar Center": [
+      "sources/scripts/tonori/tulimshar/PatrolGuardCaught.gd:17"
+    ],
+    "Sulphur Powder": [
+      "sources/scripts/tonori/tulimshar/Eridu.gd:18"
+    ],
+    "Desert Hood": [
+      "sources/scripts/tonori/tulimshar/Shiro.gd:5"
+    ],
+    "Maggot Slime": [
+      "sources/scripts/tonori/tulimshar/Elanore.gd:94",
+      "sources/scripts/tonori/tulimshar/Elanore.gd:159"
+    ],
+    "Thank you again but I have to leave": [
+      "sources/scripts/tonori/tulimshar/Elanore.gd:127"
+    ],
+    "Challenge Hyland": [
+      "sources/scripts/tonori/tulimshar/Hyland.gd:64"
+    ],
+    "Find me a worthy opponent": [
+      "sources/scripts/tonori/tulimshar/Hyland.gd:65"
+    ],
+    "Not today": [
+      "sources/scripts/tonori/tulimshar/Hyland.gd:67"
+    ],
+    "Play again": [
+      "sources/scripts/tonori/tulimshar/Hyland.gd:107",
+      "sources/scripts/tonori/tulimshar/Hyland.gd:129",
+      "sources/scripts/tonori/tulimshar/Hyland.gd:226",
+      "sources/scripts/tonori/tulimshar/Hyland.gd:232"
+    ],
+    "Jug Integrity": [
+      "sources/scripts/tonori/desertpit/WaterPondGlobal.gd:39",
+      "sources/scripts/tonori/desertpit/WaterPondGlobal.gd:65"
+    ],
+    "Snake Skin": [
+      "sources/scripts/tonori/desertpit/Pachua.gd:25"
+    ],
+    "Jean Chaps": [
+      "sources/scripts/tonori/desertpit/Pachua.gd:26"
+    ],
+    "Desert Shield": [
+      "sources/scripts/tonori/tulimshar outskirts/Chest.gd:5"
+    ],
+    "Warm Up": [
+      "sources/scripts/candor/GabzGlobal.gd:47"
+    ],
+    "ConnectCharacter sent": [
+      "sources/network/AgentClientProbe.gd:99"
+    ],
+    "You are not in a party": [
+      "sources/network/server/Server.gd:295"
+    ],
+    "WebRTC transport initialized": [
+      "sources/network/server/Server.gd:619"
+    ],
+    "Password Reset Request": [
+      "sources/network/server/EmailService.gd:58"
+    ],
+    "You receive ": [
+      "sources/network/client/Client.gd:146",
+      "sources/network/client/Client.gd:148",
+      "sources/network/client/Client.gd:267"
+    ],
+    "WebRTC transport connected": [
+      "sources/network/client/Client.gd:645"
+    ],
+    "AI state not handled": [
+      "sources/ai/AI.gd:51"
+    ],
+    "Making pixel squarish": [
+      "sources/gui/Loading.gd:16"
+    ],
+    "Turn on the lights": [
+      "sources/gui/Loading.gd:17"
+    ],
+    "Shade our particles": [
+      "sources/gui/Loading.gd:18"
+    ],
+    "Shake the sandglobe": [
+      "sources/gui/Loading.gd:19"
+    ],
+    "Feed the slimes": [
+      "sources/gui/Loading.gd:20"
+    ],
+    "Unknown button mode within the inventory window": [
+      "sources/gui/Inventory.gd:215"
+    ],
+    "New Password": [
+      "sources/gui/Login.gd:141"
+    ],
+    "Switch Online": [
+      "sources/gui/Login.gd:250",
+      "sources/gui/Login.gd:276"
+    ],
+    "Switch Offline": [
+      "sources/gui/Login.gd:250"
+    ],
+    "Playing Offline": [
+      "sources/gui/Login.gd:251"
+    ],
+    "Playing Online": [
+      "sources/gui/Login.gd:251"
+    ],
+    "Send Code": [
+      "sources/gui/Login.gd:260"
+    ],
+    "Reset Password": [
+      "sources/gui/Login.gd:263"
+    ],
+    "Create Account": [
+      "sources/gui/Login.gd:272",
+      "sources/gui/Login.gd:274"
+    ],
+    "Forgot Password": [
+      "sources/gui/Login.gd:277"
+    ],
+    "Menu Indicator nodes are not set correctly": [
+      "sources/gui/MenuIndicator.gd:97"
+    ],
+    "Could not fetch the active map name": [
+      "sources/gui/Minimap.gd:14"
+    ],
+    "Could not retrieve the map ID from our map daabase": [
+      "sources/gui/Minimap.gd:18"
+    ],
+    "Could not load the minimap resource": [
+      "sources/gui/Minimap.gd:21"
+    ],
+    "Join our Discord": [
+      "sources/gui/Gui.gd:148",
+      "sources/gui/Gui.gd:159"
+    ],
+    "Unhandled UITarget": [
+      "sources/gui/Gui.gd:363"
+    ],
+    "Welcome to ": [
+      "sources/gui/Chat.gd:174"
+    ],
+    "Messages sent here are publicly bridged to our ": [
+      "sources/gui/Chat.gd:178"
+    ],
+    "Unknown button box side": [
+      "sources/gui/ButtonBox.gd:97",
+      "sources/gui/ButtonBox.gd:105",
+      "sources/gui/ButtonBox.gd:113",
+      "sources/gui/ButtonBox.gd:121",
+      "sources/gui/ButtonBox.gd:129",
+      "sources/gui/ButtonBox.gd:137",
+      "sources/gui/ButtonBox.gd:145"
+    ],
+    "Log Out": [
+      "sources/gui/QuitBox.gd:20"
+    ],
+    "Invalid shortcut given for this window button": [
+      "sources/gui/WindowButton.gd:13"
+    ],
+    "No free available placement": [
+      "sources/gui/character/Character.gd:105"
+    ],
+    "Could not retrieve the default entity database entry": [
+      "sources/gui/character/Character.gd:110"
+    ],
+    "Could not create character preview": [
+      "sources/gui/character/Character.gd:115"
+    ],
+    "New Player": [
+      "sources/gui/character/Character.gd:283"
+    ],
+    "Delete Player": [
+      "sources/gui/character/Character.gd:285"
+    ],
+    "Character screen locations count mismatch with the max character count": [
+      "sources/gui/character/Character.gd:346"
+    ],
+    "Default attributes are using a wrong amount of attribute points": [
+      "sources/gui/character/Attributes.gd:170"
+    ],
+    "Device Type not recognized": [
+      "sources/gui/context/ContextAction.gd:24"
+    ],
+    "Reset to Default": [
+      "sources/gui/settings/InputBindings.gd:236"
+    ],
+    "Map node not found on the current scene": [
+      "sources/map/Map.gd:29"
+    ],
+    "Map instance could not be created": [
+      "sources/map/Map.gd:59"
+    ],
+    "Impossible to loop over an invalid timer or a missing timeout callback": [
+      "sources/util/Callback.gd:101"
+    ]
+  }
+}

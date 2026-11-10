@@ -11,7 +11,7 @@
 script = ExtResource("2_pyd2m")
 _parent = ExtResource("2_b0nde")
 _id = 3922677720
-_name = "Letter Stash"
+_name = "信件堆"
 _spritePreset = ExtResource("spr_StaticQuestHighlight")
 _radius = 8
 _stats = {}

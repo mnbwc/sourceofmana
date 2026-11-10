@@ -10,7 +10,7 @@
 script = ExtResource("3_vlt8s")
 _parent = ExtResource("2_lpdfm")
 _id = 3097291557
-_name = "Hyland"
+_name = "海兰"
 _stats = {
 "race": "Human",
 "skintone": "Dark"

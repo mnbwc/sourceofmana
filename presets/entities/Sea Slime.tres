@@ -11,7 +11,7 @@
 script = ExtResource("2_mr4dg")
 _parent = ExtResource("3_xbbvo")
 _id = 1744780248
-_name = "Sea Slime"
+_name = "海史莱姆"
 _spritePreset = ExtResource("spr_SlimeSea")
 _radius = 10
 _stats = {

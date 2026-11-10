@@ -59,7 +59,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Name" unique_id=2135318920]
 layout_mode = 2
 size_flags_vertical = 0
-text = "Name"
+text = "用户名"
 vertical_alignment = 1
 
 [node name="Container" type="PanelContainer" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Name" unique_id=1969704285]
@@ -83,7 +83,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Password" unique_id=1046087328]
 layout_mode = 2
 size_flags_vertical = 0
-text = "Password"
+text = "密码"
 vertical_alignment = 1
 
 [node name="Container" type="PanelContainer" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Password" unique_id=1711016730]
@@ -111,7 +111,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/ConfirmPassword" unique_id=2061717808]
 layout_mode = 2
 size_flags_vertical = 0
-text = "Confirm Password"
+text = "确认密码"
 vertical_alignment = 1
 
 [node name="Container" type="PanelContainer" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/ConfirmPassword" unique_id=5731306]
@@ -137,7 +137,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Email" unique_id=518527520]
 layout_mode = 2
 size_flags_vertical = 0
-text = "Email"
+text = "邮箱"
 vertical_alignment = 1
 
 [node name="Container" type="PanelContainer" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Email" unique_id=815627564]
@@ -165,7 +165,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Code" unique_id=1389644927]
 layout_mode = 2
 size_flags_vertical = 0
-text = "Reset Code"
+text = "重置码"
 vertical_alignment = 1
 
 [node name="Container" type="PanelContainer" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/Code" unique_id=298921391]
@@ -190,7 +190,7 @@ layout_mode = 2
 [node name="RememberMe" type="CheckBox" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/IndicatorRow" unique_id=608763400]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Remember me"
+text = "记住我"
 
 [node name="OnlineIndicator" type="CheckBox" parent="HBoxContainer/Panel/Margin/Content/LoginContainer/IndicatorRow" unique_id=608763401]
 layout_mode = 2

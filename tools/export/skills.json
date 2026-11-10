@@ -1,0 +1,290 @@
+[
+  {
+    "file": "Archer",
+    "id": 2814726266,
+    "name": "Archer",
+    "description": "A simple bow attack, shoot one arrow at a time.",
+    "category": 1,
+    "state": 3,
+    "skillRange": 100,
+    "mode": 0,
+    "repeat": true,
+    "cooldownTime": 0.0,
+    "castTime": 0.0,
+    "skillTime": 0.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "Stamina": -10,
+      "Attack": 1.0
+    }
+  },
+  {
+    "file": "Betsanc",
+    "id": 0,
+    "name": "Betsanc",
+    "description": "Feel the mana warping your and raising your defense and evasion for 2 minutes.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 0,
+    "mode": 2,
+    "repeat": false,
+    "cooldownTime": 30.0,
+    "castTime": 5.0,
+    "skillTime": 2.0,
+    "buffTime": 120.0,
+    "modifiers": {
+      "Mana": -20.0,
+      "Stamina": -20,
+      "Defense": 50.0,
+      "MDefense": 50.0,
+      "DodgeRate": 0.08
+    }
+  },
+  {
+    "file": "Flar",
+    "id": 2089110122,
+    "name": "Flar",
+    "description": "Cast a fire projectile, igniting enemies with intense heat and power.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 120,
+    "mode": 0,
+    "repeat": false,
+    "cooldownTime": 3.0,
+    "castTime": 1.0,
+    "skillTime": 0.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "MAttack": 50,
+      "Mana": -10,
+      "Stamina": -10
+    }
+  },
+  {
+    "file": "Inma",
+    "id": 2089220490,
+    "name": "Inma",
+    "description": "Provide a light healing touch to allies or creatures.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 128,
+    "mode": 0,
+    "repeat": false,
+    "cooldownTime": 5.0,
+    "castTime": 3.0,
+    "skillTime": 2.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "Health": 50,
+      "Mana": -10,
+      "Stamina": -15
+    }
+  },
+  {
+    "file": "Jump",
+    "id": 2089264065,
+    "name": "Jump",
+    "description": "Blink to a random nearby position.",
+    "category": 2,
+    "state": 0,
+    "skillRange": 256,
+    "mode": 2,
+    "repeat": false,
+    "cooldownTime": 5.0,
+    "castTime": 0.5,
+    "skillTime": 1.5,
+    "buffTime": 0.0
+  },
+  {
+    "file": "LeafBlades",
+    "id": 0,
+    "name": "Leaf Blades",
+    "description": "Unleash a mana-fueled attack, creating a focused circle of concentrated mana around you.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 40,
+    "mode": 1,
+    "repeat": false,
+    "cooldownTime": 1.0,
+    "castTime": 2.0,
+    "skillTime": 2.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "MAttack": 30,
+      "Mana": -10,
+      "Stamina": -5
+    }
+  },
+  {
+    "file": "Lum",
+    "id": 193463731,
+    "name": "Lum",
+    "description": "Heal yourself with a burst of restorative energy.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 0,
+    "mode": 2,
+    "repeat": false,
+    "cooldownTime": 5.0,
+    "castTime": 2.0,
+    "skillTime": 2.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "Health": 50,
+      "Mana": -5,
+      "Stamina": -15
+    }
+  },
+  {
+    "file": "ManaBurst",
+    "id": 2393790290,
+    "name": "Mana Burst",
+    "description": "Unleash a mana-fueled attack, creating a focused circle of concentrated mana around you.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 40,
+    "mode": 1,
+    "repeat": false,
+    "cooldownTime": 1.0,
+    "castTime": 2.0,
+    "skillTime": 2.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "MAttack": 20.0,
+      "Mana": -8.0,
+      "Stamina": -10.0
+    }
+  },
+  {
+    "file": "Melee",
+    "id": 229218829,
+    "name": "Melee",
+    "description": "Close combat attack.",
+    "category": 1,
+    "state": 3,
+    "skillRange": 0,
+    "mode": 0,
+    "repeat": true,
+    "cooldownTime": 0.0,
+    "castTime": 0.0,
+    "skillTime": 0.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "Attack": 1,
+      "Stamina": -10
+    }
+  },
+  {
+    "file": "Morph",
+    "id": 0,
+    "name": "Morph",
+    "description": "Transform into your spirit form.",
+    "category": 2,
+    "state": 0,
+    "skillRange": 0,
+    "mode": 2,
+    "repeat": false,
+    "cooldownTime": 5.0,
+    "castTime": 10.0,
+    "skillTime": 0.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "Stamina": -50.0,
+      "Mana": -50.0
+    }
+  },
+  {
+    "file": "Poison",
+    "id": 0,
+    "name": "Poison",
+    "description": "A venomous attack that remove vital forces away until it is cured.",
+    "category": 2,
+    "state": 3,
+    "skillRange": 0,
+    "mode": 0,
+    "repeat": false,
+    "cooldownTime": 15.0,
+    "castTime": 0.1,
+    "skillTime": 0.0,
+    "buffTime": -1.0,
+    "modifiers": {
+      "RegenHealth": -1.0,
+      "Attack": 1.0
+    }
+  },
+  {
+    "file": "Run",
+    "id": 0,
+    "name": "Run",
+    "description": "Toggle running to move faster at the cost of stamina.",
+    "category": 2,
+    "state": 0,
+    "skillRange": 0,
+    "mode": 2,
+    "repeat": false,
+    "cooldownTime": 0.0,
+    "castTime": 0.0,
+    "skillTime": 0.0,
+    "buffTime": 0.0
+  },
+  {
+    "file": "SonicScream",
+    "id": 0,
+    "name": "Sonic Scream",
+    "description": "Releases a blue sonic wave that deals damage forward.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 64,
+    "mode": 0,
+    "repeat": false,
+    "cooldownTime": 3.0,
+    "castTime": 0.0,
+    "skillTime": 0.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "MAttack": 10,
+      "Mana": -2,
+      "Stamina": -2
+    }
+  },
+  {
+    "file": "SonicWave",
+    "id": 123697108,
+    "name": "Sonic Wave",
+    "description": "Releases a blue sonic wave that deals damage forward.",
+    "category": 0,
+    "state": 0,
+    "skillRange": 64,
+    "mode": 0,
+    "repeat": false,
+    "cooldownTime": 3.0,
+    "castTime": 0.0,
+    "skillTime": 0.0,
+    "buffTime": 0.0,
+    "modifiers": {
+      "MAttack": 50,
+      "Mana": -10,
+      "Stamina": -10
+    }
+  },
+  {
+    "file": "Spitfire",
+    "id": 3219153995,
+    "name": "Spitfire",
+    "description": "Cast a fire spray",
+    "category": 0,
+    "state": 3,
+    "skillRange": 32,
+    "mode": 0,
+    "repeat": true,
+    "cooldownTime": 1.0,
+    "castTime": 0.0,
+    "skillTime": 0.1,
+    "buffTime": 0.0,
+    "modifiers": {
+      "MAttack": 20.0,
+      "Mana": -5.0,
+      "Stamina": -10
+    }
+  }
+]

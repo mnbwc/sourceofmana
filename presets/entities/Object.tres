@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("2_wjckm")
 _id = 3343895260
-_name = "Object"
+_name = "物体"
 _radius = 16
 _stats = {}
 _equipment = Array[ExtResource("1_xrw6j")]([null, null, null, null, null, null, null, null])

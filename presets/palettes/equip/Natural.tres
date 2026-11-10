@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_script")
-_name = "Natural"
+_name = "自然"
 _resource = ExtResource("2_material")

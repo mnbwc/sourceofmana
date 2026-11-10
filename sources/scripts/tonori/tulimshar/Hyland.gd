@@ -55,9 +55,9 @@ static func _NewDeck() -> Array:
 
 # General flow
 func OnStart():
-	Mes("Welcome, welcome! Are you here for a game of cards?")
-	Mes("Do you know a game called blackjack? I happen to be the inventor of it!")
-	Mes("Sit down, sit down. Show me what you can do. The cards are waiting.")
+	Mes("欢迎，欢迎！你是来玩牌的吗？")
+	Mes("你知道二十一点吗？我恰好是它的发明者！")
+	Mes("坐下，坐下。让我看看你的本事。牌在等着呢。")
 	DisplayChoices()
 
 func DisplayChoices():
@@ -67,15 +67,15 @@ func DisplayChoices():
 	Choice("Not today", Decline)
 
 func ShowRules():
-	Mes("The rules are simple. I should know, I made them!")
-	Mes("Get as close to 21 as you can without going over.")
-	Mes("Number cards are face value, face cards are 10, and Aces... Well, Aces are tricky. They can be 1 or 11. Whatever suits you best.")
-	Mes("Beat me, and I'll tip my hat. Go over 21, and you bust. That's the game.")
-	Mes("Even the guards could learn this one, and that's saying something.")
+	Mes("规则很简单。我应该知道，是我定的！")
+	Mes("尽量接近21点但不要超过。")
+	Mes("数字牌按面值，人头牌是10点，A牌……嗯，A牌很灵活。可以是1点或11点。随你喜欢。")
+	Mes("赢我，我就服你。超过21点就爆。这就是规则。")
+	Mes("连守卫都能学会这个，说明它很简单。")
 	DisplayChoices()
 
 func Decline():
-	Chat("You know where to find me if you want to play a game of cards.")
+	Chat("如果你想玩牌，知道去哪找我。")
 
 func OnQuit():
 	if npc and npc.ownScript:
@@ -93,8 +93,8 @@ func _DealerTurn():
 	if _HandValue(playerHand) == 21:
 		_DealerReveal()
 	else:
-		Mes("Your hand: %s" % _HandStr(playerHand))
-		Mes("And I'm showing: %s." % _CardName(dealerHand[0]))
+		Mes("你的手牌：%s" % _HandStr(playerHand))
+		Mes("我出的是：%s。" % _CardName(dealerHand[0]))
 		Choice("Hit", _DealerHit)
 		Choice("Stand", _DealerReveal)
 
@@ -102,10 +102,10 @@ func _DealerHit():
 	playerHand.append(deck.pop_back())
 	var value : int = _HandValue(playerHand)
 	if value > 21:
-		Mes("Your hand: %s" % _HandStr(playerHand))
-		Mes("Oho, bust! Greed will do that to you. I've seen it a thousand times.")
+		Mes("你的手牌：%s" % _HandStr(playerHand))
+		Mes("嗬，爆了！贪婪就会这样。我见过一千次了。")
 		Choice("Play again", StartDealer)
-		Choice("Leave", Decline)
+		Choice("离开", Decline)
 	elif value == 21:
 		_DealerReveal()
 	else:
@@ -116,35 +116,35 @@ func _DealerReveal():
 		dealerHand.append(deck.pop_back())
 	var pv : int = _HandValue(playerHand)
 	var dv : int = _HandValue(dealerHand)
-	Mes("Your hand: %s" % _HandStr(playerHand))
-	Mes("My hand: %s" % _HandStr(dealerHand))
+	Mes("你的手牌：%s" % _HandStr(playerHand))
+	Mes("我的手牌：%s" % _HandStr(dealerHand))
 	if dv > 21:
-		Mes("Bah! Even an old master overreaches sometimes. Well played.")
+		Mes("哼！老手也有失手的时候。打得好。")
 	elif pv > dv:
-		Mes("Heh... Not bad.")
+		Mes("嘿……不错嘛。")
 	elif dv > pv:
-		Mes("Experience wins again. Don't feel bad, most people lose to me.")
+		Mes("经验又一次获胜。别难过，大多数人都输给我。")
 	else:
-		Mes("A tie at %d! You've got guts, I'll give you that." % pv)
+		Mes("%d 平局！有种，我服你。" % pv)
 	Choice("Play again", StartDealer)
-	Choice("Leave", Decline)
+	Choice("离开", Decline)
 
 # Player vs Player Mode
 func StartPvP():
 	var result : int = npc.ownScript.call("JoinPvP", own)
 	if result == 0:
-		Mes("Alright, let's see who else is brave enough. Hang tight.")
+		Mes("好吧，看看还有谁够胆。等一下。")
 		Choice("Check", _PvPCheck)
-		Choice("Cancel", _PvPCancel)
+		Choice("取消", _PvPCancel)
 	else:
 		_PvPBegin()
 
 func _PvPCheck():
 	var game : Dictionary = npc.ownScript.call("GetGame", own)
 	if game.is_empty():
-		Mes("Patience... A good card player learns to wait.")
+		Mes("耐心……好的牌手学会等待。")
 		Choice("Check", _PvPCheck)
-		Choice("Cancel", _PvPCancel)
+		Choice("取消", _PvPCancel)
 	elif game.has("result"):
 		_PvPShowResult(game)
 	else:
@@ -152,16 +152,16 @@ func _PvPCheck():
 
 func _PvPCancel():
 	npc.ownScript.call("LeavePvP", own)
-	Chat("No game? What a shame. Oh well, maybe you'll change your mind.")
+	Chat("不玩？真可惜。好吧，也许你会改变主意。")
 func _PvPBegin():
 	playerHand = npc.ownScript.call("GetHand", own)
-	Mes("Ha! We've got a match! Let's see what you're both made of.")
+	Mes("哈！比赛开始了！让我看看你们俩的本事。")
 	_PvPTurn()
 
 func _PvPTurn():
-	Mes("Your hand: %s" % _HandStr(playerHand))
+	Mes("你的手牌：%s" % _HandStr(playerHand))
 	if _HandValue(playerHand) == 21:
-		Mes("Blackjack!")
+		Mes("二十一点！")
 		_PvPStand()
 	else:
 		Choice("Hit", _PvPHit)
@@ -175,12 +175,12 @@ func _PvPHit():
 	playerHand.append(card)
 	var value : int = _HandValue(playerHand)
 	if value > 21:
-		Mes("Your hand: %s" % _HandStr(playerHand))
-		Mes("Bust! Should've listened to your gut.")
+		Mes("你的手牌：%s" % _HandStr(playerHand))
+		Mes("爆了！早该听你的直觉。")
 		npc.ownScript.call("FinishHand", own, value, true)
 		_PvPWait()
 	elif value == 21:
-		Mes("Your hand: %s" % _HandStr(playerHand))
+		Mes("你的手牌：%s" % _HandStr(playerHand))
 		_PvPStand()
 	else:
 		_PvPTurn()
@@ -194,7 +194,7 @@ func _PvPWait():
 	if game.has("result"):
 		_PvPShowResult(game)
 	else:
-		Mes("Your part's done. Now we wait for your opponent...")
+		Mes("你的部分完成了。现在等你的对手……")
 		Choice("Check", _PvPWaitCheck)
 		Choice("Forfeit", _PvPForfeit)
 
@@ -203,7 +203,7 @@ func _PvPWaitCheck():
 	if game.has("result"):
 		_PvPShowResult(game)
 	else:
-		Mes("Still thinking... Good players take their time!")
+		Mes("还在想……好玩家会花时间思考！")
 		Choice("Check", _PvPWaitCheck)
 		Choice("Forfeit", _PvPForfeit)
 
@@ -213,21 +213,21 @@ func _PvPShowResult(game : Dictionary):
 	var oppBust : bool = game.get("p2Busted") if isP1 else game.get("p1Busted")
 	var oppHand : Array = game.get("p2Hand") if isP1 else game.get("p1Hand")
 	var myBust : bool = game.get("p1Busted") if isP1 else game.get("p2Busted")
-	Mes("Your score: %d%s" % [myVal, " (Bust)" if myBust else ""])
-	Mes("Opponent's hand: %s%s" % [_HandStr(oppHand), " (Bust)" if oppBust else ""])
+	Mes("你的分数：%d%s" % [myVal, " (Bust)" if myBust else ""])
+	Mes("对手的手牌：%s%s" % [_HandStr(oppHand), " (Bust)" if oppBust else ""])
 	var result : String = game.get("result", "")
 	if result == "draw":
-		Mes("A draw! Evenly matched. That doesn't happen often at my table.")
+		Mes("平局！势均力敌。在我的桌上可不常见。")
 	elif (result == "p1" and isP1) or (result == "p2" and not isP1):
-		Mes("Victory is yours! Well done, the cards favoured you today.")
+		Mes("胜利属于你！干得好，牌今天眷顾你。")
 	else:
-		Mes("Tough break. The cards are fickle, but they always come back around.")
+		Mes("运气不好。牌很善变，但总会回来的。")
 	npc.ownScript.call("CleanupGame", own)
 	Choice("Play again", StartPvP)
-	Choice("Leave", Decline)
+	Choice("离开", Decline)
 
 func _PvPForfeit():
 	npc.ownScript.call("ForfeitPvP", own)
-	Mes("Walking away mid-game? In my day, that'd cost you a round of drinks.")
+	Mes("中途走人？在我那个年代，那得请一轮酒。")
 	Choice("Play again", StartPvP)
-	Choice("Leave", Decline)
+	Choice("离开", Decline)

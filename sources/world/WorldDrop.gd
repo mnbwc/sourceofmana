@@ -47,5 +47,5 @@ static func PickupDrop(dropID : int, agent : BaseAgent) -> bool:
 				if cell and agent.position.distance_squared_to(drop.position) < ActorCommons.PickupSquaredDistance:
 					if agent.inventory.AddItem(cell, drop.item.count):
 						return PopDrop(dropID, inst)
-					NpcCommons.PushNotification(agent, "Your bag is full.")
+					NpcCommons.PushNotification(agent, "你的背包已满。")
 	return false

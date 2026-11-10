@@ -10,7 +10,7 @@
 [resource]
 script = ExtResource("2_4cr5i")
 _id = 2089340336
-_name = "Lynx"
+_name = "猞猁"
 _spritePreset = ExtResource("spr_Lynx")
 _radius = 24
 _stats = {

@@ -163,7 +163,7 @@ func CommandGoto(caller : PlayerAgent, nickname : String) -> bool:
 			Launcher.World.Warp(caller, targetInst.map, target.position, ActorCommons.Direction.UNKNOWN, targetInst.id)
 		return true
 
-	Network.CommandFeedback("Player or NPC '%s' not found" % nickname, caller.peerID)
+	Network.CommandFeedback("玩家或NPC '%s' 未找到" % nickname, caller.peerID)
 	return false
 
 # Recall a player to the caller's position
@@ -173,7 +173,7 @@ func CommandRecall(caller : PlayerAgent, nickname : String) -> bool:
 
 	var target : PlayerAgent = Launcher.World.GetGlobalPlayer(nickname)
 	if not target:
-		Network.CommandFeedback("Player '%s' is disconnected" % nickname, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 已断开连接" % nickname, caller.peerID)
 		return false
 
 	var callerInst : WorldInstance = WorldAgent.GetInstanceFromAgent(caller)
@@ -195,7 +195,7 @@ func CommandRecallNpc(caller : PlayerAgent, npcName : String) -> bool:
 			RecallAgent(npc, caller.position)
 			return true
 
-	Network.CommandFeedback("NPC '%s' not found in current instance" % npcName, caller.peerID)
+	Network.CommandFeedback("当前实例中未找到NPC '%s'" % npcName, caller.peerID)
 	return false
 
 # Disable an NPC in the current instance
@@ -213,7 +213,7 @@ func CommandDisableNpc(caller : PlayerAgent, npcName : String) -> bool:
 			WorldAgent.RemoveAgent(npc)
 			return true
 
-	Network.CommandFeedback("NPC '%s' not found in current instance" % npcName, caller.peerID)
+	Network.CommandFeedback("当前实例中未找到NPC '%s'" % npcName, caller.peerID)
 	return false
 
 # Modifiers
@@ -335,15 +335,15 @@ func CommandSetStat(caller : PlayerAgent, nickname : String, entry : String, val
 
 	var target : PlayerAgent = Launcher.World.GetGlobalPlayer(nickname)
 	if not target:
-		Network.CommandFeedback("Player '%s' is disconnected" % nickname, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 已断开连接" % nickname, caller.peerID)
 		return false
 
 	if not target.stat or entry not in target.stat:
-		Network.CommandFeedback("Stat '%s' not found" % entry, caller.peerID)
+		Network.CommandFeedback("属性 '%s' 未找到" % entry, caller.peerID)
 		return false
 
 	if not ApplyStat(target.stat, entry, valueStr):
-		Network.CommandFeedback("Invalid value '%s' for stat '%s'" % [valueStr, entry], caller.peerID)
+		Network.CommandFeedback("属性 '%s' 的值 '%s' 无效" % [valueStr, entry], caller.peerID)
 		return false
 	return true
 
@@ -461,12 +461,12 @@ func CommandPermission(caller : PlayerAgent, nickname : String, levelStr : Strin
 
 	var level : int = levelStr.to_int()
 	if level < ActorCommons.Permission.NONE or level > ActorCommons.Permission.ADMIN:
-		Network.CommandFeedback("Invalid permission level, must be between %d and %d" % [ActorCommons.Permission.NONE, ActorCommons.Permission.ADMIN], caller.peerID)
+		Network.CommandFeedback("无效权限等级，必须在 %d 到 %d 之间" % [ActorCommons.Permission.NONE, ActorCommons.Permission.ADMIN], caller.peerID)
 		return false
 
 	var accountID : int = GetAccountID(nickname)
 	if accountID == NetworkCommons.PeerUnknownID:
-		Network.CommandFeedback("Character '%s' not found" % nickname, caller.peerID)
+		Network.CommandFeedback("角色 '%s' 未找到" % nickname, caller.peerID)
 		return false
 
 	return Launcher.SQL.SetPermission(accountID, level)
@@ -477,18 +477,18 @@ func CommandIpCheck(caller : PlayerAgent, nickname : String) -> bool:
 
 	var target : PlayerAgent = Launcher.World.GetGlobalPlayer(nickname)
 	if not target:
-		Network.CommandFeedback("Player '%s' is disconnected" % nickname, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 已断开连接" % nickname, caller.peerID)
 		return false
 
 	var peer : Peers.Peer = Peers.GetPeer(target.peerID)
 	if not peer:
-		Network.CommandFeedback("Player '%s' is disconnected" % nickname, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 已断开连接" % nickname, caller.peerID)
 		return false
 
 	var ip : String = Peers.GetPeerIP(target.peerID)
 	if ip.is_empty():
 		ip = "unavailable"
-	Network.CommandFeedback("IP for '%s': %s" % [nickname, ip], caller.peerID)
+	Network.CommandFeedback("%s 的IP：%s" % [nickname, ip], caller.peerID)
 	return true
 
 # Moderation
@@ -498,21 +498,21 @@ func CommandKick(caller : PlayerAgent, nickname : String) -> bool:
 
 	var target : PlayerAgent = Launcher.World.GetGlobalPlayer(nickname)
 	if not target or target.peerID == NetworkCommons.PeerUnknownID:
-		Network.CommandFeedback("Player '%s' is not online" % nickname, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 不在线" % nickname, caller.peerID)
 		return false
 
 	if target.peerID == caller.peerID:
-		Network.CommandFeedback("Cannot kick yourself", caller.peerID)
+		Network.CommandFeedback("不能踢出自己", caller.peerID)
 		return false
 
 	var server : NetServer = Peers.GetAssociatedNetServer(target.peerID)
 	if not server or not server.multiplayerAPI:
-		Network.CommandFeedback("Missing peer information for '%s'" % nickname, caller.peerID)
+		Network.CommandFeedback("缺少 '%s' 的对等方信息" % nickname, caller.peerID)
 		return false
 
 	server.multiplayerAPI.disconnect_peer(target.peerID)
 	server.DisconnectPeer(target.peerID)
-	Network.CommandFeedback("'%s' kicked" % nickname, caller.peerID)
+	Network.CommandFeedback("'%s' 已被踢出" % nickname, caller.peerID)
 	return true
 
 func CommandBan(caller : PlayerAgent, nickname : String, durationStr : String = "1d", reason : String = "") -> bool:
@@ -521,17 +521,17 @@ func CommandBan(caller : PlayerAgent, nickname : String, durationStr : String = 
 
 	var accountID : int = GetAccountID(nickname)
 	if accountID == NetworkCommons.PeerUnknownID:
-		Network.CommandFeedback("Character '%s' not found" % nickname, caller.peerID)
+		Network.CommandFeedback("角色 '%s' 未找到" % nickname, caller.peerID)
 		return false
 
 	var duration : int = Util.ParseDuration(durationStr)
 	if duration <= 0:
-		Network.CommandFeedback("Couldn't parse the duration", caller.peerID)
+		Network.CommandFeedback("无法解析持续时间", caller.peerID)
 		return false
 
 	var unbanTimestamp : int = SQLCommons.Timestamp() + duration
 	if not Launcher.SQL.BanAccount(accountID, unbanTimestamp, reason):
-		Network.CommandFeedback("Ban registration failed", caller.peerID)
+		Network.CommandFeedback("封禁注册失败", caller.peerID)
 		return false
 
 	Peers.bannedAccounts[accountID] = unbanTimestamp
@@ -540,7 +540,7 @@ func CommandBan(caller : PlayerAgent, nickname : String, durationStr : String = 
 	if target:
 		CommandKick(caller, nickname)
 
-	Network.CommandFeedback("'%s' banned for %s" % [nickname, durationStr], caller.peerID)
+	Network.CommandFeedback("'%s' 已被封禁 %s" % [nickname, durationStr], caller.peerID)
 	return true
 
 func CommandUnban(caller : PlayerAgent, nickname : String) -> bool:
@@ -549,11 +549,11 @@ func CommandUnban(caller : PlayerAgent, nickname : String) -> bool:
 
 	var accountID : int = Launcher.SQL.GetAccountID(nickname)
 	if accountID == NetworkCommons.PeerUnknownID:
-		Network.CommandFeedback("Player '%s' not found" % nickname, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 未找到" % nickname, caller.peerID)
 		return false
 
 	if not Peers.bannedAccounts.has(accountID):
-		Network.CommandFeedback("Player '%s' is not banned" % nickname, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 未被封禁" % nickname, caller.peerID)
 		return false
 
 	Launcher.SQL.UnbanAccount(accountID)
@@ -566,7 +566,7 @@ func CommandBanList(caller : PlayerAgent, filter : String = "") -> bool:
 
 	var results : Array[Dictionary] = Launcher.SQL.GetBanList(filter)
 	if results.is_empty():
-		Network.CommandFeedback("No active bans found", caller.peerID)
+		Network.CommandFeedback("未找到活跃封禁", caller.peerID)
 		return true
 
 	var now : int = SQLCommons.Timestamp()
@@ -575,9 +575,9 @@ func CommandBanList(caller : PlayerAgent, filter : String = "") -> bool:
 		var remaining : int = row.get("unban_timestamp", 0) - now
 		var banReason : String = row.get("reason", "")
 		if banReason.is_empty():
-			Network.CommandFeedback("%s: %s remaining" % [username, Util.FormatDuration(remaining)], caller.peerID)
+			Network.CommandFeedback("%s：剩余 %s" % [username, Util.FormatDuration(remaining)], caller.peerID)
 		else:
-			Network.CommandFeedback("%s: %s remaining (%s)" % [username, Util.FormatDuration(remaining), banReason], caller.peerID)
+			Network.CommandFeedback("%s：剩余 %s (%s)" % [username, Util.FormatDuration(remaining), banReason], caller.peerID)
 	return true
 
 func CommandIpBan(caller : PlayerAgent, ipRange : String, reason : String = "") -> bool:
@@ -585,11 +585,11 @@ func CommandIpBan(caller : PlayerAgent, ipRange : String, reason : String = "") 
 		return false
 
 	if not NetworkCommons.IsValidIPRange(ipRange):
-		Network.CommandFeedback("Invalid IP, expected 4 octets with * as wildcard (e.g. 192.168.*.*)", caller.peerID)
+		Network.CommandFeedback("无效IP，应为4个八位组，*为通配符（如 192.168.*.*）", caller.peerID)
 		return false
 
 	if not Launcher.SQL.BanIPRange(ipRange, reason):
-		Network.CommandFeedback("IP ban registration failed", caller.peerID)
+		Network.CommandFeedback("IP封禁注册失败", caller.peerID)
 		return false
 
 	Peers.bannedIPRanges[ipRange] = reason
@@ -606,7 +606,7 @@ func CommandIpBan(caller : PlayerAgent, ipRange : String, reason : String = "") 
 			server.multiplayerAPI.disconnect_peer(peerID)
 			server.DisconnectPeer(peerID)
 
-	Network.CommandFeedback("IP range '%s' banned" % ipRange, caller.peerID)
+	Network.CommandFeedback("IP范围 '%s' 已被封禁" % ipRange, caller.peerID)
 	return true
 
 func CommandIpUnban(caller : PlayerAgent, ipRange : String) -> bool:
@@ -614,12 +614,12 @@ func CommandIpUnban(caller : PlayerAgent, ipRange : String) -> bool:
 		return false
 
 	if not Peers.bannedIPRanges.has(ipRange):
-		Network.CommandFeedback("IP range '%s' is not banned" % ipRange, caller.peerID)
+		Network.CommandFeedback("IP范围 '%s' 未被封禁" % ipRange, caller.peerID)
 		return false
 
 	Launcher.SQL.UnbanIPRange(ipRange)
 	Peers.bannedIPRanges.erase(ipRange)
-	Network.CommandFeedback("IP range '%s' unbanned" % ipRange, caller.peerID)
+	Network.CommandFeedback("IP范围 '%s' 已解封" % ipRange, caller.peerID)
 	return true
 
 func CommandIpBanList(caller : PlayerAgent, filter : String = "") -> bool:
@@ -628,7 +628,7 @@ func CommandIpBanList(caller : PlayerAgent, filter : String = "") -> bool:
 
 	var results : Array[Dictionary] = Launcher.SQL.GetIPBanList(filter)
 	if results.is_empty():
-		Network.CommandFeedback("No IP bans found", caller.peerID)
+		Network.CommandFeedback("未找到IP封禁", caller.peerID)
 		return true
 
 	for row in results:
@@ -664,11 +664,11 @@ func CommandQuery(caller : PlayerAgent, targetName : String) -> bool:
 
 	var target : PlayerAgent = Launcher.World.GetGlobalPlayer(targetName)
 	if not target:
-		Network.CommandFeedback("Player '%s' is not online" % targetName, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 不在线" % targetName, caller.peerID)
 		return true
 
 	if target == caller:
-		Network.CommandFeedback("You cannot query yourself", caller.peerID)
+		Network.CommandFeedback("不能查询自己", caller.peerID)
 		return true
 
 	Network.ChatQuery(target.nick, caller.peerID)
@@ -680,11 +680,11 @@ func CommandTrade(caller : PlayerAgent, targetName : String) -> bool:
 
 	var target : PlayerAgent = Launcher.World.GetGlobalPlayer(targetName)
 	if not target:
-		Network.CommandFeedback("Player '%s' is not online" % targetName, caller.peerID)
+		Network.CommandFeedback("玩家 '%s' 不在线" % targetName, caller.peerID)
 		return true
 
 	if target == caller:
-		Network.CommandFeedback("You cannot trade with yourself", caller.peerID)
+		Network.CommandFeedback("不能与自己交易", caller.peerID)
 		return true
 
 	WorldTrade.Request(caller, target)

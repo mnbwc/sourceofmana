@@ -40,7 +40,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 theme_override_colors/font_color = Color(1, 1, 0.866667, 1)
-text = "You"
+text = "你"
 
 [node name="Separator" type="VSeparator" parent="Layout/Margin/Content/Header" unique_id=1630451008]
 layout_mode = 2
@@ -146,7 +146,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="Layout/Margin/Content/GP/Picker" unique_id=1630451044]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "GP"
+text = "金币"
 
 [node name="Minus" type="Button" parent="Layout/Margin/Content/GP/Picker" unique_id=1630451045]
 custom_minimum_size = Vector2(28, 28)
@@ -183,7 +183,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="Layout/Margin/Content/GP/Other" unique_id=1630451033]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "GP"
+text = "金币"
 
 [node name="Value" type="Label" parent="Layout/Margin/Content/GP/Other" unique_id=1630451034]
 layout_mode = 2
@@ -205,7 +205,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="Layout/Margin/Content/GP/Balance" unique_id=1630451042]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "GP"
+text = "金币"
 
 [node name="Value" type="Label" parent="Layout/Margin/Content/GP/Balance" unique_id=1630451043]
 layout_mode = 2
@@ -228,17 +228,17 @@ text_overrun_behavior = 3
 visible = false
 layout_mode = 2
 theme_type_variation = &"LargeButton"
-text = "Done"
+text = "完成"
 
 [node name="Lock" type="Button" parent="Layout/Margin/Content/Footer" unique_id=1630451039]
 layout_mode = 2
 theme_type_variation = &"LargeButton"
-text = "Lock"
+text = "锁定"
 
 [node name="Cancel" type="Button" parent="Layout/Margin/Content/Footer" unique_id=1630451040]
 layout_mode = 2
 theme_type_variation = &"LargeButton"
-text = "Cancel"
+text = "取消"
 
 [connection signal="gui_input" from="." to="." method="OnGuiInput"]
 [connection signal="gui_input" from="Layout/Margin/Content/Items/Own/Scroll/Grid" to="Layout/Margin/Content/Items/Own/Scroll/Grid" method="_on_gui_input"]

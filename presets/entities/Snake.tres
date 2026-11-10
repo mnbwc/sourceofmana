@@ -11,7 +11,7 @@
 [resource]
 script = ExtResource("2_dfnee")
 _id = 236646007
-_name = "Snake"
+_name = "蛇"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 16
 _stats = {

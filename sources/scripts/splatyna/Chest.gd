@@ -16,11 +16,11 @@ func OnStart():
 		_: Empty()
 
 func Inactive():
-	Chat("This chest seems to be sealed.")
+	Chat("这个宝箱似乎被封印了。")
 
 func TryOpen():
 	if IsMonsterAlive("Splatyna"):
-		Chat("A dark presence is still around.")
+		Chat("周围仍有黑暗存在。")
 	else:
 		# Chest is not open, try to open it
 		if not IsTriggering():
@@ -32,4 +32,4 @@ func TryOpen():
 			AddItem(appleID, 5)
 
 func Empty():
-	Chat("This chest is empty.")
+	Chat("这个宝箱是空的。")

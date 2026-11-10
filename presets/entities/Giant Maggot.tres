@@ -13,7 +13,7 @@
 [resource]
 script = ExtResource("2_gol0b")
 _id = 2624609623
-_name = "Giant Maggot"
+_name = "巨型蛆"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 25
 _stats = {

@@ -4,12 +4,12 @@ const DESERT_SEED_ID : int = ProgressCommons.Quest.DESERT_SEED
 
 #
 func OnStart():
-	Narrate("An imposing carved stone, wrapped in flowing Mana energy. Its presence feels calming.")
-	Narrate("Thin silery veins run through the dark grey stone, shifting hues as the blue glow of raw Mana flows past them.")
+	Narrate("一块宏伟的雕刻石，包裹着流动的魔力能量。它的存在让人感到平静。")
+	Narrate("银色的细脉贯穿深灰色的石头，随着原生魔力的蓝光流过而变换色彩。")
 	if GetQuest(DESERT_SEED_ID) >= ProgressCommons.DESERT_SEED.SEEK_MANAYIR:
-		Narrate("Do you wish to lay your hands on the Soul Menhir?")
-		Choice("Touch the Soul Menhir.", Touch)
-		Choice("Leave it be.")
+		Narrate("你想触摸灵魂巨石吗？")
+		Choice(tr("Touch the Soul Menhir."), Touch)
+		Choice("别管它。")
 
 func Touch():
 	var globalScript : SoulMenhirGlobal = npc.ownScript

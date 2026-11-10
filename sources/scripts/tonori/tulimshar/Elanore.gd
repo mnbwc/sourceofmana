@@ -13,12 +13,12 @@ func OnStart():
 		ProgressCommons.TUTORIAL.CLOTHES_GIVEN:
 			OnExplainUI()
 		ProgressCommons.TUTORIAL.UI_EXPLAINED: # Deprecated
-			Mes("Is there something else on your mind?")
+			Mes("你还有别的事吗？")
 			SetQuest(ProgressCommons.Quest.TUTORIAL, ProgressCommons.TUTORIAL.ELANORE_DONE)
 			OnSendToKael()
 			Action(OnMainChoice)
 		_:
-			Mes("Welcome back. What can I do for you?")
+			Mes("欢迎回来。我能为你做什么？")
 			OnMainChoice()
 
 # First meeting
@@ -26,9 +26,9 @@ func OnFirstMeeting():
 	var waterBottleID : int = DB.GetCellHash("Water Bottle")
 	var cactusSourCandyID : int = DB.GetCellHash("Cactus Sour Candy")
 
-	Mes("Hello, welcome to Tulimshar!")
-	Mes("You made it to the gates just in time. The guards found you on the ground, barely within sight.")
-	Mes("My name is Elanore. How are you feeling? You'll need to drink this water and please eat this as well, it will make you feel better.")
+	Mes("你好，欢迎来到图利姆沙！")
+	Mes("你及时赶到了城门。守卫在地上发现了你，几乎看不见。")
+	Mes("我叫埃拉诺。你感觉怎么样？你需要喝这些水，也请吃这个，会让你感觉好些。")
 	SetQuest(ProgressCommons.Quest.TUTORIAL, ProgressCommons.TUTORIAL.INTRO_ITEMS_GIVEN)
 	AddItem(waterBottleID)
 	AddItem(cactusSourCandyID)
@@ -41,13 +41,13 @@ func OnFeelingChoice():
 func OnFeelingWeak():
 	var pitayaID : int = DB.GetCellHash("Pitaya")
 
-	Mes("Oh... Okay. Here, take one of these. Beyond that, you're going to need to take some time, darling.")
+	Mes("哦……好吧。来，拿一个。除此之外，你需要花点时间，亲爱的。")
 	SetQuest(ProgressCommons.Quest.TUTORIAL, ProgressCommons.TUTORIAL.POTION_GIVEN)
 	AddItem(pitayaID)
 	OnFeelingBetter()
 
 func OnFeelingBetter():
-	Mes("What were you doing wandering in the desert? It's been dangerous lately, you shouldn't go out there alone.")
+	Mes("你在沙漠里闲逛什么？最近很危险，你不该一个人出去。")
 	Choice("I am a mercenary soldier trying to gain local fame.", OnGiveStarterClothes)
 	Choice("I am looking to start trades with natives of the region.", OnGiveStarterClothes)
 	Choice("I am a scholar seeking knowledge on Mana and magic.", OnGiveStarterClothes)
@@ -57,36 +57,36 @@ func OnGiveStarterClothes():
 	var cottonShirtID : int = DB.GetCellHash("Cotton Shirt")
 	var linenShortsID : int = DB.GetCellHash("Shorts")
 
-	Mes("Well, it's good to have you here. The city needs capable people to help keep it safe.")
-	Mes("Recently the desert has gotten more dangerous. A group of fanatics obsessed with Kaore has been hiding in the mountains to the east. They have been launching assaults on travellers and once during a major battle they came close to breaching the city wall.")
-	Mes("Anyway, here are some basic clothes to replace the rags we found you in.")
+	Mes("嗯，有你在真好。城市需要有能力的人帮助维护安全。")
+	Mes("最近沙漠变得更危险了。一群痴迷卡厄的狂热分子藏在东边的山里。他们一直在袭击旅人，有一次在大规模战斗中差点攻破城墙。")
+	Mes("总之，这些是基础衣物，用来换掉我们捡到你时你穿的破布。")
 	SetQuest(ProgressCommons.Quest.TUTORIAL, ProgressCommons.TUTORIAL.CLOTHES_GIVEN)
 	AddItem(cottonShirtID, 1, "Used")
 	AddItem(linenShortsID, 1, "Used")
 	OnExplainUI()
 
 func OnExplainUI():
-	Mes("Before I let you go, allow me to walk you through a few things that will help keep you alive out there.")
+	Mes("在我让你走之前，让我给你讲几件事，帮你在外面活下来。")
 	HighlightUI(UICommons.UITarget.STATINDICATOR)
-	Narrate("These are your vital resources. Keep an eye on them at all times.")
+	Narrate("这些是你的重要资源。随时注意它们。")
 	HighlightUI(UICommons.UITarget.HEALTHBAR)
-	Narrate("Your health bar shows how much damage you can take before dying.")
+	Narrate("你的生命条显示你在死亡前能承受多少伤害。")
 	HighlightUI(UICommons.UITarget.MANABAR)
-	Narrate("Your mana powers your skills. Without it, many abilities become unavailable.")
+	Narrate("你的法力为技能提供能量。没有它，许多能力无法使用。")
 	HighlightUI(UICommons.UITarget.STAMINABAR)
-	Narrate("Stamina governs how long you can sprint and perform physical actions before tiring.")
+	Narrate("耐力决定你能在疲劳前冲刺和执行身体动作的时间。")
 	HighlightUI(UICommons.UITarget.MENUINDICATOR)
-	Narrate("The menu gives you access to your inventory, skills, quests, settings and more. Use it to manage everything you carry and know.")
+	Narrate("菜单让你访问背包、技能、任务、设置等。用它管理你携带和知道的一切。")
 	HighlightUI(UICommons.UITarget.ACTION_BAR)
-	Narrate("The action bar lets you slot skills and items for quick access. Drag what you need most onto it as, in combat, every second counts.")
+	Narrate("动作条让你放置技能和物品以便快速使用。把最需要的东西拖上去，战斗中每一秒都很重要。")
 	HighlightUI(UICommons.UITarget.INVENTORY)
-	Narrate("On the inventory window you can handle your items, equipment, potions and any collectibles you found.")
+	Narrate("在背包窗口可以管理你的物品、装备、药水和找到的收集品。")
 	HighlightUI(UICommons.UITarget.NONE)
 	SetQuest(ProgressCommons.Quest.TUTORIAL, ProgressCommons.TUTORIAL.ELANORE_DONE)
-	Mes("But I should not keep you here all day. You are new to the city and will want to find your footing.")
+	Mes("但我不该让你整天待在这里。你是新来的，想找到自己的立足之地。")
 	OnSendToKael()
 	DisplayActions(["gp_interact", "gp_target"])
-	Narrate("Use Interact near an NPC to talk to them. You can also use Target to select one first.")
+	Narrate("在NPC附近使用交互键与他们交谈。你也可以先使用目标键选择一个。")
 	Action(Farewell)
 
 # Main choice loop
@@ -121,35 +121,35 @@ func OnMainChoice():
 				Choice("About those ingredients...", OnPotionQuestReminder)
 
 	Choice("What is Kaore?", OnExplainKaore)
-	Choice("Who are you?", OnExplainSelf)
+	Choice("你是谁？", OnExplainSelf)
 
 	if GetQuest(ProgressCommons.Quest.TUTORIAL) == ProgressCommons.CompletedProgress:
 		Choice("Thank you again but I have to leave", Farewell)
 
 # Help with potions
 func OnHelpWithPotions():
-	Mes("Yes! I make lots of Healing Potions for our guards and the people of this city. They're quick remedies for most ailments and really help keep our people safer.")
-	Mes("Healing Potions require knowledge to make and also some key ingredients. Maybe you could get back on your feet by helping me gather some of these ingredients?")
+	Mes("是的！我为我们的守卫和这座城市的人们做很多治疗药水。它们是对大多数病症的速效药，真的帮助让人们更安全。")
+	Mes("治疗药水需要知识才能制作，还需要一些关键材料。也许你可以通过帮我收集这些材料来重新振作起来？")
 	Choice("I'll gather them for you.", OnPotionQuestAccept)
 	Choice("Maybe later.", OnPotionQuestDecline)
 
 func OnPotionQuestAccept():
-	Mes("I need six Maggot Slimes, one Water and one Pitaya for each potion. Bring those to me and I will make you a Cactus Potion in return.")
+	Mes("每瓶药水我需要六个蛆虫粘液、一个水和一个火龙果。把它们带给我，我就给你做一瓶仙人掌药水作为回报。")
 	SetQuest(ProgressCommons.Quest.ELANORE_POTION, ProgressCommons.ELANORE_POTION.STARTED)
 	Action(OnMainChoice)
 
 func OnPotionQuestDecline():
-	Mes("The offer stands whenever you're ready.")
+	Mes("你什么时候准备好，交易都有效。")
 	Action(OnMainChoice)
 
 func OnPotionQuestReminder():
-	Mes("I still need six Maggot Slimes, one Water and one Pitaya for each potion. Come back when you have them.")
+	Mes("我还是每瓶药水需要六个蛆虫粘液、一个水和一个火龙果。有了再来。")
 	OnMainChoice()
 
 func OnPotionQuestTurnIn():
 	var batchCount : int = GetPotionBatchCount()
 	if batchCount > 1:
-		Mes("You brought enough for %d potions! How many should I brew?" % batchCount)
+		Mes("你带来的够做 %d 瓶药水！我应该做几瓶？" % batchCount)
 		Choice("Just one.", OnPotionBrew.bind(1))
 		Choice("All %d of them." % batchCount, OnPotionBrew.bind(batchCount))
 	else:
@@ -165,16 +165,16 @@ func OnPotionBrewed(result : ActorInventory.ExchangeResult):
 			var isFirstBrew : bool = GetQuest(ProgressCommons.Quest.ELANORE_POTION) == ProgressCommons.ELANORE_POTION.STARTED
 			SetQuest(ProgressCommons.Quest.ELANORE_POTION, ProgressCommons.ELANORE_POTION.BREWED)
 			if isFirstBrew:
-				Mes("Thank you for your help. I'll get to work on making new healing potions right away!")
-				Mes("Helping the people out here is much better than being stuck in some tower or palace. More of the leaders of this city should think about that.")
+				Mes("谢谢你的帮助。我这就开始做新的治疗药水！")
+				Mes("在这里帮助人民比困在塔楼或宫殿里好得多。这座城市更多的领导者应该想想这一点。")
 			else:
-				Mes("Thank you, here you go!")
+				Mes("谢谢，给你！")
 			Action(OnPotionBrewedChoice)
 		ActorInventory.ExchangeResult.MISSING_ITEMS:
-			Mes("Hmm, you don't seem to have the ingredients anymore.")
+			Mes("嗯，你好像没有材料了。")
 			Action(OnMainChoice)
 		ActorInventory.ExchangeResult.NO_SPACE:
-			Mes("Your bags are full, make some room first.")
+			Mes("你的背包满了，先腾点空间。")
 			Action(OnMainChoice)
 
 func OnPotionBrewedChoice():
@@ -183,23 +183,23 @@ func OnPotionBrewedChoice():
 
 # What is Kaore
 func OnExplainKaore():
-	Mes("Mana is the life energy that connects us all. Kaore is a decayed form of Mana that corrupts life rather than invigorating it. There is much more to it, but that's the general idea.")
+	Mes("魔力是连接我们所有人的生命能量。卡厄是魔力的衰败形式，它腐蚀生命而不是激活生命。还有更多内容，但大概就是这样。")
 	LookAtNpc("Nina")
-	Mes("If you want to know more, you'd better ask my apprentice, Nina. She is currently overseeing the city's Soul Menhir. You can learn a lot more from her.")
+	Mes("如果你想了解更多，最好问我的学徒妮娜。她目前负责管理城市的灵魂巨石。你可以从她那里学到更多。")
 	ResetCamera()
 	OnMainChoice()
 
 # Who are you
 func OnExplainSelf():
-	Mes("My name is Elanore. I am the Kahwe of this city and the land that surrounds it. Those outside of our order call us Druids. I represent the Kaumatua, an order devoted to the most ancient tradition in our world.")
-	Mes("But don't you worry about that right now. We can chat more later. Right now I am just out here giving a hand with potions and receiving the injured from outside the walls.")
+	Mes("我叫埃拉诺。我是这座城市和周围土地的卡韦。教团外的人叫我们德鲁伊。我代表考马图亚，一个致力于世界上最古老传统的教团。")
+	Mes("但你现在别操心那个。以后可以再聊。现在我就在这里帮忙配药水，接收城墙外来的伤员。")
 	OnMainChoice()
 
 func Farewell():
 	if randi() % 2:
-		Chat("Take care of yourself out there.")
+		Chat("在外面照顾好自己。")
 	else:
-		Chat("Stay safe.")
+		Chat("注意安全。")
 
 # Directions
 func OnDirections():
@@ -211,14 +211,14 @@ func OnDirections():
 	Action(Farewell)
 
 func OnSendToKael():
-	Mes("Watchman Kael is currently in charge of the local patrol from within our wall, you should speak to him if you're looking for work.")
+	Mes("守卫凯尔目前负责城墙内的本地巡逻，如果你在找工作应该和他谈谈。")
 	LookAtNpc("Kael")
-	Mes("He is standing northeast from here near some palm trees.")
-	Mes("Just follow this wall to the corner and walk up.")
+	Mes("他在这东北方向，靠近一些棕榈树。")
+	Mes("沿着这堵墙走到拐角，然后走上去。")
 	ResetCamera()
 
 func OnSendToEkinu():
-	Mes("Watchman Ekinu is stationed at the gates south from here.")
+	Mes("守卫埃基努驻守在南边的城门。")
 	LookAtNpc("Ekinu")
-	Mes("Tell him what you did for Kael he will know what to do with you next.")
+	Mes("告诉他你为凯尔做了什么，他会知道下一步怎么安排你。")
 	ResetCamera()

@@ -11,7 +11,7 @@
 [resource]
 script = ExtResource("2_yfu84")
 _id = 4234567318
-_name = "Fire Skull"
+_name = "火焰骷髅"
 _spritePreset = ExtResource("spr_Skull")
 _radius = 12
 _stats = {

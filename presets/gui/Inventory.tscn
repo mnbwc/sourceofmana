@@ -41,7 +41,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 1
-titleText = "Inventory"
+titleText = "背包"
 
 [node name="Margin" type="MarginContainer" parent="Layout" unique_id=431704789]
 layout_mode = 2
@@ -125,7 +125,7 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"LargeButton"
-text = "Drop"
+text = "丢弃"
 
 [node name="Control" type="Control" parent="Layout/Margin/HBoxContainer/ItemsBox/ItemButtons" unique_id=1403898386]
 layout_mode = 2
@@ -137,21 +137,21 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"LargeButton"
-text = "Unequip"
+text = "卸下"
 
 [node name="Equip" type="Button" parent="Layout/Margin/HBoxContainer/ItemsBox/ItemButtons" unique_id=157398225]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"LargeButton"
-text = "Equip"
+text = "装备"
 
 [node name="Use" type="Button" parent="Layout/Margin/HBoxContainer/ItemsBox/ItemButtons" unique_id=696456006]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"LargeButton"
-text = "Use"
+text = "使用"
 
 [node name="DropButtons" type="HBoxContainer" parent="Layout/Margin/HBoxContainer/ItemsBox" unique_id=398422119]
 visible = false
@@ -162,7 +162,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"LargeButton"
-text = "Cancel"
+text = "取消"
 
 [node name="EmptyLeft" type="Control" parent="Layout/Margin/HBoxContainer/ItemsBox/DropButtons" unique_id=1373447532]
 layout_mode = 2
@@ -196,7 +196,7 @@ mouse_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"LargeButton"
-text = "Confirm"
+text = "确认"
 
 [node name="VSeparator" type="VSeparator" parent="Layout/Margin/HBoxContainer" unique_id=373120499]
 layout_mode = 2
@@ -213,7 +213,7 @@ size_flags_horizontal = 3
 
 [node name="Equipment" type="Label" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox" unique_id=1670075000]
 layout_mode = 2
-text = "Equipment"
+text = "装备"
 
 [node name="EquipmentGrid" type="GridContainer" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox" unique_id=395032573]
 layout_mode = 2
@@ -266,7 +266,7 @@ layout_mode = 2
 
 [node name="ModifiersLabel" type="Label" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox" unique_id=-1294967294]
 layout_mode = 2
-text = "Modifiers"
+text = "词缀"
 
 [node name="ModifiersText" type="RichTextLabel" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox" unique_id=-1294967291]
 layout_mode = 2
@@ -278,7 +278,7 @@ layout_mode = 2
 
 [node name="CapacityLabel" type="Label" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox" unique_id=-1294967289]
 layout_mode = 2
-text = "Capacity"
+text = "容量"
 
 [node name="WeightBox" type="HBoxContainer" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox" unique_id=-1294967288]
 layout_mode = 2
@@ -286,12 +286,12 @@ layout_mode = 2
 [node name="WeightLabel" type="Label" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox/WeightBox" unique_id=-1294967287]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Weight"
+text = "重量"
 
 [node name="WeightBar" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox/WeightBox" unique_id=-1294967286 instance=ExtResource("15_pbar")]
 layout_mode = 2
 textureBackground = SubResource("GradientTexture1D_dark")
-labelUnit = " Kg"
+labelUnit = " 千克"
 labelOffset = Vector2(0, -3)
 
 [node name="SlotsBox" type="HBoxContainer" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox" unique_id=-1294967285]
@@ -300,7 +300,7 @@ layout_mode = 2
 [node name="SlotsLabel" type="Label" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox/SlotsBox" unique_id=-1294967284]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Slots"
+text = "格子"
 
 [node name="SlotsBar" parent="Layout/Margin/HBoxContainer/InfoScroll/InfoBox/SlotsBox" unique_id=-1294967283 instance=ExtResource("15_pbar")]
 layout_mode = 2

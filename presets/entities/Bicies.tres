@@ -11,7 +11,7 @@
 script = ExtResource("2_sc3qd")
 _parent = ExtResource("4_7hws1")
 _id = 2843189460
-_name = "Bicies"
+_name = "比西斯"
 _stats = {
 "gender": "Male",
 "haircolor": "Dark Brown",

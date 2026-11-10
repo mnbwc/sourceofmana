@@ -41,7 +41,7 @@ size_flags_vertical = 3
 
 [node name="RefreshButon" type="Button" parent="HSections/Info/VBox" unique_id=1507395516]
 layout_mode = 2
-text = "Refresh"
+text = "刷新"
 
 [node name="Peers" type="TabBar" parent="HSections" unique_id=1129398495]
 visible = false

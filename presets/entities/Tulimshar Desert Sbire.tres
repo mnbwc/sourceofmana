@@ -14,7 +14,7 @@
 script = ExtResource("2_md4lg")
 _parent = ExtResource("7_x06ni")
 _id = 3918743578
-_name = "Tulimshar Desert Sbire"
+_name = "图利姆沙沙漠新兵"
 _stats = {
 "gender": "Male",
 "haircolor": "Dark Copper",

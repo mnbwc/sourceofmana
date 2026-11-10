@@ -11,7 +11,7 @@
 script = ExtResource("2_ydrke")
 _parent = ExtResource("3_dyg1f")
 _id = 970294591
-_name = "Thiefs Chest"
+_name = "盗贼宝箱"
 _radius = 26
 _stats = {}
 _equipment = Array[ExtResource("1_wugrw")]([null, null, null, null, null, null, null, null])

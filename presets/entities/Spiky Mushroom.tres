@@ -12,7 +12,7 @@
 [resource]
 script = ExtResource("2_l2mfi")
 _id = 2549154767
-_name = "Spiky Mushroom"
+_name = "尖刺蘑菇"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 16
 _stats = {

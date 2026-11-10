@@ -11,7 +11,7 @@
 [resource]
 script = ExtResource("2_dil16")
 _id = 2089009292
-_name = "Croc"
+_name = "鳄鱼"
 _spritePreset = ExtResource("spr_Croc")
 _radius = 10
 _stats = {

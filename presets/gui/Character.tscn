@@ -30,7 +30,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_wilsl")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_j7vvq")
-placeholder_text = "Enter Character Name"
+placeholder_text = "输入角色名称"
 alignment = 1
 max_length = 30
 expand_to_text_length = true
@@ -72,7 +72,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Attributes/Margin/VBox" unique_id=1510561370]
 layout_mode = 2
-text = "Attributes"
+text = "属性"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Display/Attributes/Margin/VBox" unique_id=699008893]
@@ -83,7 +83,7 @@ layout_mode = 2
 
 [node name="Name" type="Label" parent="Display/Attributes/Margin/VBox/Strength" unique_id=696582095]
 layout_mode = 2
-text = "Strength"
+text = "力量"
 
 [node name="Empty" type="Control" parent="Display/Attributes/Margin/VBox/Strength" unique_id=1139725080]
 layout_mode = 2
@@ -110,7 +110,7 @@ layout_mode = 2
 
 [node name="Name" type="Label" parent="Display/Attributes/Margin/VBox/Vitality" unique_id=83937011]
 layout_mode = 2
-text = "Vitality"
+text = "体力"
 
 [node name="Empty" type="Control" parent="Display/Attributes/Margin/VBox/Vitality" unique_id=1141358212]
 layout_mode = 2
@@ -137,7 +137,7 @@ layout_mode = 2
 
 [node name="Name" type="Label" parent="Display/Attributes/Margin/VBox/Agility" unique_id=1462890030]
 layout_mode = 2
-text = "Agility"
+text = "敏捷"
 
 [node name="Empty" type="Control" parent="Display/Attributes/Margin/VBox/Agility" unique_id=1099748528]
 layout_mode = 2
@@ -164,7 +164,7 @@ layout_mode = 2
 
 [node name="Name" type="Label" parent="Display/Attributes/Margin/VBox/Endurance" unique_id=1361893594]
 layout_mode = 2
-text = "Endurance"
+text = "耐力"
 
 [node name="Empty" type="Control" parent="Display/Attributes/Margin/VBox/Endurance" unique_id=1530779737]
 layout_mode = 2
@@ -191,7 +191,7 @@ layout_mode = 2
 
 [node name="Name" type="Label" parent="Display/Attributes/Margin/VBox/Concentration" unique_id=1795650050]
 layout_mode = 2
-text = "Concentration"
+text = "专注"
 
 [node name="Empty" type="Control" parent="Display/Attributes/Margin/VBox/Concentration" unique_id=217455839]
 layout_mode = 2
@@ -231,7 +231,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Stats/Margin/VBox" unique_id=629851390]
 layout_mode = 2
-text = "Stats"
+text = "数据"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Display/Stats/Margin/VBox" unique_id=287506530]
@@ -242,7 +242,7 @@ layout_mode = 2
 
 [node name="Name" type="Label" parent="Display/Stats/Margin/VBox/Level" unique_id=172112829]
 layout_mode = 2
-text = "Level"
+text = "等级"
 
 [node name="Empty" type="Control" parent="Display/Stats/Margin/VBox/Level" unique_id=2072743010]
 layout_mode = 2
@@ -259,7 +259,7 @@ layout_mode = 2
 
 [node name="Name" type="Label" parent="Display/Stats/Margin/VBox/Location" unique_id=527203426]
 layout_mode = 2
-text = "Location"
+text = "位置"
 
 [node name="Empty" type="Control" parent="Display/Stats/Margin/VBox/Location" unique_id=2048625014]
 layout_mode = 2
@@ -268,7 +268,7 @@ size_flags_horizontal = 3
 [node name="Value" type="Label" parent="Display/Stats/Margin/VBox/Location" unique_id=902543333]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-text = "Artis"
+text = "阿蒂斯"
 horizontal_alignment = 1
 
 [node name="Selection" type="HBoxContainer" parent="Display/Stats/Margin/VBox" unique_id=781703015]
@@ -277,7 +277,7 @@ layout_mode = 2
 [node name="Previous" type="Button" parent="Display/Stats/Margin/VBox/Selection" unique_id=1267843052]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Previous"
+text = "上一个"
 
 [node name="Empty" type="Control" parent="Display/Stats/Margin/VBox/Selection" unique_id=1345199402]
 layout_mode = 2
@@ -287,7 +287,7 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Next"
+text = "下一个"
 
 [node name="EmptyMiddleLeft" type="Control" parent="Display" unique_id=1703734384]
 layout_mode = 2
@@ -315,7 +315,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Traits/Margin/VBox" unique_id=2091144788]
 layout_mode = 2
-text = "Traits"
+text = "特质"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Display/Traits/Margin/VBox" unique_id=83373938]
@@ -326,7 +326,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Traits/Margin/VBox/Hairstyle" unique_id=1332827135]
 layout_mode = 2
-text = "Hairstyle"
+text = "发型"
 
 [node name="Empty" type="Control" parent="Display/Traits/Margin/VBox/Hairstyle" unique_id=1268846793]
 layout_mode = 2
@@ -340,7 +340,7 @@ text = "<"
 [node name="Name" type="Label" parent="Display/Traits/Margin/VBox/Hairstyle" unique_id=319746681]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-text = "Hairstyle"
+text = "发型"
 horizontal_alignment = 1
 
 [node name="Next" type="Button" parent="Display/Traits/Margin/VBox/Hairstyle" unique_id=765522096]
@@ -353,7 +353,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Traits/Margin/VBox/HairColor" unique_id=640716039]
 layout_mode = 2
-text = "Hair Color"
+text = "发色"
 
 [node name="Empty" type="Control" parent="Display/Traits/Margin/VBox/HairColor" unique_id=423652203]
 layout_mode = 2
@@ -367,7 +367,7 @@ text = "<"
 [node name="Name" type="Label" parent="Display/Traits/Margin/VBox/HairColor" unique_id=1555392213]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-text = "Hair Color"
+text = "发色"
 horizontal_alignment = 1
 
 [node name="Next" type="Button" parent="Display/Traits/Margin/VBox/HairColor" unique_id=94630505]
@@ -380,7 +380,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Traits/Margin/VBox/Gender" unique_id=870030989]
 layout_mode = 2
-text = "Gender"
+text = "性别"
 
 [node name="Empty" type="Control" parent="Display/Traits/Margin/VBox/Gender" unique_id=1112144795]
 layout_mode = 2
@@ -394,7 +394,7 @@ text = "<"
 [node name="Name" type="Label" parent="Display/Traits/Margin/VBox/Gender" unique_id=617445179]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-text = "Gender"
+text = "性别"
 horizontal_alignment = 1
 
 [node name="Next" type="Button" parent="Display/Traits/Margin/VBox/Gender" unique_id=1600866414]
@@ -407,7 +407,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Traits/Margin/VBox/Race" unique_id=1672928982]
 layout_mode = 2
-text = "Race"
+text = "种族"
 
 [node name="Empty" type="Control" parent="Display/Traits/Margin/VBox/Race" unique_id=1153148062]
 layout_mode = 2
@@ -421,7 +421,7 @@ text = "<"
 [node name="Name" type="Label" parent="Display/Traits/Margin/VBox/Race" unique_id=744329124]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-text = "Ethnicity"
+text = "血统"
 horizontal_alignment = 1
 
 [node name="Next" type="Button" parent="Display/Traits/Margin/VBox/Race" unique_id=865615364]
@@ -434,7 +434,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Display/Traits/Margin/VBox/SkinTone" unique_id=488796690]
 layout_mode = 2
-text = "Skin Tone"
+text = "肤色"
 
 [node name="EmptyLeft" type="Control" parent="Display/Traits/Margin/VBox/SkinTone" unique_id=299524516]
 layout_mode = 2
@@ -448,7 +448,7 @@ text = "<"
 [node name="Name" type="Label" parent="Display/Traits/Margin/VBox/SkinTone" unique_id=1535606027]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-text = "Skin Tone"
+text = "肤色"
 horizontal_alignment = 1
 
 [node name="Next" type="Button" parent="Display/Traits/Margin/VBox/SkinTone" unique_id=328821298]

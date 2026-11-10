@@ -9,7 +9,7 @@
 script = ExtResource("3_1y5ap")
 _parent = ExtResource("2_5dpsi")
 _id = 2089713785
-_name = "Well"
+_name = "水井"
 _radius = 32
 _stats = {}
 _equipment = Array[ExtResource("1_vqcj6")]([null, null, null, null, null, null, null, null])

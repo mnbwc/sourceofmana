@@ -2,4 +2,4 @@ extends NpcScript
 
 #
 func OnStart():
-	Mes("Don't bother me.")
+	Mes("别烦我。")

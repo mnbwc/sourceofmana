@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("2_c6ynp")
 _id = 3394588274
-_name = "Player"
+_name = "玩家"
 _spritePreset = ExtResource("spr_Player")
 _radius = 10
 _stats = {

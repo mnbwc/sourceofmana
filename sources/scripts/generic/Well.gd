@@ -12,11 +12,11 @@ var WATER_BOTTLE_ID : int								= "Water Bottle".hash()
 #
 func OnStart():
 	if not HasItem(BOTTLE_ID):
-		Mes("You would need a bottle to draw water from this well.")
+		Mes("你需要一个瓶子才能从这口井打水。")
 	elif not HasItemsSpace([[BOTTLE_ID, -1], [WATER_BOTTLE_ID, 1]]):
-		Mes("You don't have any available space on your inventory.")
+		Mes("你的背包没有可用空间。")
 	else:
-		Mes("Hold still while your bottle is filling...")
+		Mes("装水时别动……")
 		Action(StartFill)
 
 func StartFill():
@@ -40,12 +40,12 @@ func CompleteFill():
 		ActorInventory.ExchangeResult.OK:
 			PromptNext()
 		ActorInventory.ExchangeResult.NO_SPACE:
-			Notification("You don't have any available space on your inventory.")
+			Notification("你的背包没有可用空间。")
 
 func PromptNext():
 	if HasItem(BOTTLE_ID):
-		Mes("Your bottle is now filled with fresh water. You have another empty bottle.")
+		Mes("你的瓶子现在装满了清水。你还有一个空瓶。")
 		Choice("Fill another bottle", StartFill)
-		Choice("Leave")
+		Choice("离开")
 	else:
-		Mes("Your bottle is now filled with fresh water.")
+		Mes("你的瓶子现在装满了清水。")

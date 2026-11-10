@@ -13,7 +13,7 @@
 [resource]
 script = ExtResource("2_juena")
 _id = 1836204198
-_name = "Fire Goblin"
+_name = "火焰哥布林"
 _spritePreset = ExtResource("spr_Generic4Directions")
 _radius = 16
 _stats = {

@@ -29,20 +29,20 @@ static func Request(requester : PlayerAgent, target : PlayerAgent):
 	if not requester or not target or requester == target:
 		return
 	if not CanTrade(requester):
-		NpcCommons.PushNotification(requester, "You can't trade right now.")
+		NpcCommons.PushNotification(requester, "你现在无法交易。")
 	elif not CanTrade(target):
-		NpcCommons.PushNotification(requester, "%s is busy." % target.nick)
+		NpcCommons.PushNotification(requester, "%s 正忙。" % target.nick)
 	elif not SkillCommons.IsTargetable(requester, target):
-		NpcCommons.PushNotification(requester, "%s is too far away to trade." % target.nick)
+		NpcCommons.PushNotification(requester, "%s 距离太远，无法交易。" % target.nick)
 	elif HasPendingRequest(target):
-		NpcCommons.PushNotification(requester, "%s already has a pending trade request." % target.nick)
+		NpcCommons.PushNotification(requester, "%s 已有一个待处理的交易请求。" % target.nick)
 	else:
 		requests[target.get_rid().get_id()] = {
 			"requester": requester.get_rid().get_id(),
 			"tick": Time.get_ticks_msec()
 		}
 		Network.TradeRequested(requester.nick, target.peerID)
-		NpcCommons.PushNotification(requester, "Trade request sent to %s." % target.nick)
+		NpcCommons.PushNotification(requester, "交易请求已发送给 %s。" % target.nick)
 
 static func Respond(target : PlayerAgent, accept : bool):
 	var request : Dictionary = requests.get(target.get_rid().get_id(), {})
@@ -52,15 +52,15 @@ static func Respond(target : PlayerAgent, accept : bool):
 
 	var requester : PlayerAgent = WorldAgent.GetAgent(request["requester"])
 	if not requester or IsRequestExpired(request):
-		NpcCommons.PushNotification(target, "This trade request has expired.")
+		NpcCommons.PushNotification(target, "此交易请求已过期。")
 	elif not accept:
-		NpcCommons.PushNotification(requester, "%s declined your trade request." % target.nick)
+		NpcCommons.PushNotification(requester, "%s 拒绝了你的交易请求。" % target.nick)
 	elif not CanTrade(target):
-		NpcCommons.PushNotification(target, "You can't trade right now.")
+		NpcCommons.PushNotification(target, "你现在无法交易。")
 	elif not CanTrade(requester):
-		NpcCommons.PushNotification(target, "%s is busy." % requester.nick)
+		NpcCommons.PushNotification(target, "%s 正忙。" % requester.nick)
 	elif not SkillCommons.IsTargetable(target, requester):
-		NpcCommons.PushNotification(target, "%s is too far away to trade." % requester.nick)
+		NpcCommons.PushNotification(target, "%s 距离太远，无法交易。" % requester.nick)
 	else:
 		Open(requester, target)
 
@@ -102,7 +102,7 @@ static func SetOffer(player : PlayerAgent, entries : Array, gpValue : int):
 			session.revision += 1
 			session.Unlock()
 	else:
-		NpcCommons.PushNotification(player, "Your offer is no longer valid.")
+		NpcCommons.PushNotification(player, "你的报价已失效。")
 
 	SendUpdate(session)
 
@@ -170,21 +170,21 @@ static func Commit(session : Session):
 	Launcher.SQL.RefreshCharacter(first)
 	Launcher.SQL.RefreshCharacter(second)
 
-	Util.PrintLog("Trade", "%s gave %s and %d GP, %s gave %s and %d GP" % [first.nick, session.offers[0], session.gp[0], second.nick, session.offers[1], session.gp[1]])
+	Util.PrintLog("交易", "%s gave %s and %d GP, %s gave %s and %d GP" % [first.nick, session.offers[0], session.gp[0], second.nick, session.offers[1], session.gp[1]])
 	for player in session.parties:
 		Network.TradeClosed("Trade completed.", player.peerID)
 
 static func GetExchangeFailure(player : PlayerAgent, result : ActorInventory.ExchangeResult, gpValue : int) -> String:
 	match result:
 		ActorInventory.ExchangeResult.MISSING_ITEMS:
-			return "%s no longer has the offered items." % player.nick
+			return "%s 不再拥有提供的物品。" % player.nick
 		ActorInventory.ExchangeResult.NO_SPACE:
-			return "%s doesn't have enough inventory space." % player.nick
+			return "%s 没有足够的背包空间。" % player.nick
 		ActorInventory.ExchangeResult.INVALID:
-			return "Trade failed, an offer is invalid."
+			return "交易失败，报价无效。"
 
 	if player.stat.gp < gpValue:
-		return "%s no longer has the offered GP." % player.nick
+		return "%s 不再拥有提供的金币。" % player.nick
 
 	return ""
 

@@ -1,0 +1,5865 @@
+{
+  "candor/Gabz.gd": [
+    {
+      "function": "Mes",
+      "text": "欢迎来到坎多尔之心，魔力来此消亡！",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "这就是坎多尔之心。这是一个洞穴系统，一直含有高浓度的卡厄。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "当魔力流过埃米尔时，部分能量会衰减并沉积在特定区域。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "这就是那些区域之一。魔力停止流动并变成卡厄的地方。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "我们站着的棋盘是一个催化剂，利用这个洞穴的能量召唤各种生物。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "它们会一波一波地来，试图消耗你。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "如果你撑过足够多的波次，召唤就会停止，你就征服了坎多尔之心。",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "我从没想过那个……我不知道！我想我一直都在这里？",
+      "line": 46
+    },
+    {
+      "function": "Mes",
+      "text": "我是加兹。",
+      "line": 48
+    },
+    {
+      "function": "Mes",
+      "text": "没人真正知道。有人说它的隧道通向埃米尔的核心，里面全是卡厄。",
+      "line": 52
+    },
+    {
+      "function": "Mes",
+      "text": "其他人认为这块岩石的某种特性从四面八方吸引卡厄。",
+      "line": 53
+    },
+    {
+      "function": "Mes",
+      "text": "我不问自己太多问题。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "你运气好，我在这里掌握着生死大权！",
+      "line": 58
+    },
+    {
+      "function": "Mes",
+      "text": "当你在这个洞穴中死亡时，我会用你的齐埃尔石护身符在灵魂巨石处恢复你的生命本质。",
+      "line": 59
+    },
+    {
+      "function": "Mes",
+      "text": "如果我不救你，我很快就没棋子可玩了。",
+      "line": 60
+    },
+    {
+      "function": "Mes",
+      "text": "高浓度的魔力或许能改变能量的平衡。",
+      "line": 64
+    },
+    {
+      "function": "Mes",
+      "text": "但我是来抵挡卡厄的，为什么不让我享受一下呢？",
+      "line": 65
+    },
+    {
+      "function": "Mes",
+      "text": "卡厄可以让生物变得敌对，随时间推移，甚至变成亡灵。",
+      "line": 69
+    },
+    {
+      "function": "Mes",
+      "text": "它驱使它们攻击生物及其与魔力的联系。",
+      "line": 70
+    },
+    {
+      "function": "Mes",
+      "text": "如果你待太久，你可能也会感觉到。",
+      "line": 71
+    },
+    {
+      "function": "Mes",
+      "text": "战斗已经开始了。你现在不能再开一场。",
+      "line": 80
+    },
+    {
+      "function": "Mes",
+      "text": "开始前你需要给我带来5个苹果作为贡品。",
+      "line": 83
+    },
+    {
+      "function": "Mes",
+      "text": "你不够强，打不了这场。到达 %d 级再来。",
+      "line": 85
+    },
+    {
+      "function": "Chat",
+      "text": "专注于你的任务！",
+      "line": 11
+    },
+    {
+      "function": "Chat",
+      "text": "啊，你准备好了！战斗将在10秒后开始，做好准备！",
+      "line": 88
+    },
+    {
+      "function": "Choice",
+      "text": "Let's get this started, Gabz.",
+      "line": 17
+    },
+    {
+      "function": "Choice",
+      "text": "I changed my mind, I need to go.",
+      "line": 18
+    },
+    {
+      "function": "Choice",
+      "text": "What is this place?",
+      "line": 19
+    },
+    {
+      "function": "Choice",
+      "text": "Do you know where these waves of monsters come from?",
+      "line": 20
+    },
+    {
+      "function": "Choice",
+      "text": "No more questions.",
+      "line": 29
+    },
+    {
+      "function": "Choice",
+      "text": "Who are you? You seem off.",
+      "line": 30
+    },
+    {
+      "function": "Choice",
+      "text": "Why is the cave like this?",
+      "line": 31
+    },
+    {
+      "function": "Choice",
+      "text": "No more questions.",
+      "line": 40
+    },
+    {
+      "function": "Choice",
+      "text": "What happens if I fail?",
+      "line": 41
+    },
+    {
+      "function": "Choice",
+      "text": "Is there no way to cleanse the corruption?",
+      "line": 42
+    },
+    {
+      "function": "Choice",
+      "text": "Why does Kaore make things this way?",
+      "line": 43
+    }
+  ],
+  "generic/Barber.gd": [
+    {
+      "function": "Mes",
+      "text": "你今天想换发型或发色吗？",
+      "line": 5
+    },
+    {
+      "function": "Choice",
+      "text": "I want to try another style",
+      "line": 6
+    },
+    {
+      "function": "Choice",
+      "text": "A new color",
+      "line": 7
+    },
+    {
+      "function": "Choice",
+      "text": "None",
+      "line": 8
+    },
+    {
+      "function": "Choice",
+      "text": "Another style",
+      "line": 21
+    },
+    {
+      "function": "Choice",
+      "text": "Perfect!",
+      "line": 22
+    },
+    {
+      "function": "Choice",
+      "text": "Another color",
+      "line": 35
+    },
+    {
+      "function": "Choice",
+      "text": "Perfect!",
+      "line": 36
+    }
+  ],
+  "generic/DryWell.gd": [
+    {
+      "function": "Mes",
+      "text": "你把桶放下去，但捞上来是空的。",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "这口井已经干了。",
+      "line": 6
+    }
+  ],
+  "generic/MerchantScript.gd": [
+    {
+      "function": "Choice",
+      "text": "交易",
+      "line": 118
+    },
+    {
+      "function": "Choice",
+      "text": "取消",
+      "line": 119
+    }
+  ],
+  "generic/SoulMenhir.gd": [
+    {
+      "function": "Narrate",
+      "text": "一块宏伟的雕刻石，包裹着流动的魔力能量。它的存在让人感到平静。",
+      "line": 7
+    },
+    {
+      "function": "Narrate",
+      "text": "银色的细脉贯穿深灰色的石头，随着原生魔力的蓝光流过而变换色彩。",
+      "line": 8
+    },
+    {
+      "function": "Narrate",
+      "text": "你想触摸灵魂巨石吗？",
+      "line": 10
+    },
+    {
+      "function": "Choice",
+      "text": "Touch the Soul Menhir.",
+      "line": 11
+    },
+    {
+      "function": "Choice",
+      "text": "别管它。",
+      "line": 12
+    }
+  ],
+  "generic/Warp.gd": [
+    {
+      "function": "Choice",
+      "text": "取消",
+      "line": 8
+    }
+  ],
+  "generic/Well.gd": [
+    {
+      "function": "Mes",
+      "text": "你需要一个瓶子才能从这口井打水。",
+      "line": 15
+    },
+    {
+      "function": "Mes",
+      "text": "你的背包没有可用空间。",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "装水时别动……",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "你的瓶子现在装满了清水。你还有一个空瓶。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "你的瓶子现在装满了清水。",
+      "line": 51
+    },
+    {
+      "function": "Choice",
+      "text": "Fill another bottle",
+      "line": 48
+    },
+    {
+      "function": "Choice",
+      "text": "离开",
+      "line": 49
+    }
+  ],
+  "ship/JohanneLaLiberte-OMana.gd": [
+    {
+      "function": "Mes",
+      "text": "约翰娜·拉利贝尔特，2011年",
+      "line": 17
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，我乘船渡海只是为了寻找你。",
+      "line": 5
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，我怎样才能成为这个英雄？你在这个悲伤的世界里想要我做什么？",
+      "line": 6
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，这是不是在战斗后找到知识之路的关键，还是别的什么？",
+      "line": 7
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，请听我说，告诉我如何更强，给我指明道路。",
+      "line": 8
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，我只想停下来看看周围，看看有没有美好的人。",
+      "line": 9
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，也许我能在这个世界上找到我的道路，与朋友们并肩作战。",
+      "line": 10
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，从一个镇到另一个镇，我找到了他，他经过我的路，成了我最好的朋友和丈夫",
+      "line": 11
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，我们游荡、分享，穿过林地。",
+      "line": 12
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，他给了我信心，我感觉恐惧变少了。",
+      "line": 13
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力。在一起，我们可以帮助和保护他人免受黑暗阴影的侵袭。",
+      "line": 14
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，现在我有了继续到最后的勇气。",
+      "line": 15
+    },
+    {
+      "function": "Narrate",
+      "text": "噢魔力，事实上，正是通过你我们才能找到友谊来创造魔力世界！",
+      "line": 16
+    }
+  ],
+  "ship/Nard-PoemAboutPoems.gd": [
+    {
+      "function": "Mes",
+      "text": "纳德，2011年",
+      "line": 10
+    },
+    {
+      "function": "Narrate",
+      "text": "诗让文字起舞\\n文字变成音乐和目光\\n在星夜下的恋人之上\\n他们的眼睛在月光下闪烁",
+      "line": 5
+    },
+    {
+      "function": "Narrate",
+      "text": "不管语法\\n如果文字随节奏跳动\\n找到它们的秩序\\n像铁砧上锤子的敲击",
+      "line": 6
+    },
+    {
+      "function": "Narrate",
+      "text": "不管拼写\\n只管说出闪亮的话\\n不然，疯狂的凯蒂克奇\\n怎么向迷人的格利克奇表达爱意？",
+      "line": 7
+    },
+    {
+      "function": "Narrate",
+      "text": "真或不真\\n那不是问题\\n押韵也不难\\n如果你不喜欢\\n分享你的想法就是你的使命\\n无论内心是什么",
+      "line": 8
+    },
+    {
+      "function": "Narrate",
+      "text": "别害羞，你很好\\n打破心中的坚冰\\n无论你的想法是什么\\n都是好主意，嗯哼！\\n让每个人\\n都能写诗",
+      "line": 9
+    }
+  ],
+  "ship/Nard.gd": [
+    {
+      "function": "Mes",
+      "text": "你想继续航行？",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "去上层甲板掌舵。我和船员负责帆。",
+      "line": 6
+    }
+  ],
+  "ship/Peter.gd": [
+    {
+      "function": "Mes",
+      "text": "你太小了不能在这里闲逛，先上学再说。",
+      "line": 12
+    },
+    {
+      "function": "Mes",
+      "text": "你在这里干什么？活在下面。快去！",
+      "line": 14
+    },
+    {
+      "function": "Mes",
+      "text": "嗯？快点，我很忙。",
+      "line": 16
+    },
+    {
+      "function": "Mes",
+      "text": "有什么东西一直在啃货舱的储物。我打赌又是老鼠……我需要有人去对付它们。",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "活儿在这儿。",
+      "line": 31
+    },
+    {
+      "function": "Mes",
+      "text": "又来了？好。货舱可不会自己清理干净。",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "老鼠找到了能啃的东西。清理掉它们，你会得到报酬。",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "我发现了一个新巢穴，下面现在更多了，也更胆大了。这次报酬更好。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "别管老鼠了。下面现在有蝙蝠。蝙蝠，你敢信？",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "进去后快关门，那里的空气很恶心。",
+      "line": 56
+    },
+    {
+      "function": "Mes",
+      "text": "又是你？好。老鼠不知道什么时候放弃，它们回来了。",
+      "line": 62
+    },
+    {
+      "function": "Mes",
+      "text": "跟往常一样。下去清理干净，上来拿钱。",
+      "line": 63
+    },
+    {
+      "function": "Mes",
+      "text": "又是你？今天货舱很安静，我不需要你帮忙了，你可以走了。",
+      "line": 67
+    },
+    {
+      "function": "Chat",
+      "text": "随你便。",
+      "line": 35
+    },
+    {
+      "function": "Choice",
+      "text": "I could use the practice, I'm in.",
+      "line": 27
+    },
+    {
+      "function": "Choice",
+      "text": "Not my problem.",
+      "line": 28
+    },
+    {
+      "function": "Choice",
+      "text": "Consider it done.",
+      "line": 45
+    },
+    {
+      "function": "Choice",
+      "text": "I'll finish what I started.",
+      "line": 48
+    },
+    {
+      "function": "Choice",
+      "text": "Bats it is.",
+      "line": 51
+    },
+    {
+      "function": "Choice",
+      "text": "Not right now.",
+      "line": 53
+    },
+    {
+      "function": "Choice",
+      "text": "On my way.",
+      "line": 64
+    },
+    {
+      "function": "Choice",
+      "text": "Not today.",
+      "line": 65
+    }
+  ],
+  "splatyna/Bicies.gd": [
+    {
+      "function": "Mes",
+      "text": "赞美斯普拉蒂娜，强大的史莱姆女王！",
+      "line": 11
+    },
+    {
+      "function": "Mes",
+      "text": "你，那边！你是来给我们黏液女士献上金子的吗？",
+      "line": 12
+    },
+    {
+      "function": "Mes",
+      "text": "你还没向斯普拉蒂娜献上财宝？",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "进入她的洞穴，找到她的追随者，把金子交给她！",
+      "line": 31
+    },
+    {
+      "function": "Mes",
+      "text": "三个忠诚的握着钥匙，记住！",
+      "line": 32
+    },
+    {
+      "function": "Mes",
+      "text": "等等……我听到什么。一声尖叫！",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "斯普拉蒂娜出事了？！你干了什么？",
+      "line": 37
+    },
+    {
+      "function": "Mes",
+      "text": "好，好！我会在这里确保女王开心。",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "没了？！不，不！你撒谎！斯普拉蒂娜不会死的！",
+      "line": 46
+    },
+    {
+      "function": "Mes",
+      "text": "快……走，趁我还没发疯！",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "斯普拉蒂娜和其他史莱姆不一样。她很强大！她被卡厄祝福了！",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "她曾经是一位伟大的女王。她的灵魂被放逐，来到了这里。现在她可以再次成为伟大的女王！",
+      "line": 51
+    },
+    {
+      "function": "Mes",
+      "text": "我的女王喜欢黄金。它让她的新形态如此美丽！她更喜欢那样。",
+      "line": 52
+    },
+    {
+      "function": "Mes",
+      "text": "我们必须给她要求的金子。如果我们惹怒她，她会吞噬我们所有人！",
+      "line": 53
+    },
+    {
+      "function": "Mes",
+      "text": "这是斯普拉蒂娜的黄金王国！它曾经只是一个洞穴，但现在我的女王统治这里。",
+      "line": 57
+    },
+    {
+      "function": "Mes",
+      "text": "这里的史莱姆忠于斯普拉蒂娜。它们守护着她和她巨大的宝藏。",
+      "line": 58
+    },
+    {
+      "function": "Mes",
+      "text": "它们中有三个很特别，真正忠诚的。它们有她房间的钥匙，但它们不会轻易交给你。你得去赢得！",
+      "line": 59
+    },
+    {
+      "function": "Mes",
+      "text": "但别担心。如果你带足够的金子，也许斯普拉蒂娜会让你通过……",
+      "line": 60
+    },
+    {
+      "function": "Mes",
+      "text": "很好，拿这些金子去献给斯普拉蒂娜。她会判断你的价值。",
+      "line": 64
+    },
+    {
+      "function": "Chat",
+      "text": "亵渎！你竟敢拒绝斯普拉蒂娜的供品？！",
+      "line": 69
+    },
+    {
+      "function": "Choice",
+      "text": "Sure, I'll bring her the offering.",
+      "line": 19
+    },
+    {
+      "function": "Choice",
+      "text": "What should I do?",
+      "line": 21
+    },
+    {
+      "function": "Choice",
+      "text": "This is nonsense, I’m leaving.",
+      "line": 23
+    },
+    {
+      "function": "Choice",
+      "text": "Who is Splatyna?",
+      "line": 25
+    },
+    {
+      "function": "Choice",
+      "text": "What is this place?",
+      "line": 27
+    },
+    {
+      "function": "Choice",
+      "text": "Nothing! Everything’s fine...",
+      "line": 39
+    },
+    {
+      "function": "Choice",
+      "text": "She’s... gone.",
+      "line": 40
+    }
+  ],
+  "splatyna/Chest.gd": [
+    {
+      "function": "Chat",
+      "text": "这个宝箱似乎被封印了。",
+      "line": 19
+    },
+    {
+      "function": "Chat",
+      "text": "周围仍有黑暗存在。",
+      "line": 23
+    },
+    {
+      "function": "Chat",
+      "text": "这个宝箱是空的。",
+      "line": 35
+    }
+  ],
+  "splatyna/Locks.gd": [
+    {
+      "function": "Mes",
+      "text": "你注意到三把不同的钥匙锁，你想怎么做？",
+      "line": 19
+    },
+    {
+      "function": "Chat",
+      "text": "你需要三把不同的钥匙来解锁这个通道。",
+      "line": 23
+    },
+    {
+      "function": "Chat",
+      "text": "你需要三把不同的钥匙来解锁这个通道。",
+      "line": 35
+    },
+    {
+      "function": "Chat",
+      "text": "三把锁挡住了这个通道。",
+      "line": 38
+    },
+    {
+      "function": "Choice",
+      "text": "Open them",
+      "line": 20
+    },
+    {
+      "function": "Choice",
+      "text": "离开",
+      "line": 21
+    }
+  ],
+  "tonori/desertpit/Clue1.gd": [
+    {
+      "function": "Mes",
+      "text": "线索 1",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "你在线索1下面找到一把钥匙。",
+      "line": 25
+    }
+  ],
+  "tonori/desertpit/Clue2.gd": [
+    {
+      "function": "Mes",
+      "text": "线索 2",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "你在线索2下面找到一把钥匙。",
+      "line": 25
+    }
+  ],
+  "tonori/desertpit/Clue3.gd": [
+    {
+      "function": "Mes",
+      "text": "线索 3",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "你在线索3下面找到一把钥匙。",
+      "line": 25
+    }
+  ],
+  "tonori/desertpit/Clue4.gd": [
+    {
+      "function": "Mes",
+      "text": "线索 4",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "你在线索4下面找到一把钥匙。",
+      "line": 25
+    }
+  ],
+  "tonori/desertpit/Clue5.gd": [
+    {
+      "function": "Mes",
+      "text": "线索 5",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "你在线索5下面找到一把钥匙。",
+      "line": 25
+    }
+  ],
+  "tonori/desertpit/Mauro.gd": [
+    {
+      "function": "Mes",
+      "text": "我的水全没了！我不知道现在怎么回图利姆沙。",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "几天前我决定直面沙漠，探索这片区域。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "这里的洞穴有一个地下池塘，水非常清新纯净。",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "人们过去常来这里取水，但几年前这里开始到处都是蛇。",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "我以为我能击退那些蛇，但没想到有这么多！",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "我想靠近池塘，但蛇不断攻击我，我把收集的水全洒了。",
+      "line": 22
+    },
+    {
+      "function": "Mes",
+      "text": "你愿意试试吗？我太累了。我至少需要一满壶水才能回到城里。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "这些不是毒蛇，但它们很有攻击性，而且太多了……",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "池塘在洞穴深处。找到它的最佳方式就是迷路，你最终会看到的。",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "如果你找到了就帮我把壶装满，带回来。",
+      "line": 37
+    },
+    {
+      "function": "Mes",
+      "text": "但小心，如果被那些蛇咬了，你会损失一些水！",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "你成功了！还带着水！",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "来，拿这个。这是我仅剩的了。",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "我现在要回图利姆沙，这片区域太危险了。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "我们会继续依靠城内更安全的水井。我想这水现在属于蛇了。",
+      "line": 51
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢你帮我打水。也许现在我可以放松一点，回程不用那么赶了。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "这些在沙漠里的日子是我最快乐的，但我想现在是时候回到文明世界了。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "我理解。改变主意就回来。",
+      "line": 58
+    },
+    {
+      "function": "Mes",
+      "text": "给你壶。水源在洞穴深处。",
+      "line": 63
+    },
+    {
+      "function": "Mes",
+      "text": "给你一个重要提示：要找到它，我记得我先往北走再往东……",
+      "line": 64
+    },
+    {
+      "function": "Mes",
+      "text": "然后往南？还是我先往东走得更远再往北……",
+      "line": 65
+    },
+    {
+      "function": "Mes",
+      "text": "说实话，我只记得蛇和它们锋利的咬伤。幸好这种没有毒。",
+      "line": 66
+    },
+    {
+      "function": "Mes",
+      "text": "外面祝你好运，我还是建议你别一个人去。",
+      "line": 67
+    },
+    {
+      "function": "Mes",
+      "text": "如果你能找到别人帮忙，我相信击退蛇并收集更多水会更容易。",
+      "line": 68
+    },
+    {
+      "function": "Choice",
+      "text": "I can give it a try.",
+      "line": 25
+    },
+    {
+      "function": "Choice",
+      "text": "Not today.",
+      "line": 26
+    }
+  ],
+  "tonori/desertpit/Pachua.gd": [
+    {
+      "function": "Mes",
+      "text": "世代以来，我的部落一直在用不同材料制作特殊服装。",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "也许你给我带来合适的材料，我可以为你做点什么。",
+      "line": 10
+    },
+    {
+      "function": "Mes",
+      "text": "我所有工具不在这里，让我想想……牛仔皮裤腿你有兴趣吗？",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "为此我需要一条普通牛仔短裤和大约10张蛇皮，因为操作时它们容易撕裂。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "成交？",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "天哪，看来你没有牛仔短裤。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "天哪，看来你没有足够的蛇皮。",
+      "line": 32
+    },
+    {
+      "function": "Mes",
+      "text": "给你！",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "随时再来。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "我们住在这西边的沙漠悬崖。路不对外人开放。",
+      "line": 42
+    },
+    {
+      "function": "Mes",
+      "text": "我出来交易。大多数陌生人也只能走到这里。",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "王国很久以前就撤出了这片土地。说不值得守。",
+      "line": 46
+    },
+    {
+      "function": "Mes",
+      "text": "我的族人在他们之前就到这里了，今天我们仍在这里。需要的时候我们和图利姆沙交易，但除此之外我们更愿意保持距离。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "好吧，但你在别的地方绝对拿不到更好的价钱！",
+      "line": 50
+    },
+    {
+      "function": "Chat",
+      "text": "准备好了再来。",
+      "line": 53
+    },
+    {
+      "function": "Choice",
+      "text": "What can you make?",
+      "line": 11
+    },
+    {
+      "function": "Choice",
+      "text": "Where is your tribe?",
+      "line": 12
+    },
+    {
+      "function": "Choice",
+      "text": "What happened to this land?",
+      "line": 13
+    },
+    {
+      "function": "Choice",
+      "text": "Maybe later.",
+      "line": 14
+    },
+    {
+      "function": "Choice",
+      "text": "Yes, that's fine.",
+      "line": 20
+    },
+    {
+      "function": "Choice",
+      "text": "On second thought, maybe later.",
+      "line": 21
+    }
+  ],
+  "tonori/desertpit/ThiefsChest.gd": [
+    {
+      "function": "Chat",
+      "text": "你的背包太满了，无法从这个宝箱中拿取物品。",
+      "line": 38
+    },
+    {
+      "function": "Chat",
+      "text": "这个宝箱是空的。",
+      "line": 41
+    },
+    {
+      "function": "Chat",
+      "text": "这个宝箱被锁住了。你需要一把钥匙。",
+      "line": 44
+    }
+  ],
+  "tonori/desertpit/WaterPond.gd": [
+    {
+      "function": "Mes",
+      "text": "你把壶浸入池塘。静止几秒钟等它装满……",
+      "line": 13
+    }
+  ],
+  "tonori/desertpit/WaterPondFilthy.gd": [
+    {
+      "function": "Mes",
+      "text": "这水太脏了！你不觉得这是毛罗想要说的那个池塘。",
+      "line": 6
+    }
+  ],
+  "tonori/manayir/Hommer.gd": [
+    {
+      "function": "Mes",
+      "text": "欢迎来到玛纳伊尔。",
+      "line": 7
+    },
+    {
+      "function": "Mes",
+      "text": "我们是卡韦。一个德鲁伊教团，聚集在一起研究、教授和保护我们世界中魔力的秩序。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "很久以前我们遍布整个地区，各自照料附近生长的汉特斯。那个时代已经过去了。",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "我们也在图利姆沙待了很长时间。试图阻止魔力变成政治问题。那个时代也过去了。",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "现在我们保存我们所知的知识，继续研究。",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "汉特，也叫魔力树，是我们世界中魔力的支柱。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "它们通过魔力的流动连接所有生物。每一个都维持周围土地的活力，防止魔力衰变成卡厄。",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "当人们开始恐惧魔力，它们就被砍伐。传播很快。一些宗教和政治给了它教义义和目标，不久之后就没有了。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "我们是它们的守护者。我们失败了。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "我们存在的意义就是保存关于它们的知识。我们研究它们留下的魔力流动和痕迹。我们等待。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "你带着什么东西。",
+      "line": 33
+    },
+    {
+      "function": "Mes",
+      "text": "一颗卡诺，一颗魔力种子。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "我只是在书上读到过这些，我们都是。我从没想过我们会再看到一棵。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "好，她知道这是正确的选择。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "但在那之前，我应该告诉你一件事。",
+      "line": 40
+    },
+    {
+      "function": "Mes",
+      "text": "路到这里就结束了，暂时。",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "建造这个世界的人仍在为下一步努力。你已经追上他们了。",
+      "line": 45
+    },
+    {
+      "function": "Mes",
+      "text": "祝贺你走到这一步，感谢你与我们一起踏上这段旅程！",
+      "line": 46
+    },
+    {
+      "function": "Mes",
+      "text": "想待多久就待多久，请一定来拜访我们，在Discord上打个招呼。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "在那之前，玛纳伊尔和托诺里地区供你继续探索。",
+      "line": 48
+    },
+    {
+      "function": "Choice",
+      "text": "I was sent by Nina of Tulimshar.",
+      "line": 12
+    },
+    {
+      "function": "Choice",
+      "text": "What is this place?",
+      "line": 13
+    },
+    {
+      "function": "Choice",
+      "text": "What are the Hantu?",
+      "line": 14
+    },
+    {
+      "function": "Choice",
+      "text": "再见。",
+      "line": 15
+    },
+    {
+      "function": "Choice",
+      "text": "Nina said you could be trusted.",
+      "line": 36
+    },
+    {
+      "function": "Choice",
+      "text": "What is it?",
+      "line": 41
+    },
+    {
+      "function": "Choice",
+      "text": "I'll stay a while.",
+      "line": 49
+    }
+  ],
+  "tonori/sandstorm/Chest.gd": [
+    {
+      "function": "Chat",
+      "text": "你的背包太满了，无法从这个宝箱中拿取物品。",
+      "line": 35
+    },
+    {
+      "function": "Chat",
+      "text": "这个宝箱是空的。",
+      "line": 38
+    },
+    {
+      "function": "Chat",
+      "text": "这个宝箱被锁住了。你需要一把钥匙。",
+      "line": 41
+    }
+  ],
+  "tonori/sandstorm/Dausen.gd": [
+    {
+      "function": "Mes",
+      "text": "你是埃基努派下去的人？",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "我不骗你，他可能觉得你回不来了……",
+      "line": 6
+    },
+    {
+      "function": "Mes",
+      "text": "往东南方向走。矿井入口在一口老井旁边。",
+      "line": 8
+    },
+    {
+      "function": "Mes",
+      "text": "如果你发现自己走到了山谷外面，你就知道方向错了。",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "找守卫内森，他应该驻守在矿井入口。",
+      "line": 10
+    },
+    {
+      "function": "Mes",
+      "text": "祝你好运。",
+      "line": 12
+    }
+  ],
+  "tonori/sandstorm/DeepLevelEntrance.gd": [
+    {
+      "function": "Mes",
+      "text": "我没有感觉到第一个人经过这里时的那种黑暗存在。请上前。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "数千年来第一次，我需要别人的帮助。",
+      "line": 19
+    },
+    {
+      "function": "Narrate",
+      "text": "你注意到洞壁上有一条裂缝。微弱的蓝光似乎从另一边透出来。",
+      "line": 15
+    },
+    {
+      "function": "Narrate",
+      "text": "看起来你可以挤过去。",
+      "line": 16
+    },
+    {
+      "function": "Narrate",
+      "text": "一个平静的声音在你脑海中响起。",
+      "line": 17
+    }
+  ],
+  "tonori/sandstorm/Elias.gd": [
+    {
+      "function": "Mes",
+      "text": "如果你沿着那边的西边通道走，你会离开图利姆沙山谷，进入祖尼台地。",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "你知道你要去哪吗？",
+      "line": 6
+    },
+    {
+      "function": "Mes",
+      "text": "如果你沿着这条路走，你会离沙暴矿场越来越远。",
+      "line": 12
+    },
+    {
+      "function": "Mes",
+      "text": "你应该往西走，朝山谷南边走。",
+      "line": 14
+    },
+    {
+      "function": "Mes",
+      "text": "你可以沿着那条路往北走到城墙。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "你不会错过的，从那里几乎可以看到城墙！",
+      "line": 20
+    },
+    {
+      "function": "Choice",
+      "text": "I am looking for the Sandstorm Mines.",
+      "line": 7
+    },
+    {
+      "function": "Choice",
+      "text": "I am looking for Tulimshar.",
+      "line": 8
+    }
+  ],
+  "tonori/sandstorm/ManaTree.gd": [
+    {
+      "function": "Mes",
+      "text": "往前走。我会保护你的安全。",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢。",
+      "line": 16
+    },
+    {
+      "function": "Mes",
+      "text": "我本可以保护自己，就像保护你一样，但他会离开，就像他刚才做的那样。",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "我的位置已经暴露了，我需要一个盟友来对抗这个新威胁。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "是的。我是一棵乌鲁，也叫魔力树。",
+      "line": 22
+    },
+    {
+      "function": "Mes",
+      "text": "我的种族是埃米尔世界上的第一批生命，直到今天，我以为我会是最后一个。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "你刚才打的那个人是冲我的卡诺来的。你们叫它魔力种子。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "这是一种极其罕见的东西，因为它可以长成一棵新的乌鲁。在我们历史中的这个时刻尤其珍贵，因为我是仅存的最后一棵乌鲁。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "虽然我也想看看，但我不需要阳光也能活。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "我的根深入大地，共享赋予我们所有人力量的生命之源：魔力。",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "只要我能与它的流动相连，我就活着。",
+      "line": 37
+    },
+    {
+      "function": "Mes",
+      "text": "很多年前，这个世界到处都是像我一样的乌鲁。我们的根相互连接，魔力比现在更强大地流动。",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "魔力可能表现出意想不到的方式。",
+      "line": 42
+    },
+    {
+      "function": "Mes",
+      "text": "当它在一段时间内扰乱了人们的生活时，一种认为它有害的信念发展了起来。",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "这迅速传播到许多文化，砍伐乌鲁以限制魔力流动成为惯例。",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "当乌鲁受到威胁时，一群打算保护我们的德鲁伊在这个洞穴里种下了一颗卡诺。",
+      "line": 48
+    },
+    {
+      "function": "Mes",
+      "text": "然后，他们在附近某个地方创立了玛纳伊尔教团，研究和利用靠近我根部的魔力流动。",
+      "line": 49
+    },
+    {
+      "function": "Mes",
+      "text": "我出生在这里，对世界隐藏。随着时间推移，玛纳伊尔让他们对我存在的认知逐渐消失，甚至对自己人也一样，这样我就能继续隐藏。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "我要你永远不要向任何人提起我的存在。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "拿走卡诺，魔力种子。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "图利姆沙的德鲁伊妮娜是我知道你可以信任的人。她非常善于感知魔力的流动，我已经了解了她。",
+      "line": 56
+    },
+    {
+      "function": "Mes",
+      "text": "你应该告诉在附近检查矿场的守卫你发现了巨大的危险，进入下层不安全。",
+      "line": 57
+    },
+    {
+      "function": "Mes",
+      "text": "我别无选择，只能相信你会做出正确的决定。",
+      "line": 58
+    },
+    {
+      "function": "Mes",
+      "text": "无论你做什么，都不会比你在这里对付的那个人做的更糟。",
+      "line": 59
+    },
+    {
+      "function": "Mes",
+      "text": "小心。你今天在这里发现的东西已经被隐藏了数千年。",
+      "line": 64
+    },
+    {
+      "function": "Mes",
+      "text": "命运使然，你现在是一位强大魔力源的守护者。",
+      "line": 65
+    },
+    {
+      "function": "Mes",
+      "text": "他曾经是玛纳伊尔的一员。现在他的意图不同了。",
+      "line": 70
+    },
+    {
+      "function": "Mes",
+      "text": "你应该和他教团的人谈谈。他们会告诉你他是谁。",
+      "line": 71
+    },
+    {
+      "function": "Chat",
+      "text": "记住你带了什么。",
+      "line": 75
+    },
+    {
+      "function": "Choice",
+      "text": "Are you... A tree?",
+      "line": 19
+    },
+    {
+      "function": "Choice",
+      "text": "How do you survive down here?",
+      "line": 29
+    },
+    {
+      "function": "Choice",
+      "text": "What should I do now?",
+      "line": 30
+    },
+    {
+      "function": "Choice",
+      "text": "How did you end up in this cave?",
+      "line": 31
+    },
+    {
+      "function": "Choice",
+      "text": "What happened since that time?",
+      "line": 32
+    },
+    {
+      "function": "Choice",
+      "text": "I will go to Nina then.",
+      "line": 60
+    },
+    {
+      "function": "Choice",
+      "text": "What do you know about that man?",
+      "line": 61
+    },
+    {
+      "function": "Choice",
+      "text": "I will go to Nina then.",
+      "line": 72
+    }
+  ],
+  "tonori/sandstorm/Naem.gd": [
+    {
+      "function": "Mes",
+      "text": "我爷爷曾经在这个矿场工作。我小时候他会跟我讲矿场的事。",
+      "line": 7
+    },
+    {
+      "function": "Mes",
+      "text": "它往下很深。我想知道他们想让我们走多远；我想知道下面现在还有没有活着的东西。",
+      "line": 8
+    },
+    {
+      "function": "Mes",
+      "text": "你觉得怎么样？",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "能不走远就不走远。来，我有个多余的头盔。",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "图利姆沙有一个工匠用棕榈纤维和仙人掌提取的树脂做这些。很结实。最酷了。",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "算了。祝你好运！",
+      "line": 24
+    },
+    {
+      "function": "Chat",
+      "text": "祝你好运！",
+      "line": 27
+    },
+    {
+      "function": "Choice",
+      "text": "I don't know, but I'll find out.",
+      "line": 10
+    },
+    {
+      "function": "Choice",
+      "text": "The what?",
+      "line": 21
+    }
+  ],
+  "tonori/sandstorm/Nathan.gd": [
+    {
+      "function": "Mes",
+      "text": "嗨！我是守卫内森。",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "我平时守图利姆沙港口，但今天我有幸在外面被烤成酥脆。",
+      "line": 10
+    },
+    {
+      "function": "Mes",
+      "text": "抱歉。我的错。",
+      "line": 11
+    },
+    {
+      "function": "Mes",
+      "text": "太阳快把我逼疯了。",
+      "line": 12
+    },
+    {
+      "function": "Mes",
+      "text": "哦是你！抱歉，这么多沙子我没认出你。",
+      "line": 15
+    },
+    {
+      "function": "Mes",
+      "text": "确实如此！我明白为什么这地方被遗弃了。",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "风暴让我牙里都是沙子。我只能想象曾经在这里工作的矿工每天走这里是什么感受。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "现在里面那些人得应付这个了。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "我只希望能回去守港口。如果他们永久把我派驻这里，我可能就直接去喂哥布林了。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "真的？你不像矿工。你的镐呢？",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "啊，我明白了。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "嗯，抱歉让你久等了。一个人站在这里很无聊。",
+      "line": 40
+    },
+    {
+      "function": "Mes",
+      "text": "来吧，进去。他们肯定在等你。",
+      "line": 41
+    },
+    {
+      "function": "Mes",
+      "text": "嗯，既然你问了……我可以用一些额外的水！",
+      "line": 52
+    },
+    {
+      "function": "Mes",
+      "text": "这里有一口井，但已经干涸很久了。",
+      "line": 53
+    },
+    {
+      "function": "Mes",
+      "text": "我跟你直说吧。这甚至不是用来喝的。我身上带着呢。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "我只想把它泼在脸上，让自己感觉没那么被热烤。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "那是个愚蠢的请求吗？",
+      "line": 56
+    },
+    {
+      "function": "Mes",
+      "text": "哦……我理解。没问题。当我没说。",
+      "line": 62
+    },
+    {
+      "function": "Mes",
+      "text": "我猜这就是他们把我派到这里的原因……我一定很烦人。",
+      "line": 63
+    },
+    {
+      "function": "Mes",
+      "text": "我就知道你会理解。补水很重要！我等你，朋友。",
+      "line": 67
+    },
+    {
+      "function": "Mes",
+      "text": "倒不是我能去哪，就算我想……",
+      "line": 69
+    },
+    {
+      "function": "Mes",
+      "text": "你找到一瓶水了吗？",
+      "line": 76
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢你，朋友！终于能松口气了！",
+      "line": 86
+    },
+    {
+      "function": "Mes",
+      "text": "这正是我需要的。你无法想象。",
+      "line": 96
+    },
+    {
+      "function": "Mes",
+      "text": "现在我只需要有人给我再拿一个来……",
+      "line": 97
+    },
+    {
+      "function": "Choice",
+      "text": "Is this the entrance to the Sandstorm Mines?",
+      "line": 13
+    },
+    {
+      "function": "Choice",
+      "text": "About that bottle of water.",
+      "line": 16
+    },
+    {
+      "function": "Choice",
+      "text": "Nevermind, I thought you were a sandman.",
+      "line": 19
+    },
+    {
+      "function": "Choice",
+      "text": "I'm actually supposed to join them.",
+      "line": 31
+    },
+    {
+      "function": "Choice",
+      "text": "I'm not here to mine, just scout the place.",
+      "line": 36
+    },
+    {
+      "function": "Choice",
+      "text": "Thanks Nathan. Have a nice day!",
+      "line": 43
+    },
+    {
+      "function": "Choice",
+      "text": "Is there anything I can do to make your job here easier?",
+      "line": 45
+    },
+    {
+      "function": "Choice",
+      "text": "Not at all. I understand what it's like to overheat in this land.",
+      "line": 58
+    },
+    {
+      "function": "Choice",
+      "text": "Yes, actually. I have more important things to do.",
+      "line": 59
+    },
+    {
+      "function": "Choice",
+      "text": "I have one with me.",
+      "line": 72
+    },
+    {
+      "function": "Choice",
+      "text": "I'll try to find you that!",
+      "line": 73
+    },
+    {
+      "function": "Choice",
+      "text": "I have it.",
+      "line": 78
+    },
+    {
+      "function": "Choice",
+      "text": "Not yet, I'll keep looking.",
+      "line": 79
+    }
+  ],
+  "tonori/sandstorm/Nickos.gd": [
+    {
+      "function": "Mes",
+      "text": "救命。",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "你是谁？求你了，我需要你的帮助！",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "哦。我以为他会让我等死。",
+      "line": 22
+    },
+    {
+      "function": "Mes",
+      "text": "他派我一个人下来的时候，似乎真的不在乎我会出什么事。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "我被……谁攻击了？",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "我没想到会在下面遇到人，但有一个穿着深色长袍的奇怪男人。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "他似乎在检查洞穴的墙壁。我试着跟他说话，但他二话不说就攻击我。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "我会的。我需要喘口气。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "你身上有什么能帮上忙的东西吗？",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢！我感觉好多了。我在这里休息一会儿，然后离开这个地方。",
+      "line": 61
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢你救了我！我还担心那个人会回来结果我。",
+      "line": 62
+    },
+    {
+      "function": "Mes",
+      "text": "没关系。我在这里休息一会儿，然后就能离开这个地方了。",
+      "line": 66
+    },
+    {
+      "function": "Mes",
+      "text": "我很高兴你找到我。我还担心那个人会回来结果我。",
+      "line": 67
+    },
+    {
+      "function": "Mes",
+      "text": "他沿着这条走廊走开了。我最后一次听到他的声音是在这处岩架下面。",
+      "line": 71
+    },
+    {
+      "function": "Mes",
+      "text": "听起来他像在水里行走。然后我听到石头碎裂的声音。",
+      "line": 72
+    },
+    {
+      "function": "Mes",
+      "text": "我下一次听到声音时，原来是你朝我走来。",
+      "line": 73
+    },
+    {
+      "function": "Mes",
+      "text": "听起来他像在水里行走。然后我听到石头碎裂的声音。",
+      "line": 77
+    },
+    {
+      "function": "Mes",
+      "text": "这处岩架下面某处的墙上一定有裂缝。他就是从那里消失的。",
+      "line": 78
+    },
+    {
+      "function": "Mes",
+      "text": "我很高兴你找到我。我还担心那个人会回来结果我。",
+      "line": 81
+    },
+    {
+      "function": "Choice",
+      "text": "I was sent by Watchman Ryan to find you.",
+      "line": 19
+    },
+    {
+      "function": "Choice",
+      "text": "What happened to you?",
+      "line": 24
+    },
+    {
+      "function": "Choice",
+      "text": "Did you see where he went?",
+      "line": 30
+    },
+    {
+      "function": "Choice",
+      "text": "Are you okay?",
+      "line": 31
+    },
+    {
+      "function": "Choice",
+      "text": "Yes. Try this. [x1 Cactus Potion]",
+      "line": 39
+    },
+    {
+      "function": "Choice",
+      "text": "Yes. Try this. [x1 Pitaya]",
+      "line": 41
+    },
+    {
+      "function": "Choice",
+      "text": "No, I'm sorry. I have nothing.",
+      "line": 42
+    },
+    {
+      "function": "Choice",
+      "text": "Did you see where he went?",
+      "line": 63
+    },
+    {
+      "function": "Choice",
+      "text": "Did you see where he went?",
+      "line": 68
+    }
+  ],
+  "tonori/sandstorm/Ryan.gd": [
+    {
+      "function": "Mes",
+      "text": "你是谁？",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "他派你来？我告诉那个沙子脑子的白痴派新兵来。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "不是随便哪个沙漠流浪者。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "你大概一看到蝎子就会跑，对吧？",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "好……随便吧。别说了。",
+      "line": 33
+    },
+    {
+      "function": "Mes",
+      "text": "你的声音很烦人。我最不需要的就是听它在这个洞穴里回荡。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "你也看到了，我已经有一些可怜的家伙在这里了，他们拼命地挖土，看看这鬼地方还有什么值钱的金属。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "我在做了！",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "我派了这些笨蛋中的一个去侦察前方，但他好像迷路了。",
+      "line": 40
+    },
+    {
+      "function": "Mes",
+      "text": "他叫尼科斯。他已经有一阵子没回来了。",
+      "line": 41
+    },
+    {
+      "function": "Mes",
+      "text": "去找他。",
+      "line": 42
+    },
+    {
+      "function": "Mes",
+      "text": "如果他还活着就把他带回来。如果他死了，你大概也会死，然后我们就知道下面有危险了。",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "听起来怎么样？",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "好。反正我也没打算给你选择。",
+      "line": 49
+    },
+    {
+      "function": "Mes",
+      "text": "走！别等我吻别。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "他叫尼科斯。他已经有一阵子没回来了。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "去找他。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "如果他还活着就把他带回来。如果他死了，你大概也会死，然后我们就知道下面有危险了。",
+      "line": 56
+    },
+    {
+      "function": "Mes",
+      "text": "你还活着。",
+      "line": 59
+    },
+    {
+      "function": "Mes",
+      "text": "我还以为你也迷路了。下面发生什么了？",
+      "line": 60
+    },
+    {
+      "function": "Mes",
+      "text": "被淹了？",
+      "line": 67
+    },
+    {
+      "function": "Mes",
+      "text": "我想知道水是从哪来的。",
+      "line": 68
+    },
+    {
+      "function": "Mes",
+      "text": "就在这外面有一口井，也许附近有地下水。",
+      "line": 69
+    },
+    {
+      "function": "Mes",
+      "text": "我们不该乱闯被水淹的洞穴。隧道可能坍塌，把我们全困在里面。我会回去报告矿场已经没救了。",
+      "line": 70
+    },
+    {
+      "function": "Mes",
+      "text": "喷火？我从没见过。",
+      "line": 74
+    },
+    {
+      "function": "Mes",
+      "text": "我在下面看到过能吞下一个人的大蝎子。我想它们喷火也不是不可能。",
+      "line": 75
+    },
+    {
+      "function": "Mes",
+      "text": "也许我们应该避开这个地方。反正我们似乎也找不到什么有用的东西。",
+      "line": 76
+    },
+    {
+      "function": "Mes",
+      "text": "哥……哥布林？你……你确定吗？",
+      "line": 80
+    },
+    {
+      "function": "Mes",
+      "text": "我……我不害怕！如果你在怀疑的话。我不怕哥布林！",
+      "line": 81
+    },
+    {
+      "function": "Mes",
+      "text": "你知道吗？我们应该离开这个地方。对，我们走吧。",
+      "line": 82
+    },
+    {
+      "function": "Mes",
+      "text": "下面太危险了。为了寻找被遗忘的矿石冒这个险不值得。",
+      "line": 83
+    },
+    {
+      "function": "Mes",
+      "text": "一棵树。一棵魔法树。一棵会说话的魔法树。",
+      "line": 87
+    },
+    {
+      "function": "Mes",
+      "text": "接下来呢，你要告诉我蝎子会喷火？哥布林给你唱歌了？",
+      "line": 88
+    },
+    {
+      "function": "Mes",
+      "text": "你疯了。下面发生的事让你变傻了！",
+      "line": 89
+    },
+    {
+      "function": "Mes",
+      "text": "也许这是一个闹鬼的洞穴。我开始觉得我们根本不该下去。",
+      "line": 90
+    },
+    {
+      "function": "Mes",
+      "text": "说到这个。尼科斯呢？你找到他了吗？",
+      "line": 94
+    },
+    {
+      "function": "Mes",
+      "text": "不奇怪，我看到过他被一只朝他爬来的蛆虫吓到。",
+      "line": 99
+    },
+    {
+      "function": "Mes",
+      "text": "他最好别在这里浪费我的时间，快点回来，不然我可能就丢下他。",
+      "line": 100
+    },
+    {
+      "function": "Mes",
+      "text": "……",
+      "line": 106
+    },
+    {
+      "function": "Mes",
+      "text": "好。",
+      "line": 107
+    },
+    {
+      "function": "Mes",
+      "text": "他知道风险。干这行的每个人都知道。",
+      "line": 108
+    },
+    {
+      "function": "Mes",
+      "text": "……",
+      "line": 109
+    },
+    {
+      "function": "Mes",
+      "text": "我们不会去收他的尸体。别提这个。",
+      "line": 110
+    },
+    {
+      "function": "Mes",
+      "text": "如果我再失去任何人，我就再也不能带人出城墙了。",
+      "line": 111
+    },
+    {
+      "function": "Mes",
+      "text": "他的报酬是他自己该领的。就当是给你的报告酬劳。",
+      "line": 112
+    },
+    {
+      "function": "Mes",
+      "text": "至少现在我确定我们不会下去了。我派下去的第一个人死了。不是好兆头。",
+      "line": 113
+    },
+    {
+      "function": "Choice",
+      "text": "I was sent by Watchman Ekinu to help with scouting these mines.",
+      "line": 21
+    },
+    {
+      "function": "Choice",
+      "text": "Actually, I have walked all the way here and fought off a few scorpions already.",
+      "line": 28
+    },
+    {
+      "function": "Choice",
+      "text": "I didn't come all this way to leave that quickly.",
+      "line": 30
+    },
+    {
+      "function": "Choice",
+      "text": "What am I supposed to do then?",
+      "line": 36
+    },
+    {
+      "function": "Choice",
+      "text": "Awful, but I'll do it.",
+      "line": 45
+    },
+    {
+      "function": "Choice",
+      "text": "Okay... why did I agree to this...",
+      "line": 46
+    },
+    {
+      "function": "Choice",
+      "text": "The lower level is completely flooded. There is no chance of getting through.",
+      "line": 61
+    },
+    {
+      "function": "Choice",
+      "text": "There are fire-breathing scorpions! Hundreds! They might get angry if we disturb them.",
+      "line": 62
+    },
+    {
+      "function": "Choice",
+      "text": "There are goblin nests everywhere! We could lose a lot of people clearing them out.",
+      "line": 63
+    },
+    {
+      "function": "Choice",
+      "text": "There was a magical tree. It talked to me!",
+      "line": 64
+    },
+    {
+      "function": "Choice",
+      "text": "He's alive. Shaken up, but resting.",
+      "line": 95
+    },
+    {
+      "function": "Choice",
+      "text": "I found his remains.",
+      "line": 96
+    }
+  ],
+  "tonori/sandstorm/Sawyl.gd": [
+    {
+      "function": "Mes",
+      "text": "如果你沿着这条路往东走，你会离开图利姆沙山谷，朝玛纳伊尔海岸方向前进。",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "你迷路了吗？",
+      "line": 6
+    },
+    {
+      "function": "Mes",
+      "text": "你会在正南方向找到它们。",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "它们已经被遗弃很久了，但我刚才看到一群人往那个方向去了。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "看起来像图利姆沙的人。不知道他们在搞什么……",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "图利姆沙山谷是一个低洼的保护区，图利姆沙城在这里躲避开阔的托诺里沙漠。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "城墙把城市封闭在山谷和开阔海洋之间。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "除了吹过山谷的沙尘暴，这片区域相比托诺里更远的地区相对安全，那里各种危险都藏在滚烫的沙子下。",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "这是托诺里靠近大海的安静区域。它可能是这片沙漠中气候最温和的地方。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "最显著的特征是从海滩延伸出来的半岛。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "我们的语言中叫它纳瓦。那是玛纳伊尔教团的家。",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "他们是一个由智慧法师和魔力专家组成的强大组织。他们存在了很长时间，几乎和我的族人一样久。",
+      "line": 42
+    },
+    {
+      "function": "Mes",
+      "text": "我们的古老传说讲述他们如何在古代统治图利姆沙。现在他们大多独来独往。",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "我们偶尔和他们交易，我们一直与他们分享我们对灵体——魔力——的知识和崇敬。",
+      "line": 44
+    },
+    {
+      "function": "Choice",
+      "text": "I am looking for the Sandstorm Mines.",
+      "line": 11
+    },
+    {
+      "function": "Choice",
+      "text": "What can you tell me about this valley?",
+      "line": 13
+    },
+    {
+      "function": "Choice",
+      "text": "What can you tell me about the Manayir Coast?",
+      "line": 15
+    },
+    {
+      "function": "Choice",
+      "text": "Thank you for your time.",
+      "line": 17
+    },
+    {
+      "function": "Choice",
+      "text": "Manyir Order?",
+      "line": 38
+    }
+  ],
+  "tonori/sandstorm/Sema.gd": [
+    {
+      "function": "Mes",
+      "text": "这地方感觉不对劲。",
+      "line": 6
+    },
+    {
+      "function": "Mes",
+      "text": "它有一种诡异的感觉。也许只是因为它被遗弃太久了？",
+      "line": 7
+    },
+    {
+      "function": "Mes",
+      "text": "也许这就是它最初被遗弃的原因……",
+      "line": 8
+    },
+    {
+      "function": "Mes",
+      "text": "我听到更深的地方传来一些声音。我真不想去那里……",
+      "line": 10
+    }
+  ],
+  "tonori/sandstorm/Xakelbael.gd": [
+    {
+      "function": "Mes",
+      "text": "你比我以为的更强。",
+      "line": 8
+    },
+    {
+      "function": "Mes",
+      "text": "我们会再见的……",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "我来这里是为了卡诺。没想到会在黑暗中遇到一棵活着的乌鲁。它是怎么活下来的？",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "这是最后一个还是还有更多？",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "你们图利姆沙人来打扰这里，时机不太好。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "我之前已经对付过你们中的一个了，但你跟得太远了，我不会对你这么宽容了。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "你不该在这里。我也不该在，但这不重要。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "我得到了我想要的。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "我没时间满足你的好奇心，也不能让你离开这里。",
+      "line": 36
+    },
+    {
+      "function": "Choice",
+      "text": "What are you talking about?",
+      "line": 22
+    },
+    {
+      "function": "Choice",
+      "text": "Kano? Uru?",
+      "line": 23
+    },
+    {
+      "function": "Choice",
+      "text": "你是谁？",
+      "line": 24
+    },
+    {
+      "function": "Choice",
+      "text": "What is this place?",
+      "line": 29
+    },
+    {
+      "function": "Choice",
+      "text": "Can you explain what's happening?",
+      "line": 30
+    },
+    {
+      "function": "Choice",
+      "text": "I don't even know who you are.",
+      "line": 31
+    }
+  ],
+  "tonori/tulimshar/Aanshir.gd": [
+    {
+      "function": "Mes",
+      "text": "被分配到内墙区域是最好的差事了。",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "我可以整天待在阴凉处休息，而其他守卫负责把野生动物挡在城墙外。",
+      "line": 6
+    },
+    {
+      "function": "Mes",
+      "text": "我要做的就是防止人们打扰我们女王照料花园。",
+      "line": 7
+    },
+    {
+      "function": "Mes",
+      "text": "那是红女王的城堡。",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "如果你有重要的事要说，可以请求觐见女王陛下，但我建议不要打扰她的花园。",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "你还可以找到大陆上第二大的图书馆，它的藏书量几乎与玛纳伊尔塔楼相当！",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "啊——！",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "……抱歉。那个地方让我很不爽。",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "很危险。很多蛇，这还是友好的部分。有些土著人住在外面，我不想跟他们打交道，我听说他们吃生鸟，戴着羽毛跳舞。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "如果非去不可，沿着路走。最好还是别去。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "你可以在城墙外找到我们旧的仙人掌田和居住区，完全没有人居住。",
+      "line": 32
+    },
+    {
+      "function": "Mes",
+      "text": "沙暴吞没了一切，迫使我们在山谷尽头筑起路障自守。",
+      "line": 33
+    },
+    {
+      "function": "Mes",
+      "text": "这不太理想，因为那场沙暴一年比一年大。",
+      "line": 34
+    },
+    {
+      "function": "Choice",
+      "text": "What's this large building?",
+      "line": 12
+    },
+    {
+      "function": "Choice",
+      "text": "What's to the west?",
+      "line": 13
+    },
+    {
+      "function": "Choice",
+      "text": "What's to the south?",
+      "line": 14
+    },
+    {
+      "function": "Choice",
+      "text": "I have to go.",
+      "line": 15
+    }
+  ],
+  "tonori/tulimshar/Andi.gd": [
+    {
+      "function": "Mes",
+      "text": "你看到我的粉笔了吗？",
+      "line": 14
+    },
+    {
+      "function": "Mes",
+      "text": "我打赌是守卫拿去自己玩了。",
+      "line": 15
+    },
+    {
+      "function": "Mes",
+      "text": "总有一天，我要去海上探索世界。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "我听说北方有一座城市，有冰冷的白色沙子。",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "你会画完美的圆吗？我会！我爸爸教我的。",
+      "line": 22
+    },
+    {
+      "function": "Mes",
+      "text": "薇不会画圆。她试着画时看起来像胖方块。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "它们看起来很好笑，但我不喜欢笑它们，所以她总是想当X。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "我开始叫她\\",
+      "line": 25
+    },
+    {
+      "function": "Chat",
+      "text": "哦，我真的很喜欢那块石头！",
+      "line": 9
+    },
+    {
+      "function": "Chat",
+      "text": "小心藏匿的海盗，他们很危险。",
+      "line": 10
+    },
+    {
+      "function": "Chat",
+      "text": "请别擦掉粉笔字！",
+      "line": 11
+    }
+  ],
+  "tonori/tulimshar/Barrel.gd": [
+    {
+      "function": "Chat",
+      "text": "一个密封的桶。",
+      "line": 7
+    }
+  ],
+  "tonori/tulimshar/Ben.gd": [
+    {
+      "function": "Mes",
+      "text": "你是谁？",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "你看起来想说什么。但你手里空空的。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "有东西给我看的时候再来。我有活要干。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "什么。他派你带着这些来？",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "我认识这个笔迹。",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "这些很旧了。在女王把我们分开驻扎的时候，在我们共用同一堵墙之前。",
+      "line": 31
+    },
+    {
+      "function": "Mes",
+      "text": "弗罗斯特管人。我管石头。就这么分工。",
+      "line": 32
+    },
+    {
+      "function": "Mes",
+      "text": "有效果，持续了一阵子。",
+      "line": 33
+    },
+    {
+      "function": "Mes",
+      "text": "然后女王不断施压。更多要求，总是按她的方式。没有空间去好好干活。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "弗罗斯特开始定规矩。什么事都要走流程。我告诉他，在已有压力之上不需要再加压了。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "他说我把他排斥在外，自己做决定不告诉任何人。",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "也许是的，言语不是我的工具。从来不是。",
+      "line": 37
+    },
+    {
+      "function": "Mes",
+      "text": "我只想建造东西，让人们别争论我该怎么建。",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "总之。我叫他走。他走了。就这样。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "……",
+      "line": 40
+    },
+    {
+      "function": "Mes",
+      "text": "但显然不是那样。因为我在这里，守着没人想攻破的城墙。",
+      "line": 41
+    },
+    {
+      "function": "Mes",
+      "text": "除了你……但我想是弗罗斯特派你来的，所以不一样。",
+      "line": 42
+    },
+    {
+      "function": "Mes",
+      "text": "把这个信封带回给他。他会知道里面是什么。",
+      "line": 49
+    },
+    {
+      "function": "Mes",
+      "text": "告诉他城墙还在。他会……嗯。就这么告诉他。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "那些信去哪了？有了再来。",
+      "line": 52
+    },
+    {
+      "function": "Mes",
+      "text": "又是你。走廊现在对你开放了，我是认真的。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "我旁边图书馆后面有一条通道。通向城墙外。没多少人知道。",
+      "line": 56
+    },
+    {
+      "function": "Choice",
+      "text": "I was sent by Frost. He gave me these...",
+      "line": 22
+    }
+  ],
+  "tonori/tulimshar/Ekinu.gd": [
+    {
+      "function": "Mes",
+      "text": "你已经醒了？",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "一定要和埃拉诺谈谈，我们捡到你之后你昏迷的时候是她照顾你的。",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "你看到我们要处理的那些蛆虫了吗？",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "恶心的生物。据说它们过去比现在小。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "我们的仙人掌种植者受影响最严重。最近蛆虫数量增加对他们的庄稼造成了很大损害。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "守卫凯尔驻守在东边，一个仙人掌农场旁。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "如果你想有所作为，报答你欠我们的恩情，你应该帮凯尔清理一些蛆虫。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "你以为你要去哪？",
+      "line": 33
+    },
+    {
+      "function": "Mes",
+      "text": "嗯……我明白了。",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "为了偿还你对城市的亏欠，如果你真的想离开这里，我会让你加入城外的探险队。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "你处理那些蛆虫了吗？",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "嗯……他说得对。",
+      "line": 48
+    },
+    {
+      "function": "Mes",
+      "text": "我们确实需要多一个战士，我担心把太多守卫从城里的岗位调走。",
+      "line": 52
+    },
+    {
+      "function": "Mes",
+      "text": "你要往南走，朝沙暴矿场方向。",
+      "line": 53
+    },
+    {
+      "function": "Mes",
+      "text": "它们叫那个名字是有原因的，你知道吗？沙漠那个区域容易刮大风，旋转的沙子让人很难到达。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "但这场风暴不同。异常强烈、炎热、持久。我想知道是不是外面有什么东西在引发它……",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "矿场曾经是丰富的铁矿来源，对红女王来说利润丰厚，因为整个区域是她的私人财产。",
+      "line": 60
+    },
+    {
+      "function": "Mes",
+      "text": "它们已经被遗弃几年了，因为沙暴加剧，那个区域变得更难通行，矿工们要么死于沙暴，要么死于在沙漠中游荡的愤怒生物。",
+      "line": 61
+    },
+    {
+      "function": "Mes",
+      "text": "看来我们绝望的王室现在资金不足了。她下令不惜一切代价重新开放矿场。",
+      "line": 62
+    },
+    {
+      "function": "Mes",
+      "text": "像往常一样，她根本没考虑过这对她要派去那里工作的人有什么危险。",
+      "line": 63
+    },
+    {
+      "function": "Mes",
+      "text": "你的任务是侦察该区域，确保旧的洞穴系统没有重大危险。如果一切正常，我们将开始派矿工进来，重启整个作业。",
+      "line": 67
+    },
+    {
+      "function": "Mes",
+      "text": "但走之前，你不能赤脚半瞎地穿越沙漠。",
+      "line": 73
+    },
+    {
+      "function": "Mes",
+      "text": "戴上护目镜和靴子。外面沙子会烧你的脚，还会进眼睛！",
+      "line": 74
+    },
+    {
+      "function": "Mes",
+      "text": "你连武器都没有，对吧？",
+      "line": 82
+    },
+    {
+      "function": "Mes",
+      "text": "来，拿这把剑。总比空手走出去好。",
+      "line": 83
+    },
+    {
+      "function": "Mes",
+      "text": "穿上合适的靴子你也会比赤脚快得多。",
+      "line": 86
+    },
+    {
+      "function": "Mes",
+      "text": "如果你遇到危险，记住逃跑，死人没有尊严可言。",
+      "line": 87
+    },
+    {
+      "function": "Mes",
+      "text": "你现在应该准备好了。",
+      "line": 93
+    },
+    {
+      "function": "Mes",
+      "text": "还有一件事。离开城市之前，跟那边的吉尔伽美什说句话。他在守城门，总是愿意和新兵聊天。",
+      "line": 95
+    },
+    {
+      "function": "Mes",
+      "text": "其他守卫已经先走了。问城门外的守卫道森，他会告诉你去哪。",
+      "line": 98
+    },
+    {
+      "function": "Mes",
+      "text": "先下手为强。",
+      "line": 114
+    },
+    {
+      "function": "Mes",
+      "text": "如果你的对手不是你的对手，赶紧逃命。死人没有尊严。",
+      "line": 115
+    },
+    {
+      "function": "Mes",
+      "text": "\\",
+      "line": 125
+    },
+    {
+      "function": "Mes",
+      "text": "事实上，她声称自己是托诺里的女王。好像她能控制城墙外的事情似的。",
+      "line": 126
+    },
+    {
+      "function": "Mes",
+      "text": "她声称自己是铂金王朝的后裔，数千年前图利姆沙的统治者。实际上我们都知道她父亲是个仙人掌种植者，她能当女王只是因为他是个非常聪明的人。",
+      "line": 127
+    },
+    {
+      "function": "Mes",
+      "text": "是的。他成功说服了临终的老国王他是他的私生子。",
+      "line": 132
+    },
+    {
+      "function": "Mes",
+      "text": "老人没有其他孩子，喜欢上了他。临终前他立他为继承人。他实际上是个非常聪明的人，也是好领袖，所以宫殿里的人也就接受了。",
+      "line": 133
+    },
+    {
+      "function": "Mes",
+      "text": "现在他也死了，他那个没用的女儿在编造她所谓王室血统的故事。事实是没人喜欢她，她需要一个借口让别人继续让她戴那顶王冠。",
+      "line": 134
+    },
+    {
+      "function": "Mes",
+      "text": "那说得轻了！",
+      "line": 138
+    },
+    {
+      "function": "Mes",
+      "text": "我想看她半埋在沙子里，蝎子戳着她的尸体。",
+      "line": 139
+    },
+    {
+      "function": "Mes",
+      "text": "不过别到处说是我告诉你的。",
+      "line": 140
+    },
+    {
+      "function": "Mes",
+      "text": "她是个冷酷无情、自私自利的人。她把所有时间都花在皇家宫殿里照料她的花园。",
+      "line": 141
+    },
+    {
+      "function": "Mes",
+      "text": "她关心那个愚蠢的花园胜过关心我们任何人的生命。",
+      "line": 142
+    },
+    {
+      "function": "Mes",
+      "text": "准备出发时向城门外的守卫道森报告。",
+      "line": 155
+    },
+    {
+      "function": "Mes",
+      "text": "你很幸运，我们在哥布林之前找到了你，但很高兴看到你好转了。",
+      "line": 157
+    },
+    {
+      "function": "Chat",
+      "text": "保持警惕。",
+      "line": 148
+    },
+    {
+      "function": "Chat",
+      "text": "平安回来。",
+      "line": 150
+    },
+    {
+      "function": "Narrate",
+      "text": "按住奔跑键冲刺，更快地移动或逃离战斗。",
+      "line": 90
+    },
+    {
+      "function": "Narrate",
+      "text": "冲刺消耗耐力，所以需要时再用。",
+      "line": 91
+    },
+    {
+      "function": "Narrate",
+      "text": "按住奔跑键冲刺，更快地移动或逃离战斗。",
+      "line": 119
+    },
+    {
+      "function": "Narrate",
+      "text": "冲刺消耗耐力，所以需要时再用。",
+      "line": 120
+    },
+    {
+      "function": "Choice",
+      "text": "I lost myself.",
+      "line": 34
+    },
+    {
+      "function": "Choice",
+      "text": "I would like to leave this place.",
+      "line": 35
+    },
+    {
+      "function": "Choice",
+      "text": "Yes, Kael said I did well. He thinks I could help with your expedition.",
+      "line": 45
+    },
+    {
+      "function": "Choice",
+      "text": "Why are you heading that way?",
+      "line": 56
+    },
+    {
+      "function": "Choice",
+      "text": "What should I do?",
+      "line": 57
+    },
+    {
+      "function": "Choice",
+      "text": "What should I do?",
+      "line": 64
+    },
+    {
+      "function": "Choice",
+      "text": "What should I do again?",
+      "line": 107
+    },
+    {
+      "function": "Choice",
+      "text": "What can you tell me about the Red Queen?",
+      "line": 108
+    },
+    {
+      "function": "Choice",
+      "text": "What happens if I'm in danger?",
+      "line": 109
+    },
+    {
+      "function": "Choice",
+      "text": "Alright, let's get moving.",
+      "line": 110
+    },
+    {
+      "function": "Choice",
+      "text": "It seems that you really dislike her.",
+      "line": 128
+    },
+    {
+      "function": "Choice",
+      "text": "Her father was a cactus farmer?",
+      "line": 129
+    },
+    {
+      "function": "Choice",
+      "text": "It seems that you really dislike her.",
+      "line": 135
+    },
+    {
+      "function": "Choice",
+      "text": "We should get going before she gets angry then!",
+      "line": 143
+    }
+  ],
+  "tonori/tulimshar/Elanore.gd": [
+    {
+      "function": "Mes",
+      "text": "你还有别的事吗？",
+      "line": 16
+    },
+    {
+      "function": "Mes",
+      "text": "欢迎回来。我能为你做什么？",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "你好，欢迎来到图利姆沙！",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "你及时赶到了城门。守卫在地上发现了你，几乎看不见。",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "我叫埃拉诺。你感觉怎么样？你需要喝这些水，也请吃这个，会让你感觉好些。",
+      "line": 31
+    },
+    {
+      "function": "Mes",
+      "text": "哦……好吧。来，拿一个。除此之外，你需要花点时间，亲爱的。",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "你在沙漠里闲逛什么？最近很危险，你不该一个人出去。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "嗯，有你在真好。城市需要有能力的人帮助维护安全。",
+      "line": 60
+    },
+    {
+      "function": "Mes",
+      "text": "最近沙漠变得更危险了。一群痴迷卡厄的狂热分子藏在东边的山里。他们一直在袭击旅人，有一次在大规模战斗中差点攻破城墙。",
+      "line": 61
+    },
+    {
+      "function": "Mes",
+      "text": "总之，这些是基础衣物，用来换掉我们捡到你时你穿的破布。",
+      "line": 62
+    },
+    {
+      "function": "Mes",
+      "text": "在我让你走之前，让我给你讲几件事，帮你在外面活下来。",
+      "line": 69
+    },
+    {
+      "function": "Mes",
+      "text": "但我不该让你整天待在这里。你是新来的，想找到自己的立足之地。",
+      "line": 86
+    },
+    {
+      "function": "Mes",
+      "text": "是的！我为我们的守卫和这座城市的人们做很多治疗药水。它们是对大多数病症的速效药，真的帮助让人们更安全。",
+      "line": 131
+    },
+    {
+      "function": "Mes",
+      "text": "治疗药水需要知识才能制作，还需要一些关键材料。也许你可以通过帮我收集这些材料来重新振作起来？",
+      "line": 132
+    },
+    {
+      "function": "Mes",
+      "text": "每瓶药水我需要六个蛆虫粘液、一个水和一个火龙果。把它们带给我，我就给你做一瓶仙人掌药水作为回报。",
+      "line": 137
+    },
+    {
+      "function": "Mes",
+      "text": "你什么时候准备好，交易都有效。",
+      "line": 142
+    },
+    {
+      "function": "Mes",
+      "text": "我还是每瓶药水需要六个蛆虫粘液、一个水和一个火龙果。有了再来。",
+      "line": 146
+    },
+    {
+      "function": "Mes",
+      "text": "你带来的够做 %d 瓶药水！我应该做几瓶？",
+      "line": 152
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢你的帮助。我这就开始做新的治疗药水！",
+      "line": 168
+    },
+    {
+      "function": "Mes",
+      "text": "在这里帮助人民比困在塔楼或宫殿里好得多。这座城市更多的领导者应该想想这一点。",
+      "line": 169
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢，给你！",
+      "line": 171
+    },
+    {
+      "function": "Mes",
+      "text": "嗯，你好像没有材料了。",
+      "line": 174
+    },
+    {
+      "function": "Mes",
+      "text": "你的背包满了，先腾点空间。",
+      "line": 177
+    },
+    {
+      "function": "Mes",
+      "text": "魔力是连接我们所有人的生命能量。卡厄是魔力的衰败形式，它腐蚀生命而不是激活生命。还有更多内容，但大概就是这样。",
+      "line": 186
+    },
+    {
+      "function": "Mes",
+      "text": "如果你想了解更多，最好问我的学徒妮娜。她目前负责管理城市的灵魂巨石。你可以从她那里学到更多。",
+      "line": 188
+    },
+    {
+      "function": "Mes",
+      "text": "我叫埃拉诺。我是这座城市和周围土地的卡韦。教团外的人叫我们德鲁伊。我代表考马图亚，一个致力于世界上最古老传统的教团。",
+      "line": 194
+    },
+    {
+      "function": "Mes",
+      "text": "但你现在别操心那个。以后可以再聊。现在我就在这里帮忙配药水，接收城墙外来的伤员。",
+      "line": 195
+    },
+    {
+      "function": "Mes",
+      "text": "守卫凯尔目前负责城墙内的本地巡逻，如果你在找工作应该和他谈谈。",
+      "line": 214
+    },
+    {
+      "function": "Mes",
+      "text": "他在这东北方向，靠近一些棕榈树。",
+      "line": 216
+    },
+    {
+      "function": "Mes",
+      "text": "沿着这堵墙走到拐角，然后走上去。",
+      "line": 217
+    },
+    {
+      "function": "Mes",
+      "text": "守卫埃基努驻守在南边的城门。",
+      "line": 221
+    },
+    {
+      "function": "Mes",
+      "text": "告诉他你为凯尔做了什么，他会知道下一步怎么安排你。",
+      "line": 223
+    },
+    {
+      "function": "Chat",
+      "text": "在外面照顾好自己。",
+      "line": 200
+    },
+    {
+      "function": "Chat",
+      "text": "注意安全。",
+      "line": 202
+    },
+    {
+      "function": "Narrate",
+      "text": "这些是你的重要资源。随时注意它们。",
+      "line": 71
+    },
+    {
+      "function": "Narrate",
+      "text": "你的生命条显示你在死亡前能承受多少伤害。",
+      "line": 73
+    },
+    {
+      "function": "Narrate",
+      "text": "你的法力为技能提供能量。没有它，许多能力无法使用。",
+      "line": 75
+    },
+    {
+      "function": "Narrate",
+      "text": "耐力决定你能在疲劳前冲刺和执行身体动作的时间。",
+      "line": 77
+    },
+    {
+      "function": "Narrate",
+      "text": "菜单让你访问背包、技能、任务、设置等。用它管理你携带和知道的一切。",
+      "line": 79
+    },
+    {
+      "function": "Narrate",
+      "text": "动作条让你放置技能和物品以便快速使用。把最需要的东西拖上去，战斗中每一秒都很重要。",
+      "line": 81
+    },
+    {
+      "function": "Narrate",
+      "text": "在背包窗口可以管理你的物品、装备、药水和找到的收集品。",
+      "line": 83
+    },
+    {
+      "function": "Narrate",
+      "text": "在NPC附近使用交互键与他们交谈。你也可以先使用目标键选择一个。",
+      "line": 89
+    },
+    {
+      "function": "Choice",
+      "text": "I am feeling better now, thank you.",
+      "line": 38
+    },
+    {
+      "function": "Choice",
+      "text": "I am still feeling a bit weak...",
+      "line": 39
+    },
+    {
+      "function": "Choice",
+      "text": "I am a mercenary soldier trying to gain local fame.",
+      "line": 51
+    },
+    {
+      "function": "Choice",
+      "text": "I am looking to start trades with natives of the region.",
+      "line": 52
+    },
+    {
+      "function": "Choice",
+      "text": "I am a scholar seeking knowledge on Mana and magic.",
+      "line": 53
+    },
+    {
+      "function": "Choice",
+      "text": "I am a sailor looking to explore new opportunities on and off land.",
+      "line": 54
+    },
+    {
+      "function": "Choice",
+      "text": "Where should I go now?",
+      "line": 105
+    },
+    {
+      "function": "Choice",
+      "text": "Can I help you with anything?",
+      "line": 111
+    },
+    {
+      "function": "Choice",
+      "text": "I have your ingredients.",
+      "line": 114
+    },
+    {
+      "function": "Choice",
+      "text": "About those ingredients...",
+      "line": 116
+    },
+    {
+      "function": "Choice",
+      "text": "I brought you more ingredients.",
+      "line": 119
+    },
+    {
+      "function": "Choice",
+      "text": "About those ingredients...",
+      "line": 121
+    },
+    {
+      "function": "Choice",
+      "text": "What is Kaore?",
+      "line": 123
+    },
+    {
+      "function": "Choice",
+      "text": "你是谁？",
+      "line": 124
+    },
+    {
+      "function": "Choice",
+      "text": "Thank you again but I have to leave",
+      "line": 127
+    },
+    {
+      "function": "Choice",
+      "text": "I'll gather them for you.",
+      "line": 133
+    },
+    {
+      "function": "Choice",
+      "text": "Maybe later.",
+      "line": 134
+    },
+    {
+      "function": "Choice",
+      "text": "Just one.",
+      "line": 153
+    },
+    {
+      "function": "Choice",
+      "text": "All %d of them.",
+      "line": 154
+    },
+    {
+      "function": "Choice",
+      "text": "I have something else to ask.",
+      "line": 181
+    },
+    {
+      "function": "Choice",
+      "text": "Goodbye.",
+      "line": 182
+    }
+  ],
+  "tonori/tulimshar/Eridu.gd": [
+    {
+      "function": "Mes",
+      "text": "嘿！你是新来的吧？我好像没见过你。我叫埃里杜。我是玻璃匠。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "我的家族一直在做玻璃。在这种气候下，人们发现用玻璃携带液体很方便。所以我们主要做瓶子。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "我们用托诺里的沙子做玻璃。我们还使用盐、骨头和硫磺粉。",
+      "line": 56
+    },
+    {
+      "function": "Mes",
+      "text": "到处都是沙子，你也看到了，但其他成分更难弄到。",
+      "line": 57
+    },
+    {
+      "function": "Mes",
+      "text": "你好像带了很多东西。也许扔掉一些再回来。",
+      "line": 75
+    },
+    {
+      "function": "Mes",
+      "text": "盐、骨头、硫磺。你好像什么都有！",
+      "line": 81
+    },
+    {
+      "function": "Mes",
+      "text": "我这就去做一些新瓶子。",
+      "line": 82
+    },
+    {
+      "function": "Mes",
+      "text": "同时，我用尽了最后的资源做了这些。拿着。",
+      "line": 83
+    },
+    {
+      "function": "Mes",
+      "text": "%d个瓶子。别打碎了，这可是上好的埃里杜玻璃！",
+      "line": 88
+    },
+    {
+      "function": "Mes",
+      "text": "随时给我带更多材料。每样 %d 份，我就给你吹更多玻璃。",
+      "line": 90
+    },
+    {
+      "function": "Mes",
+      "text": "以我的观察还差。每样材料 %d 份。少了配比就不行。",
+      "line": 93
+    },
+    {
+      "function": "Mes",
+      "text": "慢慢来。炉子不会跑，我也不会。",
+      "line": 94
+    },
+    {
+      "function": "Mes",
+      "text": "又来买玻璃？见到你真好。",
+      "line": 97
+    },
+    {
+      "function": "Mes",
+      "text": "还需要别的吗？",
+      "line": 101
+    },
+    {
+      "function": "Mes",
+      "text": "沙子就是玻璃。我们把它熔化，然后冷却得到的液体。",
+      "line": 117
+    },
+    {
+      "function": "Mes",
+      "text": "我有很多，你也看到了。",
+      "line": 118
+    },
+    {
+      "function": "Mes",
+      "text": "我们用盐降低熔化温度，这样就不会太热而损坏我们的陶罐。",
+      "line": 119
+    },
+    {
+      "function": "Mes",
+      "text": "然后，我们加入钙。就是骨头，磨成粉。这很重要，这样玻璃接触水时不会融化。",
+      "line": 120
+    },
+    {
+      "function": "Mes",
+      "text": "最后，硫磺去除气泡并消除绿色。",
+      "line": 121
+    },
+    {
+      "function": "Mes",
+      "text": "比例不对，玻璃就会脆弱。或者更糟，很丑。",
+      "line": 122
+    },
+    {
+      "function": "Mes",
+      "text": "史莱姆通常有高浓度的盐。有时盐晶体在它们体内形成。不比让海水蒸发容易，但可能更快。",
+      "line": 130
+    },
+    {
+      "function": "Mes",
+      "text": "硫磺更难搞。沙暴那边的火焰哥布林身上有。我觉得是它们的身体产生的。也许用来喷火？",
+      "line": 131
+    },
+    {
+      "function": "Mes",
+      "text": "骨头需要从在某些区域游荡的复活尸体上获取。我听说它们是卡厄制造的。总比挖坟好。",
+      "line": 132
+    },
+    {
+      "function": "Mes",
+      "text": "好。你什么都齐了。",
+      "line": 145
+    },
+    {
+      "function": "Mes",
+      "text": "把它们带到这里来，等它们冷却之前我就把 %d 个瓶子交到你手上。",
+      "line": 146
+    },
+    {
+      "function": "Mes",
+      "text": "随你便。反正炉子一直烧着。",
+      "line": 149
+    },
+    {
+      "function": "Mes",
+      "text": "一个瓶子需要 %d 盐、%d 骨头和 %d 硫磺粉。两倍就能做两瓶。很简单。",
+      "line": 153
+    },
+    {
+      "function": "Mes",
+      "text": "让我称称你带来的东西……",
+      "line": 162
+    },
+    {
+      "function": "Mes",
+      "text": "你的背包快撑破了。你怎么往里面装玻璃？去腾点东西出来！",
+      "line": 174
+    },
+    {
+      "function": "Mes",
+      "text": "%d个瓶子。小心别打碎了！",
+      "line": 182
+    },
+    {
+      "function": "Mes",
+      "text": "一瓶。现在别把它打碎了！",
+      "line": 184
+    },
+    {
+      "function": "Chat",
+      "text": "小心碎玻璃。",
+      "line": 139
+    },
+    {
+      "function": "Choice",
+      "text": "I could get those things for you.",
+      "line": 62
+    },
+    {
+      "function": "Choice",
+      "text": "Why those three ingredients?",
+      "line": 64
+    },
+    {
+      "function": "Choice",
+      "text": "Where can I find these things?",
+      "line": 66
+    },
+    {
+      "function": "Choice",
+      "text": "Not right now.",
+      "line": 67
+    },
+    {
+      "function": "Choice",
+      "text": "I brought more material.",
+      "line": 106
+    },
+    {
+      "function": "Choice",
+      "text": "What do you need for another bottle?",
+      "line": 108
+    },
+    {
+      "function": "Choice",
+      "text": "Why those three ingredients?",
+      "line": 110
+    },
+    {
+      "function": "Choice",
+      "text": "Where would I find them?",
+      "line": 112
+    },
+    {
+      "function": "Choice",
+      "text": "Keep well, Eridu.",
+      "line": 113
+    },
+    {
+      "function": "Choice",
+      "text": "Just the one bottle.",
+      "line": 163
+    },
+    {
+      "function": "Choice",
+      "text": "All of it, %d bottles.",
+      "line": 165
+    },
+    {
+      "function": "Choice",
+      "text": "On second thought, I'll hold on to it.",
+      "line": 166
+    }
+  ],
+  "tonori/tulimshar/FlourBarrel.gd": [
+    {
+      "function": "Mes",
+      "text": "一个深蓝色的火漆印，上面印着阿蒂斯的纹章。就是这个。",
+      "line": 12
+    },
+    {
+      "function": "Mes",
+      "text": "里面是精细研磨的面粉袋，正如里斯金描述的那样。",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "但你的背包太满了，装不下它们。",
+      "line": 16
+    }
+  ],
+  "tonori/tulimshar/Frost.gd": [
+    {
+      "function": "Mes",
+      "text": "小心脚下。仙人掌刚长出来。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "抱歉，我不常来客人。自从我在宫殿里当顾问以来就没有了。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "几年前辞了。上面每个人的担子都太重了，你知道吗？",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "在这里只有我和泥土。不过耕种对城市有用，所以我不介意。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "你有没有在脑子里反复回放同一个场景，想知道如果做了不同的决定，事情会有多不一样？",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "还在走？那些走廊不太友好。",
+      "line": 33
+    },
+    {
+      "function": "Mes",
+      "text": "你找到了。好，好。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "把密封的信件交给本。你刚走我就看见他走进走廊了。",
+      "line": 40
+    },
+    {
+      "function": "Mes",
+      "text": "他直觉很敏锐，或者你专注于不被发现时发出了声音。总之，他会在那里。",
+      "line": 41
+    },
+    {
+      "function": "Mes",
+      "text": "你回来了。他……",
+      "line": 45
+    },
+    {
+      "function": "Mes",
+      "text": "这个信封。很重。",
+      "line": 46
+    },
+    {
+      "function": "Mes",
+      "text": "……",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "金子。他在这里放了金子。上面写着我的名字。",
+      "line": 48
+    },
+    {
+      "function": "Mes",
+      "text": "当女王第一次把我们安排在一起时，我们各自留了一份给对方。以防情况恶化到一个人需要离开。",
+      "line": 49
+    },
+    {
+      "function": "Mes",
+      "text": "我以为我走后他会花掉这些。如果他花了，我能理解。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "我不配拥有这个。它应该属于一个比我更好的人。",
+      "line": 51
+    },
+    {
+      "function": "Mes",
+      "text": "来。你拿着。你一个下午为我们做的比我们几年做的还多。",
+      "line": 52
+    },
+    {
+      "function": "Mes",
+      "text": "你找到本了吗？他在西墙走廊。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "等等，信封去哪了？把它带回来给我。",
+      "line": 63
+    },
+    {
+      "function": "Mes",
+      "text": "今年仙人掌长得不错。",
+      "line": 66
+    },
+    {
+      "function": "Mes",
+      "text": "我一直想着我应该走到那边去。到走廊。不是今天，但我决定我会去。",
+      "line": 67
+    },
+    {
+      "function": "Mes",
+      "text": "他保留了那些信。这多少说明点什么，对吧？",
+      "line": 68
+    },
+    {
+      "function": "Mes",
+      "text": "曾经有一个和我一起工作的人。本。聪明人。什么都能修，什么都能建。",
+      "line": 71
+    },
+    {
+      "function": "Mes",
+      "text": "不过小声点。他宁愿把墙拆了重建，也不愿解释为什么要修。",
+      "line": 72
+    },
+    {
+      "function": "Mes",
+      "text": "我，是那个跟人打交道的人。安排班次，解决分歧，维持运转。",
+      "line": 73
+    },
+    {
+      "function": "Mes",
+      "text": "我们多年来共同守护这些城墙。在女王统治下，这不容易。",
+      "line": 74
+    },
+    {
+      "function": "Mes",
+      "text": "女王的事。或者我猜她一直在发生。总是更多要求，总是按她的方式。",
+      "line": 79
+    },
+    {
+      "function": "Mes",
+      "text": "我开始定规矩。什么事都要走流程。我想如果我能把一切都组织好，也许压力就不会压垮我们。",
+      "line": 80
+    },
+    {
+      "function": "Mes",
+      "text": "本看法不同。他说我在我们已经承受的压力上又加了一层。",
+      "line": 81
+    },
+    {
+      "function": "Mes",
+      "text": "他就自己做事。自己做决定。不告诉我，也不告诉任何人。我总是事后才知道。",
+      "line": 82
+    },
+    {
+      "function": "Mes",
+      "text": "我们都在努力维护同样的城墙。但在某个时候，我们不再讨论它，而是开始为此争吵。",
+      "line": 83
+    },
+    {
+      "function": "Mes",
+      "text": "我犯了太多错误，不敢说我对所有事都是对的。但那时候，我们两个都不肯让步。",
+      "line": 84
+    },
+    {
+      "function": "Mes",
+      "text": "他叫我走。我就走了。我对自己处理方式不自豪，但我让开了。",
+      "line": 85
+    },
+    {
+      "function": "Mes",
+      "text": "那是多年前的事了。我还是比应该更多地想起它。",
+      "line": 86
+    },
+    {
+      "function": "Mes",
+      "text": "其实……也许有。",
+      "line": 92
+    },
+    {
+      "function": "Mes",
+      "text": "在我们附近西墙走廊的尽头，过了本的巡逻区，有一个小房间，里面有个书架。",
+      "line": 93
+    },
+    {
+      "function": "Mes",
+      "text": "那个架子上有一个信封。我们互相写的信，在女王把我们分开驻扎的时候。在一切出问题之前。",
+      "line": 94
+    },
+    {
+      "function": "Mes",
+      "text": "我不知道这会不会改变什么。但也许如果他再读一遍，他会记得我们并不总是这样的。",
+      "line": 95
+    },
+    {
+      "function": "Mes",
+      "text": "走廊有巡逻。你应该待在阴影里。如果你走进光亮处，守卫会抓住你。",
+      "line": 96
+    },
+    {
+      "function": "Mes",
+      "text": "西墙走廊的尽头，在我们左边，书架上面。",
+      "line": 101
+    },
+    {
+      "function": "Mes",
+      "text": "还有别待在光亮处。守卫接到严格命令，要把未经许可的市民赶出去。",
+      "line": 102
+    },
+    {
+      "function": "Mes",
+      "text": "谢谢，真的。",
+      "line": 106
+    },
+    {
+      "function": "Chat",
+      "text": "不，我理解。对陌生人要求太多了。",
+      "line": 110
+    },
+    {
+      "function": "Chat",
+      "text": "好。嗯，仙人掌不会自己照顾自己。",
+      "line": 113
+    },
+    {
+      "function": "Choice",
+      "text": "What's on your mind?",
+      "line": 29
+    },
+    {
+      "function": "Choice",
+      "text": "I should get going",
+      "line": 30
+    },
+    {
+      "function": "Choice",
+      "text": "Tell me about Ben again",
+      "line": 34
+    },
+    {
+      "function": "Choice",
+      "text": "Where are the letters?",
+      "line": 35
+    },
+    {
+      "function": "Choice",
+      "text": "I'm on it",
+      "line": 36
+    },
+    {
+      "function": "Choice",
+      "text": "What happened?",
+      "line": 75
+    },
+    {
+      "function": "Choice",
+      "text": "I should get going",
+      "line": 76
+    },
+    {
+      "function": "Choice",
+      "text": "Is there anything I can do?",
+      "line": 88
+    },
+    {
+      "function": "Choice",
+      "text": "I'm sorry to hear that",
+      "line": 89
+    },
+    {
+      "function": "Choice",
+      "text": "I'll do it",
+      "line": 97
+    },
+    {
+      "function": "Choice",
+      "text": "Not now",
+      "line": 98
+    }
+  ],
+  "tonori/tulimshar/Gilgames.gd": [
+    {
+      "function": "Mes",
+      "text": "你是埃基努新招的？好。",
+      "line": 7
+    },
+    {
+      "function": "Mes",
+      "text": "我猜你出门前有很多问题，我能帮你什么？",
+      "line": 8
+    },
+    {
+      "function": "Mes",
+      "text": "离城门远点。走开。",
+      "line": 11
+    },
+    {
+      "function": "Mes",
+      "text": "完成任务、战斗或参与活动都能帮助你成长。四处看看，别害怕和周围的人交谈，也别害怕探索周边区域。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "你需要在沙漠中面对的一切，能用的优势都要用上。",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "地图是你的朋友，不要犹豫用它来知道该去哪。",
+      "line": 40
+    },
+    {
+      "function": "Mes",
+      "text": "把你喜欢的物品、药水甚至技能放在身边，沙暴时可能有用。",
+      "line": 47
+    },
+    {
+      "function": "Chat",
+      "text": "尽量别把自己弄死了。",
+      "line": 21
+    },
+    {
+      "function": "Narrate",
+      "text": "升级时你获得一些新的属性点，可以花在与你玩法匹配的属性上，并确认你的选择。",
+      "line": 27
+    },
+    {
+      "function": "Narrate",
+      "text": "力量增加你的物理伤害、移动速度和负重。",
+      "line": 28
+    },
+    {
+      "function": "Narrate",
+      "text": "敏捷影响你的攻击速度、攻击距离以及闪避能力。",
+      "line": 29
+    },
+    {
+      "function": "Narrate",
+      "text": "体力提升你的生命值上限、再生和全局防御。",
+      "line": 30
+    },
+    {
+      "function": "Narrate",
+      "text": "耐力让你的耐力值更持久、恢复更快，并让你更快再次攻击。",
+      "line": 31
+    },
+    {
+      "function": "Narrate",
+      "text": "专注为你的法力提供养分，让你能发挥技能的最佳效果。",
+      "line": 32
+    },
+    {
+      "function": "Narrate",
+      "text": "注意你的生命资源，在生命、法力或耐力低的时候冲进荒野可能不是最明智的选择。",
+      "line": 34
+    },
+    {
+      "function": "Narrate",
+      "text": "你可以在地图上定位任何位置并向其移动，以防迷路。",
+      "line": 42
+    },
+    {
+      "function": "Narrate",
+      "text": "你可以将任何可用的物品、技能甚至表情拖放到快捷栏。",
+      "line": 49
+    },
+    {
+      "function": "Choice",
+      "text": "How can I improve myself?",
+      "line": 15
+    },
+    {
+      "function": "Choice",
+      "text": "What happens if I'm lost?",
+      "line": 16
+    },
+    {
+      "function": "Choice",
+      "text": "How can I easily access everything I gathered?",
+      "line": 17
+    },
+    {
+      "function": "Choice",
+      "text": "All good!",
+      "line": 18
+    }
+  ],
+  "tonori/tulimshar/Hyland.gd": [
+    {
+      "function": "Mes",
+      "text": "欢迎，欢迎！你是来玩牌的吗？",
+      "line": 58
+    },
+    {
+      "function": "Mes",
+      "text": "你知道二十一点吗？我恰好是它的发明者！",
+      "line": 59
+    },
+    {
+      "function": "Mes",
+      "text": "坐下，坐下。让我看看你的本事。牌在等着呢。",
+      "line": 60
+    },
+    {
+      "function": "Mes",
+      "text": "规则很简单。我应该知道，是我定的！",
+      "line": 70
+    },
+    {
+      "function": "Mes",
+      "text": "尽量接近21点但不要超过。",
+      "line": 71
+    },
+    {
+      "function": "Mes",
+      "text": "数字牌按面值，人头牌是10点，A牌……嗯，A牌很灵活。可以是1点或11点。随你喜欢。",
+      "line": 72
+    },
+    {
+      "function": "Mes",
+      "text": "赢我，我就服你。超过21点就爆。这就是规则。",
+      "line": 73
+    },
+    {
+      "function": "Mes",
+      "text": "连守卫都能学会这个，说明它很简单。",
+      "line": 74
+    },
+    {
+      "function": "Mes",
+      "text": "你的手牌：%s",
+      "line": 96
+    },
+    {
+      "function": "Mes",
+      "text": "我出的是：%s。",
+      "line": 97
+    },
+    {
+      "function": "Mes",
+      "text": "你的手牌：%s",
+      "line": 105
+    },
+    {
+      "function": "Mes",
+      "text": "嗬，爆了！贪婪就会这样。我见过一千次了。",
+      "line": 106
+    },
+    {
+      "function": "Mes",
+      "text": "你的手牌：%s",
+      "line": 119
+    },
+    {
+      "function": "Mes",
+      "text": "我的手牌：%s",
+      "line": 120
+    },
+    {
+      "function": "Mes",
+      "text": "哼！老手也有失手的时候。打得好。",
+      "line": 122
+    },
+    {
+      "function": "Mes",
+      "text": "嘿……不错嘛。",
+      "line": 124
+    },
+    {
+      "function": "Mes",
+      "text": "经验又一次获胜。别难过，大多数人都输给我。",
+      "line": 126
+    },
+    {
+      "function": "Mes",
+      "text": "%d 平局！有种，我服你。",
+      "line": 128
+    },
+    {
+      "function": "Mes",
+      "text": "好吧，看看还有谁够胆。等一下。",
+      "line": 136
+    },
+    {
+      "function": "Mes",
+      "text": "耐心……好的牌手学会等待。",
+      "line": 145
+    },
+    {
+      "function": "Mes",
+      "text": "哈！比赛开始了！让我看看你们俩的本事。",
+      "line": 158
+    },
+    {
+      "function": "Mes",
+      "text": "你的手牌：%s",
+      "line": 162
+    },
+    {
+      "function": "Mes",
+      "text": "二十一点！",
+      "line": 164
+    },
+    {
+      "function": "Mes",
+      "text": "你的手牌：%s",
+      "line": 178
+    },
+    {
+      "function": "Mes",
+      "text": "爆了！早该听你的直觉。",
+      "line": 179
+    },
+    {
+      "function": "Mes",
+      "text": "你的手牌：%s",
+      "line": 183
+    },
+    {
+      "function": "Mes",
+      "text": "你的部分完成了。现在等你的对手……",
+      "line": 197
+    },
+    {
+      "function": "Mes",
+      "text": "还在想……好玩家会花时间思考！",
+      "line": 206
+    },
+    {
+      "function": "Mes",
+      "text": "你的分数：%d%s",
+      "line": 216
+    },
+    {
+      "function": "Mes",
+      "text": "对手的手牌：%s%s",
+      "line": 217
+    },
+    {
+      "function": "Mes",
+      "text": "平局！势均力敌。在我的桌上可不常见。",
+      "line": 220
+    },
+    {
+      "function": "Mes",
+      "text": "胜利属于你！干得好，牌今天眷顾你。",
+      "line": 222
+    },
+    {
+      "function": "Mes",
+      "text": "运气不好。牌很善变，但总会回来的。",
+      "line": 224
+    },
+    {
+      "function": "Mes",
+      "text": "中途走人？在我那个年代，那得请一轮酒。",
+      "line": 231
+    },
+    {
+      "function": "Chat",
+      "text": "如果你想玩牌，知道去哪找我。",
+      "line": 78
+    },
+    {
+      "function": "Chat",
+      "text": "不玩？真可惜。好吧，也许你会改变主意。",
+      "line": 155
+    },
+    {
+      "function": "Choice",
+      "text": "Challenge Hyland",
+      "line": 64
+    },
+    {
+      "function": "Choice",
+      "text": "Find me a worthy opponent",
+      "line": 65
+    },
+    {
+      "function": "Choice",
+      "text": "Rules",
+      "line": 66
+    },
+    {
+      "function": "Choice",
+      "text": "Not today",
+      "line": 67
+    },
+    {
+      "function": "Choice",
+      "text": "Hit",
+      "line": 98
+    },
+    {
+      "function": "Choice",
+      "text": "Stand",
+      "line": 99
+    },
+    {
+      "function": "Choice",
+      "text": "Play again",
+      "line": 107
+    },
+    {
+      "function": "Choice",
+      "text": "离开",
+      "line": 108
+    },
+    {
+      "function": "Choice",
+      "text": "Play again",
+      "line": 129
+    },
+    {
+      "function": "Choice",
+      "text": "离开",
+      "line": 130
+    },
+    {
+      "function": "Choice",
+      "text": "Check",
+      "line": 137
+    },
+    {
+      "function": "Choice",
+      "text": "取消",
+      "line": 138
+    },
+    {
+      "function": "Choice",
+      "text": "Check",
+      "line": 146
+    },
+    {
+      "function": "Choice",
+      "text": "取消",
+      "line": 147
+    },
+    {
+      "function": "Choice",
+      "text": "Hit",
+      "line": 167
+    },
+    {
+      "function": "Choice",
+      "text": "Stand",
+      "line": 168
+    },
+    {
+      "function": "Choice",
+      "text": "Check",
+      "line": 198
+    },
+    {
+      "function": "Choice",
+      "text": "Forfeit",
+      "line": 199
+    },
+    {
+      "function": "Choice",
+      "text": "Check",
+      "line": 207
+    },
+    {
+      "function": "Choice",
+      "text": "Forfeit",
+      "line": 208
+    },
+    {
+      "function": "Choice",
+      "text": "Play again",
+      "line": 226
+    },
+    {
+      "function": "Choice",
+      "text": "离开",
+      "line": 227
+    },
+    {
+      "function": "Choice",
+      "text": "Play again",
+      "line": 232
+    },
+    {
+      "function": "Choice",
+      "text": "离开",
+      "line": 233
+    }
+  ],
+  "tonori/tulimshar/Kael.gd": [
+    {
+      "function": "Mes",
+      "text": "你已经醒了？",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "一定要和埃拉诺谈谈，我们捡到你之后你昏迷的时候是她照顾你的。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "你好，你是他们从沙子里挖出来的那个人吗？很高兴看到你能走动了。我需要你的帮助。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "蛆虫喜欢吃仙人掌。虽然这些蛆虫异常大，但它们的嘴仍然小且灵活，能绕过任何刺吃进去。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "一旦它们突破外部，就会钻进植物从里面吃。很可怕。",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "他们说它们并不总是这样的。我太年轻不记得了，现在没人记得了。",
+      "line": 36
+    },
+    {
+      "function": "Mes",
+      "text": "在卡厄时代之前，几百年前，这个世界的一些生物不像今天这么……奇怪。",
+      "line": 37
+    },
+    {
+      "function": "Mes",
+      "text": "卡厄时代改变了它们。这种蛆虫变得又大又多。其他生物被改变得更糟。",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "他们说松鼠曾经和人类一样聪明，但随着时间推移它们失去了这一切。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "好了，闲聊到此为止。我要你到田里去清理这些乱七八糟的东西！",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "无论如何，它们需要被清除。",
+      "line": 48
+    },
+    {
+      "function": "Mes",
+      "text": "沙漠里发生的一切也影响了城市的蛆虫。",
+      "line": 49
+    },
+    {
+      "function": "Mes",
+      "text": "更糟的是，仙人掌似乎也受到了影响。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "它们中有些跳来跳去，做着鬼脸，还溅到附近的庄稼！你需要帮我处理这个问题。",
+      "line": 51
+    },
+    {
+      "function": "Mes",
+      "text": "卡厄正在影响各种生物。",
+      "line": 56
+    },
+    {
+      "function": "Mes",
+      "text": "就是这种邪恶力量把生物扭曲成……我不知道……更差的自己？大概吧。更具攻击性。",
+      "line": 57
+    },
+    {
+      "function": "Mes",
+      "text": "直到它完全控制它们，然后它们也变成某种亡灵。真是个恶毒的诅咒。",
+      "line": 58
+    },
+    {
+      "function": "Mes",
+      "text": "塔楼那边的法师……玛纳伊尔。他们发布了警告，卡厄目前正在托诺里以危险的模式聚集。",
+      "line": 62
+    },
+    {
+      "function": "Mes",
+      "text": "他们是某个古老的教团，研究魔力，在城西的塔楼里用它做谁知道还有什么的事。",
+      "line": 67
+    },
+    {
+      "function": "Mes",
+      "text": "他们是发布卡厄警告的人。",
+      "line": 68
+    },
+    {
+      "function": "Mes",
+      "text": "玛纳伊尔教团是大约27年前宣布卡厄时代结束的人。",
+      "line": 69
+    },
+    {
+      "function": "Mes",
+      "text": "从那以后，他们一直在向图利姆沙的人们通报能量的流动情况。",
+      "line": 70
+    },
+    {
+      "function": "Mes",
+      "text": "很像天气，不同浓度的魔力和卡厄不断变化，可以影响区域内所有生物。",
+      "line": 71
+    },
+    {
+      "function": "Mes",
+      "text": "我太年轻了不记得，但在几十年前，大家的生活要困难得多。",
+      "line": 76
+    },
+    {
+      "function": "Mes",
+      "text": "卡厄曾经比魔力更充足，在几百年里，人们比今天更艰难地应对变异甚至亡灵生物。",
+      "line": 77
+    },
+    {
+      "function": "Mes",
+      "text": "我们抱怨蛆虫和佩约特，但和我父母经历过的相比，我们过得轻松多了。",
+      "line": 78
+    },
+    {
+      "function": "Mes",
+      "text": "不过你不会徒手清理那片田。",
+      "line": 85
+    },
+    {
+      "function": "Mes",
+      "text": "来，拿这把剑。虽然不怎么样，但对付蛆虫和佩约特够用了。",
+      "line": 86
+    },
+    {
+      "function": "Mes",
+      "text": "先从这北边田里的佩约特开始。",
+      "line": 89
+    },
+    {
+      "function": "Mes",
+      "text": "它们是卡厄浸染的仙人掌，对我们无害，但现在没法耕种了。",
+      "line": 91
+    },
+    {
+      "function": "Mes",
+      "text": "它们只是跳来跳去，溅到附近的庄稼来嘲弄人……",
+      "line": 92
+    },
+    {
+      "function": "Mes",
+      "text": "除掉5株佩约特和5只蛆虫应该就足以保护我们的庄稼一天了。",
+      "line": 94
+    },
+    {
+      "function": "Mes",
+      "text": "还没完。我还需要你清除田里 %d 株佩约特。",
+      "line": 112
+    },
+    {
+      "function": "Mes",
+      "text": "佩约特处理得不错。不过还需要你处理 %d 只蛆虫。",
+      "line": 114
+    },
+    {
+      "function": "Mes",
+      "text": "干得漂亮！",
+      "line": 118
+    },
+    {
+      "function": "Mes",
+      "text": "你处理得非常快，比我预期的好得多。",
+      "line": 119
+    },
+    {
+      "function": "Mes",
+      "text": "你应该向守卫埃基努报告，在遇见埃拉诺的城门附近。告诉他我对你在这里的工作很满意。",
+      "line": 120
+    },
+    {
+      "function": "Mes",
+      "text": "我们很快要去沙漠做一次小型探险，你可能是帮助我们的人选。",
+      "line": 121
+    },
+    {
+      "function": "Mes",
+      "text": "准备好了向守卫埃基努报告。",
+      "line": 129
+    },
+    {
+      "function": "Mes",
+      "text": "他会知道接下来该做什么。",
+      "line": 130
+    },
+    {
+      "function": "Mes",
+      "text": "见到你真好！你也看到了，我还在被这些恶心的白色蛆虫包围着。",
+      "line": 135
+    },
+    {
+      "function": "Mes",
+      "text": "瞄准、射击，然后捂住耳朵，因为击中它们时会发出难听的声音。",
+      "line": 149
+    },
+    {
+      "function": "Chat",
+      "text": "在外面注意背后。",
+      "line": 146
+    },
+    {
+      "function": "Narrate",
+      "text": "进度窗口会分组显示你所有进行中的任务和怪物遭遇。",
+      "line": 96
+    },
+    {
+      "function": "Narrate",
+      "text": "你可以在菜单栏的魔力百科标签中查看你消灭的怪物数量。",
+      "line": 98
+    },
+    {
+      "function": "Narrate",
+      "text": "在敌人附近按交互键自动锁定并攻击。",
+      "line": 151
+    },
+    {
+      "function": "Narrate",
+      "text": "你也可以使用目标动作手动切换目标。",
+      "line": 152
+    },
+    {
+      "function": "Narrate",
+      "text": "每次攻击消耗耐力。耐力耗尽后攻击效果会降低。",
+      "line": 153
+    },
+    {
+      "function": "Narrate",
+      "text": "坐下有助于耐力恢复。",
+      "line": 154
+    },
+    {
+      "function": "Choice",
+      "text": "Why are these maggots so monstrous?",
+      "line": 31
+    },
+    {
+      "function": "Choice",
+      "text": "That sounds terrifying.",
+      "line": 32
+    },
+    {
+      "function": "Choice",
+      "text": "That sounds so cool!",
+      "line": 33
+    },
+    {
+      "function": "Choice",
+      "text": "Yes, I'll get to work!",
+      "line": 44
+    },
+    {
+      "function": "Choice",
+      "text": "What do you mean? What has been happening out in the desert?",
+      "line": 45
+    },
+    {
+      "function": "Choice",
+      "text": "Alright. I'll get to work, then.",
+      "line": 52
+    },
+    {
+      "function": "Choice",
+      "text": "What do you mean? What has been happening out in the desert?",
+      "line": 53
+    },
+    {
+      "function": "Choice",
+      "text": "Alright alright, it's time to kill these things. Let's do it.",
+      "line": 63
+    },
+    {
+      "function": "Choice",
+      "text": "Who are the Manayir?",
+      "line": 64
+    },
+    {
+      "function": "Choice",
+      "text": "Alright alright, it's time to kill these things. Let's do it.",
+      "line": 72
+    },
+    {
+      "function": "Choice",
+      "text": "What's the Age of Kaore?",
+      "line": 73
+    },
+    {
+      "function": "Choice",
+      "text": "Alright alright, it's time to kill these things. Let's do it.",
+      "line": 79
+    },
+    {
+      "function": "Choice",
+      "text": "Why are these maggots so monstrous?",
+      "line": 140
+    },
+    {
+      "function": "Choice",
+      "text": "How can I fight them?",
+      "line": 141
+    },
+    {
+      "function": "Choice",
+      "text": "What has been happening out in the desert?",
+      "line": 142
+    },
+    {
+      "function": "Choice",
+      "text": "I have to leave.",
+      "line": 143
+    }
+  ],
+  "tonori/tulimshar/LetterStash.gd": [
+    {
+      "function": "Mes",
+      "text": "你在积灰的书籍间找到两个旧信封。",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "一个仔细密封着，另一个异常沉重。",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "你发现了信封，但背包太满了拿不了。",
+      "line": 23
+    }
+  ],
+  "tonori/tulimshar/Maci.gd": [
+    {
+      "function": "Mes",
+      "text": "哦，新面孔！欢迎来到图利姆沙。",
+      "line": 6
+    },
+    {
+      "function": "Mes",
+      "text": "我是 %s。我帮人在这里找到立足之地。",
+      "line": 7
+    },
+    {
+      "function": "Mes",
+      "text": "想知道东西在哪？尽管问。",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "图利姆沙坐落在我们东边和西边丘陵之间的山谷中。",
+      "line": 20
+    },
+    {
+      "function": "Mes",
+      "text": "你看到周围这堵墙把荒野沙漠挡在外面，保护我们免受南边沙暴的侵袭。",
+      "line": 21
+    },
+    {
+      "function": "Mes",
+      "text": "我们大多待在那个区域，大多数人生活和工作在中央区，分布在从这里到北边港口之间。",
+      "line": 22
+    },
+    {
+      "function": "Mes",
+      "text": "北边是你能找到任何需要的东西的最佳去处，市场、游戏，应有尽有。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "社区非常紧密。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "我们努力互相帮助，有互相关心的人真好。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "警告你：这里不欢迎侮辱，先跟你说清楚。在这座城市里我们互相照应。",
+      "line": 29
+    },
+    {
+      "function": "Chat",
+      "text": "继续好好干 %s。",
+      "line": 35
+    },
+    {
+      "function": "Choice",
+      "text": "Tell me about the city.",
+      "line": 14
+    },
+    {
+      "function": "Choice",
+      "text": "How is it to live here?",
+      "line": 15
+    },
+    {
+      "function": "Choice",
+      "text": "I have to go.",
+      "line": 16
+    }
+  ],
+  "tonori/tulimshar/Maclat.gd": [
+    {
+      "function": "Mes",
+      "text": "在太阳把你烤熟之前，先给自己弄件轻的衣服！",
+      "line": 8
+    }
+  ],
+  "tonori/tulimshar/Minguer.gd": [
+    {
+      "function": "Mes",
+      "text": "滚烫的沙子很快就会烧穿赤脚。需要靴子吗？",
+      "line": 8
+    }
+  ],
+  "tonori/tulimshar/Nard.gd": [
+    {
+      "function": "Mes",
+      "text": "欢迎上船，差不多。",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "我是拉约哈恩的船长，那艘船就停靠在我身后。",
+      "line": 6
+    },
+    {
+      "function": "Mes",
+      "text": "我们目前正在享受应得的休息，远离寒冷天气，因为过去几周我们在北边的凯泽地区。",
+      "line": 7
+    },
+    {
+      "function": "Mes",
+      "text": "我们很快就要驶向坎多尔，但在此期间我们可以去任何你想去的地方短途旅行。",
+      "line": 16
+    },
+    {
+      "function": "Mes",
+      "text": "我们的船坚固又快速。我们几乎走遍了埃米尔的每一处海岸。有一次甚至到了瑟尔敏！",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "当你准备走时，去拉约哈恩的舵轮那里。我们可以在那里讨论你到底想去哪。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "我很久没摆渡人出海了。我们通常运货，不运人。",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "坎多尔在北边，玛纳伊尔海岸在这西边，或者一直往东北到阿蒂斯。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "如果要去其他目的地，我们需要准备更长时间。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "我可不想无缘无故付埃斯佩里亚的港口费！赫恩斯卡尔德也一样。",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "我从阿蒂斯港口的木匠做起。那时我没什么钱，但我活干得好。",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "我曾经还教过一些学生。",
+      "line": 31
+    },
+    {
+      "function": "Mes",
+      "text": "最终我攒够了钱买了自己的船。它几乎是个废船，但我日夜整修，直到它能再次航行。",
+      "line": 32
+    },
+    {
+      "function": "Mes",
+      "text": "我找了一些朋友：加多、朱莉娅和我的老伙计魔法arpan。我们以前都在港口一起工作过。",
+      "line": 33
+    },
+    {
+      "function": "Mes",
+      "text": "我们把船命名为拉约哈恩。以它前任船长的名字。我知道不该给船改名，但我几乎把它重建了。",
+      "line": 34
+    },
+    {
+      "function": "Mes",
+      "text": "现在我们靠往返于海岸之间运送货物为生。价格公道，我是说。",
+      "line": 35
+    },
+    {
+      "function": "Mes",
+      "text": "如果问我，这是世界上最好的城市。氛围、人、酒……",
+      "line": 41
+    },
+    {
+      "function": "Mes",
+      "text": "我确实想它，但我们可以经常回去，虽然不久。很多货物进出阿蒂斯。",
+      "line": 42
+    },
+    {
+      "function": "Mes",
+      "text": "不过我想念我的学生。也许有一天我会回去教书。谁知道呢？",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "我认识他们中的一些人很久了。加多曾经是我的大副。朱莉娅是我的厨师。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "问题是，加多喜欢争论，他是个好厨师。朱莉娅喜欢安静……可她厨艺糟糕！所以我把他们调了个位置。",
+      "line": 48
+    },
+    {
+      "function": "Mes",
+      "text": "魔法arpan……我怎么不把他带上船呢？我们做了多年好朋友。他是个有魅力的人。真的，他能用魔法迷住你！",
+      "line": 49
+    },
+    {
+      "function": "Mes",
+      "text": "其他都是我逐渐收留的。都是我喜欢的人。船上每个人跟着我都有原因。",
+      "line": 50
+    },
+    {
+      "function": "Mes",
+      "text": "他们都很有用很重要……也许除了西尔维奥。他只是来这里喝酒和调戏朱莉娅的，那个老酒鬼！",
+      "line": 51
+    },
+    {
+      "function": "Chat",
+      "text": "暂时告别了！想聊天随时回来。我喜欢有好的陪伴。",
+      "line": 55
+    },
+    {
+      "function": "Choice",
+      "text": "Can you take me somewhere by sea?",
+      "line": 11
+    },
+    {
+      "function": "Choice",
+      "text": "Tell me about yourself.",
+      "line": 12
+    },
+    {
+      "function": "Choice",
+      "text": "Safe travels, Captain.",
+      "line": 13
+    },
+    {
+      "function": "Choice",
+      "text": "Where can you take me?",
+      "line": 20
+    },
+    {
+      "function": "Choice",
+      "text": "Let me think about it.",
+      "line": 21
+    },
+    {
+      "function": "Choice",
+      "text": "Do you miss Artis?",
+      "line": 36
+    },
+    {
+      "function": "Choice",
+      "text": "Tell me about your crew.",
+      "line": 37
+    },
+    {
+      "function": "Choice",
+      "text": "Back to it.",
+      "line": 38
+    }
+  ],
+  "tonori/tulimshar/Neko.gd": [
+    {
+      "function": "Mes",
+      "text": "需要刀吗？守卫都来找我买。",
+      "line": 8
+    }
+  ],
+  "tonori/tulimshar/Nina.gd": [
+    {
+      "function": "Mes",
+      "text": "又见面了。",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "你好。埃拉诺派你来的？欢迎。",
+      "line": 22
+    },
+    {
+      "function": "Mes",
+      "text": "我们站在图利姆沙古老的灵魂巨石前。我是它的守护者，用它的力量保护这座城市的人民，尽我所能。",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "不完全是。卡韦，或德鲁伊，一直都被允许在图利姆沙。因为没有我们，这座城市就无法挺过最严重的干旱和托诺里气候的其他危险。",
+      "line": 37
+    },
+    {
+      "function": "Mes",
+      "text": "然而，王国官方信奉萨维安教义。他们和你周围一半人一样，认为魔力也是像卡厄一样的腐蚀力量，两者都应避免，除非绝对必要。",
+      "line": 38
+    },
+    {
+      "function": "Mes",
+      "text": "我们的巨石仍然矗立，因为它让人们的生活更轻松。即使信仰对立的人也不能否认魔力的好处。他们会在公开场合反对，但当个人需要出现时，他们会找像我这样的卡韦来治愈亲人或带来需要的雨水。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "我只希望更多人公开拥抱古老传统。萨维安信仰给我们世界带来了很多麻烦。现在他们甚至催生出了这些新信徒，瓦鲁尼安人，他们基本上崇拜卡厄。",
+      "line": 40
+    },
+    {
+      "function": "Mes",
+      "text": "这一切都不像埃米尔大部分存在时期与魔力的关系。",
+      "line": 41
+    },
+    {
+      "function": "Mes",
+      "text": "卡韦传承着魔力曾经是我们世界和谐善力量的时代的知识。我们寻求恢复乌鲁被摧毁时失去的平衡。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "乌鲁，也叫魔力树，曾经是世界生命力的核心，充当魔力的天然导体。",
+      "line": 53
+    },
+    {
+      "function": "Mes",
+      "text": "在古代，有很多，每一个都充当稳定力量，防止魔力衰变成卡厄。",
+      "line": 54
+    },
+    {
+      "function": "Mes",
+      "text": "魔力树在很多年前被摧毁，那是一场毁灭性的战争之后，萨维安教义在埃米尔统治精英中扎根。",
+      "line": 55
+    },
+    {
+      "function": "Mes",
+      "text": "他们决定摧毁乌鲁，尝试创造一个没有魔力的世界。",
+      "line": 56
+    },
+    {
+      "function": "Mes",
+      "text": "取决于你问谁。有些人，比如红女王，会说没有魔法的生活更好。",
+      "line": 62
+    },
+    {
+      "function": "Mes",
+      "text": "但她在宫殿里还是用的。她只是觉得平民最好不要有，声称太危险了。",
+      "line": 63
+    },
+    {
+      "function": "Mes",
+      "text": "如果你问我，我认为魔法是我们世界的自然组成部分。它带领我们走到今天，尽管是最危险的自然力量，我们需要它。",
+      "line": 64
+    },
+    {
+      "function": "Mes",
+      "text": "仔细想想，水也是一种危险的自然力量，但没人建议关闭水井。",
+      "line": 65
+    },
+    {
+      "function": "Mes",
+      "text": "她是我们城市和整个托诺里王国的统治者，不过在城墙外她没有多大权力。",
+      "line": 70
+    },
+    {
+      "function": "Mes",
+      "text": "托诺里的祖尼部落从未承认我们的王国，所以她实际上只统治这座城市。",
+      "line": 71
+    },
+    {
+      "function": "Mes",
+      "text": "又一个她不让人民接触魔法的理由。祖尼人仍在修习古老的魔法，这让他们很难对付。",
+      "line": 72
+    },
+    {
+      "function": "Mes",
+      "text": "她不想在图利姆沙也遇到同样的问题。",
+      "line": 73
+    },
+    {
+      "function": "Mes",
+      "text": "他们在托诺里沙漠生活了很长时间。事实上，他们仍在讲述这片土地还是沙漠之前的故事。",
+      "line": 78
+    },
+    {
+      "function": "Mes",
+      "text": "他们一直和图利姆沙交易，对我们大多友好，但前提是我们不把士兵派到城墙外太远。",
+      "line": 79
+    },
+    {
+      "function": "Mes",
+      "text": "过去每次发生这种情况，它们都会击退我们直到我们放弃。我尊重它们这一点，它们有明确的界限，会保卫自己的家园。",
+      "line": 80
+    },
+    {
+      "function": "Mes",
+      "text": "好……",
+      "line": 85
+    },
+    {
+      "function": "Mes",
+      "text": "你可以在这北边的市场找到他们的一些商人。",
+      "line": 89
+    },
+    {
+      "function": "Mes",
+      "text": "我相信他们很乐意聊天，尤其是你买他们东西的话。",
+      "line": 90
+    },
+    {
+      "function": "Mes",
+      "text": "魔力，通常被称为\\",
+      "line": 95
+    },
+    {
+      "function": "Mes",
+      "text": "它流经世界的生物量，形成相互连接的能量网。正确引导后，可以利用它产生魔法、治愈大地、维持生命。",
+      "line": 96
+    },
+    {
+      "function": "Mes",
+      "text": "卡厄是魔力与其源头断绝后剩下的东西。",
+      "line": 97
+    },
+    {
+      "function": "Mes",
+      "text": "它不滋养生命，而是溃烂、腐化、衰败。它渗入大地，将生物扭曲成敌对、攻击性的形态。",
+      "line": 98
+    },
+    {
+      "function": "Mes",
+      "text": "卡厄在很多方面是魔力的一种形式，是我们能感知的主要能量。",
+      "line": 99
+    },
+    {
+      "function": "Mes",
+      "text": "魔力流经所有生物，但也注入一种叫齐埃尔石的特定矿物。这块灵魂巨石就是用它做的。",
+      "line": 100
+    },
+    {
+      "function": "Mes",
+      "text": "灵魂巨石是古老的巨石，由巨大的齐埃尔石块雕刻而成，曾经由卡韦（在这里被称为德鲁伊）竖立，用于引导辐射魔力。",
+      "line": 105
+    },
+    {
+      "function": "Mes",
+      "text": "激活时，它们产生保护光环，驱逐卡厄感染的生物并稳定土地。",
+      "line": 106
+    },
+    {
+      "function": "Mes",
+      "text": "在卡韦的帮助下，灵魂巨石可以用来治愈受伤的人，甚至在某些情况下防止死亡，给人们多次生命机会。",
+      "line": 107
+    },
+    {
+      "function": "Mes",
+      "text": "齐埃尔石是一种稀有矿物，与魔力有天然亲和力。它可以吸收、储存和释放魔力能量，对魔法和防护都极其宝贵。",
+      "line": 113
+    },
+    {
+      "function": "Mes",
+      "text": "虽然曾经丰富，但齐埃尔石由于萨维安教义使社会反对使用魔力时发生的清洗而变得稀缺。",
+      "line": 114
+    },
+    {
+      "function": "Mes",
+      "text": "齐埃尔石工艺仍存在于隐藏的护身符、被遗忘的废墟和少数继续矗立作为对抗卡厄堡垒的灵魂巨石中。",
+      "line": 115
+    },
+    {
+      "function": "Mes",
+      "text": "现在不用。我还在盼着那份点心，如果你碰巧找到的话！",
+      "line": 122
+    },
+    {
+      "function": "Mes",
+      "text": "现在不用，但谢谢你的好意。",
+      "line": 125
+    },
+    {
+      "function": "Mes",
+      "text": "现在不用……",
+      "line": 128
+    },
+    {
+      "function": "Mes",
+      "text": "不过我有点饿了。倒不是要你帮我带吃的！我待会儿自己解决。",
+      "line": 129
+    },
+    {
+      "function": "Mes",
+      "text": "你真是太好了。我一般不会开口，但一个羊角面包现在简直太美妙了。",
+      "line": 134
+    },
+    {
+      "function": "Mes",
+      "text": "你通常可以在市场的面包摊找到它们。我本想自己去，但……这块巨石不会自己守护。",
+      "line": 135
+    },
+    {
+      "function": "Mes",
+      "text": "天哪！",
+      "line": 139
+    },
+    {
+      "function": "Mes",
+      "text": "一个羊角面包！真不敢相信。你太好了，我完全没想到！",
+      "line": 140
+    },
+    {
+      "function": "Mes",
+      "text": "请收下这些仙人掌药水和一点金子，弥补你的花费。",
+      "line": 148
+    },
+    {
+      "function": "Mes",
+      "text": "哦……去哪了？算了，也许下次吧。",
+      "line": 150
+    },
+    {
+      "function": "Mes",
+      "text": "我想给你点什么作为回报，但你的背包满了。腾点空间再来找我。",
+      "line": 152
+    },
+    {
+      "function": "Mes",
+      "text": "你回来了！",
+      "line": 156
+    },
+    {
+      "function": "Mes",
+      "text": "探险怎么样？",
+      "line": 157
+    },
+    {
+      "function": "Mes",
+      "text": "我能看看吗？",
+      "line": 161
+    },
+    {
+      "function": "Mes",
+      "text": "……",
+      "line": 162
+    },
+    {
+      "function": "Mes",
+      "text": "你说得对。我不敢相信。这是一颗卡诺。魔力种子！",
+      "line": 163
+    },
+    {
+      "function": "Mes",
+      "text": "我只是在书上读到过这些。我从没想过我这辈子能看到一棵。",
+      "line": 164
+    },
+    {
+      "function": "Mes",
+      "text": "你是怎么找到这个的？",
+      "line": 165
+    },
+    {
+      "function": "Mes",
+      "text": "你说什么？！你刚才说魔力树？活的？在沙暴矿场里？？？",
+      "line": 169
+    },
+    {
+      "function": "Mes",
+      "text": "我……",
+      "line": 170
+    },
+    {
+      "function": "Mes",
+      "text": "我需要一点时间。",
+      "line": 171
+    },
+    {
+      "function": "Mes",
+      "text": "很久以前我在那个方向感觉到过什么。我以为是深层齐埃尔石矿。我完全不知道。",
+      "line": 172
+    },
+    {
+      "function": "Mes",
+      "text": "你能和它交流吗？它告诉你怎么处理那个卡诺了吗？",
+      "line": 173
+    },
+    {
+      "function": "Mes",
+      "text": "它怎么认识我？这一切……很难理解。",
+      "line": 177
+    },
+    {
+      "function": "Mes",
+      "text": "我很高兴它信任我，但我们需要让玛纳伊尔知道这件事。他们是一个古老的德鲁伊教团，曾经是这些树的守护者。",
+      "line": 178
+    },
+    {
+      "function": "Mes",
+      "text": "他们在图利姆沙山谷西边的海滩尽头的一个小半岛上建了一座城堡，在风暴之外。",
+      "line": 179
+    },
+    {
+      "function": "Mes",
+      "text": "往南走，过了城墙再往西。",
+      "line": 180
+    },
+    {
+      "function": "Mes",
+      "text": "找到他们，给他们看卡诺。解释你看到的一切。",
+      "line": 181
+    },
+    {
+      "function": "Mes",
+      "text": "暂时别告诉别人这件事。这是一件非常强大的物品。肯定会引来不该有的注意。",
+      "line": 182
+    },
+    {
+      "function": "Mes",
+      "text": "走之前，带上这个。",
+      "line": 183
+    },
+    {
+      "function": "Mes",
+      "text": "这是一块齐埃尔石护身符。中心的石头是纯齐埃尔石的碎片，这块巨石也是同一种矿物做的。",
+      "line": 190
+    },
+    {
+      "function": "Mes",
+      "text": "佩戴时，它让你能引导魔力，并与灵魂巨石连接。",
+      "line": 191
+    },
+    {
+      "function": "Mes",
+      "text": "你的背包太满了装不下。腾点空间再来找我。",
+      "line": 194
+    },
+    {
+      "function": "Mes",
+      "text": "当你戴着齐埃尔石护身符触摸灵魂巨石时，石头与巨石的齐埃尔石产生共鸣。",
+      "line": 197
+    },
+    {
+      "function": "Mes",
+      "text": "这在你的灵魂和巨石之间建立了一种联系。如果你出了什么事，巨石会充当锚点。",
+      "line": 198
+    },
+    {
+      "function": "Mes",
+      "text": "你的灵魂在这里回归而不是消散。",
+      "line": 199
+    },
+    {
+      "function": "Mes",
+      "text": "这就是我们卡韦一直以来保护我们所照顾之人的方式。我应该早点给你一个。",
+      "line": 200
+    },
+    {
+      "function": "Mes",
+      "text": "好。你现在连接上了。",
+      "line": 207
+    },
+    {
+      "function": "Mes",
+      "text": "如果你找到另一块灵魂巨石，触摸它。你会与最后一块你触摸过的巨石产生共鸣。",
+      "line": 208
+    },
+    {
+      "function": "Mes",
+      "text": "现在，你应该前往玛纳伊尔。我们不能带着卡诺在这里干等。",
+      "line": 209
+    },
+    {
+      "function": "Mes",
+      "text": "你找到玛纳伊尔了吗？",
+      "line": 213
+    },
+    {
+      "function": "Mes",
+      "text": "你应该往南走，然后往西。他们的塔楼在沙暴之外，在一个安静的半岛上。在那附近问问，应该有人能指给你正确的方向。",
+      "line": 214
+    },
+    {
+      "function": "Narrate",
+      "text": "你把手放在灵魂巨石上。齐埃尔石护身符贴着你的皮肤变暖。",
+      "line": 204
+    },
+    {
+      "function": "Narrate",
+      "text": "一种奇怪的感觉传遍全身。像流水，但没有湿润感。石头短暂地闪烁着微弱的蓝光。",
+      "line": 205
+    },
+    {
+      "function": "Choice",
+      "text": "I found a croissant for you!",
+      "line": 28
+    },
+    {
+      "function": "Choice",
+      "text": "Is someone trying to stop you?",
+      "line": 30
+    },
+    {
+      "function": "Choice",
+      "text": "Can you tell me more about Mana and Kaore?",
+      "line": 31
+    },
+    {
+      "function": "Choice",
+      "text": "What is a Soul Menhir?",
+      "line": 32
+    },
+    {
+      "function": "Choice",
+      "text": "See you.",
+      "line": 33
+    },
+    {
+      "function": "Choice",
+      "text": "What is your people's position?",
+      "line": 42
+    },
+    {
+      "function": "Choice",
+      "text": "I have some other topics I wanted to discuss.",
+      "line": 43
+    },
+    {
+      "function": "Choice",
+      "text": "Thank you for your time.",
+      "line": 44
+    },
+    {
+      "function": "Choice",
+      "text": "What are the Uru?",
+      "line": 48
+    },
+    {
+      "function": "Choice",
+      "text": "I have some other topics I wanted to discuss.",
+      "line": 49
+    },
+    {
+      "function": "Choice",
+      "text": "Thank you for your time.",
+      "line": 50
+    },
+    {
+      "function": "Choice",
+      "text": "Where do things stand now?",
+      "line": 57
+    },
+    {
+      "function": "Choice",
+      "text": "I have some other topics I wanted to discuss.",
+      "line": 58
+    },
+    {
+      "function": "Choice",
+      "text": "Thank you for your time.",
+      "line": 59
+    },
+    {
+      "function": "Choice",
+      "text": "Who is the Red Queen?",
+      "line": 66
+    },
+    {
+      "function": "Choice",
+      "text": "Is there anything I can do for you?",
+      "line": 67
+    },
+    {
+      "function": "Choice",
+      "text": "What can you tell me about the Zuni?",
+      "line": 74
+    },
+    {
+      "function": "Choice",
+      "text": "Is there anything I can do for you?",
+      "line": 75
+    },
+    {
+      "function": "Choice",
+      "text": "It would be interesting to meet them!",
+      "line": 81
+    },
+    {
+      "function": "Choice",
+      "text": "Bah! They seem like uncivilised nomads to me.",
+      "line": 82
+    },
+    {
+      "function": "Choice",
+      "text": "Is there anything I can do for you?",
+      "line": 91
+    },
+    {
+      "function": "Choice",
+      "text": "What do you know about Zielite?",
+      "line": 108
+    },
+    {
+      "function": "Choice",
+      "text": "I have some other topics I wanted to discuss.",
+      "line": 109
+    },
+    {
+      "function": "Choice",
+      "text": "Thank you for your time.",
+      "line": 110
+    },
+    {
+      "function": "Choice",
+      "text": "I'll keep an eye out for snacks on the way to the market.",
+      "line": 130
+    },
+    {
+      "function": "Choice",
+      "text": "Ok bye.",
+      "line": 131
+    },
+    {
+      "function": "Choice",
+      "text": "You will not believe what happened. I found this...",
+      "line": 158
+    },
+    {
+      "function": "Choice",
+      "text": "There is a Mana Tree at the bottom of the mines. It gave it to me.",
+      "line": 166
+    },
+    {
+      "function": "Choice",
+      "text": "It said to bring it to you and that you could be trusted.",
+      "line": 174
+    },
+    {
+      "function": "Choice",
+      "text": "What does connecting to a Soul Menhir do?",
+      "line": 192
+    },
+    {
+      "function": "Choice",
+      "text": "[Touch the Soul Menhir]",
+      "line": 201
+    }
+  ],
+  "tonori/tulimshar/PatrolGuardCaught.gd": [
+    {
+      "function": "Mes",
+      "text": "站住别动。",
+      "line": 8
+    },
+    {
+      "function": "Mes",
+      "text": "bones议员的命令。未经许可不得走这些走廊。",
+      "line": 9
+    },
+    {
+      "function": "Mes",
+      "text": "我不管你来干什么。转身。",
+      "line": 10
+    }
+  ],
+  "tonori/tulimshar/Riskim.gd": [
+    {
+      "function": "Mes",
+      "text": "啊，欢迎！恐怕现在货架是空的。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "图利姆沙没有好农田。你看看周围，我们在沙漠里。这里除了仙人掌什么也不长。",
+      "line": 26
+    },
+    {
+      "function": "Mes",
+      "text": "我的面粉从阿蒂斯运来，以维持我的面包店运营。我的沙暴面包养活这座城市很多年了。",
+      "line": 27
+    },
+    {
+      "function": "Mes",
+      "text": "今早码头到了一批货，但在这种高温下来回走动太累了。",
+      "line": 28
+    },
+    {
+      "function": "Mes",
+      "text": "如果我自己去，今天就累得烤不了东西了。",
+      "line": 29
+    },
+    {
+      "function": "Mes",
+      "text": "阿蒂斯面包店的桶上有蓝色火漆印。你能把里面的面粉袋带给我吗？",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "在码头有收获吗？找蓝色封蜡标记的桶。",
+      "line": 43
+    },
+    {
+      "function": "Mes",
+      "text": "我会把炉子烧热准备好。",
+      "line": 44
+    },
+    {
+      "function": "Mes",
+      "text": "即使在这种高温下，一个热面包也很难拒绝。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "我的招牌配方！阿蒂斯的面粉，用仙人掌汁代替普通水，加一撮沙漠盐。",
+      "line": 64
+    },
+    {
+      "function": "Mes",
+      "text": "外皮能撑过沙暴，第二天早上仍然新鲜。这就是名字的由来。",
+      "line": 65
+    },
+    {
+      "function": "Mes",
+      "text": "主要是仙人掌。生命力顽强的植物，我们充分利用它们。做糖、饮料，甚至药材。",
+      "line": 72
+    },
+    {
+      "function": "Mes",
+      "text": "但谷物？托诺里从来不是种谷物的地方。没有商船，这座城市会闹饥荒。",
+      "line": 73
+    },
+    {
+      "function": "Mes",
+      "text": "大洋彼岸的伟大港口城市，在奥罗拉海岸。肥沃的农田，技艺精湛的工匠。",
+      "line": 80
+    },
+    {
+      "function": "Mes",
+      "text": "我姐姐住在那边。她烤的饼干是最好吃的！我用的面粉都是从她的面包店运来的。",
+      "line": 81
+    },
+    {
+      "function": "Mes",
+      "text": "来自阿蒂斯的商船供应图利姆沙市场一半的货。没有它们，我们除了仙人掌几乎没别的可吃。",
+      "line": 82
+    },
+    {
+      "function": "Mes",
+      "text": "贸易。一直是图利姆沙最大的技能。这样的城市怎么在多风的山谷沙漠中繁荣？",
+      "line": 86
+    },
+    {
+      "function": "Mes",
+      "text": "我们位于三大洲的十字路口。一切迟早都要经过图利姆沙的港口。",
+      "line": 87
+    },
+    {
+      "function": "Mes",
+      "text": "它也让我们有饭吃，但对我的生意来说，这意味着总是等下一艘船到来。",
+      "line": 88
+    },
+    {
+      "function": "Mes",
+      "text": "随时来。总有新鲜面包等着你。",
+      "line": 92
+    },
+    {
+      "function": "Mes",
+      "text": "非常感谢，朋友。",
+      "line": 98
+    },
+    {
+      "function": "Mes",
+      "text": "找深蓝色的封蜡。你不会错过的。",
+      "line": 99
+    },
+    {
+      "function": "Mes",
+      "text": "没问题。炉子等着就是了。",
+      "line": 102
+    },
+    {
+      "function": "Mes",
+      "text": "你查过码头了吗？面粉袋应该在蓝色封蜡标记的桶里。",
+      "line": 106
+    },
+    {
+      "function": "Mes",
+      "text": "你找到了！但看起来你的背包太满了，我没法给你任何回报。",
+      "line": 110
+    },
+    {
+      "function": "Mes",
+      "text": "腾出点空间再来。",
+      "line": 111
+    },
+    {
+      "function": "Mes",
+      "text": "你找到了！太好了。",
+      "line": 117
+    },
+    {
+      "function": "Mes",
+      "text": "有了这些面粉，图利姆沙在日落前就能有新鲜的沙暴面包。",
+      "line": 118
+    },
+    {
+      "function": "Mes",
+      "text": "来，拿我最好的。羊角面包和仙人掌糖。一个是家族秘方，另一个是图利姆沙的特产！",
+      "line": 125
+    },
+    {
+      "function": "Choice",
+      "text": "I'll check the docks for you.",
+      "line": 35
+    },
+    {
+      "function": "Choice",
+      "text": "What's Sandstorm Bread?",
+      "line": 37
+    },
+    {
+      "function": "Choice",
+      "text": "Does anything grow out here?",
+      "line": 39
+    },
+    {
+      "function": "Choice",
+      "text": "Maybe later.",
+      "line": 40
+    },
+    {
+      "function": "Choice",
+      "text": "Tell me about Artis.",
+      "line": 52
+    },
+    {
+      "function": "Choice",
+      "text": "How does Tulimshar survive?",
+      "line": 54
+    },
+    {
+      "function": "Choice",
+      "text": "What's Sandstorm Bread?",
+      "line": 56
+    },
+    {
+      "function": "Choice",
+      "text": "Does anything grow out here?",
+      "line": 58
+    },
+    {
+      "function": "Choice",
+      "text": "保重。",
+      "line": 60
+    }
+  ],
+  "tonori/tulimshar/Shimris.gd": [
+    {
+      "function": "Mes",
+      "text": "你需要什么帮助？",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "往北走。你会到的。",
+      "line": 16
+    },
+    {
+      "function": "Mes",
+      "text": "港口是大多数货物从托诺里以外进来的地方。",
+      "line": 17
+    },
+    {
+      "function": "Mes",
+      "text": "通常很忙，如果我是你，我不会在船员工作的时候打扰他们。",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "就我个人而言，我宁愿待在城堡附近也不愿跟那群人打交道。",
+      "line": 19
+    },
+    {
+      "function": "Mes",
+      "text": "东边有很长的海滩。如果你喜欢沙子，你会喜欢的。不过不是每个人都喜欢沙子……",
+      "line": 23
+    },
+    {
+      "function": "Mes",
+      "text": "这东北方向有一座大灯塔。从上面可以俯瞰整个海洋。",
+      "line": 24
+    },
+    {
+      "function": "Mes",
+      "text": "很难错过，有用的地标。",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "如果你继续往东走，你会找到玛纳伊尔岛，就在海滩更远处。",
+      "line": 26
+    },
+    {
+      "function": "Choice",
+      "text": "Where is the port?",
+      "line": 10
+    },
+    {
+      "function": "Choice",
+      "text": "What's along the coast?",
+      "line": 11
+    },
+    {
+      "function": "Choice",
+      "text": "I have to go.",
+      "line": 12
+    }
+  ],
+  "tonori/tulimshar/Shiro.gd": [
+    {
+      "function": "Mes",
+      "text": "没有合适的头部装备就冲进沙暴？你很快就会变成沙魔像的！",
+      "line": 8
+    }
+  ],
+  "tonori/tulimshar/Wie.gd": [
+    {
+      "function": "Mes",
+      "text": "你想玩井字棋吗？棋盘是我自己画的！",
+      "line": 10
+    },
+    {
+      "function": "Mes",
+      "text": "我不会画圆，就画方块代替。但安迪总是取笑我。",
+      "line": 12
+    },
+    {
+      "function": "Mes",
+      "text": "想玩井字棋吗？",
+      "line": 13
+    },
+    {
+      "function": "Mes",
+      "text": "前几天我看到一群海盗在跟一些守卫玩井字棋。",
+      "line": 15
+    },
+    {
+      "function": "Mes",
+      "text": "想玩吗？",
+      "line": 16
+    },
+    {
+      "function": "Mes",
+      "text": "你想玩井字棋吗？",
+      "line": 18
+    },
+    {
+      "function": "Mes",
+      "text": "嘿，已经有人在等了！你应该去和他们玩！",
+      "line": 25
+    },
+    {
+      "function": "Mes",
+      "text": "还没人来……想继续等吗？",
+      "line": 30
+    },
+    {
+      "function": "Mes",
+      "text": "嘿，别作弊！玩你的游戏去！",
+      "line": 37
+    },
+    {
+      "function": "Mes",
+      "text": "嘘，他们在玩！不过你可以看。",
+      "line": 39
+    },
+    {
+      "function": "Mes",
+      "text": "所以你选一个格子放你的标记，然后对方走。",
+      "line": 46
+    },
+    {
+      "function": "Mes",
+      "text": "三个连成一线就赢了！横着、竖着，或者斜着都行。",
+      "line": 47
+    },
+    {
+      "function": "Mes",
+      "text": "如果整个棋盘下满还没人赢，就是平局。不过那样挺无聊的。",
+      "line": 48
+    },
+    {
+      "function": "Mes",
+      "text": "你是X！选一个格子，快！",
+      "line": 59
+    },
+    {
+      "function": "Mes",
+      "text": "等一下，已经有人在玩了！排队等着。",
+      "line": 61
+    },
+    {
+      "function": "Mes",
+      "text": "现在我们等人出现……",
+      "line": 68
+    },
+    {
+      "function": "Mes",
+      "text": "耶，你们都在！玩得开心！",
+      "line": 72
+    },
+    {
+      "function": "Mes",
+      "text": "不行不行，棋盘现在被占了！",
+      "line": 75
+    },
+    {
+      "function": "Chat",
+      "text": "好吧……改变主意就回来！",
+      "line": 52
+    },
+    {
+      "function": "Chat",
+      "text": "我相信很快就会有人来……大概吧！",
+      "line": 79
+    },
+    {
+      "function": "Chat",
+      "text": "啊，这么快？好吧……",
+      "line": 85
+    },
+    {
+      "function": "Choice",
+      "text": "Play against you",
+      "line": 19
+    },
+    {
+      "function": "Choice",
+      "text": "Play against someone else",
+      "line": 20
+    },
+    {
+      "function": "Choice",
+      "text": "How do you play?",
+      "line": 21
+    },
+    {
+      "function": "Choice",
+      "text": "Maybe later",
+      "line": 22
+    },
+    {
+      "function": "Choice",
+      "text": "I'll play them!",
+      "line": 26
+    },
+    {
+      "function": "Choice",
+      "text": "How do you play?",
+      "line": 27
+    },
+    {
+      "function": "Choice",
+      "text": "Maybe later",
+      "line": 28
+    },
+    {
+      "function": "Choice",
+      "text": "I'll wait a bit more",
+      "line": 31
+    },
+    {
+      "function": "Choice",
+      "text": "How do you play?",
+      "line": 32
+    },
+    {
+      "function": "Choice",
+      "text": "I have to go",
+      "line": 33
+    },
+    {
+      "function": "Choice",
+      "text": "Ok ok",
+      "line": 40
+    },
+    {
+      "function": "Choice",
+      "text": "How do you play?",
+      "line": 41
+    },
+    {
+      "function": "Choice",
+      "text": "I have to go",
+      "line": 43
+    }
+  ],
+  "tonori/tulimshar/castle/Guard.gd": [
+    {
+      "function": "Mes",
+      "text": "站住！你不能继续前进。",
+      "line": 5
+    },
+    {
+      "function": "Mes",
+      "text": "前方是红女王的宝座厅。现在转身回去。",
+      "line": 6
+    }
+  ],
+  "tonori/tulimshar/castle/RedQueen.gd": [
+    {
+      "function": "Mes",
+      "text": "别烦我。",
+      "line": 5
+    }
+  ],
+  "tonori/tulimshar outskirts/Chest.gd": [
+    {
+      "function": "Chat",
+      "text": "这个宝箱是空的。",
+      "line": 21
+    }
+  ]
+}
