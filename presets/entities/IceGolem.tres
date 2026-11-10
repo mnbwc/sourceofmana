@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EntityData" format=3 uid="uid://dicegolem0001"]
+
+[ext_resource type="Script" uid="uid://bsjkeucmohr0d" path="res://sources/cell/ItemCell.gd" id="1_npq0n"]
+[ext_resource type="Script" uid="uid://l20aaqylleqo" path="res://sources/cell/SkillCell.gd" id="2_bka63"]
+[ext_resource type="Script" uid="uid://mtjk83jdl176" path="res://sources/db/instance/EntityData.gd" id="2_wu7ge"]
+[ext_resource type="Resource" uid="uid://qc8rsv767i7m" path="res://presets/cells/skills/SonicScream.tres" id="3_cmusj"]
+[ext_resource type="PackedScene" uid="uid://q0vjlx00rv0n" path="res://presets/entities/sprites/Bat.tscn" id="spr_IceGolem"]
+
+[resource]
+script = ExtResource("2_wu7ge")
+_id = 661418087
+_name = "冰霜魔像"
+_spritePreset = ExtResource("spr_IceGolem")
+_radius = 20
+_stats = {
+"attack": 50,
+"baseExp": 80,
+"castAttackDelay": 0.8,
+"cooldownAttackDelay": 0.5,
+"defense": 20,
+"dodgeRate": 0.1,
+"level": 15,
+"mattack": 30,
+"maxHealth": 600,
+"walkSpeed": 60.0
+}
+_equipment = Array[ExtResource("1_npq0n")]([null, null, null, null, null, null, null, null])
+_skills = Dictionary[ExtResource("2_bka63"), float]({
+ExtResource("3_cmusj"): 1.0
+})

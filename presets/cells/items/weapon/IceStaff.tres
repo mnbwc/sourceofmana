@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="ItemCell" format=3 uid="uid://dicestaff0001"]
+
+[ext_resource type="Texture2D" uid="uid://bnpfs53kem27q" path="res://data/graphics/items/weapon/gladius.png" id="1_hu2iu"]
+[ext_resource type="Script" uid="uid://bsjkeucmohr0d" path="res://sources/cell/ItemCell.gd" id="2_brecq"]
+[ext_resource type="Script" uid="uid://hdd6y6syvlm6" path="res://sources/actor/stat/StatModifier.gd" id="2_nlprc"]
+[ext_resource type="Texture2D" uid="uid://t0n7cp141hoo" path="res://data/graphics/sprites/equipment/weapon/sword.png" id="3_1lytf"]
+[ext_resource type="Script" uid="uid://btqmbqq2q7cm8" path="res://sources/cell/CellModifier.gd" id="3_wdxxq"]
+
+[sub_resource type="Resource" id="Resource_ideqs"]
+script = ExtResource("2_nlprc")
+_effect = 13
+_value = 60.0
+_persistent = true
+
+[sub_resource type="Resource" id="Resource_j8f12"]
+script = ExtResource("2_nlprc")
+_effect = 6
+_value = 50.0
+_persistent = true
+
+[sub_resource type="Resource" id="Resource_pu81m"]
+script = ExtResource("3_wdxxq")
+_modifiers = Array[ExtResource("2_nlprc")]([SubResource("Resource_ideqs"), SubResource("Resource_j8f12")])
+
+[resource]
+script = ExtResource("2_brecq")
+slot = 6
+textures = Array[Texture2D]([ExtResource("3_1lytf"), ExtResource("3_1lytf"), ExtResource("3_1lytf")])
+buyPrice = 40000
+sellPrice = 4000
+name = "Ice Staff"
+icon = ExtResource("1_hu2iu")
+weight = 350.0
+modifiers = SubResource("Resource_pu81m")
