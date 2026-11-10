@@ -1,0 +1,4 @@
+-- RPG 系统：物品稀有度、强化等级、词条
+ALTER TABLE item ADD COLUMN rarity INTEGER DEFAULT 0;
+ALTER TABLE item ADD COLUMN enhance_level INTEGER DEFAULT 0;
+ALTER TABLE item ADD COLUMN affixes TEXT DEFAULT '';

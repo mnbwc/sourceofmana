@@ -269,6 +269,11 @@ func AddItem(charID : int, itemID : int, customfield : String, itemCount : int =
 	return ExecuteBindings("INSERT INTO item (item_id, char_id, count, storage, customfield) VALUES (?, ?, ?, ?, ?) \
 ON CONFLICT (char_id, item_id, storage, customfield) DO UPDATE SET count = count + excluded.count;", [itemID, charID, itemCount, storageType, customfield])
 
+# 带稀有度/强化/词条的物品添加（RPG 系统）
+func AddItemWithRarity(charID : int, itemID : int, customfield : String, itemCount : int, storageType : int, rarity : int, enhanceLevel : int, affixesJson : String) -> bool:
+	return ExecuteBindings("INSERT INTO item (item_id, char_id, count, storage, customfield, rarity, enhance_level, affixes) VALUES (?, ?, ?, ?, ?, ?, ?, ?) \
+ON CONFLICT (char_id, item_id, storage, customfield) DO UPDATE SET count = count + excluded.count, rarity = excluded.rarity, enhance_level = excluded.enhance_level, affixes = excluded.affixes;", [itemID, charID, itemCount, storageType, customfield, rarity, enhanceLevel, affixesJson])
+
 func SetItem(charID : int, itemID : int, customfield : String, itemCount : int, storageType : int = 0) -> bool:
 	if itemCount <= 0:
 		return ExecuteBindings("DELETE FROM item WHERE char_id = ? AND item_id = ? AND storage = ? AND customfield = ?;", [charID, itemID, storageType, customfield])

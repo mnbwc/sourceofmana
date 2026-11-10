@@ -327,7 +327,17 @@ func ImportInventory(data : Array[Dictionary]):
 		var cell : ItemCell = DB.GetItem(id, customfield)
 		if cell:
 			var count : int = item.get("count", 1)
-			PushItem(cell, count)
+			if PushItem(cell, count):
+				# RPG 系统：读取稀有度、强化等级、词条
+				var pushedItem : Item = GetItem(cell)
+				if pushedItem:
+					pushedItem.rarity = item.get("rarity", 0)
+					pushedItem.enhanceLevel = item.get("enhance_level", 0)
+					var affixesStr : String = item.get("affixes", "")
+					if affixesStr != "":
+						var parsed = JSON.parse_string(affixesStr)
+						if parsed is Array:
+							pushedItem.affixes = parsed
 	actor.stat.weight = Formula.GetWeight(actor.inventory)
 
 	for slot in ActorCommons.SlotEquipmentCount:
