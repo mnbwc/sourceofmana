@@ -9,7 +9,8 @@ func LoadMapLayers(mapID : int) -> Node2D:
 	var mapInstance : Node2D = GetMap(mapID)
 	if mapInstance == null:
 		mapInstance = Instantiate.LoadMapLayers(mapID)
-		pool[mapID] = mapInstance
+		if mapInstance:
+			pool[mapID] = mapInstance
 	return mapInstance
 
 #
@@ -30,7 +31,9 @@ func RefreshPool():
 
 	for mapID in adjacentMaps:
 		if mapID not in pool:
-			pool[mapID] = Instantiate.LoadMapLayers(mapID)
+			var mapInstance : Node2D = Instantiate.LoadMapLayers(mapID)
+			if mapInstance:
+				pool[mapID] = mapInstance
 
 	var poolCurrentSize : int = pool.size()
 	if poolCurrentSize > LauncherCommons.MapPoolMaxSize:

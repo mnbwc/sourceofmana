@@ -1,58 +1,58 @@
 {
 	"categories": [
 		{
-			"category": "Account Policies",
+			"category": "账号政策",
 			"entries": [
 				{
-					"content": "By registering for and using any of Source of Mana’s services, including game servers and related platforms, you agree to the following terms. These policies are designed to ensure a safe, respectful, and enjoyable community for everyone.\n"
+					"content": "注册并使用 Source of Mana 的任何服务（包括游戏服务器及相关平台），即表示您同意以下条款。这些政策旨在确保每个人都能享有安全、尊重和愉快的社区环境。\n"
 				}
 			]
 		},
 		{
-			"category": "Code of Conduct",
+			"category": "行为准则",
 			"entries": [
 				{
-					"content": "- [b]Respect and Cooperation[/b]: Treat all contributors, players, and staff members with respect. Disagreements should be handled constructively, with an attitude of mutual understanding.\n- [b]Inclusivity[/b]: Everyone is welcome, regardless of their background. Discrimination or harassment of any kind will not be tolerated.\n- [b]Responsibility[/b]: Staff members are volunteers and represent the organization. Mistakes can happen; learning and improvement are part of the process.- [b]Positive Engagement[/b]: Foster a positive environment through open communication, tolerance, and cooperation.\n"
+					"content": "- [b]尊重与合作[/b]：请以尊重的态度对待所有贡献者、玩家和工作人员。分歧应以建设性的方式处理，保持相互理解的态度。\n- [b]包容性[/b]：欢迎所有人参与，无论其背景如何。绝不容忍任何形式的歧视或骚扰。\n- [b]责任意识[/b]：工作人员是志愿者，代表社区组织。错误在所难免，学习和改进是成长的一部分。\n- [b]积极互动[/b]：通过开放沟通、宽容与合作营造积极的社区氛围。\n"
 				}
 			]
 		},
 		{
-			"category": "Game Rules",
+			"category": "游戏规则",
 			"entries": [
 				{
-					"content": "- [b]No AFK Botting[/b]: Automation of gameplay while away from the keyboard is prohibited.\n- [b]Language and Names[/b]: Offensive or inappropriate language and character names are not allowed.\n- [b]Spam-Free Environment[/b]: Avoid chat flooding, trade spamming, or any disruptive behavior.\n- [b]Speak English in Public Areas[/b]: Use English in public chats to promote inclusivity, except in private messages or among groups with a shared language.\n- [b]No Begging[/b]: Politely ask for help or items only once. Avoid annoying or pestering others.\n- [b]No Multiboxing[/b]: Controlling multiple characters in combat simultaneously is forbidden.\n- [b]Social Convention[/b]: Follow the broader community guidelines available at [url]https://policies.themanaworld.org/tsc[/url].\n"
+					"content": "- [b]禁止挂机脚本[/b]：禁止在离开键盘时使用自动化程序进行游戏。\n- [b]语言与角色名[/b]：禁止使用冒犯性或不当的语言及角色名称。\n- [b]禁止刷屏[/b]：避免聊天刷屏、交易刷屏或任何破坏性言行。\n- [b]公共频道使用中文[/b]：为推广包容性，公共聊天请使用中文，私聊或语言相同的群体除外。\n- [b]禁止乞求[/b]：礼貌地请求帮助或物品仅限一次，避免烦扰他人。\n- [b]禁止多开[/b]：禁止同时操控多个角色进行战斗。\n- [b]社区规范[/b]：请遵守 [url]https://policies.themanaworld.org/tsc[/url] 上的社区准则。\n"
 				}
 			]
 		},
 		{
-			"category": "Privacy and Security",
+			"category": "隐私与安全",
 			"entries": [
 				{
-					"content": "- [b]Account Protection[/b]: Use a strong, unique password and do not share it. No moderator, admin, or any person representing Source of Mana will ever ask for your password.\n- [b]Personal Information[/b]: Avoid sharing private or sensitive information in public spaces. Exercise caution to prevent exploitation.\n- [b]Emails for Account Identification[/b]: Your email address may be used to identify your account for password resets.\n- [b]Data Collection[/b]: We collect standard information (e.g. IP address, email) to prevent fraud, analyze trends, and maintain services.\n- [b]Account Termination[/b]: You may request the deletion of personal data. However, some information, such as logs or contributions, may be anonymized or retained to protect the integrity of the community.\n"
+					"content": "- [b]账号保护[/b]：请使用高强度且不重复的密码，切勿向任何人透露。任何自称是 Source of Mana 版主、管理员或代表的人都不会向您索要密码。\n- [b]个人信息[/b]：避免在公共场合分享私人或敏感信息，谨防被利用。\n- [b]邮箱用途[/b]：您的邮箱地址可能用于密码重置时验证账号身份。\n- [b]数据收集[/b]：我们收集标准信息（如 IP 地址、邮箱）以防止欺诈、分析趋势并维护服务。\n- [b]账号注销[/b]：您可以申请删除个人数据。但部分信息（如日志或贡献记录）可能被匿名化或保留，以维护社区完整性。\n"
 				}
 			]
 		},
 		{
-			"category": "Enforcement and Disclaimers",
+			"category": "执行与免责声明",
 			"entries": [
 				{
-					"content": "- [b]Ban Policy[/b]: Bans apply to individuals, not just accounts. Attempts to evade bans may result in the immediate suspension of any associated accounts.\n- [b]Rule Changes[/b]: Rules may be updated periodically. Notices will be provided via updated platform pages and welcome announcements within the client.\n- [b]Compliance with Laws[/b]: Source of Mana operates under U.S. law. Illegal activities in the game are prohibited.\n- [b]Staff Authority[/b]: Failure to comply with Game Master (GM) instructions may be considered a rule violation.\n"
+					"content": "- [b]封禁政策[/b]：封禁针对个人，而非仅针对账号。试图规避封禁可能导致所有关联账号被立即封停。\n- [b]规则变更[/b]：规则可能定期更新，届时将通过平台页面更新和游戏内欢迎公告通知。\n- [b]法律合规[/b]：Source of Mana 依据美国法律运营，禁止任何非法游戏行为。\n- [b]工作人员权限[/b]：不遵守游戏管理员（GM）的指示可能被视为违反规则。\n"
 				}
 			]
 		},
 		{
-			"category": "Communication Guidelines",
+			"category": "交流指南",
 			"entries": [
 				{
-					"content": "- Be polite and patient, especially when dealing with language barriers.\n- Avoid using all capital letters (perceived as shouting).\n- Use proper grammar to facilitate clear communication.\n- Report game bugs and abuse to support the community.\n"
+					"content": "- 请保持礼貌和耐心，尤其是在面对语言障碍时。\n- 避免使用全大写字母（会被视为 shouting/大喊）。\n- 使用正确的语法以便清晰沟通。\n- 举报游戏漏洞和滥用行为，共同维护社区。\n"
 				}
 			]
 		},
 		{
-			"category": "Additional Notes",
+			"category": "补充说明",
 			"entries": [
 				{
-					"content": "- Source of Mana is an entity under *Software in the Public Interest, Inc.*.\n- For further questions about policies, please contact us through [url=https://discord.com/invite/UnY77dR]Discord[/url] or [url=https://web.libera.chat/?channels=#sourceofmana]IRC[/url]."
+					"content": "- Source of Mana 是 *Software in the Public Interest, Inc.* 旗下的项目。\n- 如有任何政策问题，请通过 [url=https://discord.com/invite/UnY77dR]Discord[/url] 或 [url=https://web.libera.chat/?channels=#sourceofmana]IRC[/url] 联系我们。"
 				}
 			]
 		}

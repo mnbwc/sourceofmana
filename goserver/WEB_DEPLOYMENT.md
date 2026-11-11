@@ -126,43 +126,55 @@ WSS_PORT=27013 BRIDGE_PORT=9102 ./goserver
 
 ## 4. Godot Web 客户端配置
 
-### 4.1 预编译二进制（推荐）
+### 4.1 PCK 拆分架构（推荐）
 
-仓库已包含预编译的 Web 客户端，位于 [`binary/Web_nothreads/`](binary/Web_nothreads/)。
+完整构建流程见 [`docs/WEB_BUILD_PIPELINE.md`](../docs/WEB_BUILD_PIPELINE.md)。
 
-直接部署：
+Web 客户端采用 **PCK 拆分** 方案，将 72MB 的完整导出拆为三个包：
 
-```bash
-# 复制到 nginx 根目录
-cp -r binary/Web_nothreads/* /var/www/som/game/
-
-# 确保文件权限正确
-# Alpine:
-chown -R nginx:nginx /var/www/som/game/
-# Ubuntu/Debian:
-chown -R www-data:www-data /var/www/som/game/
+```
+/var/www/som/game/
+├── index.html              ← GODOT_CONFIG.mainPack = "core.pck"
+├── index.js / *.wasm       ← Godot Web 引擎
+├── core.pck                ← 首次必下（~30MB，含登录/选角/起始地图）
+└── packs/
+    ├── audio.pck           ← 按需下载（~26MB，音乐）
+    └── maps.pck            ← 按需下载（~16MB，其他地图）
 ```
 
-### 4.2 自定义导出（可选）
+**构建命令**：
 
-如需重新导出 Web 客户端：
+```bash
+cd sourceofmana
+./tools/Godot_v4.7.1-stable_linux.x86_64 --headless --export-release "Web"
+cd ..
+python3 sourceofmana/tools/split_pck.py binary/Web/index.pck binary/Web/ sourceofmana
+cd binary/Web
+rm -f index.pck && mkdir -p packs && mv audio.pck maps.pck packs/
+```
 
-1. 在 Godot 编辑器中打开项目
-2. 选择 `Project > Export > Web`（preset: `Web`）
-3. 导出到 `binary/Web_nothreads/`
-4. 修改 `index.html` 和 `index.js` 以支持 Web Worker 预编译（参考现有文件）
+**nginx Brotli 压缩**（对 `.pck` 文件）：
 
-**导出配置要点：**
+```nginx
+location ~* \.pck$ {
+    brotli_static on;
+    brotli on;
+    brotli_comp_level 6;
+    root /var/www/som;
+    try_files $uri =404;
+}
+```
 
-```ini
-# export_presets.cfg
-[preset.5.options]
-variant/thread_support=false
-progressive_web_app/enabled=false
-progressive_web_app/ensure_cross_origin_isolation_headers=false
-sentry/inject_script=false
-sentry/_export_check=false
-html/head_include=""
+> 浏览器 `fetch()` 会自动解压 Brotli，无需客户端代码修改。
+> 验证：`curl -sI -H 'Accept-Encoding: br' https://域名/game/core.pck | grep content-encoding`
+
+### 4.2 预编译二进制（旧版）
+
+仓库包含旧的完整导出，位于 [`binary/Web_nothreads/`](binary/Web_nothreads/)。
+
+```bash
+cp -r binary/Web_nothreads/* /var/www/som/game/
+chown -R www-data:www-data /var/www/som/game/
 ```
 
 ### 4.3 配置服务器地址
@@ -212,6 +224,9 @@ curl -k https://127.0.0.1:443/health
 | RPC checksum 失败 | 客户端/服务器方法不匹配 | 确保 Go 服务器与 SoM 客户端版本一致 |
 | 浏览器显示混合内容警告 | 页面 HTTP + WSS | 确保页面也通过 HTTPS 加载 |
 | 游戏加载卡在 100% | wasm 编译阻塞主线程 | 确认使用 `Web_nothreads` 版本 |
+| 设置界面 Render-Scaling 默认不对 | `data/conf/*` 未导出 | `export_presets.cfg` 的 `include_filter` 加入 `data/conf/*` |
+| 浏览器仍加载旧 PCK | 缓存 | 强制刷新 + 清除 IndexedDB `/userfs` |
+| Brotli 未生效 | `add_header Content-Encoding identity` 覆盖 | 移除该行，启用 `brotli on` |
 | `ERR_CONNECTION_REFUSED` | 服务器未启动 | Alpine: `rc-service som-goserver start`；Ubuntu: `systemctl start som-goserver` |
 | nginx 配置测试失败 | 配置文件语法错误 | Alpine: `nginx -t`；检查 `/etc/nginx/nginx.conf` |
 | 自签名证书警告 | 浏览器不信任自签名证书 | 点击「高级」→「继续访问」，或替换为 Let's Encrypt 证书 |

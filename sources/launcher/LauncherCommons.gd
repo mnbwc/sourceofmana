@@ -83,3 +83,4 @@ static func ResolveServerAddress(isLocal : bool) -> String:
 	return NetworkCommons.ServerAddressTesting if IsTesting else NetworkCommons.ServerAddress
 static var isMobile : bool				= OS.has_feature("android") or OS.has_feature("ios") or Util.IsMobile()
 static var isWeb : bool					= OS.has_feature("web")
+static var isFullPCK : bool				= false  # false = split PCKs (core + audio + maps); true = single full PCK

@@ -6,10 +6,12 @@ extends Node
 # (IndexedDB on Web, persistent on desktop).
 #
 # Usage:
-#   PackManager.ensure("map_layers", "packs/map_layers.pck")
 #   PackManager.ensure("audio", "packs/audio.pck")
+#   PackManager.ensure_maps()  # downloads maps.pck on demand
 
 const PACK_DIR := "user://packs/"
+const MAPS_PACK_NAME := "maps"
+const MAPS_PACK_PATH := "packs/maps.pck"
 
 signal packLoaded(packName: String, path: String)
 signal packError(packName: String, message: String)
@@ -28,6 +30,10 @@ func is_mounted(pack_name: String) -> bool:
 	return _mounted.has(pack_name)
 
 
+func is_loading(pack_name: String) -> bool:
+	return _loading.has(pack_name)
+
+
 func ensure(pack_name: String, remote_path: String) -> void:
 	if _mounted.has(pack_name):
 		return
@@ -43,6 +49,11 @@ func ensure(pack_name: String, remote_path: String) -> void:
 
 	# Download and mount
 	_download(pack_name, remote_path, local_path)
+
+
+# Download and mount the maps pack (contains all non-core map scenes).
+func ensure_maps() -> void:
+	ensure(MAPS_PACK_NAME, MAPS_PACK_PATH)
 
 
 func _mount(pack_name: String, local_path: String) -> void:
@@ -65,7 +76,18 @@ func _download(pack_name: String, remote_path: String, local_path: String) -> vo
 	http.download_file = local_path
 	http.use_threads = false  # Web doesn't support threads
 
-	var err := http.request(remote_path)
+	# Godot Web HTTPRequest requires a full URL; convert relative paths
+	var url := remote_path
+	if LauncherCommons.isWeb and not remote_path.begins_with("http"):
+		# Use the directory of the current page as the base URL.
+		# e.g. "https://host:port/game/index.html" -> "https://host:port/game/"
+		var href: String = JavaScriptBridge.eval("window.location.href")
+		var base: String = href.get_base_dir()  # strips the filename
+		if not base.ends_with("/"):
+			base += "/"
+		url = base + remote_path
+
+	var err := http.request(url)
 	if err != OK:
 		_loading.erase(pack_name)
 		packError.emit(pack_name, "HTTPRequest failed to start: %d" % err)

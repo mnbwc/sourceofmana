@@ -161,9 +161,12 @@ func _ready():
 
 	Root = get_tree().get_root()
 
-	# On Web, the main PCK is core.pck; audio is a separate pack downloaded on demand.
-	if LauncherCommons.isWeb:
+	# When the main PCK contains all resources (full index.pck), no separate packs
+	# need to be downloaded.  Pack downloads are only needed when the PCK was split
+	# into core.pck + audio.pck + maps.pck.
+	if LauncherCommons.isWeb and not LauncherCommons.isFullPCK:
 		PackManager.ensure("audio", "packs/audio.pck")
+		PackManager.ensure_maps()
 
 	LauncherCommons.ParsePortOverrides()
 	# During export (--export-release/--export-debug), skip client/server

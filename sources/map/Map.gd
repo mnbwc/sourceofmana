@@ -56,11 +56,26 @@ func UnloadMapNode():
 func LoadMapNode(mapID : int):
 	currentMapNode = pool.LoadMapLayers(mapID)
 	currentMapID = mapID
-	assert(currentMapNode != null, "Map instance could not be created")
-	if currentMapNode:
-		RefreshTileMap()
-		Launcher.add_child(currentMapNode)
-		MapLoaded.emit()
+	if currentMapNode == null:
+		# Map scene not available — the maps pack is still downloading.
+		# Wait for it to finish, then retry once.
+		printerr("Map %d not available yet, waiting for maps pack..." % mapID)
+		await WaitForMapsPack()
+		currentMapNode = pool.LoadMapLayers(mapID)
+	if currentMapNode == null:
+		printerr("Map %d failed to load even after maps pack mounted" % mapID)
+		return
+	RefreshTileMap()
+	Launcher.add_child(currentMapNode)
+	MapLoaded.emit()
+
+func WaitForMapsPack() -> void:
+	if PackManager.is_mounted(PackManager.MAPS_PACK_NAME):
+		return
+	if not PackManager.is_loading(PackManager.MAPS_PACK_NAME):
+		PackManager.ensure_maps()
+	await PackManager.packLoaded
+
 
 # Entity cache
 func PreloadEntity(agentRID : int, actorType : ActorCommons.Type, currentShape : int, nick : String, defaultState : ActorCommons.State):
