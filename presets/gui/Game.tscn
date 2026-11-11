@@ -63,6 +63,7 @@
 [ext_resource type="PackedScene" uid="uid://b8ixr8s8711q0" path="res://presets/gui/CellDetails.tscn" id="56_2uxo9"]
 [ext_resource type="PackedScene" uid="uid://ds2uy7m56ff2m" path="res://presets/gui/Trade.tscn" id="57_q4v1n"]
 [ext_resource type="PackedScene" uid="uid://auto1play2panel3" path="res://presets/gui/AutoPlay.tscn" id="58_autoplay"]
+[ext_resource type="Texture2D" path="res://data/graphics/gui/icon/autoplay.png" id="59_autoplay_icon"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wjdwk"]
 shader = ExtResource("4_60kv4")
@@ -235,6 +236,13 @@ layout_mode = 2
 texture = ExtResource("11_17vy0")
 targetWindow = NodePath("../../../../../../../Windows/Floating/Settings")
 targetShortcut = &"ui_settings"
+
+[node name="AutoPlay" parent="Overlay/VSections/Indicators/Menu/MenuContent/HBoxItems" unique_id=591234567 node_paths=PackedStringArray("targetWindow") instance=ExtResource("3_sl5jl")]
+visible = false
+layout_mode = 2
+texture = ExtResource("59_autoplay_icon")
+targetWindow = NodePath("../../../../../../../Windows/Floating/AutoPlay")
+targetShortcut = &"gp_toggle_autoplay"
 
 [node name="Contexts" type="Control" parent="Overlay/VSections" unique_id=238552505]
 z_as_relative = false

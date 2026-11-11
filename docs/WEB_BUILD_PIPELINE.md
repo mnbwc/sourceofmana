@@ -498,7 +498,26 @@ out += b'\x00' * pad
 
 ---
 
-## 9. 相关文件索引
+## 9. 挂机系统（AutoPlay）
+
+**面板打开方式**：
+- **F12** 快捷键（桌面）
+- **游戏菜单** → 挂机按钮（移动端）
+
+**面板包含**：
+| 开关 | 说明 |
+|------|------|
+| 开启挂机 | 总开关（启用后自动战斗） |
+| 自动战斗 | 自动攻击附近怪物 |
+| 自动拾取 | 自动拾取掉落物 |
+| 自动喝药 | HP 低于阈值时自动使用药水 |
+| HP 阈值 | 滑动条（默认 30%） |
+
+**注意**：F4 是技能面板，不要用于挂机（已避免冲突）。
+
+---
+
+## 10. 相关文件索引
 
 | 文件 | 说明 |
 |------|------|
@@ -506,6 +525,9 @@ out += b'\x00' * pad
 | `export_presets.cfg` | Godot 导出预设（Web 预设） |
 | `html/custom_html_shell.html` | 自定义 HTML 模板 |
 | `data/conf/settings.cfg` | 默认游戏设置 |
+| `sources/input/Action.gd` | 快捷键处理（F12 = 挂机面板） |
+| `sources/gui/AutoPlayPanel.gd` | 挂机设置面板逻辑 |
+| `presets/gui/AutoPlay.tscn` | 挂机设置面板 UI |
 | `sources/launcher/Launcher.gd` | 启动器（PCK 加载） |
 | `sources/system/PackManager.gd` | 按需下载管理 |
 | `goserver/deploy.sh` | Go 服务器一键部署 |
