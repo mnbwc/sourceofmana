@@ -50,7 +50,7 @@
 
 | 工具 | 版本 | 用途 | 位置 |
 |------|------|------|------|
-| Godot | 4.7.1 | Web 导出 | `tools/Godot_v4.7.1-stable_linux.x86_64` |
+| Godot | 4.7.1 | Web 导出 | `tools/Godot_v4.7.1-stable_linux.x86_64`（workspace 根目录） |
 | Python | 3.8+ | PCK 拆分脚本 | 系统自带 |
 | brotli | 1.1.0+ | 压缩率测试（可选） | `pip3 install brotli` |
 | scp / ssh | - | 部署到 VPS | 系统自带 |
@@ -58,11 +58,11 @@
 ### 2.1 Godot 二进制
 
 ```bash
-# 项目内已包含 Godot 4.7.1 Linux x86_64 二进制
-ls -la tools/Godot_v4.7.1-stable_linux.x86_64
+# Godot 二进制位于 workspace 根目录的 tools/ 下
+GODOT=/mnt/data/catpaw/home/.meituan-catpaw/333630993/desk_default_workspace/tools/Godot_v4.7.1-stable_linux.x86_64
 
 # 验证版本
-./tools/Godot_v4.7.1-stable_linux.x86_64 --version
+$GODOT --version
 # 输出: 4.7.1.stable.official.8ded7ccb4
 ```
 
@@ -104,7 +104,8 @@ sourceofmana/                   ← Git 仓库根目录
 ```bash
 cd /mnt/data/catpaw/home/.meituan-catpaw/333630993/desk_default_workspace/sourceofmana
 
-./tools/Godot_v4.7.1-stable_linux.x86_64 --headless --export-release "Web"
+GODOT=/mnt/data/catpaw/home/.meituan-catpaw/333630993/desk_default_workspace/tools/Godot_v4.7.1-stable_linux.x86_64
+$GODOT --headless --export-release "Web"
 ```
 
 **输出**：`../binary/Web/`（即 workspace 根目录下的 `binary/Web/`）
@@ -483,7 +484,7 @@ out += b'\x00' * pad
 
 ```
 □ 1. 修改代码/设置
-□ 2. Godot 导出: ./tools/Godot_v4.7.1-stable_linux.x86_64 --headless --export-release "Web"
+□ 2. Godot 导出: $GODOT --headless --export-release "Web"
 □ 3. 拆分 PCK: python3 sourceofmana/tools/split_pck.py binary/Web/index.pck binary/Web/ sourceofmana
 □ 4. 删除 index.pck: rm binary/Web/index.pck
 □ 5. 移动 packs: mkdir -p binary/Web/packs && mv binary/Web/audio.pck binary/Web/maps.pck binary/Web/packs/
