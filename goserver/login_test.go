@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"strings"
 	"testing"
 	"time"
 
@@ -65,6 +66,10 @@ func dialFake(t *testing.T, url string) *fakeClient {
 	if fc.peerID < 2 {
 		t.Fatalf("bad unique_id %d (must be >= 2)", fc.peerID)
 	}
+	// Keep the socket alive until the test ends: a client that stops being
+	// referenced can be collected mid-test, which closes the TCP connection
+	// and looks like a spurious disconnect on the server.
+	t.Cleanup(func() { _ = conn.Close() })
 	return fc
 }
 
@@ -350,19 +355,21 @@ func TestWorldSyncLoopback(t *testing.T) {
 	// B's enter-world sequence (captured during connect): WarpPlayer,
 	// PreloadPlayer(self), FullUpdateEntity(self),
 	// PreloadPlayer+UpdateEntity for each of the other world entities
-	// (A + 2 villagers + 5 field monsters = 8),
-	// PreloadEntity for each seeded NPC/monster (7),
+	// (A + every seeded NPC/monster),
+	// PreloadEntity for each seeded NPC/monster,
 	// RefreshProgress, RefreshInventory, RefreshEquipment,
 	// UpdatePublicStats, UpdatePrivateStats,
 	// 3 starter DropAdded pushes (potions near spawn),
 	// RefreshOnlineList.
+	npcCount := len(lastTestServer.npcs.allNpcs())
+	otherEntities := npcCount + 1 // + player A
 	wantOrder := []uint16{
 		rpcWarpPlayer, rpcPreloadPlayer, rpcFullUpdateEntity,
 	}
-	for i := 0; i < 8; i++ {
+	for i := 0; i < otherEntities; i++ {
 		wantOrder = append(wantOrder, rpcPreloadPlayer, rpcUpdateEntity)
 	}
-	for i := 0; i < 7; i++ {
+	for i := 0; i < npcCount; i++ {
 		wantOrder = append(wantOrder, rpcPreloadEntity)
 	}
 	wantOrder = append(wantOrder,
@@ -532,9 +539,16 @@ func TestGameplayLoopback(t *testing.T) {
 	}
 }
 
-// TestNpcQuestLoopback verifies the NPC interaction flow: TriggerInteract opens
-// a dialogue (ContextText + ContextChoice), TriggerChoice applies the quest
-// state and pushes UpdateQuest, and TriggerNextContext advances the dialogue.
+// TestNpcQuestLoopback verifies the real quest flow against the built-in
+// "Tutorial" chain (Elanore -> Kael -> Ekinu):
+//
+//	TriggerInteract -> ContextText greeting + ContextChoice (quest menu)
+//	TriggerChoice   -> offer text + accept/decline choices
+//	TriggerChoice   -> UpdateQuest(1) + starter ItemAdded pushes
+//	TriggerInteract -> UpdateQuest(3) when the talk target is reached
+//	TriggerInteract -> UpdateQuest(255) + reward items when the chain ends
+//
+// It also covers TriggerSelect (UpdatePublicStats) and TriggerCommand.
 func TestNpcQuestLoopback(t *testing.T) {
 	url, stop := startTestServer(t)
 	defer stop()
@@ -568,48 +582,106 @@ func TestNpcQuestLoopback(t *testing.T) {
 		break
 	}
 
-	// Interact with the Elder NPC (RID 1) -> ContextText greeting + ContextContinue
-	// (the Elder's first step is a greeting; the choice comes on the next step).
+	// Interact with Elanore (RID 1). She offers two quests, so the first
+	// dialogue is a menu: greeting + ContextChoice of quest names.
 	pkt, _ = BuildRPCPacket(5, rpcTriggerInteract, []Variant{NewInt(1)})
 	a.conn.WriteMessage(websocket.BinaryMessage, pkt)
-	text := expectPush(t, a, rpcContextText)
-	if text.Args[0].Str != "Elder" || text.Args[1].Str == "" {
-		t.Fatalf("interact greeting: got %s", formatArgs(text.Args))
+	greet := expectPush(t, a, rpcContextText)
+	if greet.Args[0].Str != "Elanore" || greet.Args[1].Str == "" {
+		t.Fatalf("interact greeting: got %s", formatArgs(greet.Args))
 	}
-	_ = expectPush(t, a, rpcContextContinue)
-
-	// Advance to the choice step -> ContextText + ContextChoice.
-	pkt, _ = BuildRPCPacket(5, rpcTriggerNextContext, nil)
-	a.conn.WriteMessage(websocket.BinaryMessage, pkt)
-	text2 := expectPush(t, a, rpcContextText)
-	if text2.Args[0].Str != "Elder" {
-		t.Fatalf("choice step text: got %s", formatArgs(text2.Args))
-	}
-	choice := expectPush(t, a, rpcContextChoice)
-	if len(choice.Args) == 0 {
-		t.Fatalf("expected ContextChoice, got %s", formatArgs(choice.Args))
+	menu := expectPush(t, a, rpcContextChoice)
+	if len(menu.Args) == 0 {
+		t.Fatalf("expected a quest menu, got %s", formatArgs(menu.Args))
 	}
 
-	// Choose option 0 ("I will help.") -> ContextText echo + UpdateQuest(active).
+	// Pick the first quest ("Tutorial") -> stage-1 offer + accept/decline.
 	pkt, _ = BuildRPCPacket(5, rpcTriggerChoice, []Variant{NewInt(0)})
 	a.conn.WriteMessage(websocket.BinaryMessage, pkt)
-	echo := expectPush(t, a, rpcContextText)
-	if echo.Args[0].Str != "Elder" {
-		t.Fatalf("choice echo: got %s", formatArgs(echo.Args))
+	offer := expectPush(t, a, rpcContextText)
+	if offer.Args[0].Str != "Elanore" || offer.Args[1].Str == "" {
+		t.Fatalf("offer text: got %s", formatArgs(offer.Args))
 	}
+	_ = expectPush(t, a, rpcContextChoice)
+
+	// Accept -> UpdateQuest(1), the four starter items, then the stage-2
+	// reminder (go talk to Kael) and a ContextClose.
+	pkt, _ = BuildRPCPacket(5, rpcTriggerChoice, []Variant{NewInt(0)})
+	a.conn.WriteMessage(websocket.BinaryMessage, pkt)
 	uq := expectPush(t, a, rpcUpdateQuest)
-	if uq.Args[0].Int != 1 || uq.Args[1].Int != questStateActive {
-		t.Fatalf("UpdateQuest: want quest 1 active, got %s", formatArgs(uq.Args))
+	if uq.Args[0].Int != questID("Tutorial") || uq.Args[1].Int != 1 {
+		t.Fatalf("UpdateQuest: want Tutorial state 1, got %s", formatArgs(uq.Args))
+	}
+	starter := make(map[int64]bool)
+	for i := 0; i < 4; i++ {
+		ia := expectPush(t, a, rpcItemAdded)
+		starter[ia.Args[0].Int] = true
+	}
+	for _, name := range []string{"Water Bottle", "Cactus Sour Candy", "Cotton Shirt", "Shorts"} {
+		if !starter[itemID(name)] {
+			t.Fatalf("missing starter item %s: %v", name, starter)
+		}
+	}
+	rem := expectPush(t, a, rpcContextText)
+	if !strings.Contains(rem.Args[1].Str, "Kael") {
+		t.Fatalf("stage 2 reminder: got %s", formatArgs(rem.Args))
+	}
+	_ = expectPush(t, a, rpcContextClose)
+
+	// Talk to Kael (RID 6): the talk requirement is fulfilled by the
+	// interaction itself, so the quest advances to stage 3.
+	pkt, _ = BuildRPCPacket(5, rpcTriggerInteract, []Variant{NewInt(6)})
+	a.conn.WriteMessage(websocket.BinaryMessage, pkt)
+	uq = expectPush(t, a, rpcUpdateQuest)
+	if uq.Args[0].Int != questID("Tutorial") || uq.Args[1].Int != 3 {
+		t.Fatalf("UpdateQuest after Kael: want state 3, got %s", formatArgs(uq.Args))
+	}
+	kael := expectPush(t, a, rpcContextText)
+	if kael.Args[0].Str != "Kael" {
+		t.Fatalf("Kael stage text: got %s", formatArgs(kael.Args))
+	}
+	_ = expectPush(t, a, rpcContextClose)
+
+	// Talk to Ekinu (RID 7): stage 3 is fulfilled and stage 4 auto-completes,
+	// paying the reward. Collect pushes until the quest reaches 255.
+	pkt, _ = BuildRPCPacket(5, rpcTriggerInteract, []Variant{NewInt(7)})
+	a.conn.WriteMessage(websocket.BinaryMessage, pkt)
+	var doneState int64 = -1
+	deadline := time.Now().Add(3 * time.Second)
+	for time.Now().Before(deadline) && doneState != questStateDone {
+		if pr := expectPushAny(t, a); pr.NameID == rpcUpdateQuest {
+			doneState = pr.Args[1].Int
+		}
+	}
+	if doneState != questStateDone {
+		t.Fatalf("Tutorial: want state %d, got %d", questStateDone, doneState)
+	}
+	// The reward items are pushed before the completion line.
+	done := expectPush(t, a, rpcContextText)
+	if !strings.Contains(done.Args[1].Str, "任务完成") {
+		t.Fatalf("done text: got %q", done.Args[1].Str)
+	}
+	_ = expectPush(t, a, rpcContextClose)
+	// The reward items (Desert Boots + Desert Goggles) were pushed as well.
+	chr := lastTestServer.store.findCharacterByID(1)
+	if chr == nil {
+		t.Fatal("character not found")
+	}
+	if n := countItem(chr, itemID("Desert Boots")); n != 1 {
+		t.Fatalf("Desert Boots: want 1, got %d", n)
+	}
+	if n := countItem(chr, itemID("Desert Goggles")); n != 1 {
+		t.Fatalf("Desert Goggles: want 1, got %d", n)
 	}
 
-	// TriggerSelect on the NPC -> UpdatePublicStats for the Elder (RID 1).
+	// TriggerSelect on Elanore -> UpdatePublicStats (rid=1 level=5 maxHealth=100).
 	// Payload: agentRID, level, health, maxHealth, hairstyle, haircolor,
 	// gender, race, skintone, currentShape.
 	pkt, _ = BuildRPCPacket(5, rpcTriggerSelect, []Variant{NewInt(1)})
 	a.conn.WriteMessage(websocket.BinaryMessage, pkt)
 	stats := expectPush(t, a, rpcUpdatePublicStats)
 	if stats.Args[0].Int != 1 || stats.Args[1].Int != 5 || stats.Args[3].Int != 100 {
-		t.Fatalf("UpdatePublicStats: want Elder rid=1 level=5 maxHealth=100, got %s", formatArgs(stats.Args))
+		t.Fatalf("UpdatePublicStats: want Elanore rid=1 level=5 maxHealth=100, got %s", formatArgs(stats.Args))
 	}
 
 	// TriggerCommand -> CommandFeedback.

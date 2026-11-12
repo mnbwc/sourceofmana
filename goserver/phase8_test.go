@@ -85,37 +85,38 @@ func TestBestiaryTracking(t *testing.T) {
 	a.announce(t, 5, "/root/Network")
 	enterPhase8World(t, a, "buser1", "Bestia")
 
-	// Kill NPC "Elder" (RID 1) via GM command.
+	// Kill a Maggot via GM command. The roster has three (rids 1002..1004)
+	// and world.byName returns one of them, so accept any of those rids.
 	// Order of pushes: FullUpdateEntity (death), UpdateBestiary, CommandFeedback.
-	sendGM(t, a, "kill Elder")
+	sendGM(t, a, "kill Maggot")
 	// Expect UpdateBestiary push first (before CommandFeedback).
 	ub := expectPush(t, a, rpcUpdateBestiary)
-	if ub.Args[0].Int != 1 { // Elder RID = 1
-		t.Fatalf("UpdateBestiary: want mobID=1, got %d", ub.Args[0].Int)
+	maggotRID := ub.Args[0].Int
+	if maggotRID < 1002 || maggotRID > 1004 {
+		t.Fatalf("UpdateBestiary: want a Maggot rid (1002..1004), got %d", maggotRID)
 	}
 	if ub.Args[1].Int != 1 { // first kill
 		t.Fatalf("UpdateBestiary: want count=1, got %d", ub.Args[1].Int)
 	}
 	fb := expectPush(t, a, rpcCommandFeedback)
-	if !strings.Contains(fb.Args[0].Str, "Killed Elder") {
-		t.Fatalf("kill feedback: want 'Killed Elder', got %q", fb.Args[0].Str)
+	if !strings.Contains(fb.Args[0].Str, "Killed Maggot") {
+		t.Fatalf("kill feedback: want 'Killed Maggot', got %q", fb.Args[0].Str)
 	}
 
-	// Kill again via GM bestiary command to increment.
-	// Note: GM bestiary uses hashString(name) as mobID, while trackKill uses
-	// npc.RID. These are different namespaces, so this creates a new entry.
-	sendGM(t, a, "bestiary Elder 5")
+	// GM bestiary resolves the nick to the same rid namespace, so this
+	// increments the entry the kill just created (1 + 5 = 6).
+	sendGM(t, a, "bestiary Maggot 5")
 	// Order: UpdateBestiary, CommandFeedback.
 	ub = expectPush(t, a, rpcUpdateBestiary)
-	if ub.Args[0].Int != hashString("Elder") {
-		t.Fatalf("UpdateBestiary after GM: want mobID=%d, got %d", hashString("Elder"), ub.Args[0].Int)
+	if ub.Args[0].Int != maggotRID {
+		t.Fatalf("UpdateBestiary after GM: want mobID=%d, got %d", maggotRID, ub.Args[0].Int)
 	}
-	if ub.Args[1].Int != 5 {
-		t.Fatalf("UpdateBestiary after GM: want count=5, got %d", ub.Args[1].Int)
+	if ub.Args[1].Int != 6 {
+		t.Fatalf("UpdateBestiary after GM: want count=6, got %d", ub.Args[1].Int)
 	}
 	fb = expectPush(t, a, rpcCommandFeedback)
-	if !strings.Contains(fb.Args[0].Str, "Bestiary Elder set to 5") {
-		t.Fatalf("bestiary feedback: want 'set to 5', got %q", fb.Args[0].Str)
+	if !strings.Contains(fb.Args[0].Str, "Bestiary Maggot set to 6") {
+		t.Fatalf("bestiary feedback: want 'set to 6', got %q", fb.Args[0].Str)
 	}
 }
 
@@ -133,8 +134,9 @@ func TestSkillProgression(t *testing.T) {
 	// Order of pushes: UpdateSkill, CommandFeedback.
 	sendGM(t, a, "skill Fireball 3")
 	us := expectPush(t, a, rpcUpdateSkill)
-	if us.Args[0].Int != hashString("Fireball") {
-		t.Fatalf("UpdateSkill: want skillID=%d, got %d", hashString("Fireball"), us.Args[0].Int)
+	wantSkill := int64(djb2String("Fireball"))
+	if us.Args[0].Int != wantSkill {
+		t.Fatalf("UpdateSkill: want skillID=%d, got %d", wantSkill, us.Args[0].Int)
 	}
 	if us.Args[1].Int != 3 {
 		t.Fatalf("UpdateSkill: want level=3, got %d", us.Args[1].Int)
@@ -149,7 +151,7 @@ func TestSkillProgression(t *testing.T) {
 	if chr == nil {
 		t.Fatal("character not found")
 	}
-	if lvl := lastTestServer.progress.GetSkillLevel(1, hashString("Fireball")); lvl != 3 {
+	if lvl := lastTestServer.progress.GetSkillLevel(1, wantSkill); lvl != 3 {
 		t.Fatalf("GetSkillLevel: want 3, got %d", lvl)
 	}
 }
@@ -163,31 +165,30 @@ func TestGMSpawnAndKillAll(t *testing.T) {
 	a.announce(t, 5, "/root/Network")
 	enterPhase8World(t, a, "guser1", "Gmaster")
 
-	// Spawn 2 NPCs.
-	sendGM(t, a, "spawn Elder 2")
+	// Spawn 2 Maggots.
+	sendGM(t, a, "spawn Maggot 2")
 	fb := expectPush(t, a, rpcCommandFeedback)
-	if !strings.Contains(fb.Args[0].Str, "Spawned 2 x Elder") {
-		t.Fatalf("spawn feedback: want 'Spawned 2 x Elder', got %q", fb.Args[0].Str)
+	if !strings.Contains(fb.Args[0].Str, "Spawned 2 x Maggot") {
+		t.Fatalf("spawn feedback: want 'Spawned 2 x Maggot', got %q", fb.Args[0].Str)
 	}
 
-	// Kill all NPCs named Elder.
-	// Order: FullUpdateEntity + UpdateBestiary for each kill, then CommandFeedback.
-	sendGM(t, a, "killall Elder")
-	// 2 spawned + 1 original = 3
-	// Collect bestiary pushes until we see the feedback.
+	// Kill every Maggot: 3 seeded + 2 spawned = 5.
+	// Order: FullUpdateEntity + UpdateBestiary per kill, then CommandFeedback.
+	sendGM(t, a, "killall Maggot")
+	// Collect pushes until we see the feedback; one UpdateBestiary per kill.
 	deadline := time.Now().Add(3 * time.Second)
-	var bestiaryCount int64
+	var kills int
 	for time.Now().Before(deadline) {
 		pr := expectPushAny(t, a)
 		if pr.NameID == rpcUpdateBestiary {
-			bestiaryCount = pr.Args[1].Int
+			kills++
 		}
-		if pr.NameID == rpcCommandFeedback && strings.Contains(pr.Args[0].Str, "Killed 3 NPCs") {
+		if pr.NameID == rpcCommandFeedback && strings.Contains(pr.Args[0].Str, "Killed 5 NPCs") {
 			break
 		}
 	}
-	if bestiaryCount < 3 {
-		t.Fatalf("bestiary count after killall: want >=3, got %d", bestiaryCount)
+	if kills != 5 {
+		t.Fatalf("bestiary pushes after killall: want 5, got %d", kills)
 	}
 }
 
@@ -334,8 +335,9 @@ func TestGMItemAndQuest(t *testing.T) {
 	// Give item via GM command.
 	sendGM(t, a, "item Potion 5")
 	ia := expectPush(t, a, rpcItemAdded)
-	if ia.Args[0].Int != hashString("Potion") {
-		t.Fatalf("ItemAdded: want itemID=%d, got %d", hashString("Potion"), ia.Args[0].Int)
+	wantItem := int64(djb2String("Potion"))
+	if ia.Args[0].Int != wantItem {
+		t.Fatalf("ItemAdded: want itemID=%d, got %d", wantItem, ia.Args[0].Int)
 	}
 	if ia.Args[2].Int != 5 {
 		t.Fatalf("ItemAdded: want count=5, got %d", ia.Args[2].Int)
@@ -348,8 +350,9 @@ func TestGMItemAndQuest(t *testing.T) {
 	// Set quest via GM command.
 	sendGM(t, a, "quest MyQuest 2")
 	uq := expectPush(t, a, rpcUpdateQuest)
-	if uq.Args[0].Int != hashString("MyQuest") {
-		t.Fatalf("UpdateQuest: want questID=%d, got %d", hashString("MyQuest"), uq.Args[0].Int)
+	wantQuest := int64(djb2String("MyQuest"))
+	if uq.Args[0].Int != wantQuest {
+		t.Fatalf("UpdateQuest: want questID=%d, got %d", wantQuest, uq.Args[0].Int)
 	}
 	if uq.Args[1].Int != 2 {
 		t.Fatalf("UpdateQuest: want state=2, got %d", uq.Args[1].Int)
@@ -565,25 +568,25 @@ func TestGMDisableNpc(t *testing.T) {
 	a.announce(t, 5, "/root/Network")
 	enterPhase8World(t, a, "duser1", "Disabler")
 
-	// Disable NPC "Merchant".
+	// Disable NPC "Nina" (RID 2).
 	// Order: RemoveEntity (broadcast), CommandFeedback.
-	sendGM(t, a, "disablenpc Merchant")
+	sendGM(t, a, "disablenpc Nina")
 	re := expectPush(t, a, rpcRemoveEntity)
-	if re.Args[0].Int != -2 { // Merchant RID = 2, charID = -2
+	if re.Args[0].Int != -2 { // Nina RID = 2, charID = -2
 		t.Fatalf("RemoveEntity: want charID=-2, got %d", re.Args[0].Int)
 	}
 	fb := expectPush(t, a, rpcCommandFeedback)
-	if !strings.Contains(fb.Args[0].Str, "Disabled NPC 'Merchant'") {
+	if !strings.Contains(fb.Args[0].Str, "Disabled NPC 'Nina'") {
 		t.Fatalf("disablenpc feedback: want 'Disabled NPC', got %q", fb.Args[0].Str)
 	}
 
 	// Verify the NPC is gone from the world.
 	if lastTestServer.npcByCharID(-2) == nil {
-		t.Fatal("Merchant NPC should still exist in npcWorld (not deleted)")
+		t.Fatal("Nina NPC should still exist in npcWorld (not deleted)")
 	}
 	// But it should be removed from the world map.
 	if e := lastTestServer.world.get(-2); e != nil {
-		t.Fatal("Merchant should be removed from world after disablenpc")
+		t.Fatal("Nina should be removed from world after disablenpc")
 	}
 }
 
@@ -689,18 +692,30 @@ func TestMaxAttributePoints(t *testing.T) {
 	}
 }
 
-// TestHashString verifies the hashString function is deterministic.
-func TestHashString(t *testing.T) {
-	// Same input should produce the same hash.
-	h1 := hashString("Fireball")
-	h2 := hashString("Fireball")
-	if h1 != h2 {
-		t.Fatalf("hashString not deterministic: %d != %d", h1, h2)
+// TestDjb2String pins the id namespace: item/quest/skill ids are Godot
+// String.hash() values (djb2), so the client and server must agree on them.
+func TestDjb2String(t *testing.T) {
+	cases := []struct {
+		in   string
+		want uint32
+	}{
+		{"Tutorial", 1180319673},
+		{"Elanore's Potions", 3984490417},
+		{"Grain in the desert", 2893494389},
+		{"Short Sword", 3056796356},
+		{"Water Bottle", 3288439794},
 	}
-	// Different inputs should produce different hashes.
-	h3 := hashString("Icebolt")
-	if h1 == h3 {
-		t.Fatalf("hashString collision: %d == %d", h1, h3)
+	for _, c := range cases {
+		if got := djb2String(c.in); got != c.want {
+			t.Errorf("djb2String(%q)=%d want %d", c.in, got, c.want)
+		}
+	}
+	// Deterministic and collision-free for our sample.
+	if djb2String("Fireball") != djb2String("Fireball") {
+		t.Error("djb2String not deterministic")
+	}
+	if djb2String("Fireball") == djb2String("Icebolt") {
+		t.Error("djb2String collision: Fireball == Icebolt")
 	}
 }
 
@@ -737,14 +752,14 @@ func TestGMRecallNpc(t *testing.T) {
 	a.announce(t, 5, "/root/Network")
 	enterPhase8World(t, a, "ruser2", "Recaller")
 
-	// Recall NPC "Elder" to A's position.
+	// Recall NPC "Elanore" to A's position.
 	// Order: FullUpdateEntity (broadcast), CommandFeedback.
-	sendGM(t, a, "recallnpc Elder")
+	sendGM(t, a, "recallnpc Elanore")
 	fue := expectPush(t, a, rpcFullUpdateEntity)
 	t.Logf("recallnpc: NPC charID=%d", fue.Args[0].Int)
 	fb := expectPush(t, a, rpcCommandFeedback)
-	if !strings.Contains(fb.Args[0].Str, "Recalled NPC 'Elder'") {
-		t.Fatalf("recallnpc feedback: want 'Recalled NPC Elder', got %q", fb.Args[0].Str)
+	if !strings.Contains(fb.Args[0].Str, "Recalled NPC 'Elanore'") {
+		t.Fatalf("recallnpc feedback: want 'Recalled NPC Elanore', got %q", fb.Args[0].Str)
 	}
 }
 

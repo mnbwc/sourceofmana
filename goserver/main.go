@@ -475,6 +475,33 @@ func main() {
 		}
 	}
 
+	// Merge the exported quest metadata (real names/descriptions/givers) into
+	// the built-in catalog. Optional: the built-ins stand alone.
+	if path := os.Getenv("SOM_QUESTS_JSON"); path != "" {
+		if n, err := loadQuestCatalogFromJSON(path); err != nil {
+			log.Printf("quests: SOM_QUESTS_JSON=%s failed: %v", path, err)
+		} else {
+			log.Printf("quests: loaded %d entries from %s", n, path)
+		}
+	} else {
+		for _, p := range []string{"quests.json", "../tools/export/quests.json"} {
+			if n, err := loadQuestCatalogFromJSON(p); err == nil {
+				log.Printf("quests: loaded %d entries from %s", n, p)
+				break
+			}
+		}
+	}
+
+	// SOM_DUMP_QUESTS writes the merged catalog for the lite human client and
+	// exits; it does not start the server.
+	if path := os.Getenv("SOM_DUMP_QUESTS"); path != "" {
+		if err := dumpQuestCatalog(path); err != nil {
+			log.Fatalf("quests: dump to %s failed: %v", path, err)
+		}
+		log.Printf("quests: wrote %d entries to %s", len(questCatalog), path)
+		return
+	}
+
 	// WebSocket endpoint (ws://) — native clients, AI headless, nginx proxy.
 	wsAddr := bindAddr("WS_PORT", "WS", 27012)
 	log.Printf("Go Game Server (ws://) running on %s", wsAddr)

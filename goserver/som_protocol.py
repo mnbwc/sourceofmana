@@ -30,6 +30,7 @@ Usage:
 """
 
 import asyncio
+import json
 import logging
 import queue
 import struct
@@ -196,6 +197,13 @@ ITEM_DEFINITIONS = {
     3877745440: {"name": 'Cactus Drink', "slot": -1},
     3878004993: {"name": 'Cactus Potion', "slot": -1},
     4119861718: {"name": 'Bone Knife', "slot": 6},
+    # Quest-only items (ids resolved from the name via Godot String.hash()).
+    30320795: {"name": 'Croissant', "slot": -1},
+    6159273: {"name": 'Sulphur Powder', "slot": -1},
+    2088970057: {"name": 'Bone', "slot": -1},
+    2089565689: {"name": 'Salt', "slot": -1},
+    2277661938: {"name": 'Artis Flour Sack', "slot": 11},
+    4201363071: {"name": 'Miner Helmet', "slot": 4},
 }
 
 
@@ -211,6 +219,170 @@ def item_slot(item_id):
     key = int(item_id) & 0xFFFFFFFF
     entry = ITEM_DEFINITIONS.get(key)
     return entry["slot"] if entry else -1
+
+
+# Quest states mirror the Go server (quests.go / ProgressCommons.gd).
+QUEST_STATE_INACTIVE = 0
+QUEST_STATE_DONE = 255
+
+
+class QuestCatalog:
+    """The server's quest catalog, loaded from quests.json.
+
+    The server only pushes (quest_id, state) over the wire, so names, stage
+    text and requirements come from this file. It drives the quest log, the
+    side-panel tracker and the NPC markers.
+
+    The file is produced by the Go server: SOM_DUMP_QUESTS=quests.json ./goserver
+    """
+
+    def __init__(self, path=None):
+        self.quests = {}          # id(int) -> definition dict
+        self.by_giver = {}        # npc nick -> [id]
+        self.path = path
+        self.loadable = False
+        if path:
+            self.loadable = self.load(path)
+
+    def load(self, path):
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+        except (OSError, ValueError) as exc:
+            log.warning("quest catalog %s: %s", path, exc)
+            return False
+        for q in data.get("quests", []):
+            try:
+                qid = int(q.get("id") or 0)
+            except (TypeError, ValueError):
+                continue
+            if not qid:
+                continue
+            self.quests[qid] = q
+            giver = q.get("giver")
+            if giver:
+                self.by_giver.setdefault(giver, []).append(qid)
+        for ids in self.by_giver.values():
+            ids.sort()
+        self.path = path
+        return True
+
+    # -- lookups ----------------------------------------------------------
+
+    def get(self, quest_id):
+        try:
+            return self.quests.get(int(quest_id))
+        except (TypeError, ValueError):
+            return None
+
+    def name(self, quest_id):
+        q = self.get(quest_id)
+        if q and q.get("name"):
+            return q["name"]
+        return f"任务 #{quest_id}"
+
+    def for_npc(self, nick):
+        """Quests whose giver is this NPC (lowest id first)."""
+        return [self.quests[i] for i in self.by_giver.get(nick, [])
+                if i in self.quests]
+
+    def stage(self, quest_id, state):
+        """The stage definition for a quest state (1..N), or None."""
+        q = self.get(quest_id)
+        if not q:
+            return None
+        try:
+            idx = int(state) - 1
+        except (TypeError, ValueError):
+            return None
+        stages = q.get("stages") or []
+        if 0 <= idx < len(stages):
+            return stages[idx]
+        return None
+
+    def state_label(self, state):
+        try:
+            state = int(state)
+        except (TypeError, ValueError):
+            return "未知"
+        if state <= QUEST_STATE_INACTIVE:
+            return "未接"
+        if state >= QUEST_STATE_DONE:
+            return "已完成"
+        return f"阶段 {state}"
+
+    def is_repeatable(self, quest_id):
+        q = self.get(quest_id)
+        return bool(q and q.get("repeatable"))
+
+    # -- objectives -------------------------------------------------------
+
+    def stage_ready(self, quest_id, state, world):
+        """Whether the current stage's requirement is already met.
+
+        Mirrors the server's stageReqSatisfied(): "talk" stages are fulfilled
+        by the interaction itself, so they are never ready at the giver.
+        """
+        stage = self.stage(quest_id, state)
+        if stage is None:
+            return False
+        req = stage.get("req") or {}
+        kind = req.get("kind") or ""
+        if kind == "" or stage.get("auto"):
+            return True
+        if kind == "talk":
+            return False
+        if kind == "item":
+            inv = (world.inventory if world else None) or {}
+            for it in req.get("items") or []:
+                if int(inv.get(int(it["id"]), 0)) < int(it.get("count", 1)):
+                    return False
+            return True
+        if kind == "kill":
+            rid = int(req.get("monsterRid") or 0)
+            bestiary = (world.bestiary if world else None) or {}
+            return int(bestiary.get(rid, 0)) >= int(req.get("killCount", 1))
+        return False
+
+    def objective(self, quest_id, state, world):
+        """One-line objective for the tracker: '去找 Kael' / '收集 Bone 1/12'."""
+        stage = self.stage(quest_id, state)
+        if stage is None:
+            return ""
+        req = stage.get("req") or {}
+        kind = req.get("kind") or ""
+        if kind == "talk":
+            return f"去找 {req.get('talkNpc', '?')}"
+        if kind == "item":
+            inv = (world.inventory if world else None) or {}
+            parts = []
+            for it in req.get("items") or []:
+                have = int(inv.get(int(it["id"]), 0))
+                parts.append(f"{item_name(it['id'])} {have}/{int(it.get('count', 1))}")
+            return "收集 " + "，".join(parts)
+        if kind == "kill":
+            rid = int(req.get("monsterRid") or 0)
+            bestiary = (world.bestiary if world else None) or {}
+            have = int(bestiary.get(rid, 0))
+            return f"击杀 {req.get('monster', '?')} {have}/{int(req.get('killCount', 1))}"
+        return "回去复命"
+
+    def reward_text(self, quest_id):
+        q = self.get(quest_id)
+        if not q:
+            return ""
+        parts = []
+        for st in q.get("stages") or []:
+            r = st.get("reward") or {}
+            if r.get("exp"):
+                parts.append(f"{int(r['exp'])} EXP")
+            if r.get("gp"):
+                parts.append(f"{int(r['gp'])} GP")
+            for it in r.get("items") or []:
+                parts.append(f"{item_name(it['id'])} x{int(it.get('count', 1))}")
+        if not parts:
+            return "无"
+        return "，".join(parts)
 
 
 # ActorCommons.Slot names, indexed by slot number. The equipment Dictionary the

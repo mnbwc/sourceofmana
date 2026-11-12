@@ -1,0 +1,638 @@
+{
+  "quests": [
+    {
+      "id": 544114070,
+      "name": "Water for the Road",
+      "description": "吉尔伽美什随身带的 Water Bottle。",
+      "giver": "Gilgames",
+      "repeatable": true,
+      "hidden": true,
+      "stages": [
+        {
+          "text": "吉尔伽美什：远行的人都需要水。拿一瓶 Water Bottle 吧。",
+          "auto": true,
+          "req": {
+            "kind": ""
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0,
+            "items": [
+              {
+                "id": 3288439794,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 647884116,
+      "name": "Snake Pit Thief",
+      "description": "Investigate a hidden bedroom deep within the Snake Pit, uncover the fate of a Tulimshar thief, solve his riddle, and recover the treasure he never reclaimed.",
+      "giver": "Snake Pit Clue",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "（一张皱巴巴的纸条：'蛇坑深处，盗贼把抢来的东西全藏进了宝箱。'）",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Thiefs Chest"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 200,
+            "karma": 0,
+            "items": [
+              {
+                "id": 841480588,
+                "count": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 665326971,
+      "name": "Splatyna's Offering",
+      "description": "Bicies waits at the cave entrance, obsessed with a giant slime named Splatyna. He says she loves gold and keeps the corruption away.",
+      "giver": "Bicies",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "比西斯：史莱普蒂娜大人就在前面的洞里。带上你的敬意去见她吧。",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Splatyna"
+          },
+          "reward": {
+            "exp": 100,
+            "gp": 200,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 826825219,
+      "name": "Mine Exploration",
+      "description": "Scout the Sandstorm Mines and ensure the cave system is clear of major dangers before the miners move in.",
+      "giver": "Ekinu",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "艾基努：沙暴矿井深处最近有奇怪的动静。去和尼克os 谈谈，他昨天刚进去过。",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Nickos"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0
+          }
+        },
+        {
+          "text": "尼科斯：我在深处看到了一棵……会发光的树？你去见见 Mana Tree 吧，就在矿井最深处。",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Mana Tree"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0
+          }
+        },
+        {
+          "text": "（魔力树的枝条轻轻摆动，仿佛在欢迎你。）它把一小团温润的魔力放进你的手心。",
+          "auto": true,
+          "req": {
+            "kind": ""
+          },
+          "reward": {
+            "exp": 200,
+            "gp": 300,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 909200016,
+      "name": "Bread for Nina",
+      "description": "面包师傅刚出炉的 Croissant。",
+      "giver": "Market Baker",
+      "repeatable": true,
+      "hidden": true,
+      "stages": [
+        {
+          "text": "面包师傅：刚出炉的 Croissant！来一个吗？",
+          "auto": true,
+          "req": {
+            "kind": ""
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0,
+            "items": [
+              {
+                "id": 30320795,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 1070913343,
+      "name": "An Old Friendship",
+      "description": "Frost, a man sitting on a bench in Tulimshar, asks you to retrieve old letters from the castle corridor. Stay in the shadows to avoid the guards.",
+      "giver": "Frost",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "弗罗斯特：我老了，没法再回城堡走廊拿回那些信了。帮我去找本，他就在西墙步道。",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Ben"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 1000,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 1083446768,
+      "name": "Sandstorm Mine Abandoned Treasure",
+      "description": "A rusty key lies hidden in the depths of the abandoned mine",
+      "giver": "Mine Key",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "（一把生锈的 Mine Key，匙柄上刻着：'废弃矿井的宝藏'。）拿去打开深处那个旧箱子吧。",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Abandoned Chest"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0,
+            "items": [
+              {
+                "id": 629184690,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 1180319673,
+      "name": "Tutorial",
+      "description": "Get settled in Tulimshar with Elanore's help.",
+      "giver": "Elanore",
+      "repeatable": false,
+      "hidden": false,
+      "starter": [
+        {
+          "id": 3288439794,
+          "count": 1
+        },
+        {
+          "id": 3589756736,
+          "count": 1
+        },
+        {
+          "id": 1837303590,
+          "count": 1
+        },
+        {
+          "id": 3507746760,
+          "count": 1
+        }
+      ],
+      "stages": [
+        {
+          "text": "艾拉诺：欢迎来到 Tulimshar，旅人。沙漠里危险重重，拿着这些补给——一瓶水、一颗糖，还有能换洗的衣裳。",
+          "auto": true,
+          "req": {
+            "kind": ""
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0
+          }
+        },
+        {
+          "text": "艾拉诺：守卫凯尔在东门附近巡逻。去找他吧，他会教你怎么在这地方活下来。",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Kael"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0
+          }
+        },
+        {
+          "text": "凯尔：艾拉诺把你派来了？很好。拿上这几件装备，别在沙漠里丢了小命。",
+          "textByNpc": {
+            "Kael": "凯尔：艾拉诺把你派来了？很好。拿上这几件装备，别在沙漠里丢了小命。"
+          },
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Ekinu"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0
+          }
+        },
+        {
+          "text": "艾基努：既然你已经准备好了，拿着这份酬劳，去闯你自己的路吧。",
+          "textByNpc": {
+            "Ekinu": "艾基努：凯尔跟我提过你。既然你已经准备好了，拿着这份酬劳，去闯你自己的路吧。"
+          },
+          "auto": true,
+          "req": {
+            "kind": ""
+          },
+          "reward": {
+            "exp": 20,
+            "gp": 50,
+            "karma": 0,
+            "items": [
+              {
+                "id": 586504915,
+                "count": 1
+              },
+              {
+                "id": 906139156,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 1931438535,
+      "name": "A Drop of Relief",
+      "description": "Nathan is stationed outside the Sandstorm Mines and suffering under the blazing heat. He doesn't need water to drink, just a bottle to pour over himself.",
+      "giver": "Nathan",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "内森：这鬼天气要把我烤干了……给我一瓶 Water Bottle 好吗？不用喝，浇在身上就行。",
+          "auto": false,
+          "req": {
+            "kind": "item",
+            "items": [
+              {
+                "id": 3288439794,
+                "count": 1
+              }
+            ]
+          },
+          "reward": {
+            "exp": 50,
+            "gp": 100,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 2192634378,
+      "name": "When the desert gives you sand...",
+      "description": "Eridu the glassmaker makes very useful glass bottles. He will exchange some bottles for salt, bones and sulphur powder gathered in the desert.",
+      "giver": "Eridu",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "埃里杜：沙漠把一切都变成了沙子。给我 12 份 Salt、12 根 Bone 和 12 份 Sulphur Powder，我教你酿 Bottle。",
+          "auto": false,
+          "req": {
+            "kind": "item",
+            "items": [
+              {
+                "id": 2089565689,
+                "count": 12
+              },
+              {
+                "id": 2088970057,
+                "count": 12
+              },
+              {
+                "id": 6159273,
+                "count": 12
+              }
+            ]
+          },
+          "reward": {
+            "exp": 100,
+            "gp": 0,
+            "karma": 0,
+            "items": [
+              {
+                "id": 2850928111,
+                "count": 3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 2409290506,
+      "name": "Veteran Cave Explorer",
+      "description": "For those who once walked these lands before the world was reborn.",
+      "giver": "Bicies",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "比西斯：洞穴深处的 Snake 最近越来越暴躁。替我清理掉 8 条，让过路人安全些。",
+          "auto": false,
+          "req": {
+            "kind": "kill",
+            "monster": "Snake",
+            "monsterRid": 1009,
+            "killCount": 8
+          },
+          "reward": {
+            "exp": 300,
+            "gp": 250,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 2427453213,
+      "name": "A Miner's Helping Hand",
+      "description": "Naem, one of the workers in the Sandstorm Mines, offered you a spare mining helmet to keep you safe as you venture deeper.",
+      "giver": "Naem",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "纳姆：你要下到矿井深处？带上这顶备用的 Miner Helmet，能保你一命。",
+          "auto": true,
+          "req": {
+            "kind": ""
+          },
+          "reward": {
+            "exp": 100,
+            "gp": 0,
+            "karma": 0,
+            "items": [
+              {
+                "id": 4201363071,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 2607006912,
+      "name": "Peter's Bounty",
+      "description": "A sailor aboard the ship is offering bounty contracts to clear rattos from the ship's hold.",
+      "giver": "Peter",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "彼得：船舱里的 Ratto 成灾了！帮我杀掉 5 只，酬劳少不了你的。",
+          "auto": false,
+          "req": {
+            "kind": "kill",
+            "monster": "Ratto",
+            "monsterRid": 1010,
+            "killCount": 5
+          },
+          "reward": {
+            "exp": 100,
+            "gp": 500,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 2646362849,
+      "name": "A Biting Thirst",
+      "description": "Mauro near a cave entrance tried to fetch water from a small pond inside, but some snakes bit him until he spilled and drank what little remained.",
+      "giver": "Mauro",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "毛罗：我在 Snake Pit 的池塘边被蛇咬了，水全洒了……能替我去 Water Point 打点水吗？",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Water Point"
+          },
+          "reward": {
+            "exp": 50,
+            "gp": 50,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 2893494389,
+      "name": "Grain in the desert",
+      "description": "Riskim the baker is waiting for a grain shipment marked with a blue Artis seal. Check the barrels at the docks.",
+      "giver": "Riskim",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "里斯基姆：我的面粉桶空了，可我不能离开摊位。替我去 Tulimshar 湾的 Flour Barrel 看看，带点面粉回来。",
+          "auto": false,
+          "req": {
+            "kind": "talk",
+            "talkNpc": "Flour Barrel"
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 150,
+            "karma": 0,
+            "items": [
+              {
+                "id": 2277661938,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 3098703797,
+      "name": "Nina's Snack",
+      "description": "Nina is hungry but too dedicated to leave her post. Find her a croissant from the market.",
+      "giver": "Nina",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "妮娜：我快饿扁了……能去市场给我买个 Croissant 吗？求你了。",
+          "auto": false,
+          "req": {
+            "kind": "item",
+            "items": [
+              {
+                "id": 30320795,
+                "count": 1
+              }
+            ]
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 100,
+            "karma": 0,
+            "items": [
+              {
+                "id": 3878004993,
+                "count": 10
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 3532436717,
+      "name": "Desert Seed",
+      "description": "Deep in the Sandstorm Mines, you discovered a living Mana Tree and recovered its Kano, a rare Mana Seed.",
+      "giver": "Mana Tree",
+      "repeatable": true,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "（魔力树的意念在你脑海中响起：'把 3 个 Pitaya 带来，我便赠你一颗沙漠的种子。'）",
+          "auto": false,
+          "req": {
+            "kind": "item",
+            "items": [
+              {
+                "id": 3391687821,
+                "count": 3
+              }
+            ]
+          },
+          "reward": {
+            "exp": 100,
+            "gp": 150,
+            "karma": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 3984490417,
+      "name": "Elanore's Potions",
+      "description": "Elanore needs ingredients to brew healing potions. Bring her six Maggot Slimes, one Water and one Pitaya.",
+      "giver": "Elanore",
+      "repeatable": true,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "艾拉诺：我的药剂快用完了。帮我收集 6 个 Maggot Slime、1 个 Water Bottle 和 1 个 Pitaya，我就给你一瓶 Cactus Potion。",
+          "auto": false,
+          "req": {
+            "kind": "item",
+            "items": [
+              {
+                "id": 3136767230,
+                "count": 6
+              },
+              {
+                "id": 3288439794,
+                "count": 1
+              },
+              {
+                "id": 3391687821,
+                "count": 1
+              }
+            ]
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0,
+            "items": [
+              {
+                "id": 3878004993,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 4235969129,
+      "name": "Found a Chest in the Outskirts",
+      "description": "Found a chest in the Tulimshar eastern outskirts.",
+      "giver": "Chest",
+      "repeatable": false,
+      "hidden": false,
+      "stages": [
+        {
+          "text": "（一个被沙土半埋的 Chest，锁已经锈住了。你用力一掀——里面躺着一面 Desert Shield！）",
+          "auto": true,
+          "req": {
+            "kind": ""
+          },
+          "reward": {
+            "exp": 0,
+            "gp": 0,
+            "karma": 0,
+            "items": [
+              {
+                "id": 2831561157,
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

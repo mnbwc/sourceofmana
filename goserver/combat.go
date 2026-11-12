@@ -317,26 +317,45 @@ func (s *Server) killEntity(target *Entity) {
 	}
 }
 
+// npcDropTable resolves the drop table for a killed entity: the NPC's
+// explicit table (tools/export/drops.json) when it has one, otherwise the
+// generic Potion / GP roll.
+func (s *Server) npcDropTable(target *Entity) []npcDrop {
+	var npc *Npc
+	if target.NpcRID != 0 {
+		npc = s.npcs.get(target.NpcRID)
+	} else if target.CharID < 0 {
+		npc = s.npcByCharID(target.CharID)
+	}
+	if npc != nil && len(npc.Drops) > 0 {
+		out := make([]npcDrop, 0, len(npc.Drops)+1)
+		for _, d := range npc.Drops {
+			if d.chance > 0 && rand.Float64() < d.chance {
+				out = append(out, d)
+			}
+		}
+		if target.Level >= 3 {
+			out = append(out, npcDrop{itemID: 0, count: 5 + target.Level*2})
+		}
+		return out
+	}
+	drops := []npcDrop{{itemID: 1001, count: 1 + target.Level%3}} // Potion
+	if target.Level >= 3 {
+		drops = append(drops, npcDrop{itemID: 0, count: 5 + target.Level*2}) // GP bundle
+	}
+	return drops
+}
+
 // spawnNpcDrops mirrors MonsterAgent's drop roll: each NPC has a small chance
 // to drop a consumable or GP. Drops are ground entities that expire after
 // dropLifetime and can be picked up via PickupDrop.
+//
+// When the NPC has an explicit drop table (tools/export/drops.json: Maggot ->
+// Maggot Slime, Skeleton -> Bone, ...) it is rolled; otherwise the monster
+// falls back to the generic Potion / GP table.
 func (s *Server) spawnNpcDrops(target *Entity) {
-	// Simple deterministic drop table: NPCs always drop 1-2 items.
-	// Item IDs mirror items.go's itemCatalog (Potion=1001, Antidote=1002).
-	drops := []struct {
-		itemID int64
-		count  int64
-	}{
-		{1001, 1 + target.Level%3}, // Potion (stackable)
-	}
-	// Higher-level NPCs also drop GP (represented as item 0 = GP).
-	if target.Level >= 3 {
-		drops = append(drops, struct {
-			itemID int64
-			count  int64
-		}{0, 5 + target.Level*2}) // GP bundle
-	}
-	for _, d := range drops {
+	table := s.npcDropTable(target)
+	for _, d := range table {
 		// Scatter the drop slightly around the corpse.
 		offset := Vec2{
 			X: float32(int(target.Pos.X)%7) * 8,

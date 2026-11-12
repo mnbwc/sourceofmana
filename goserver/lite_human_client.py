@@ -72,6 +72,9 @@ except ImportError:
 from som_protocol import (
     EQUIP_SLOTS,
     ITEM_POTION,
+    QUEST_STATE_DONE,
+    QUEST_STATE_INACTIVE,
+    QuestCatalog,
     SKILL_MELEE,
     SoMClient,
     item_name,
@@ -390,6 +393,22 @@ class Application:
         self.dlg_window = None
         self.dlg_can_continue = False
 
+        # quest catalog / quest log state
+        qpath = self.args.quests or _default_quests_path()
+        self.quests = QuestCatalog(qpath if os.path.exists(qpath) else None)
+        if self.quests.loadable:
+            log.info("quest catalog: %d quests from %s",
+                     len(self.quests.quests), self.quests.path)
+        else:
+            log.warning("quest catalog: not loaded (looked at %s); "
+                        "quest log and NPC markers are disabled", qpath)
+        self.quest_log_window = None
+        self.quest_log_text = None
+        self.quest_log_filter = None
+        self._quest_tracker_sig = None
+        self._quest_active = []
+        self.cam_hold = None
+
         # optional AI arena state
         self.arena_window = None
         self.arena_episode = None
@@ -688,6 +707,23 @@ class Application:
             tk.Button(btnrow2, text=text, width=5, command=cmd, bg=BUTTON_BG,
                       fg=BUTTON_FG, relief="flat").pack(side="left", expand=True, padx=2)
 
+        # -- quests --
+        self._side_section(parent, "任务")
+        self.quest_list = tk.Listbox(parent, height=5, bg="#0a0e14", fg=TEXT,
+                                     relief="flat", highlightthickness=1,
+                                     highlightbackground=BORDER, highlightcolor=ACCENT,
+                                     selectbackground=ACCENT,
+                                     selectforeground="#06131f",
+                                     font=("TkFixedFont", 9))
+        self.quest_list.pack(fill="x", padx=10, pady=(0, 2))
+        qbtn = tk.Frame(parent, bg=PANEL)
+        qbtn.pack(fill="x", padx=10, pady=(0, 6))
+        for text, cmd in (("任务日志", self._show_quest_log),
+                          ("追踪目标", self._track_selected_quest)):
+            tk.Button(qbtn, text=text, command=cmd, bg=BUTTON_BG, fg=BUTTON_FG,
+                      relief="flat", font=("TkDefaultFont", 8)).pack(
+                          side="left", expand=True, padx=1)
+
         # -- auto-play --
         self._side_section(parent, "自动挂机")
         self.var_combat = tk.BooleanVar(value=False)
@@ -863,6 +899,240 @@ class Application:
             self.inv_list.insert(
                 "end", f"{item_name(item_id)} x{inv[item_id]}{tag}")
 
+    # -- quests -------------------------------------------------------------
+
+    def _update_quest_tracker(self):
+        """Rebuild the side-panel quest list when its inputs change.
+
+        The list shows every active quest plus a one-line objective (where to
+        go, or collection/kill progress), so the player always knows what to
+        do next without opening the log.
+        """
+        if not hasattr(self, "quest_list"):
+            return
+        world = self.client.world if self.client else None
+        if world is None:
+            return
+        states = world.quests or {}
+        sig = (tuple(sorted(states.items())),
+               tuple(sorted((world.inventory or {}).items())),
+               tuple(sorted((world.bestiary or {}).items())))
+        if sig == self._quest_tracker_sig:
+            return
+        self._quest_tracker_sig = sig
+
+        active = []
+        for qid in sorted(states):
+            try:
+                state = int(states.get(qid) or 0)
+            except (TypeError, ValueError):
+                continue
+            if state <= QUEST_STATE_INACTIVE or state >= QUEST_STATE_DONE:
+                continue
+            active.append((qid, state))
+        self._quest_active = active
+
+        self.quest_list.delete(0, "end")
+        if not active:
+            self.quest_list.insert("end", "（暂无进行中的任务）")
+        else:
+            for qid, state in active:
+                obj = self.quests.objective(qid, state, world)
+                self.quest_list.insert("end", f"{self.quests.name(qid)}  ·  {obj}")
+        # Keep the open quest log's progress lines live as items/kills change.
+        if self.quest_log_text is not None:
+            self._refresh_quest_log()
+
+    def _quest_markers(self, world):
+        """Map npc nick -> marker char for the world overlay.
+
+        '!' = the NPC offers a quest the player can still take.
+        '?' = the NPC is the current objective: either the person to talk to,
+              or the giver the finished stage can be handed in to.
+        """
+        markers = {}
+        if not self.quests.loadable:
+            return markers
+        states = world.quests or {}
+        for nick, qids in self.quests.by_giver.items():
+            for qid in qids:
+                q = self.quests.get(qid)
+                if q is None or q.get("hidden"):
+                    continue
+                try:
+                    state = int(states.get(qid, 0) or 0)
+                except (TypeError, ValueError):
+                    state = 0
+                if state <= QUEST_STATE_INACTIVE or (
+                        state >= QUEST_STATE_DONE and q.get("repeatable")):
+                    markers[nick] = "!"
+        for qid in states:
+            try:
+                state = int(states.get(qid) or 0)
+            except (TypeError, ValueError):
+                continue
+            if state <= QUEST_STATE_INACTIVE or state >= QUEST_STATE_DONE:
+                continue
+            q = self.quests.get(qid)
+            stage = self.quests.stage(qid, state)
+            if q is None or stage is None:
+                continue
+            req = stage.get("req") or {}
+            kind = req.get("kind") or ""
+            if kind == "talk":
+                npc = req.get("talkNpc")
+                if npc:
+                    markers[npc] = "?"
+            elif kind in ("item", "kill", ""):
+                giver = q.get("giver")
+                if giver and self.quests.stage_ready(qid, state, world):
+                    markers[giver] = "?"
+        return markers
+
+    def _track_selected_quest(self):
+        """Pan the camera to the selected quest's objective NPC."""
+        if self.client is None:
+            return
+        sel = self.quest_list.curselection()
+        if not sel or not self._quest_active:
+            self._append_log("请先在任务列表里选中一个任务", "WARNING")
+            return
+        idx = sel[0]
+        if idx >= len(self._quest_active):
+            return
+        qid, state = self._quest_active[idx]
+        world = self.client.world
+        q = self.quests.get(qid)
+        stage = self.quests.stage(qid, state)
+        if q is None or stage is None:
+            return
+        req = stage.get("req") or {}
+        nick = req.get("talkNpc") if req.get("kind") == "talk" else q.get("giver")
+        target = None
+        for npc in world.npcs.values():
+            if npc.get("name") == nick and npc.get("pos"):
+                target = npc
+                break
+        if target is None:
+            self._append_log(f"找不到目标 NPC：{nick}", "WARNING")
+            return
+        pos = target["pos"]
+        self.cam_hold = ((pos[0], pos[1]), time.time() + 4.0)
+        self._append_log(f"追踪 {self.quests.name(qid)}：前往 {nick} "
+                         f"({int(pos[0])},{int(pos[1])})", "INFO")
+
+    def _quest_for_dialog(self, author, text):
+        """The quest being offered or discussed at `author`, if we can tell."""
+        if not self.quests.loadable or not author or not text:
+            return None
+        for q in self.quests.for_npc(author):
+            for st in q.get("stages") or []:
+                if st.get("text") == text:
+                    return q
+                if (st.get("textByNpc") or {}).get(author) == text:
+                    return q
+        # Completion lines are wrapped as 【name】... rather than stage text.
+        if text.startswith("【") and "】" in text:
+            name = text[1:text.index("】")]
+            for q in self.quests.for_npc(author):
+                if q.get("name") == name:
+                    return q
+        return None
+
+    # -- quest log window ---------------------------------------------------
+
+    def _show_quest_log(self):
+        if self.quest_log_window is not None and self.quest_log_window.winfo_exists():
+            self.quest_log_window.lift()
+            self._refresh_quest_log()
+            return
+        win = tk.Toplevel(self.root)
+        self.quest_log_window = win
+        win.title("任务日志")
+        win.geometry("640x500")
+        win.configure(bg=BG)
+        win.protocol("WM_DELETE_WINDOW", self._close_quest_log)
+
+        bar = tk.Frame(win, bg=PANEL)
+        bar.pack(side="top", fill="x", padx=8, pady=8)
+        tk.Label(bar, text="显示：", fg=DIM, bg=PANEL,
+                 font=("TkDefaultFont", 9)).pack(side="left")
+        self.quest_log_filter = tk.StringVar(value="全部")
+        tk.OptionMenu(bar, self.quest_log_filter, "全部", "进行中", "已完成", "未接",
+                      command=lambda _: self._refresh_quest_log()).pack(side="left")
+        tk.Label(bar, text="金色 ! = 可接取    蓝色 ? = 可交付 / 该去找的 NPC",
+                 fg=DIM, bg=PANEL, font=("TkDefaultFont", 8)).pack(side="right")
+
+        txt = tk.Text(win, bg="#0a0e14", fg=TEXT, wrap="word", relief="flat",
+                      state="disabled", font=("TkFixedFont", 9), padx=10, pady=8)
+        txt.pack(side="top", fill="both", expand=True, padx=8, pady=(0, 8))
+        for tag, color in (("title", ACCENT), ("done", HP_OK), ("active", "#ffd27a"),
+                           ("idle", DIM), ("obj", TEXT)):
+            txt.tag_config(tag, foreground=color)
+        self.quest_log_text = txt
+        self._refresh_quest_log()
+
+    def _close_quest_log(self):
+        if self.quest_log_window is not None:
+            try:
+                self.quest_log_window.destroy()
+            except tk.TclError:
+                pass
+        self.quest_log_window = None
+        self.quest_log_text = None
+
+    def _refresh_quest_log(self):
+        txt = self.quest_log_text
+        if txt is None:
+            return
+        world = self.client.world if self.client else None
+        states = (world.quests if world else {}) or {}
+        filt = self.quest_log_filter.get() if self.quest_log_filter else "全部"
+
+        rows = []
+        if not self.quests.loadable:
+            rows.append(("未找到 quests.json，任务日志不可用。", "idle"))
+            rows.append((f"预期位置：{self.quests.path or '(未设置)'}", "idle"))
+        else:
+            for qid in sorted(self.quests.quests):
+                q = self.quests.quests[qid]
+                try:
+                    state = int(states.get(qid, 0) or 0)
+                except (TypeError, ValueError):
+                    state = 0
+                if state <= QUEST_STATE_INACTIVE:
+                    label, tag = "未接", "idle"
+                elif state >= QUEST_STATE_DONE:
+                    label, tag = "已完成", "done"
+                else:
+                    label, tag = f"阶段 {state}", "active"
+                if filt == "进行中" and tag != "active":
+                    continue
+                if filt == "已完成" and tag != "done":
+                    continue
+                if filt == "未接" and tag != "idle":
+                    continue
+                rows.append((f"{q.get('name') or f'任务 #{qid}'}  [{label}]", "title"))
+                if q.get("description"):
+                    rows.append((q["description"].strip(), "idle"))
+                rows.append((f"给予：{q.get('giver', '?')}    "
+                             f"奖励：{self.quests.reward_text(qid)}", "idle"))
+                stage = self.quests.stage(qid, state)
+                if stage is not None:
+                    rows.append((f"当前：{self.quests.objective(qid, state, world)}",
+                                 "obj"))
+                    if stage.get("text"):
+                        rows.append((stage["text"], "idle"))
+                if q.get("repeatable"):
+                    rows.append(("（可重复）", "idle"))
+                rows.append(("", "idle"))
+
+        txt.configure(state="normal")
+        txt.delete("1.0", "end")
+        for text, tag in rows:
+            txt.insert("end", text + "\n", tag)
+        txt.configure(state="disabled")
+
     def _equip_selected(self):
         if self.client is None:
             return
@@ -908,10 +1178,14 @@ class Application:
         d.protocol("WM_DELETE_WINDOW", self._close_dialog)
         d.withdraw()
 
+        self.dlg_quest = tk.StringVar(value="")
+        tk.Label(d, textvariable=self.dlg_quest, anchor="w", fg="#ffd27a",
+                 bg=PANEL, font=("TkDefaultFont", 9, "bold")).pack(
+                     fill="x", padx=12, pady=(10, 2))
         self.dlg_author = tk.StringVar(value="")
         tk.Label(d, textvariable=self.dlg_author, anchor="w", fg=ACCENT,
                  bg=PANEL, font=("TkDefaultFont", 11, "bold")).pack(
-                     fill="x", padx=12, pady=(10, 2))
+                     fill="x", padx=12, pady=(0, 2))
         self.dlg_text = tk.StringVar(value="")
         tk.Label(d, textvariable=self.dlg_text, anchor="w", fg=TEXT, bg=PANEL,
                  font=("TkDefaultFont", 10), wraplength=400,
@@ -1247,6 +1521,14 @@ class Application:
     def _update_camera(self):
         if self.client is None:
             return
+        if self.cam_hold:
+            pos, until = self.cam_hold
+            if time.time() > until:
+                self.cam_hold = None
+            else:
+                self.cam[0] += (pos[0] - self.cam[0]) * 0.18
+                self.cam[1] += (pos[1] - self.cam[1]) * 0.18
+                return
         pos = self.client.world.self_pos
         if pos:
             tx, ty = pos
@@ -1301,6 +1583,7 @@ class Application:
                               fill=DROP, outline="#7a6418")
 
         # npcs
+        markers = self._quest_markers(world) if self.quests.loadable else {}
         for pid, npc in world.npcs.items():
             pos = npc.get("pos")
             if not pos:
@@ -1324,6 +1607,13 @@ class Application:
                 cv.create_oval(sx - r - 4, sy - r - 4, sx + r + 4, sy + r + 4,
                                outline="#ffffff", width=1, dash=(3, 3))
             self._draw_label(sx, sy - r - 6, npc.get("name") or "?", TEXT, zoom)
+            marker = markers.get(npc.get("name"))
+            if marker:
+                color = "#ffd27a" if marker == "!" else "#7ae0ff"
+                cv.create_text(sx, sy - r - 6 - 12 * zoom, text=marker,
+                               fill=color,
+                               font=("TkDefaultFont", int(12 * min(1.4, zoom)), "bold"),
+                               anchor="s")
             hp, max_hp = npc.get("hp"), npc.get("max_hp")
             if hp is not None and max_hp:
                 self._draw_bar(sx, sy + r + 4, 36 * zoom, hp / max_hp)
@@ -1382,6 +1672,13 @@ class Application:
                 x2, y2 = self._world_to_screen(*eff["to"])
                 color = _lerp_color(eff.get("color", "#ffd27a"), "#0d1117", t)
                 cv.create_line(x1, y1, x2, y2, fill=color, width=2)
+
+        # quest marker legend (bottom-left), only when a catalog is loaded
+        if markers:
+            cv.create_text(10, h - 26, text="!  可接取任务", fill="#ffd27a",
+                           font=("TkDefaultFont", 9, "bold"), anchor="w")
+            cv.create_text(10, h - 12, text="?  可交付 / 该去找的 NPC", fill="#7ae0ff",
+                           font=("TkDefaultFont", 9, "bold"), anchor="w")
 
     def _draw_label(self, x, y, text, color, zoom):
         size = max(8, int(9 * min(1.4, zoom)))
@@ -1477,6 +1774,7 @@ class Application:
 
         self._update_target_frame()
         self._update_equipment()
+        self._update_quest_tracker()
 
     def _paint_bar_canvas(self, cv, w, h, value, max_value):
         cv.delete("all")
@@ -1665,19 +1963,34 @@ class Application:
         elif etype == "equipment" or etype == "inventory" or etype == "item_equiped":
             self._eq_sig = None  # force the next _update_equipment() to rebuild
         elif etype == "quest":
+            qid = ev.get("quest_id")
             state = ev.get("state")
-            state_text = {0: "未接", 1: "进行中", 2: "已完成"}.get(state, state)
-            self._append_log(f"任务 #{ev.get('quest_id')} 状态: {state_text}", "GOOD")
-        elif etype == "dialog":
+            state_text = self.quests.state_label(state)
+            name = self.quests.name(qid)
+            if int(state or 0) >= QUEST_STATE_DONE:
+                self._append_log(f"【{name}】任务完成！奖励："
+                                 f"{self.quests.reward_text(qid)}", "GOOD")
+            elif int(state or 0) > QUEST_STATE_INACTIVE:
+                self._append_log(f"【{name}】已接取（{state_text}）", "GOOD")
+            else:
+                self._append_log(f"【{name}】已放弃", "WARNING")
+            self._quest_tracker_sig = None
+            if self.quest_log_text is not None:
+                self._refresh_quest_log()
+        elif etype in ("dialog", "dialog_choice"):
             self._show_dialog()
-            self.dlg_author.set(ev.get("author") or "")
-            self.dlg_text.set(ev.get("text") or "")
-            self._set_dialog_choices([])
-            self.btn_dlg_next.configure(state="disabled")
-        elif etype == "dialog_choice":
-            self._show_dialog()
-            self._set_dialog_choices(ev.get("choices") or [])
-            self.btn_dlg_next.configure(state="disabled")
+            author = ev.get("author") or ""
+            text = ev.get("text") or ""
+            self.dlg_author.set(author)
+            self.dlg_text.set(text)
+            q = self._quest_for_dialog(author, text)
+            self.dlg_quest.set(f"任务：{q['name']}" if q else "")
+            if etype == "dialog":
+                self._set_dialog_choices([])
+                self.btn_dlg_next.configure(state="disabled")
+            else:
+                self._set_dialog_choices(ev.get("choices") or [])
+                self.btn_dlg_next.configure(state="disabled")
         elif etype == "dialog_continue":
             self._show_dialog()
             self.dlg_can_continue = True
@@ -1687,6 +2000,7 @@ class Application:
             if self.dlg_window is not None:
                 self.btn_dlg_next.configure(state="disabled")
                 self.dlg_window.withdraw()
+            self.dlg_quest.set("")
 
     def _append_log(self, text, tag="INFO"):
         if not hasattr(self, "log_text"):
@@ -1738,9 +2052,18 @@ def parse_args():
     parser.add_argument("--auto-play", action="store_true",
                         default=os.environ.get("SOM_AUTO_PLAY") == "1",
                         help="Enable auto-play at startup")
+    parser.add_argument("--quests",
+                        default=os.environ.get("SOM_QUESTS_JSON") or None,
+                        help="Path to quests.json (default: quests.json next to "
+                             "this script); the quest log/markers are disabled "
+                             "when the file is missing")
     parser.add_argument("--debug", action="store_true",
                         help="Enable debug logging")
     return parser.parse_args()
+
+
+def _default_quests_path():
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "quests.json")
 
 
 def main():

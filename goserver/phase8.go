@@ -433,14 +433,9 @@ func (s *Server) gmSpawn(cmd *gmCommand) bool {
 			count = n
 		}
 	}
-	// Find the NPC by name.
-	var npc *Npc
-	for _, n := range s.npcs.allNpcs() {
-		if strings.EqualFold(n.Nick, name) {
-			npc = n
-			break
-		}
-	}
+	// Find the NPC by name (lowest rid wins, so repeated monster names are
+	// deterministic).
+	npc := s.npcs.npcByNick(name)
 	if npc == nil {
 		s.commandFeedback(cmd.Client, fmt.Sprintf("NPC '%s' not found", name))
 		return true
@@ -565,15 +560,13 @@ func (s *Server) gmRecallNpc(cmd *gmCommand) bool {
 		s.commandFeedback(cmd.Client, "Usage: recallnpc <npc_name>")
 		return true
 	}
-	for _, e := range s.world.snapshot() {
-		if e.CharID < 0 && strings.EqualFold(e.Name, cmd.Args[0]) {
-			e.Pos = cmd.Caller.Pos
-			e.Vel = Vec2{}
-			e.Target = nil
-			s.notifyNeighbours(cmd.Caller, rpcFullUpdateEntity, fullUpdateArgs(e), true)
-			s.commandFeedback(cmd.Client, fmt.Sprintf("Recalled NPC '%s'", e.Name))
-			return true
-		}
+	if e := s.world.byName(cmd.Args[0]); e != nil && e.CharID < 0 {
+		e.Pos = cmd.Caller.Pos
+		e.Vel = Vec2{}
+		e.Target = nil
+		s.notifyNeighbours(cmd.Caller, rpcFullUpdateEntity, fullUpdateArgs(e), true)
+		s.commandFeedback(cmd.Client, fmt.Sprintf("Recalled NPC '%s'", e.Name))
+		return true
 	}
 	s.commandFeedback(cmd.Client, fmt.Sprintf("NPC '%s' not found", cmd.Args[0]))
 	return true
@@ -585,13 +578,11 @@ func (s *Server) gmDisableNpc(cmd *gmCommand) bool {
 		s.commandFeedback(cmd.Client, "Usage: disablenpc <npc_name>")
 		return true
 	}
-	for _, e := range s.world.snapshot() {
-		if e.CharID < 0 && strings.EqualFold(e.Name, cmd.Args[0]) {
-			s.world.remove(e.CharID)
-			s.broadcastToMap(e.MapID, rpcRemoveEntity, []Variant{NewInt(e.CharID)})
-			s.commandFeedback(cmd.Client, fmt.Sprintf("Disabled NPC '%s'", e.Name))
-			return true
-		}
+	if e := s.world.byName(cmd.Args[0]); e != nil && e.CharID < 0 {
+		s.world.remove(e.CharID)
+		s.broadcastToMap(e.MapID, rpcRemoveEntity, []Variant{NewInt(e.CharID)})
+		s.commandFeedback(cmd.Client, fmt.Sprintf("Disabled NPC '%s'", e.Name))
+		return true
 	}
 	s.commandFeedback(cmd.Client, fmt.Sprintf("NPC '%s' not found", cmd.Args[0]))
 	return true
@@ -794,7 +785,7 @@ func (s *Server) gmQuest(cmd *gmCommand) bool {
 		s.commandFeedback(cmd.Client, "Usage: quest <name> <state>")
 		return true
 	}
-	questID := hashString(cmd.Args[0])
+	questID := int64(djb2String(cmd.Args[0]))
 	state, err := strconv.ParseInt(cmd.Args[1], 10, 64)
 	if err != nil {
 		s.commandFeedback(cmd.Client, fmt.Sprintf("Invalid state '%s'", cmd.Args[1]))
@@ -813,7 +804,12 @@ func (s *Server) gmBestiary(cmd *gmCommand) bool {
 		s.commandFeedback(cmd.Client, "Usage: bestiary <name> <count>")
 		return true
 	}
-	mobID := hashString(cmd.Args[0])
+	// Bestiary keys are NPC rids (see trackKill), so resolve the nick to the
+	// real rid when the roster knows it and fall back to djb2 otherwise.
+	mobID := int64(djb2String(cmd.Args[0]))
+	if npc := s.npcs.npcByNick(cmd.Args[0]); npc != nil {
+		mobID = npc.RID
+	}
 	count, err := strconv.ParseInt(cmd.Args[1], 10, 64)
 	if err != nil {
 		s.commandFeedback(cmd.Client, fmt.Sprintf("Invalid count '%s'", cmd.Args[1]))
@@ -832,7 +828,7 @@ func (s *Server) gmItem(cmd *gmCommand) bool {
 		s.commandFeedback(cmd.Client, "Usage: item <name> <count> <custom>")
 		return true
 	}
-	itemID := hashString(cmd.Args[0])
+	itemID := int64(djb2String(cmd.Args[0]))
 	count, err := strconv.ParseInt(cmd.Args[1], 10, 64)
 	if err != nil {
 		s.commandFeedback(cmd.Client, fmt.Sprintf("Invalid count '%s'", cmd.Args[1]))
@@ -880,7 +876,7 @@ func (s *Server) gmSkill(cmd *gmCommand) bool {
 		s.commandFeedback(cmd.Client, "Usage: skill <name> <level>")
 		return true
 	}
-	skillID := hashString(cmd.Args[0])
+	skillID := int64(djb2String(cmd.Args[0]))
 	level, err := strconv.ParseInt(cmd.Args[1], 10, 64)
 	if err != nil {
 		s.commandFeedback(cmd.Client, fmt.Sprintf("Invalid level '%s'", cmd.Args[1]))
@@ -1130,18 +1126,6 @@ func (s *Server) gmQuery(cmd *gmCommand) bool {
 func (s *Server) gmDeploy(cmd *gmCommand) bool {
 	s.commandFeedback(cmd.Client, "Deploy is not available in this environment")
 	return true
-}
-
-// hashString is a simple string hash (mirrors Godot's String.hash()).
-func hashString(s string) int64 {
-	var h int64 = 0
-	for _, c := range s {
-		h = h*31 + int64(c)
-	}
-	if h < 0 {
-		h = -h
-	}
-	return h
 }
 
 // randInt returns a pseudo-random int in [0, n).

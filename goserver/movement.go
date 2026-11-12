@@ -98,17 +98,33 @@ func (w *world) get(charID int64) *Entity {
 	return w.entities[charID]
 }
 
-// byName returns the first entity with the given name (players are unique by
-// name in SoM). Used by party invite/kick/promote which resolve by nickname.
+// entityRID is the shared namespace behind byName/npcByNick: players use their
+// positive CharID, NPCs use the negated CharID stored in the world.
+func entityRID(e *Entity) int64 {
+	if e.CharID < 0 {
+		return -e.CharID
+	}
+	return e.CharID
+}
+
+// byName returns the entity with the given name (players are unique by name in
+// SoM). Used by party invite/kick/promote which resolve by nickname. NPC names
+// are not unique -- the roster holds several "Maggot" entries -- so the match
+// with the lowest rid wins, keeping GM commands deterministic and aligned with
+// npcByNick.
 func (w *world) byName(name string) *Entity {
 	w.mu.Lock()
 	defer w.mu.Unlock()
+	var found *Entity
 	for _, e := range w.entities {
-		if e.Name == name {
-			return e
+		if e.Name != name {
+			continue
+		}
+		if found == nil || entityRID(e) < entityRID(found) {
+			found = e
 		}
 	}
-	return nil
+	return found
 }
 
 func (w *world) snapshot() []*Entity {

@@ -97,13 +97,19 @@ func loadItemCatalogFromJSON(path string) (int, error) {
 	}
 	n := 0
 	for _, e := range entries {
-		if e.ID == 0 || e.Name == "" {
+		if e.Name == "" {
 			continue
+		}
+		id := e.ID
+		if id == 0 {
+			// The export leaves id=0 for entries whose preset has no numeric
+			// key; SoM addresses those by String.hash() of the name.
+			id = int64(djb2String(e.Name))
 		}
 		// Keep the unsigned key: the client normalises with & 0xFFFFFFFF and
 		// the wire carries int64 for values above MaxInt32.
-		itemCatalog[e.ID] = &itemDef{
-			ID:        e.ID,
+		itemCatalog[id] = &itemDef{
+			ID:        id,
 			Name:      e.Name,
 			Slot:      e.Slot,
 			Stackable: e.Stackable,
