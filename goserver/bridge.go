@@ -613,7 +613,7 @@ func (b *Bridge) opApplyAction(req map[string]interface{}) string {
 			beforeHealth: beforeHealth, targetRID: rid,
 			startedAt: time.Now(), pendingExists: true,
 		})
-		s.applyDamage(e, target, attackDamageFor(skill, e, target), altHit, skill)
+		s.applyDamage(e, target, s.attackDamageFor(skill, e, target), altHit, skill)
 		// Emit bridge events mirroring SoM's signal hooks.
 		if target.Health < beforeHealth {
 			b.pushEvent(peerID, "damaged", map[string]interface{}{
@@ -1082,16 +1082,17 @@ func skillRangeFor(skillID int64) int64 {
 }
 
 // attackDamageFor computes a deterministic damage value for a bridge attack.
-// It mirrors computeDamage's shape (attack + level - defense, 0.9-1.0 roll)
-// but is deterministic so tests can rely on the result.
-func attackDamageFor(skillID int64, agent, target *Entity) int64 {
+// It mirrors computeDamage's shape (attack + level - defense, no RNG roll) but
+// is deterministic so tests can rely on the result. Equipment modifiers are
+// included so bridge attacks and RPC attacks hit just as hard.
+func (s *Server) attackDamageFor(skillID int64, agent, target *Entity) int64 {
 	profile, ok := skillTable[skillID]
 	if !ok {
 		// Unknown skill: fall back to a small flat hit.
 		return 5
 	}
-	attack := profile.Attack + agent.Level
-	defense := target.Level / 2
+	attack := profile.Attack + agent.Level + s.equipmentAttackBonus(agent)
+	defense := target.Level/2 + s.equipmentDefenseBonus(target)
 	dmg := attack - defense
 	if dmg < 1 {
 		dmg = 1

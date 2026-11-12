@@ -34,10 +34,13 @@ func startArenaBridge(t *testing.T) (*bridgeConn, *Server, func()) {
 }
 
 // aliveMaggotIDs returns the world CharIDs of living arena monsters.
+// aliveMaggotIDs lists the alive monsters belonging to an arena episode.
+// Arena monsters use CharIDs <= -(arenaEntityIDBase+1); the seeded field
+// monsters (-1000..-1004) are excluded so the arena counts stay exact.
 func aliveMaggotIDs(s *Server) []int64 {
 	var ids []int64
 	for _, e := range s.world.snapshot() {
-		if e.Name == "Maggot" && e.Health > 0 {
+		if e.Name == "Maggot" && e.Health > 0 && e.CharID <= -arenaEntityIDBase {
 			ids = append(ids, e.CharID)
 		}
 	}

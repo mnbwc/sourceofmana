@@ -349,23 +349,28 @@ func TestWorldSyncLoopback(t *testing.T) {
 
 	// B's enter-world sequence (captured during connect): WarpPlayer,
 	// PreloadPlayer(self), FullUpdateEntity(self),
-	// PreloadPlayer+UpdateEntity for each of the 3 world entities (A + 2 seeded NPCs),
-	// PreloadEntity (2 seeded NPCs),
+	// PreloadPlayer+UpdateEntity for each of the other world entities
+	// (A + 2 villagers + 5 field monsters = 8),
+	// PreloadEntity for each seeded NPC/monster (7),
 	// RefreshProgress, RefreshInventory, RefreshEquipment,
 	// UpdatePublicStats, UpdatePrivateStats,
 	// 3 starter DropAdded pushes (potions near spawn),
 	// RefreshOnlineList.
 	wantOrder := []uint16{
 		rpcWarpPlayer, rpcPreloadPlayer, rpcFullUpdateEntity,
-		rpcPreloadPlayer, rpcUpdateEntity, // A (Wone)
-		rpcPreloadPlayer, rpcUpdateEntity, // NPC 1 (Elder)
-		rpcPreloadPlayer, rpcUpdateEntity, // NPC 2 (Merchant)
-		rpcPreloadEntity, rpcPreloadEntity,
+	}
+	for i := 0; i < 8; i++ {
+		wantOrder = append(wantOrder, rpcPreloadPlayer, rpcUpdateEntity)
+	}
+	for i := 0; i < 7; i++ {
+		wantOrder = append(wantOrder, rpcPreloadEntity)
+	}
+	wantOrder = append(wantOrder,
 		rpcRefreshProgress, rpcRefreshInventory,
 		rpcRefreshEquipment, rpcUpdatePublicStats, rpcUpdatePrivateStats,
 		rpcDropAdded, rpcDropAdded, rpcDropAdded,
 		rpcRefreshOnlineList,
-	}
+	)
 	if len(bPushes) != len(wantOrder) {
 		t.Fatalf("B enter pushes: want %d, got %d: %s", len(wantOrder), len(bPushes), pushNames(bPushes))
 	}

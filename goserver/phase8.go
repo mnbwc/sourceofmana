@@ -22,6 +22,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Phase-8 RPC nameIDs (Network.gd sorted indices).
@@ -41,7 +42,9 @@ type npcEntity struct {
 // Called once at server startup.
 func (s *Server) spawnNpcEntities() {
 	for _, npc := range s.npcs.allNpcs() {
-		// Use a negative CharID derived from the NPC RID.
+		// The world entity CharID is always -RID: it is the combat lookup key
+		// and the RID used by TargetAlteration/FullUpdateEntity broadcasts.
+		// (Clients derive the same key from the sign-adjusted PreloadEntity RID.)
 		charID := -npc.RID
 		e := &Entity{
 			CharID:    charID,
@@ -56,8 +59,62 @@ func (s *Server) spawnNpcEntities() {
 			NpcRID:    npc.RID,
 		}
 		s.world.add(e)
-		log.Printf("npc: spawned %s (rid=%d) as world entity charID=%d at (%.0f,%.0f)",
-			npc.Nick, npc.RID, charID, npc.Pos.X, npc.Pos.Y)
+		log.Printf("npc: spawned %s (rid=%d%s) as world entity charID=%d at (%.0f,%.0f)",
+			npc.Nick, npc.RID, hostilesuffix(npc), charID, npc.Pos.X, npc.Pos.Y)
+	}
+}
+
+// hostilesuffix marks hostile NPCs in the spawn log line.
+func hostilesuffix(npc *Npc) string {
+	if npc.Hostile {
+		return " hostile"
+	}
+	return ""
+}
+
+// ---- monster respawn ----
+
+// monsterRespawnDelay is how long a killed field monster stays dead.
+const monsterRespawnDelay = 20 * time.Second
+
+// monsterTick revives hostile NPCs whose respawn delay has elapsed. Without
+// this the starting field would be permanently empty after the first clear.
+func (s *Server) monsterTick() {
+	t := time.NewTicker(2 * time.Second)
+	defer t.Stop()
+	for range t.C {
+		s.respawnMonsters()
+	}
+}
+
+func (s *Server) respawnMonsters() {
+	now := time.Now()
+	for _, npc := range s.npcs.allNpcs() {
+		if !npc.Hostile {
+			continue
+		}
+		e := s.world.get(-npc.RID)
+		if e == nil || e.State != stateDeath {
+			continue
+		}
+		if now.Sub(e.DeadAt) < monsterRespawnDelay {
+			continue
+		}
+		e.State = stateIdle
+		e.Health = npc.Health
+		e.MaxHealth = npc.MaxHealth
+		e.Pos = npc.Pos
+		e.Vel = Vec2{}
+		e.Target = nil
+		log.Printf("npc: %s (rid=%d) respawned at (%.0f,%.0f)",
+			npc.Nick, npc.RID, e.Pos.X, e.Pos.Y)
+		// Re-announce the monster: PreloadEntity so clients that dropped the
+		// entry re-create it, then UpdateEntity for the position.
+		s.broadcastToMap(e.MapID, rpcPreloadEntity, []Variant{
+			NewInt(npc.preloadRID()), NewInt(actorTypeNPC), NewInt(npc.Shape),
+			NewString(npc.Nick), NewInt(npc.DefaultState),
+		})
+		s.broadcastToMap(e.MapID, rpcUpdateEntity, updateEntityArgs(e))
 	}
 }
 

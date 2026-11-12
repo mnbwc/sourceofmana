@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 )
 
 // Phase-4 items/economy: inventory operations, attribute allocation,
@@ -45,6 +47,11 @@ type itemDef struct {
 	BuyPrice  int64
 	SellPrice int64
 	Weight    int64
+	// Attack and Defense come from the item's Modifier list in items.json
+	// (CellCommons.Modifier.ATTACK / .DEFENSE). They are applied by the combat
+	// formula so equipping a weapon actually changes how hard you hit.
+	Attack  int64
+	Defense int64
 }
 
 // itemCatalog is the seeded item database. Slots match ActorCommons.Slot:
@@ -57,6 +64,61 @@ var itemCatalog = map[int64]*itemDef{
 	1005: {ID: 1005, Name: "Wooden Shield", Slot: 7, Stackable: false, BuyPrice: 120, SellPrice: 60, Weight: 350},
 	1006: {ID: 1006, Name: "Cloth Boots", Slot: 2, Stackable: false, BuyPrice: 80, SellPrice: 40, Weight: 200},
 }
+
+// itemJSON mirrors one entry of tools/export/items.json (DB.ItemsDB).
+type itemJSON struct {
+	File       string             `json:"file"`
+	Category   string             `json:"category"`
+	ID         int64              `json:"id"`
+	Name       string             `json:"name"`
+	Slot       int64              `json:"slot"`
+	BuyPrice   int64              `json:"buyPrice"`
+	SellPrice  int64              `json:"sellPrice"`
+	Weight     float64            `json:"weight"`
+	Stackable  bool               `json:"stackable"`
+	Usable     bool               `json:"usable"`
+	Customfile string             `json:"customfield"`
+	Modifiers  map[string]float64 `json:"modifiers"`
+}
+
+// loadItemCatalogFromJSON merges DB.ItemsDB entries from an exported
+// tools/export/items.json into the catalog. The export uses the unsigned
+// 32-bit String.hash() as the item ID, so values above MaxInt32 are wrapped
+// to their signed form for the wire (Variant INT is 32-bit on the client).
+// Returns the number of entries loaded.
+func loadItemCatalogFromJSON(path string) (int, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return 0, err
+	}
+	var entries []itemJSON
+	if err := json.Unmarshal(data, &entries); err != nil {
+		return 0, err
+	}
+	n := 0
+	for _, e := range entries {
+		if e.ID == 0 || e.Name == "" {
+			continue
+		}
+		// Keep the unsigned key: the client normalises with & 0xFFFFFFFF and
+		// the wire carries int64 for values above MaxInt32.
+		itemCatalog[e.ID] = &itemDef{
+			ID:        e.ID,
+			Name:      e.Name,
+			Slot:      e.Slot,
+			Stackable: e.Stackable,
+			Usable:    e.Usable,
+			BuyPrice:  e.BuyPrice,
+			SellPrice: e.SellPrice,
+			Weight:    int64(e.Weight),
+			Attack:    int64(e.Modifiers["Attack"]),
+			Defense:   int64(e.Modifiers["Defense"]),
+		}
+		n++
+	}
+	return n, nil
+}
+
 
 // charBySession returns the character for a client's session, or nil.
 func (s *Server) charBySession(c *Client) *Character {

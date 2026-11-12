@@ -90,8 +90,10 @@ RPC_CREATE_CHARACTER = 26
 RPC_DROP_ADDED = 32
 RPC_DROP_REMOVED = 34
 RPC_EMOTE = 35
+RPC_EQUIP_ITEM = 37
 RPC_FULL_UPDATE_ENTITY = 39
 RPC_ITEM_ADDED = 41
+RPC_ITEM_EQUIPED = 42
 RPC_ITEM_REMOVED = 43
 RPC_LEVEL_UP = 44
 RPC_LOGIN_WITH_PASSWORD = 45
@@ -115,8 +117,12 @@ RPC_TARGET_ALTERATION = 79
 RPC_THROW_PROJECTILE = 80
 RPC_TOGGLE_CONTEXT = 81
 RPC_TRIGGER_CHAT = 90
+RPC_TRIGGER_CHOICE = 91
+RPC_TRIGGER_CLOSE_CONTEXT = 92
+RPC_TRIGGER_COMMAND = 93
 RPC_TRIGGER_EMOTE = 94
 RPC_TRIGGER_INTERACT = 96
+RPC_TRIGGER_NEXT_CONTEXT = 97
 RPC_TRIGGER_PARTY_ACCEPT = 98
 RPC_TRIGGER_RESPAWN = 104
 RPC_TRIGGER_SELECT = 105
@@ -131,6 +137,98 @@ RPC_UPDATE_QUEST = 115
 RPC_UPDATE_SKILL = 116
 RPC_USE_ITEM = 117
 RPC_WARP_PLAYER = 118
+
+# Item table mirrored from tools/export/items.json (SoM DB.ItemsDB). Item IDs
+# are the 32-bit String.hash() values Godot uses; keys are the unsigned form.
+# Slot follows ActorCommons.Slot: -1 = not equippable, 0 chest, 1 legs,
+# 2 feet, 3 hands, 4 head, 5 neck, 6 weapon, 7 shield.
+ITEM_DEFINITIONS = {
+    30320795: {"name": 'Croissant', "slot": -1},
+    162120794: {"name": 'Leather Gloves', "slot": 3},
+    215387671: {"name": 'Apple', "slot": -1},
+    585424461: {"name": 'Desert Armor', "slot": 0},
+    586504915: {"name": 'Desert Boots', "slot": 2},
+    626767907: {"name": 'Leather Shield', "slot": 7},
+    629184690: {"name": 'Piou Slayer', "slot": 6},
+    746948327: {"name": 'Cleaver', "slot": 6},
+    841480588: {"name": 'Snake Skin', "slot": -1},
+    878238790: {"name": 'Tank Top', "slot": 0},
+    906139156: {"name": 'Desert Goggles', "slot": 4},
+    1038638386: {"name": 'Jean Chaps', "slot": 1},
+    1412353772: {"name": 'Trousers', "slot": 1},
+    1416971591: {"name": 'V-Neck Tee', "slot": 0},
+    1500003666: {"name": 'Leather Armbands', "slot": 3},
+    1577372888: {"name": "Thief's Key", "slot": 11},
+    1613203406: {"name": 'Gladius', "slot": 6},
+    1633134452: {"name": 'Desert Armbands', "slot": 3},
+    1701922818: {"name": 'Cloud Pants', "slot": 1},
+    1757255399: {"name": 'Daim Boots', "slot": 2},
+    1837303590: {"name": 'Cotton Shirt', "slot": 0},
+    1956972377: {"name": 'Bandana Scarf', "slot": 5},
+    1975170517: {"name": "Marvin's Key", "slot": -1},
+    2082846080: {"name": 'Gold Bracelets', "slot": 3},
+    2089150048: {"name": 'Gown', "slot": 0},
+    2445605769: {"name": 'Tonori Crown', "slot": 4},
+    2470831870: {"name": 'Desert Jacket', "slot": 0},
+    2687533109: {"name": 'Guard Cloud Pants', "slot": 1},
+    2739365196: {"name": 'Crop Top', "slot": 0},
+    2754674049: {"name": 'Raw Wood Shield', "slot": 7},
+    2831561157: {"name": 'Desert Shield', "slot": 7},
+    2850928111: {"name": 'Bottle', "slot": -1},
+    2961268734: {"name": "Gabriel's Key", "slot": -1},
+    3038339760: {"name": 'Ghutra', "slot": 4},
+    3056796356: {"name": 'Short Sword', "slot": 6},
+    3136767230: {"name": 'Maggot Slime', "slot": -1},
+    3151885029: {"name": "Dorian's Key", "slot": -1},
+    3230422613: {"name": 'Letter', "slot": 11},
+    3288439794: {"name": 'Water Bottle', "slot": -1},
+    3383004529: {"name": 'Leather Boots', "slot": 2},
+    3391687821: {"name": 'Pitaya', "slot": -1},
+    3399103216: {"name": 'Leather Pants', "slot": 1},
+    3402907028: {"name": 'Leather Shirt', "slot": 0},
+    3411966351: {"name": 'Silver Bracelets', "slot": 3},
+    3507746760: {"name": 'Shorts', "slot": 1},
+    3532052630: {"name": 'Desert Hood', "slot": 4},
+    3589756736: {"name": 'Cactus Sour Candy', "slot": -1},
+    3601757377: {"name": 'Scimitar', "slot": 6},
+    3690476111: {"name": 'Funky Hat', "slot": 4},
+    3712119489: {"name": 'Rock Knife', "slot": 6},
+    3877745440: {"name": 'Cactus Drink', "slot": -1},
+    3878004993: {"name": 'Cactus Potion', "slot": -1},
+    4119861718: {"name": 'Bone Knife', "slot": 6},
+}
+
+
+def item_name(item_id):
+    """Best-effort display name for an item ID (handles signed/unsigned)."""
+    key = int(item_id) & 0xFFFFFFFF
+    entry = ITEM_DEFINITIONS.get(key)
+    return entry["name"] if entry else f"Item {key}"
+
+
+def item_slot(item_id):
+    """Equipment slot for an item ID, or -1 when it cannot be equipped."""
+    key = int(item_id) & 0xFFFFFFFF
+    entry = ITEM_DEFINITIONS.get(key)
+    return entry["slot"] if entry else -1
+
+
+# ActorCommons.Slot names, indexed by slot number. The equipment Dictionary the
+# server sends uses these names as keys.
+SLOT_NAMES = {
+    0: "chest",
+    1: "legs",
+    2: "feet",
+    3: "hands",
+    4: "head",
+    5: "neck",
+    6: "weapon",
+    7: "shield",
+    11: "quest",
+}
+
+# Ordered slot list for the equipment bar UI.
+EQUIP_SLOTS = ["head", "neck", "chest", "hands", "weapon", "shield", "legs", "feet"]
 
 # Chat channels (SoM ChatCommons)
 CHAT_LOCAL = "local"
@@ -378,7 +476,10 @@ def parse_variant(buf: bytes):
         return struct.unpack_from("<q", buf, 1)[0], 9
     if t == FLOAT:
         # Non-int/float variants use the full 4-byte header; the server's
-        # encodeAndCompressVariant only shortens BOOL/INT.
+        # encodeAndCompressVariant only shortens BOOL/INT. The 64-bit flag
+        # lives in bit 16 of that header (headerDataFlag64).
+        if struct.unpack_from("<I", buf, 0)[0] & (1 << 16):
+            return struct.unpack_from("<d", buf, 4)[0], 12
         return struct.unpack_from("<f", buf, 4)[0], 8
     if t == VECTOR2:
         x = struct.unpack_from("<f", buf, 4)[0]
@@ -427,12 +528,18 @@ def parse_variant(buf: bytes):
 def parse_variant_uncompressed(buf: bytes):
     if len(buf) < 4:
         raise ValueError("buffer too small for variant header")
-    t = struct.unpack_from("<I", buf, 0)[0] & 0xFF
+    raw = struct.unpack_from("<I", buf, 0)[0]
+    t = raw & 0xFF
+    is64 = bool(raw & (1 << 16))
     if t == BOOL:
         return bool(struct.unpack_from("<I", buf, 4)[0]), 8
     if t == INT:
+        if is64:
+            return struct.unpack_from("<q", buf, 4)[0], 12
         return struct.unpack_from("<i", buf, 4)[0], 8
     if t == FLOAT:
+        if is64:
+            return struct.unpack_from("<d", buf, 4)[0], 12
         return struct.unpack_from("<f", buf, 4)[0], 8
     if t == VECTOR2:
         x = struct.unpack_from("<f", buf, 4)[0]
@@ -519,6 +626,7 @@ class WorldState:
         self.self_karma = 0
         self.map_id = 0
         self.inventory = {}       # item_id -> count
+        self.equipment = {}        # slot name -> {"item_id": int, "customfield": str}
         self.skills = {}          # skill_id -> level
         self.quests = {}
         self.bestiary = {}
@@ -578,7 +686,9 @@ class WorldState:
             elif name_id == RPC_REFRESH_INVENTORY:
                 self._handle_refresh_inventory(args)
             elif name_id == RPC_REFRESH_EQUIPMENT:
-                pass  # equipment is cosmetic; the lite client does not render it
+                self._handle_refresh_equipment(args)
+            elif name_id == RPC_ITEM_EQUIPED:
+                self._handle_item_equiped(args)
             elif name_id == RPC_REFRESH_ONLINE_LIST:
                 self._handle_refresh_online_list(args)
             elif name_id == RPC_ADD_ONLINE_PLAYER:
@@ -597,6 +707,10 @@ class WorldState:
                 self._handle_context_text(args)
             elif name_id == RPC_CONTEXT_CHOICE:
                 self._handle_context_choice(args)
+            elif name_id == RPC_CONTEXT_CONTINUE:
+                self._handle_context_continue(args)
+            elif name_id == RPC_CONTEXT_CLOSE:
+                self._handle_context_close(args)
             elif name_id == RPC_COMMAND_FEEDBACK:
                 self._handle_command_feedback(args)
 
@@ -828,6 +942,75 @@ class WorldState:
                 if iid is not None:
                     inv[int(iid)] = inv.get(int(iid), 0) + int(cnt)
         self.inventory = inv
+        self._emit({"type": "inventory", "inventory": dict(inv)})
+
+    def _handle_refresh_equipment(self, args):
+        # RefreshEquipment: [charID, Dictionary{slot: itemID, slotCustom: str}]
+        # Slots (ActorCommons.Slot): chest, legs, feet, hands, head, neck,
+        # weapon, shield. An itemID of -1 (DB.UnknownHash) means empty.
+        d = None
+        for a in args:
+            if isinstance(a, dict):
+                d = a
+                break
+        if d is None:
+            return
+        eq = {}
+        for slot, val in d.items():
+            if slot.endswith("Custom"):
+                continue
+            item_id = val if isinstance(val, int) else -1
+            eq[slot] = {
+                "item_id": item_id,
+                "customfield": d.get(slot + "Custom", "") or "",
+            }
+        self.equipment = eq
+        self._emit({"type": "equipment", "equipment": dict(eq)})
+
+    def _handle_item_equiped(self, args):
+        # ItemEquiped: [charID, itemID, customfield, equipped(bool), itemIndex]
+        # The server sends this instead of a full RefreshEquipment, so apply it
+        # to the local state or the bar would never update.
+        if len(args) < 4:
+            return
+        item_id = args[1] if isinstance(args[1], int) else None
+        customfield = args[2] if isinstance(args[2], str) else ""
+        equipped = bool(args[3])
+        if item_id is None:
+            return
+        slot_idx = item_slot(item_id)
+        slot_name = SLOT_NAMES.get(slot_idx)
+        if slot_name is None:
+            slot_name = f"slot{slot_idx}" if slot_idx >= 0 else None
+        if slot_name is not None:
+            if equipped:
+                self.equipment[slot_name] = {
+                    "item_id": item_id, "customfield": customfield}
+            else:
+                self.equipment.pop(slot_name, None)
+        # Keep the inventory in sync: equipping consumes one copy, unequipping
+        # returns it. The server only pushes ItemEquiped, not RefreshInventory.
+        inv = dict(self.inventory)
+        changed = False
+        if equipped:
+            if inv.get(item_id, 0) > 0:
+                inv[item_id] -= 1
+                if inv[item_id] <= 0:
+                    inv.pop(item_id, None)
+                changed = True
+        else:
+            inv[item_id] = inv.get(item_id, 0) + 1
+            changed = True
+        if changed:
+            self.inventory = inv
+            self._emit({"type": "inventory", "inventory": dict(inv)})
+        self._emit({
+            "type": "item_equiped",
+            "item_id": item_id,
+            "customfield": customfield,
+            "equipped": equipped,
+            "equipment": dict(self.equipment),
+        })
 
     # -- combat handlers ----------------------------------------------------
 
@@ -991,6 +1174,14 @@ class WorldState:
         # ContextChoice: [Array[String]]
         choices = args[0] if args and isinstance(args[0], list) else []
         self._emit({"type": "dialog_choice", "choices": list(choices)})
+
+    def _handle_context_continue(self, args):
+        # ContextContinue: the dialogue has another step to read.
+        self._emit({"type": "dialog_continue"})
+
+    def _handle_context_close(self, args):
+        # ContextClose: the server closed the dialogue window.
+        self._emit({"type": "dialog_close"})
 
     # -- online list / progress handlers ------------------------------------
 
@@ -1431,9 +1622,33 @@ class SoMClient:
         """UseItem(itemID) — e.g. ITEM_POTION."""
         await self.send_rpc_async(RPC_USE_ITEM, [int(item_id)])
 
+    async def equip_item(self, item_id, customfield="", item_index=0):
+        """EquipItem(itemID, customfield, itemIndex) — move an inventory item
+        into its equipment slot."""
+        await self.send_rpc_async(
+            RPC_EQUIP_ITEM, [int(item_id), customfield, int(item_index)])
+
+    async def unequip_item(self, item_id, customfield=""):
+        """UnequipItem(itemID, customfield) — return an equipped item to the
+        inventory."""
+        await self.send_rpc_async(
+            RPC_UNEQUIP_ITEM, [int(item_id), customfield])
+
     async def interact(self, target_rid):
         """TriggerInteract(targetRID) — talk to an NPC."""
         await self.send_rpc_async(RPC_TRIGGER_INTERACT, [int(target_rid)])
+
+    async def trigger_choice(self, choice_id):
+        """TriggerChoice(id) — pick a dialogue option."""
+        await self.send_rpc_async(RPC_TRIGGER_CHOICE, [int(choice_id)])
+
+    async def trigger_next_context(self):
+        """TriggerNextContext — advance one dialogue step."""
+        await self.send_rpc_async(RPC_TRIGGER_NEXT_CONTEXT, [])
+
+    async def trigger_close_context(self):
+        """TriggerCloseContext — close the dialogue window."""
+        await self.send_rpc_async(RPC_TRIGGER_CLOSE_CONTEXT, [])
 
     async def select_target(self, target_rid):
         """TriggerSelect(agentRID) — ask the server for full stats of a target."""
@@ -1448,6 +1663,19 @@ class SoMClient:
     async def chat(self, channel, text):
         """TriggerChat(channelName, text)."""
         await self.send_rpc_async(RPC_TRIGGER_CHAT, [str(channel), str(text)])
+
+    async def command(self, text):
+        """TriggerCommand(command) — e.g. "/arena start tutorial_maggot".
+
+        Commands are how the human client drives server-side features that the
+        AgentBridge would otherwise own (the bridge stays localhost-only).
+        A leading "/" is stripped, exactly like the official Chat.gd does
+        (TrimPrefix("/")) before calling Network.TriggerCommand.
+        """
+        cmd = str(text)
+        if cmd.startswith("/"):
+            cmd = cmd[1:]
+        await self.send_rpc_async(RPC_TRIGGER_COMMAND, [cmd])
 
     # -- auto-play ----------------------------------------------------------
 

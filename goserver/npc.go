@@ -50,6 +50,10 @@ type Npc struct {
 	MapID        int
 	DefaultState int64
 	QuestID      int64 // quest this NPC gives (0 = none)
+	// Hostile marks a monster rather than a friendly villager. Hostile NPCs use
+	// a negative CharID so clients render them as enemies, and they respawn
+	// after being killed.
+	Hostile bool
 	// Public stats (mirror BaseAgent.stat, used by TriggerSelect).
 	Level     int64
 	Health    int64
@@ -150,6 +154,66 @@ func (w *npcWorld) seedDefault() {
 		Level: 3, Health: 80, MaxHealth: 80, Hairstyle: 2, Haircolor: 4,
 		Gender: 1, Race: 1, Skintone: 2,
 	}
+	w.seedFieldMonsters()
+}
+
+// monsterRIDBase keeps monster RIDs clear of the friendly NPC RIDs (1, 2).
+const monsterRIDBase int64 = 1000
+
+// fieldMonsterSpec is one monster placed in the starting field.
+type fieldMonsterSpec struct {
+	nick   string
+	pos    Vec2
+	level  int64
+	health int64
+	shape  int64
+}
+
+// fieldMonsters mirrors the low-level creatures around the SoM starting area
+// (tools/export/entities.json: Piou lvl 1 / 30 hp, Maggot lvl 1 / 50 hp).
+// They give the "normal game flow" something to fight after the Short Sword:
+// talk to the Elder, equip the knife, kill a few maggots.
+var fieldMonsters = []fieldMonsterSpec{
+	{nick: "Piou", pos: Vec2{210, 250}, level: 1, health: 30, shape: 201},
+	{nick: "Piou", pos: Vec2{260, 290}, level: 1, health: 30, shape: 201},
+	{nick: "Maggot", pos: Vec2{330, 250}, level: 1, health: 50, shape: 202},
+	{nick: "Maggot", pos: Vec2{380, 300}, level: 1, health: 50, shape: 202},
+	{nick: "Maggot", pos: Vec2{430, 240}, level: 2, health: 70, shape: 202},
+}
+
+// seedFieldMonsters adds the starting-field monsters to the NPC table. They
+// are Hostile, so they use a negative CharID and respawn after death.
+func (w *npcWorld) seedFieldMonsters() {
+	for i, spec := range fieldMonsters {
+		rid := monsterRIDBase + int64(i)
+		w.npcs[rid] = &Npc{
+			RID: rid, Nick: spec.nick, Shape: spec.shape, Pos: spec.pos,
+			MapID: spawnMap, DefaultState: actorStateIdle,
+			Hostile: true,
+			Level:   spec.level, Health: spec.health, MaxHealth: spec.health,
+			Hairstyle: 0, Haircolor: 0, Gender: 0, Race: 2, Skintone: 0,
+		}
+	}
+}
+
+// isHostile reports whether the NPC is a monster (negative CharID namespace).
+func (n *Npc) isHostile() bool {
+	return n != nil && n.Hostile
+}
+
+// preloadRID returns the agentRID to send in PreloadEntity / UpdatePublicStats.
+// Friendly NPCs keep their positive RID (clients treat positive RIDs as
+// villagers); hostile monsters use the negative namespace so clients render
+// them as enemies. Either way the client derives the world-entity key (-RID)
+// from this value, matching the entity's CharID.
+func (n *Npc) preloadRID() int64 {
+	if n == nil {
+		return 0
+	}
+	if n.Hostile {
+		return -n.RID
+	}
+	return n.RID
 }
 
 func (w *npcWorld) get(npcRID int64) *Npc {
@@ -442,6 +506,15 @@ func (s *Server) handleTriggerCommand(c *Client, rpc *ParsedRPC) {
 		s.handleTradeCommand(c, command)
 		return
 	}
+	// /arena start|status|stop runs the optional AI arena for the calling peer
+	// only. Routed through the game connection so the AgentBridge can stay
+	// bound to localhost on the server. Tolerate a leading "/" (Chat.gd strips
+	// it, but other clients may not).
+	if trimmed := strings.ToLower(strings.TrimPrefix(strings.TrimSpace(command), "/")); trimmed == "arena" ||
+		strings.HasPrefix(trimmed, "arena ") {
+		s.handleArenaCommand(c, command)
+		return
+	}
 	// Phase-8: dispatch to the GM command set.
 	if s.dispatchGMCommand(c, command) {
 		return
@@ -516,7 +589,7 @@ func (s *Server) pushRefreshProgress(c *Client, charID int64) {
 // NPC (agentRID, actorType, currentShape, nick, defaultState).
 func npcPublicStatsArgs(npc *Npc) []Variant {
 	return []Variant{
-		NewInt(npc.RID),          // agentRID
+		NewInt(npc.preloadRID()), // agentRID
 		NewInt(actorTypeNPC),     // actorType
 		NewInt(npc.Shape),        // currentShape
 		NewString(npc.Nick),      // nick
@@ -529,7 +602,7 @@ func npcPublicStatsArgs(npc *Npc) []Variant {
 // race, skintone, currentShape).
 func npcUpdatePublicStatsArgs(npc *Npc) []Variant {
 	return []Variant{
-		NewInt(npc.RID),
+		NewInt(npc.preloadRID()),
 		NewInt(npc.Level),
 		NewInt(npc.Health),
 		NewInt(npc.MaxHealth),

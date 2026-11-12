@@ -29,6 +29,7 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"strings"
 	"sync"
 	"time"
 )
@@ -412,6 +413,94 @@ func (a *arenaService) stop(peerID int) map[string]interface{} {
 	a.pushEpisodeEnd(peerID, ep, arenaStatusStopped, arenaEndStopped)
 	log.Printf("arena: peer %d stopped episode %s", peerID, episodeID)
 	return map[string]interface{}{"ok": true, "episodeId": episodeID, "status": arenaStatusStopped}
+}
+
+// handleArenaCommand implements the player-facing "/arena" command, which is
+// how the human client drives the optional arena. The AgentBridge stays bound
+// to localhost on the server, so the command is routed through the normal game
+// connection instead; it is self-scoped (the episode always belongs to the
+// calling peer) and therefore safe to expose to every player.
+//
+//	/arena start <template>   start an episode
+//	/arena status             show the current score
+//	/arena stop               end the episode and remove its monsters
+func (s *Server) handleArenaCommand(c *Client, command string) {
+	fields := strings.Fields(strings.TrimPrefix(strings.TrimSpace(command), "/"))
+	action := "status"
+	template := ""
+	if len(fields) > 1 {
+		action = strings.ToLower(fields[1])
+	}
+	if len(fields) > 2 {
+		template = fields[2]
+	}
+
+	nick := ""
+	if chr := s.store.findCharacterByID(c.session.charID); chr != nil {
+		nick = chr.Name
+	}
+
+	switch action {
+	case "start":
+		if template == "" {
+			s.commandFeedback(c, "Usage: /arena start <template> | status | stop")
+			return
+		}
+		res := s.bridge.arena.start(c.peerID, nick, template)
+		if res["ok"] != true {
+			code, _ := res["code"].(string)
+			detail, _ := res["detail"].(string)
+			msg := "Arena start failed: " + code
+			if detail != "" {
+				msg += " (" + detail + ")"
+			}
+			if known, ok := res["known"].([]string); ok && len(known) > 0 {
+				msg += " — known templates: " + strings.Join(known, ", ")
+			}
+			s.commandFeedback(c, msg)
+			return
+		}
+		brief, _ := res["brief"].(string)
+		s.commandFeedback(c, fmt.Sprintf("Arena started: %s — %s", res["template"], brief))
+	case "status":
+		ep := s.bridge.arena.status(c.peerID)
+		episode, _ := ep["episode"].(map[string]interface{})
+		if episode == nil {
+			s.commandFeedback(c, "Arena: no episode (use /arena start <template>).")
+			return
+		}
+		score, _ := episode["score"].(map[string]interface{})
+		tmpl, _ := episode["template"].(map[string]interface{})
+		if score == nil {
+			score = map[string]interface{}{}
+		}
+		if tmpl == nil {
+			tmpl = map[string]interface{}{}
+		}
+		s.commandFeedback(c, fmt.Sprintf(
+			"Arena %s: kills %v/%v, deaths %v, xp %v%s",
+			episode["status"], score["kills"], tmpl["killsRequired"],
+			score["deaths"], score["xpGained"], arenaEndSuffix(episode)))
+	case "stop":
+		res := s.bridge.arena.stop(c.peerID)
+		if res["ok"] != true {
+			code, _ := res["code"].(string)
+			s.commandFeedback(c, "Arena stop failed: "+code)
+			return
+		}
+		s.commandFeedback(c, "Arena stopped.")
+	default:
+		s.commandFeedback(c, "Usage: /arena start <template> | status | stop")
+	}
+}
+
+// arenaEndSuffix appends the end reason when an episode has finished.
+func arenaEndSuffix(episode map[string]interface{}) string {
+	reason, _ := episode["endReason"].(string)
+	if reason == "" {
+		return ""
+	}
+	return " (" + reason + ")"
 }
 
 // handleMonsterDeath processes the death of a world entity that may be an

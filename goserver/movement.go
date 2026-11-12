@@ -65,6 +65,9 @@ type Entity struct {
 	// NpcRID is the RID of the NPC this entity represents (0 for players).
 	// Used by Phase-8 bestiary tracking for spawned NPCs.
 	NpcRID int64
+	// DeadAt records when the entity entered the DEATH state, so field
+	// monsters can be respawned after a delay. Zero while alive.
+	DeadAt time.Time
 }
 
 // world holds all in-game entities keyed by charID.

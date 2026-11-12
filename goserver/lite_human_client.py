@@ -9,10 +9,17 @@ bot assistants):
   - Viewport: camera centered on the character, 100 px grid, zoom, click-to-move,
     click-a-monster-to-attack, HP bars, damage floaters, move marker.
   - Status panel: HP/MP bars, level/exp/GP/mana/stamina, position, map.
+  - Equipment bar: the 8 equipment slots plus the inventory, with 装备 / 使用 /
+    卸下 actions, so the starter Short Sword can be equipped before fighting.
+  - Dialogue window: NPC ContextText / ContextChoice / ContextContinue /
+    ContextClose, so the normal quest flow (talk to the Elder) works.
   - Target panel: selected target with 攻击 / 拾取 / 交互 / 复活 / 喝药 buttons.
   - Auto-play panel: 自动打怪 / 自动拾取 / 自动喝药 + potion threshold.
   - Stats panel: kills / loots / deaths / damage dealt.
   - Minimap, log window, chat input, screenshot button.
+  - Optional AI arena: a toolbar button that runs /arena start|status|stop on
+    the server. Off by default; the client boots straight into the normal game
+    world, and the arena never starts unless you ask for it.
 
 The asyncio protocol loop runs in a background thread; the tkinter UI runs on
 the main thread and polls a thread-safe event queue (client.poll_events()).
@@ -47,6 +54,7 @@ import logging
 import math
 import os
 import queue
+import re
 import sys
 import threading
 import time
@@ -55,19 +63,19 @@ try:
     import tkinter as tk
     from tkinter import filedialog, messagebox
 except ImportError:
-    print(
-        "错误：需要 tkinter 才能运行人类精简客户端。\n"
-        "  Debian/Ubuntu: sudo apt-get install python3-tk\n"
-        "  Alpine:        apk add tk\n"
-        "  Fedora:        sudo dnf install python3-tkinter",
-        file=sys.stderr,
-    )
-    sys.exit(1)
+    # Kept non-fatal at import time so the protocol/bridge helpers can be
+    # imported (and --help shown) on headless boxes. main() checks again.
+    tk = None
+    filedialog = None
+    messagebox = None
 
 from som_protocol import (
+    EQUIP_SLOTS,
     ITEM_POTION,
     SKILL_MELEE,
     SoMClient,
+    item_name,
+    item_slot,
 )
 
 logging.basicConfig(
@@ -143,6 +151,14 @@ class GuiLogHandler(logging.Handler):
 # ---------------------------------------------------------------------------
 # Client runner — owns the asyncio loop in a background thread
 # ---------------------------------------------------------------------------
+
+# Arena templates known to the Go server (arena.go). The client only offers
+# these; the server rejects anything else with UNKNOWN_TEMPLATE + "known".
+ARENA_TEMPLATES = (
+    ("tutorial_maggot", "教学：Maggot 3 杀 / 60 秒"),
+    ("grind_maggot", "刷怪：Maggot 5 杀 / 120 秒"),
+)
+
 
 class ClientRunner:
     """Runs the SoMClient asyncio loop off the UI thread.
@@ -286,6 +302,22 @@ class ClientRunner:
         if cmd == "use_item":
             await c.use_item(int(kwargs["item_id"]))
             return
+        if cmd == "equip":
+            await c.equip_item(int(kwargs["item_id"]),
+                               item_index=int(kwargs.get("item_index", 0)))
+            return
+        if cmd == "unequip":
+            await c.unequip_item(int(kwargs["item_id"]))
+            return
+        if cmd == "dialog_choice":
+            await c.trigger_choice(int(kwargs["choice"]))
+            return
+        if cmd == "dialog_next":
+            await c.trigger_next_context()
+            return
+        if cmd == "dialog_close":
+            await c.trigger_close_context()
+            return
         if cmd == "interact":
             await c.interact(int(kwargs["rid"]))
             return
@@ -300,6 +332,9 @@ class ClientRunner:
             return
         if cmd == "emote":
             await c.emote(int(kwargs.get("emote_id", 0)))
+            return
+        if cmd == "command":
+            await c.command(kwargs.get("text", ""))
             return
 
         log.warning(f"unknown runner command: {cmd}")
@@ -347,6 +382,19 @@ class Application:
         self.keys_pressed = set()
         self.log_lines = 0
 
+        # equipment / inventory panel state
+        self._eq_sig = None
+        self._inv_items = []
+
+        # dialogue window state
+        self.dlg_window = None
+        self.dlg_can_continue = False
+
+        # optional AI arena state
+        self.arena_window = None
+        self.arena_episode = None
+        self.arena_status_text = "未开启"
+
         self._show_login()
         self._main_ready = False
         self.root.after(50, self._tick)
@@ -386,6 +434,10 @@ class Application:
                                      activebackground="#6fb6ff", activeforeground="#06131f",
                                      relief="flat", font=("TkDefaultFont", 10, "bold"))
         self.btn_connect.grid(row=7, column=0, columnspan=2, pady=(6, 10))
+
+        tk.Label(f, text="默认进入正常游戏世界；AI 竞技场可在主界面【AI竞技场】按钮中手动开启",
+                 font=("TkDefaultFont", 8), fg=DIM, bg=BG, wraplength=360,
+                 justify="center").grid(row=9, column=0, columnspan=2, pady=(0, 4))
 
         self.login_status = tk.StringVar(value="")
         tk.Label(f, textvariable=self.login_status, font=("TkDefaultFont", 9),
@@ -461,6 +513,10 @@ class Application:
                   bg=BUTTON_BG, fg=BUTTON_FG, relief="flat").pack(side="right", padx=4)
         tk.Button(top, text="断开", command=self._disconnect,
                   bg=BUTTON_BG, fg=BUTTON_FG, relief="flat").pack(side="right", padx=4)
+        self.arena_label = tk.StringVar(value="AI竞技场: 未开启")
+        tk.Button(top, textvariable=self.arena_label, command=self._open_arena,
+                  bg=BUTTON_BG, fg=BUTTON_FG, relief="flat",
+                  font=("TkDefaultFont", 9)).pack(side="right", padx=4)
 
         # middle
         middle = tk.Frame(root, bg=BG)
@@ -479,7 +535,39 @@ class Application:
         side = tk.Frame(middle, bg=PANEL, width=270)
         side.pack(side="right", fill="y")
         side.pack_propagate(False)
-        self._build_side_panel(side)
+        # The panel holds more than one screenful (status, equipment, target,
+        # auto-play, stats, minimap), so it scrolls vertically.
+        side_canvas = tk.Canvas(side, bg=PANEL, highlightthickness=0)
+        side_canvas.pack(side="left", fill="both", expand=True)
+        side_scroll = tk.Scrollbar(side, orient="vertical",
+                                   command=side_canvas.yview,
+                                   bg=BUTTON_BG, troughcolor=PANEL,
+                                   relief="flat", width=10)
+        side_scroll.pack(side="right", fill="y")
+        side_canvas.configure(yscrollcommand=side_scroll.set)
+        side_inner = tk.Frame(side_canvas, bg=PANEL)
+        side_win = side_canvas.create_window((0, 0), window=side_inner,
+                                             anchor="nw")
+
+        def _side_configure(event):
+            side_canvas.configure(scrollregion=side_canvas.bbox("all"))
+            side_canvas.itemconfigure(side_win, width=event.width)
+
+        side_inner.bind("<Configure>", _side_configure)
+
+        def _side_wheel(event):
+            up = getattr(event, "num", 0) == 4 or getattr(event, "delta", 0) > 0
+            side_canvas.yview_scroll(-1 if up else 1, "units")
+
+        self._build_side_panel(side_inner)
+        # Bind the wheel on every descendant: tkinter does not propagate
+        # events from child widgets to their parents.
+        widgets = [side_inner]
+        while widgets:
+            w = widgets.pop()
+            for seq in ("<MouseWheel>", "<Button-4>", "<Button-5>"):
+                w.bind(seq, _side_wheel)
+            widgets.extend(w.winfo_children())
 
         # bottom: log + chat
         bottom = tk.Frame(root, bg=PANEL, height=150)
@@ -543,6 +631,38 @@ class Application:
             tk.Label(grid, textvariable=var, anchor="w", fg=TEXT, bg=PANEL,
                      font=("TkFixedFont", 9)).grid(row=i, column=1, sticky="w", padx=(6, 0))
             self.status_vars[key] = var
+
+        # -- equipment / inventory -- (kept high: it is the core of the UI)
+        self._side_section(parent, "装备 / 背包")
+        eq_grid = tk.Frame(parent, bg=PANEL)
+        eq_grid.pack(fill="x", padx=10)
+        self.eq_buttons = {}
+        for i, slot in enumerate(EQUIP_SLOTS):
+            btn = tk.Button(eq_grid, text="空", width=12, anchor="w",
+                            bg=BUTTON_BG, fg=DIM, relief="flat",
+                            font=("TkDefaultFont", 8),
+                            command=lambda s=slot: self._unequip_slot(s))
+            btn.grid(row=i // 2, column=i % 2, padx=2, pady=2, sticky="ew")
+            self.eq_buttons[slot] = btn
+        eq_grid.grid_columnconfigure(0, weight=1)
+        eq_grid.grid_columnconfigure(1, weight=1)
+
+        inv_row = tk.Frame(parent, bg=PANEL)
+        inv_row.pack(fill="x", padx=10, pady=(6, 2))
+        self.inv_list = tk.Listbox(inv_row, height=4, bg="#0a0e14", fg=TEXT,
+                                   relief="flat", highlightthickness=1,
+                                   highlightbackground=BORDER, highlightcolor=ACCENT,
+                                   selectbackground=ACCENT,
+                                   selectforeground="#06131f",
+                                   font=("TkFixedFont", 9))
+        self.inv_list.pack(side="left", fill="both", expand=True)
+        self.inv_list.bind("<Double-Button-1>", lambda e: self._equip_selected())
+        inv_btns = tk.Frame(inv_row, bg=PANEL)
+        inv_btns.pack(side="left", fill="y", padx=(4, 0))
+        for text, cmd in (("装备", self._equip_selected), ("使用", self._use_selected)):
+            tk.Button(inv_btns, text=text, width=4, command=cmd, bg=BUTTON_BG,
+                      fg=BUTTON_FG, relief="flat",
+                      font=("TkDefaultFont", 8)).pack(pady=1)
 
         # -- target --
         self._side_section(parent, "目标")
@@ -700,11 +820,256 @@ class Application:
         self.runner.submit("use_item", item_id=ITEM_POTION)
         self._append_log("使用药水", "INFO")
 
+    # -- equipment / inventory ----------------------------------------------
+
+    SLOT_LABELS = {
+        "head": "头部", "neck": "项链", "chest": "胸甲", "hands": "手套",
+        "weapon": "武器", "shield": "盾牌", "legs": "护腿", "feet": "靴子",
+    }
+
+    def _update_equipment(self):
+        """Refresh the equipment bar + inventory list from world state.
+
+        Only rebuilds when the (equipment, inventory) signature changes so the
+        50 ms UI tick stays cheap.
+        """
+        world = self.client.world if self.client else None
+        if world is None or not hasattr(self, "eq_buttons"):
+            return
+        eq_sig = tuple(sorted(
+            (slot, rec.get("item_id"))
+            for slot, rec in (world.equipment or {}).items()))
+        inv_sig = tuple(sorted((world.inventory or {}).items()))
+        sig = (eq_sig, inv_sig)
+        if sig == self._eq_sig:
+            return
+        self._eq_sig = sig
+
+        for slot, btn in self.eq_buttons.items():
+            rec = (world.equipment or {}).get(slot)
+            item_id = rec.get("item_id") if rec else None
+            label = self.SLOT_LABELS.get(slot, slot)
+            if item_id is None or item_id == -1:
+                btn.configure(text=f"{label}: 空", fg=DIM)
+            else:
+                btn.configure(text=f"{label}: {item_name(item_id)}", fg=TEXT)
+
+        inv = world.inventory or {}
+        self._inv_items = sorted(inv)
+        self.inv_list.delete(0, "end")
+        for item_id in self._inv_items:
+            slot = item_slot(item_id)
+            tag = "" if slot < 0 else "  [可装备]"
+            self.inv_list.insert(
+                "end", f"{item_name(item_id)} x{inv[item_id]}{tag}")
+
+    def _equip_selected(self):
+        if self.client is None:
+            return
+        sel = self.inv_list.curselection()
+        if not sel:
+            self._append_log("请先在背包里选中一件装备", "WARNING")
+            return
+        item_id = self._inv_items[sel[0]]
+        if item_slot(item_id) < 0:
+            self._append_log(f"{item_name(item_id)} 不能装备", "WARNING")
+            return
+        self.runner.submit("equip", item_id=int(item_id), item_index=0)
+        self._append_log(f"装备 {item_name(item_id)}...", "INFO")
+
+    def _use_selected(self):
+        if self.client is None:
+            return
+        sel = self.inv_list.curselection()
+        if not sel:
+            self._append_log("请先在背包里选中一件物品", "WARNING")
+            return
+        item_id = self._inv_items[sel[0]]
+        self.runner.submit("use_item", item_id=int(item_id))
+        self._append_log(f"使用 {item_name(item_id)}...", "INFO")
+
+    def _unequip_slot(self, slot):
+        if self.client is None:
+            return
+        rec = (self.client.world.equipment or {}).get(slot)
+        item_id = rec.get("item_id") if rec else None
+        if item_id is None or item_id == -1:
+            return
+        self.runner.submit("unequip", item_id=int(item_id))
+        self._append_log(f"卸下 {item_name(item_id)}...", "INFO")
+
+    # -- dialogue -----------------------------------------------------------
+
+    def _build_dialog(self):
+        d = tk.Toplevel(self.root)
+        d.title("对话")
+        d.configure(bg=PANEL)
+        d.transient(self.root)
+        d.protocol("WM_DELETE_WINDOW", self._close_dialog)
+        d.withdraw()
+
+        self.dlg_author = tk.StringVar(value="")
+        tk.Label(d, textvariable=self.dlg_author, anchor="w", fg=ACCENT,
+                 bg=PANEL, font=("TkDefaultFont", 11, "bold")).pack(
+                     fill="x", padx=12, pady=(10, 2))
+        self.dlg_text = tk.StringVar(value="")
+        tk.Label(d, textvariable=self.dlg_text, anchor="w", fg=TEXT, bg=PANEL,
+                 font=("TkDefaultFont", 10), wraplength=400,
+                 justify="left").pack(fill="x", padx=12, pady=(0, 8))
+        self.dlg_choices = tk.Frame(d, bg=PANEL)
+        self.dlg_choices.pack(fill="x", padx=12)
+        row = tk.Frame(d, bg=PANEL)
+        row.pack(fill="x", padx=12, pady=(8, 10))
+        self.btn_dlg_next = tk.Button(row, text="继续", width=8,
+                                      command=self._dialog_next, bg=BUTTON_BG,
+                                      fg=BUTTON_FG, relief="flat")
+        self.btn_dlg_next.pack(side="left", padx=(0, 6))
+        tk.Button(row, text="关闭", width=8, command=self._close_dialog,
+                  bg=BUTTON_BG, fg=BUTTON_FG, relief="flat").pack(side="left")
+        self.dlg_window = d
+
+    def _show_dialog(self):
+        if self.dlg_window is None:
+            self._build_dialog()
+        self.dlg_window.deiconify()
+        self.dlg_window.lift()
+
+    def _set_dialog_choices(self, choices):
+        for w in self.dlg_choices.winfo_children():
+            w.destroy()
+        for i, text in enumerate(choices):
+            tk.Button(self.dlg_choices, text=str(text), anchor="w",
+                      command=lambda c=i: self._dialog_choice(c),
+                      bg=BUTTON_BG, fg=BUTTON_FG, relief="flat",
+                      font=("TkDefaultFont", 9)).pack(fill="x", pady=1)
+
+    def _dialog_choice(self, choice_id):
+        self._append_log(f"选择对话选项 #{choice_id}", "INFO")
+        self.runner.submit("dialog_choice", choice=choice_id)
+
+    def _dialog_next(self):
+        self.runner.submit("dialog_next")
+
+    def _close_dialog(self):
+        if self.dlg_window is not None:
+            self.dlg_window.withdraw()
+        self.runner.submit("dialog_close")
+
+    # -- AI arena (optional) -----------------------------------------------
+
+    def _open_arena(self):
+        if self.arena_window is not None and self.arena_window.winfo_exists():
+            self.arena_window.lift()
+            return
+        if self.client is None:
+            self._append_log("尚未进入世界，无法开启竞技场", "WARNING")
+            return
+        d = tk.Toplevel(self.root)
+        d.title("AI 竞技场（可选）")
+        d.configure(bg=PANEL)
+        d.transient(self.root)
+        d.geometry("340x260")
+        self.arena_window = d
+
+        tk.Label(d, text="AI 竞技场为可选项，不影响正常游戏流程",
+                 fg=DIM, bg=PANEL, font=("TkDefaultFont", 9),
+                 wraplength=320, justify="left").pack(fill="x", padx=12, pady=(10, 6))
+
+        tk.Label(d, text="场地模板", fg=TEXT, bg=PANEL,
+                 font=("TkDefaultFont", 9)).pack(anchor="w", padx=12)
+        self.var_arena_template = tk.StringVar(value=ARENA_TEMPLATES[0][0])
+        for key, label in ARENA_TEMPLATES:
+            tk.Radiobutton(d, text=f"{key}  —  {label}", anchor="w",
+                           variable=self.var_arena_template, value=key,
+                           fg=TEXT, bg=PANEL, selectcolor=PANEL,
+                           activebackground=PANEL, activeforeground=TEXT,
+                           font=("TkDefaultFont", 9)).pack(fill="x", padx=12)
+
+        self.arena_detail = tk.StringVar(value="未开启")
+        tk.Label(d, textvariable=self.arena_detail, anchor="w", fg=TEXT,
+                 bg=PANEL, font=("TkFixedFont", 9), wraplength=320,
+                 justify="left").pack(fill="x", padx=12, pady=(8, 6))
+
+        row = tk.Frame(d, bg=PANEL)
+        row.pack(fill="x", padx=12, pady=(0, 10))
+        for text, cmd in (("开始", self._arena_start), ("状态", self._arena_status),
+                          ("停止", self._arena_stop)):
+            tk.Button(row, text=text, width=7, command=cmd, bg=BUTTON_BG,
+                      fg=BUTTON_FG, relief="flat").pack(side="left", expand=True, padx=2)
+        # Ask the server for the real state instead of resetting the label.
+        self.runner.submit("command", text="/arena status")
+
+    def _refresh_arena_label(self):
+        # The toolbar only exists after the main UI is built; feedback can
+        # arrive earlier (e.g. a notice while still in the login screen).
+        if getattr(self, "arena_label", None) is not None:
+            self.arena_label.set(f"AI竞技场: {self.arena_status_text}")
+
+    def _arena_start(self):
+        if self.client is None:
+            return
+        template = self.var_arena_template.get()
+        self._append_log(f"请求开启 AI 竞技场: {template}", "INFO")
+        self.runner.submit("command", text=f"/arena start {template}")
+
+    def _arena_status(self):
+        if self.client is None:
+            return
+        self.runner.submit("command", text="/arena status")
+
+    def _arena_stop(self):
+        if self.client is None:
+            return
+        self.runner.submit("command", text="/arena stop")
+
+    def _handle_system_text(self, text):
+        """CommandFeedback from the server (/arena replies, notices...)."""
+        if not text:
+            return
+        self._append_log(f"[系统] {text}", "INFO")
+        if text.startswith("Arena") or text.startswith("Usage: /arena"):
+            self._handle_arena_text(text)
+
+    def _handle_arena_text(self, text):
+        """Parse the server's /arena feedback (CommandFeedback)."""
+        line = text.strip()
+
+        m = re.match(r"^Arena started:\s*(\S+)\s*—\s*(.*)$", line)
+        if m:
+            self.arena_status_text = "进行中 0/?"
+            self._append_log(f"AI 竞技场已开启: {m.group(1)}", "GOOD")
+            if m.group(2):
+                self._append_log(f"  目标: {m.group(2)}", "INFO")
+        elif (m := re.match(
+                r"^Arena (\S+): kills (\d+)/(\S+), deaths (\d+), xp (\S+)", line)):
+            status, kills, required = m.group(1), m.group(2), m.group(3)
+            # The server keeps a finished episode for the record; only an
+            # active run blocks a new one.
+            self.arena_status_text = (
+                f"进行中 {kills}/{required}" if status == "active"
+                else f"已结束 {kills}/{required}")
+        elif line == "Arena stopped.":
+            self.arena_status_text = "已停止"
+        elif line.startswith("Arena start failed:"):
+            self.arena_status_text = "开启失败"
+        elif line.startswith("Arena stop failed:"):
+            self.arena_status_text = "停止失败"
+        elif "no episode" in line or line.startswith("Usage: /arena"):
+            self.arena_status_text = "未开启"
+        # Anything else is a notice/usage hint: log it, keep the last state.
+
+        if self.arena_window is not None and self.arena_window.winfo_exists():
+            self.arena_detail.set(self.arena_status_text)
+        self._refresh_arena_label()
+
     def _send_chat(self):
         text = self.chat_entry.get().strip()
         if not text or self.client is None:
             return
-        self.runner.submit("chat", channel=self.var_channel.get(), text=text)
+        if text.startswith("/"):
+            self.runner.submit("command", text=text)
+        else:
+            self.runner.submit("chat", channel=self.var_channel.get(), text=text)
         self.chat_entry.delete(0, "end")
 
     def _disconnect(self):
@@ -1111,6 +1476,7 @@ class Application:
             var.set(str(int(stats.get(key, 0))))
 
         self._update_target_frame()
+        self._update_equipment()
 
     def _paint_bar_canvas(self, cv, w, h, value, max_value):
         cv.delete("all")
@@ -1242,6 +1608,8 @@ class Application:
             self._append_log(f"错误: {ev.get('message', '?')}", "ERROR")
         elif etype == "disconnected":
             self.conn_status.set("连接已断开")
+        elif etype == "system":
+            self._handle_system_text(ev.get("text") or "")
 
         # world events
         if world is None:
@@ -1294,6 +1662,31 @@ class Application:
             self._append_log(
                 f"挂机已更新: 打怪={ev.get('combat')} 拾取={ev.get('loot')} "
                 f"喝药={ev.get('potion')} 阈值={ev.get('threshold')}%", "INFO")
+        elif etype == "equipment" or etype == "inventory" or etype == "item_equiped":
+            self._eq_sig = None  # force the next _update_equipment() to rebuild
+        elif etype == "quest":
+            state = ev.get("state")
+            state_text = {0: "未接", 1: "进行中", 2: "已完成"}.get(state, state)
+            self._append_log(f"任务 #{ev.get('quest_id')} 状态: {state_text}", "GOOD")
+        elif etype == "dialog":
+            self._show_dialog()
+            self.dlg_author.set(ev.get("author") or "")
+            self.dlg_text.set(ev.get("text") or "")
+            self._set_dialog_choices([])
+            self.btn_dlg_next.configure(state="disabled")
+        elif etype == "dialog_choice":
+            self._show_dialog()
+            self._set_dialog_choices(ev.get("choices") or [])
+            self.btn_dlg_next.configure(state="disabled")
+        elif etype == "dialog_continue":
+            self._show_dialog()
+            self.dlg_can_continue = True
+            self.btn_dlg_next.configure(state="normal")
+        elif etype == "dialog_close":
+            self.dlg_can_continue = False
+            if self.dlg_window is not None:
+                self.btn_dlg_next.configure(state="disabled")
+                self.dlg_window.withdraw()
 
     def _append_log(self, text, tag="INFO"):
         if not hasattr(self, "log_text"):
@@ -1354,6 +1747,15 @@ def main():
     args = parse_args()
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
+    if tk is None:
+        print(
+            "错误：需要 tkinter 才能运行人类精简客户端。\n"
+            "  Debian/Ubuntu: sudo apt-get install python3-tk\n"
+            "  Alpine:        apk add tk\n"
+            "  Fedora:        sudo dnf install python3-tkinter",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     app = Application(args)
     app.run()
 

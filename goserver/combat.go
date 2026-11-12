@@ -125,7 +125,7 @@ func (s *Server) handleTriggerSkill(c *Client, rpc *ParsedRPC) {
 	}, true)
 
 	// Damage resolution (SkillCommons.GetDamage + Skill.Damaged).
-	dmg, alt := computeDamage(e, target, profile)
+	dmg, alt := s.computeDamage(e, target, profile)
 	if alt == altDodge || alt == altMiss {
 		// Skill.Damaged broadcasts the alteration type from GetDamage (DODGE).
 		s.notifyNeighbours(e, rpcTargetAlteration, []Variant{
@@ -151,11 +151,15 @@ func (s *Server) handleTriggerSkill(c *Client, rpc *ParsedRPC) {
 
 // computeDamage mirrors SkillCommons.GetDamage: base attack/mattack + skill
 // modifier - target defense/mdefense, then evade/crit rolls.
-func computeDamage(agent, target *Entity, profile skillProfile) (int64, int) {
-	// Base stats: use level as a small attack/defense proxy (the real game
-	// derives these from attributes + equipment; the MVP has neither).
-	attack := profile.Attack + agent.Level
-	defense := target.Level / 2
+//
+// The actor's level is only a proxy: the real game derives attack and defense
+// from attributes plus equipped items, so the equipped weapon's Attack and the
+// armor's Defense modifiers are added here. Without them the starting Short
+// Sword (+20 Attack) would make no difference and the "equip the knife, then
+// fight" loop would be pointless.
+func (s *Server) computeDamage(agent, target *Entity, profile skillProfile) (int64, int) {
+	attack := profile.Attack + agent.Level + s.equipmentAttackBonus(agent)
+	defense := target.Level/2 + s.equipmentDefenseBonus(target)
 	dmg := attack - defense
 	if dmg < 1 {
 		dmg = 1
@@ -175,6 +179,58 @@ func computeDamage(agent, target *Entity, profile skillProfile) (int64, int) {
 		dmg = 1
 	}
 	return dmg, altHit
+}
+
+// equipmentAttackBonus returns the Attack modifier of the weapon equipped by
+// e's character (ActorCommons.Slot.WEAPON = 6). NPCs and unequipped actors
+// contribute nothing.
+func (s *Server) equipmentAttackBonus(e *Entity) int64 {
+	return s.equipmentModifier(e, 6, "Attack")
+}
+
+// equipmentDefenseBonus returns the summed Defense modifier of everything
+// e's character has equipped. NPCs and unequipped actors contribute nothing.
+func (s *Server) equipmentDefenseBonus(e *Entity) int64 {
+	if e == nil || e.CharID <= 0 {
+		return 0
+	}
+	chr := s.store.findCharacterByID(e.CharID)
+	if chr == nil {
+		return 0
+	}
+	var total int64
+	for _, rec := range chr.Equipment {
+		if cell := itemCatalog[rec.ItemID]; cell != nil {
+			total += cell.Defense
+		}
+	}
+	return total
+}
+
+// equipmentModifier reads one modifier value off a single equipped slot.
+func (s *Server) equipmentModifier(e *Entity, slot int64, kind string) int64 {
+	if e == nil || e.CharID <= 0 {
+		return 0
+	}
+	chr := s.store.findCharacterByID(e.CharID)
+	if chr == nil {
+		return 0
+	}
+	rec, ok := chr.Equipment[slot]
+	if !ok {
+		return 0
+	}
+	cell := itemCatalog[rec.ItemID]
+	if cell == nil {
+		return 0
+	}
+	switch kind {
+	case "Attack":
+		return cell.Attack
+	case "Defense":
+		return cell.Defense
+	}
+	return 0
 }
 
 // applyDamage mirrors Skill.Damaged + Stats.SetHealth(-value):
@@ -251,6 +307,7 @@ func (s *Server) killEntity(target *Entity) {
 	target.Health = 0
 	target.Vel = Vec2{}
 	target.Target = nil
+	target.DeadAt = time.Now()
 	log.Printf("combat: %s died", target.Name)
 	// Broadcast the death state to AOI neighbours and to the victim.
 	s.notifyNeighbours(target, rpcFullUpdateEntity, fullUpdateArgs(target), true)

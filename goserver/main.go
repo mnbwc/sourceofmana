@@ -134,6 +134,7 @@ func NewServer() *Server {
 	}
 	go s.worldTick()     // phase-2 movement broadcaster
 	s.spawnNpcEntities() // phase-8: add NPCs to the world as targetable entities
+	go s.monsterTick()   // phase-8: respawn killed field monsters
 	return s
 }
 
@@ -378,6 +379,24 @@ func bindAddr(portEnv string, bindPrefix string, defaultPort int) string {
 
 func main() {
 	s := NewServer()
+
+	// Merge the real DB.ItemsDB export into the item catalog so equipment
+	// ops (EquipItem/UnequipItem/UseItem) work for the actual game items.
+	// Optional: falls back to the built-in starter catalog when absent.
+	if path := os.Getenv("SOM_ITEMS_JSON"); path != "" {
+		if n, err := loadItemCatalogFromJSON(path); err != nil {
+			log.Printf("items: SOM_ITEMS_JSON=%s failed: %v", path, err)
+		} else {
+			log.Printf("items: loaded %d entries from %s", n, path)
+		}
+	} else {
+		for _, p := range []string{"items.json", "../tools/export/items.json"} {
+			if n, err := loadItemCatalogFromJSON(p); err == nil {
+				log.Printf("items: loaded %d entries from %s", n, p)
+				break
+			}
+		}
+	}
 
 	// WebSocket endpoint (ws://) — native clients, AI headless, nginx proxy.
 	wsAddr := bindAddr("WS_PORT", "WS", 27012)
