@@ -273,9 +273,12 @@ func EnableButtons(state : bool):
 				else:
 					Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.PRIMARY, "创建账号", EnableAccountCreator.bind(true))
 					Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.SECONDARY, "登录", Connect)
-				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.TERTIARY, "切换在线", SwitchOnlineMode.bind(onlineIndicator.button_pressed))
-				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "忘记密码", SetRecoveryState.bind(RecoveryState.REQUEST_EMAIL))
+				# Sync the indicator before binding the toggle: SwitchOnlineMode used to
+				# receive button_pressed captured here, so a stale value (the scene default
+				# on the online web client) made the first click a no-op.
 				RefreshOnlineMode()
+				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.TERTIARY, "切换在线", SwitchOnlineMode)
+				Launcher.GUI.buttonBoxes.Bind(UICommons.ButtonBox.CANCEL, "忘记密码", SetRecoveryState.bind(RecoveryState.REQUEST_EMAIL))
 			RefreshServerButtons()
 		else:
 			onlineIndicator.text = "连接中..."
@@ -455,9 +458,14 @@ func _on_visibility_changed():
 		else:
 			FocusDefault()
 
-func SwitchOnlineMode(toggled : bool):
+# Toggle between online and offline (single-player) mode.
+# Offline means "run a local server" (see Network.Mode), so the server must be
+# launched only when we are currently online. Read the live mode instead of
+# trusting the value captured when the button got bound, which can be stale.
+func SwitchOnlineMode(_toggled : bool = false):
+	var launchServer : bool = not (Network.ENetServer != null or Network.WebSocketServer != null)
 	EnableButtons(true)
-	if Launcher.Mode(true, toggled):
+	if Launcher.Mode(true, launchServer):
 		EnableButtons(false)
 
 func _on_name_text_changed(_newText : String):

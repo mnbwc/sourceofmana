@@ -46,6 +46,9 @@ type Client struct {
 	serverCacheID uint32
 	// serverCacheAnnounced tracks whether the client confirmed our node.
 	serverCacheAnnounced bool
+	// authenticated records whether the SceneMultiplayer auth handshake has
+	// completed for this peer (see onAuthPacket).
+	authenticated bool
 }
 
 func (c *Client) writePacket(buf []byte) {
@@ -221,6 +224,15 @@ func (s *Server) handleWS(w http.ResponseWriter, r *http.Request) {
 
 // handlePacket routes one SceneMultiplayer packet.
 func (s *Server) handlePacket(c *Client, data []byte) {
+	// SYS packets have a layout of their own ([SYS][command][payload...]) and
+	// carry none of the node/name ID fields ParsePacket expects, so route them
+	// before attempting a general parse. Their payload can also be shorter
+	// than the general header (e.g. the client's 2-byte complete_auth reply).
+	if len(data) >= 1 && data[0]&0x07 == CmdSys {
+		log.Printf("peer %d SYS packet: %x", c.peerID, data)
+		s.onSysPacket(c, data)
+		return
+	}
 	cmd, rpc, cacheID, path, err := ParsePacket(data)
 	if err != nil {
 		log.Printf("peer %d parse: %v (hex %x)", c.peerID, err, data)
@@ -253,19 +265,84 @@ func (s *Server) handlePacket(c *Client, data []byte) {
 	}
 }
 
-// onSysPacket handles Godot's system commands (peer admission, relay, etc.).
+// Godot's SceneMultiplayer SysCommands, from
+// modules/multiplayer/scene_multiplayer.h.
+const (
+	SysCommandAuth    = 0
+	SysCommandAddPeer = 1
+	SysCommandDelPeer = 2
+	SysCommandRelay   = 3
+)
+
+// onSysPacket handles Godot's system commands (auth, peer admission, relay).
 func (s *Server) onSysPacket(c *Client, data []byte) {
 	if len(data) < 2 {
 		return
 	}
 	switch data[1] {
-	case 0: // SYS_COMMAND_ADD_PEER
+	case SysCommandAuth:
+		s.onAuthPacket(c, data)
+	case SysCommandAddPeer:
 		log.Printf("peer %d ADD_PEER sys packet", c.peerID)
-	case 1: // SYS_COMMAND_DEL_PEER
+	case SysCommandDelPeer:
 		log.Printf("peer %d DEL_PEER sys packet", c.peerID)
+	case SysCommandRelay:
+		log.Printf("peer %d RELAY sys packet", c.peerID)
 	default:
 		log.Printf("peer %d unknown sys cmd %d", c.peerID, data[1])
 	}
+}
+
+// onAuthPacket answers Godot's SceneMultiplayer authentication handshake.
+//
+// A client that has an auth_callback (SoM's Client.gd sets one) does not
+// consider itself connected until the server answers:
+//
+//	client -> server: [SYS][AUTH][8-byte little-endian protocol version]
+//	server -> client: [SYS][AUTH][0x01]   (SceneMultiplayer::send_auth)
+//	server -> client: [SYS][AUTH]         (SceneMultiplayer::complete_auth)
+//	client -> server: [SYS][AUTH]         (the client's own complete_auth)
+//
+// The server must send BOTH replies. If it does not, the client's
+// auth_timeout (3000 ms by default) expires and it drops the connection, which
+// SoM's Client.gd reports as a connection failure and falls back to offline
+// mode -- the "切换到在线" button then appears to do nothing, because every
+// retry repeats the same handshake and times out again.
+func (s *Server) onAuthPacket(c *Client, data []byte) {
+	// The client's complete_auth reply carries no payload; it only confirms
+	// the handshake on the client's side.
+	if len(data) < 10 {
+		if c.authenticated {
+			log.Printf("peer %d auth handshake completed", c.peerID)
+		} else {
+			log.Printf("peer %d AUTH packet too short (%d bytes), ignoring", c.peerID, len(data))
+		}
+		return
+	}
+
+	version := int64(binary.LittleEndian.Uint64(data[2:10]))
+	if c.authenticated {
+		log.Printf("peer %d duplicate AUTH packet (version %d), ignoring", c.peerID, version)
+		return
+	}
+
+	// SoM's Server.gd disconnects peers whose protocol version does not match
+	// its own. This server is a reimplementation and has no Network node to
+	// recompute NetworkCommons.ComputeProtocolVersion() from, so it accepts any
+	// version and only logs mismatches. RPC compatibility degrades gracefully:
+	// Godot prints a checksum warning rather than dropping packets.
+	if uint64(version) != bridgeProtocolVersion {
+		log.Printf("peer %d AUTH protocolVersion=%d, expected %d (accepting anyway)",
+			c.peerID, version, bridgeProtocolVersion)
+	} else {
+		log.Printf("peer %d AUTH protocolVersion=%d", c.peerID, version)
+	}
+
+	// send_auth(peerID, [1]) followed by complete_auth(peerID).
+	c.enqueue([]byte{byte(CmdSys), SysCommandAuth, 0x01})
+	c.enqueue([]byte{byte(CmdSys), SysCommandAuth})
+	c.authenticated = true
+	log.Printf("peer %d authenticated", c.peerID)
 }
 
 func formatArgs(args []Variant) string {
