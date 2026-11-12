@@ -187,6 +187,9 @@ func (s *Server) applyDamage(agent, target *Entity, value int64, alt int, skillI
 	}
 	previousHealth := target.Health
 	target.Health -= value
+	// Mirror PlayerAgent.UpdateLastStats -> Network.NotifyInstance(...,
+	// "UpdatePublicStats", ...): keep AOI clients' HP bars in sync.
+	s.sendPublicStats(target)
 	// NotifyNeighbours(agent, "TargetAlteration", [agentRID, targetRID, value,
 	// alteration, skillID, true], inclusive, reliable).
 	s.notifyNeighbours(agent, rpcTargetAlteration, []Variant{
