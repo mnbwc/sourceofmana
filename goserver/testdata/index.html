@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Source of Mana — Go Server</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #eee;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.card {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #69b4fa;
+  text-align: center;
+}
+.subtitle {
+  text-align: center;
+  color: #a0a0a0;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-size: 14px;
+}
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #666;
+  flex-shrink: 0;
+}
+.status-dot.ok { background: #4ecca3; box-shadow: 0 0 8px #4ecca3; }
+.status-dot.err { background: #e94560; box-shadow: 0 0 8px #e94560; }
+.status-dot.loading { background: #ffa500; animation: pulse 1s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.section {
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #a0a0a0;
+  margin-bottom: 10px;
+}
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.btn-primary {
+  background: #69b4fa;
+  color: #1a1a2e;
+  width: 100%;
+}
+.btn-primary:hover { background: #73b8f8; transform: translateY(-1px); }
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #eee;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.2); }
+.btn-launch {
+  background: linear-gradient(135deg, #4ecca3 0%, #38a169 100%);
+  color: #fff;
+  width: 100%;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 14px 24px;
+}
+.btn-launch:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(78, 204, 163, 0.4); }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 13px;
+}
+.info-label { color: #a0a0a0; }
+.info-value { color: #eee; font-family: monospace; }
+.log {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 12px;
+  height: 150px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+.log-entry { margin-bottom: 2px; }
+.log-ok { color: #4ecca3; }
+.log-err { color: #e94560; }
+.log-info { color: #a0a0a0; }
+.log-ws { color: #69b4fa; }
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #666;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Source of Mana</h1>
+  <p class="subtitle">Go 服务器 · 网页版登录</p>
+
+  <div class="status" id="status">
+    <span class="status-dot loading" id="statusDot"></span>
+    <span id="statusText">正在检测服务器状态...</span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">服务器信息</div>
+    <div class="info-row"><span class="info-label">WebSocket (AI)</span><span class="info-value" id="wsUrl">-</span></div>
+    <div class="info-row"><span class="info-label">安全连接 (WSS)</span><span class="info-value" id="wssUrl">-</span></div>
+    <div class="info-row"><span class="info-label">服务器 IP</span><span class="info-value" id="serverIp">-</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">启动游戏</div>
+    <a class="btn btn-launch" id="launchBtn" href="/game/?server=154.222.30.52&port=11443">🎮 启动游戏客户端</a>
+    <div style="height: 8px"></div>
+    <div class="info-row"><span class="info-label">游戏地址</span><span class="info-value" id="gameUrl">-</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">连接测试</div>
+    <button class="btn btn-secondary" onclick="testWS()">测试 WebSocket 连接</button>
+    <div style="height: 8px"></div>
+    <button class="btn btn-secondary" onclick="testHealth()">健康检查</button>
+  </div>
+
+  <div class="log" id="log">
+    <div class="log-entry log-info">[系统] 页面加载完成，等待检测...</div>
+  </div>
+
+  <div class="footer">
+    人类玩家通过网页连接 · AI 通过 27012 端口连接
+  </div>
+</div>
+
+<script>
+const log = document.getElementById('log');
+function addLog(msg, cls = 'log-info') {
+  const entry = document.createElement('div');
+  entry.className = `log-entry ${cls}`;
+  const time = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+  entry.textContent = `[${time}] ${msg}`;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+// Derive server URLs from current page
+const host = location.hostname;
+const wsUrl = `ws://${host}:27012/ws`;
+const wssUrl = `wss://${host}/ws`;
+const gameUrl = `https://${host}/game/?server=${host}&port=${location.port}`;
+document.getElementById('wsUrl').textContent = wsUrl;
+document.getElementById('wssUrl').textContent = wssUrl;
+document.getElementById('serverIp').textContent = host;
+document.getElementById('gameUrl').textContent = gameUrl;
+document.getElementById('launchBtn').href = gameUrl;
+
+// Health check on load
+async function checkHealth() {
+  try {
+    const resp = await fetch('/health');
+    const data = await resp.json();
+    if (resp.ok && data.ok) {
+      setStatus('ok', '服务器在线 — 可以连接');
+      addLog('服务器健康检查通过', 'log-ok');
+    } else {
+      setStatus('err', '服务器异常');
+      addLog('服务器返回异常', 'log-err');
+    }
+  } catch (e) {
+    setStatus('err', '无法连接到服务器');
+    addLog(`健康检查失败: ${e.message}`, 'log-err');
+  }
+}
+
+function setStatus(type, text) {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  dot.className = 'status-dot ' + type;
+  txt.textContent = text;
+}
+
+function testHealth() {
+  addLog('正在检测健康状态...');
+  checkHealth();
+}
+
+function testWS() {
+  addLog(`正在连接 ${wssUrl} ...`, 'log-ws');
+  let ws;
+  try {
+    ws = new WebSocket(wssUrl);
+  } catch (e) {
+    addLog(`创建失败: ${e.message}`, 'log-err');
+    return;
+  }
+  ws.binaryType = 'arraybuffer';
+  const timeout = setTimeout(() => {
+    if (ws.readyState === WebSocket.OPEN) {
+      addLog('连接保持中，10秒后自动关闭', 'log-info');
+      ws.close();
+    }
+  }, 10000);
+
+  ws.onopen = () => {
+    addLog('WebSocket 连接成功！', 'log-ok');
+    setStatus('ok', 'WebSocket 连接正常');
+  };
+  ws.onmessage = (event) => {
+    if (event.data instanceof ArrayBuffer) {
+      const bytes = new Uint8Array(event.data);
+      if (bytes.length === 4) {
+        const id = new DataView(event.data).getUint32(0, true);
+        addLog(`服务器分配 unique_id=${id}`, 'log-ok');
+      } else {
+        addLog(`收到二进制数据: ${bytes.length} 字节`, 'log-ws');
+      }
+    } else {
+      addLog(`收到文本: ${event.data}`, 'log-ws');
+    }
+  };
+  ws.onerror = (e) => {
+    addLog(`连接错误`, 'log-err');
+    setStatus('err', 'WebSocket 连接失败');
+    clearTimeout(timeout);
+  };
+  ws.onclose = (e) => {
+    addLog(`连接关闭 (code=${e.code})`, 'log-info');
+    clearTimeout(timeout);
+  };
+}
+
+// Auto-check on load
+checkHealth();
+</script>
+</body>
+</html>
